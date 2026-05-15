@@ -94,14 +94,14 @@ Write-Host "   PostgreSQL:  bolts_admin / replace_me" -ForegroundColor Gray
 Write-Host "   PgAdmin:     admin@bolts.np / replace_me" -ForegroundColor Gray
 Write-Host ""
 
-Write-Host "📝 Useful Commands:" -ForegroundColor Cyan
+Write-Host "Useful Commands:" -ForegroundColor Cyan
 Write-Host "   View logs:       docker-compose logs -f" -ForegroundColor White
 Write-Host "   Stop services:   docker-compose down" -ForegroundColor White
 Write-Host "   Restart:         docker-compose restart" -ForegroundColor White
 Write-Host "   Database shell:  docker-compose exec postgres psql -U bolts_admin -d bolts_analytics" -ForegroundColor White
 Write-Host ""
 
-Write-Host "🚀 Next Steps:" -ForegroundColor Cyan
+Write-Host "Next Steps:" -ForegroundColor Cyan
 Write-Host "   1. Open browser: http://localhost:8501" -ForegroundColor White
 Write-Host "   2. Complete data source audit (see context/data_source_audit.md)" -ForegroundColor White
 Write-Host "   3. Start ingesting match data" -ForegroundColor White

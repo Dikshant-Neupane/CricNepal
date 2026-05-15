@@ -59,7 +59,7 @@ def main():
     # Sidebar
     with st.sidebar:
         st.image("https://via.placeholder.com/200x100/1E88E5/FFFFFF?text=Janakpur+Bolts", 
-                 use_container_width=True)
+                 use_column_width=True)
         st.markdown("---")
         st.markdown("### Navigation")
         page = st.radio(

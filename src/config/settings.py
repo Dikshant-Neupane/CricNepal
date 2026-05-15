@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     postgres_db: str = Field(default="bolts_analytics", alias="POSTGRES_DB")
     postgres_user: str = Field(default="bolts_admin", alias="POSTGRES_USER")
     postgres_password: str = Field(default="replace_me", alias="POSTGRES_PASSWORD")
-    postgres_host: str = Field(default="localhost", alias="POSTGRES_HOST")
+    postgres_host: str = Field(default="postgres", alias="POSTGRES_HOST")
     postgres_port: int = Field(default=5432, alias="POSTGRES_PORT")
     
     # Redis
@@ -52,6 +52,7 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = False
+        extra = "ignore"  # Ignore extra fields not defined in model
 
 
 @lru_cache()
