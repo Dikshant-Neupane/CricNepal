@@ -9,6 +9,8 @@ data/processed/
 # Database
 *.db
 *.sqlite
+postgres_data/
+redis_data/
 
 # Python
 __pycache__/
@@ -21,10 +23,14 @@ venv/
 .venv/
 pip-log.txt
 pip-delete-this-directory.txt
+*.egg-info/
+dist/
+build/
 
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb_checkpoints
+notebooks/*.ipynb
 
 # IDE
 .vscode/
