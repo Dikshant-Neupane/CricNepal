@@ -11,12 +11,12 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 
 from src.dashboard.theme import get_theme_css
 from src.dashboard.components.sidebar import render_sidebar
-from src.dashboard.pages.executive_overview import render_executive_overview
-from src.dashboard.pages.match_review import render_match_review
-from src.dashboard.pages.batting_intelligence import render_batting_intelligence
-from src.dashboard.pages.bowling_intelligence import render_bowling_intelligence
-from src.dashboard.pages.matchups import render_matchups
-from src.dashboard.pages.opposition_report import render_opposition_report
+from src.dashboard.page_modules.executive_overview import render_executive_overview
+from src.dashboard.page_modules.match_review import render_match_review
+from src.dashboard.page_modules.batting_intelligence import render_batting_intelligence
+from src.dashboard.page_modules.bowling_intelligence import render_bowling_intelligence
+from src.dashboard.page_modules.matchups import render_matchups
+from src.dashboard.page_modules.opposition_report import render_opposition_report
 
 
 # ─── Page Configuration ──────────────────────────────────
