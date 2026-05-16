@@ -2,27 +2,26 @@ import streamlit as st
 from src.dashboard.demo_data import get_opposition_bowling_plans
 
 def render_opposition_report():
-    st.markdown("""
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-        <div>
-            <h2 class="page-title">Tactical Blueprint</h2>
-            <p class="page-subtitle">Configure parameters to generate opposition intelligence report.</p>
+    st.markdown(
+        """
+        <div class="jb-page-head">
+            <h2 class="page-title">Opposition Tactical Blueprint</h2>
+            <p class="page-subtitle">Generate opponent-specific plans with tactical risk and matchup context.</p>
         </div>
-        <div style="display: flex; gap: 16px;">
-            <button class="stButton" style="border: 1px solid var(--outline-variant); background: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                <span style="opacity: 0.7;">📝</span> Analyst Notes
-            </button>
-            <button class="stButton" style="background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                <span>📊</span> Export PDF
-            </button>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )
+
+    top_a, top_b = st.columns([1, 1])
+    with top_a:
+        st.button("📝 Analyst Notes", use_container_width=True)
+    with top_b:
+        st.button("📊 Export PDF", type="primary", use_container_width=True)
 
     # Top Configuration Row
     st.markdown("""
     <div class="card" style="margin-bottom: 32px;">
-        <div class="card-body" style="padding: 24px;">
+        <div class="card-body" style="padding: 18px;">
     """, unsafe_allow_html=True)
     
     col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
@@ -43,7 +42,7 @@ def render_opposition_report():
     with col_left:
         # Key Threats
         st.markdown("""
-        <div class="card" style="height: 100%;">
+            <div class="card" style="height: 100%;">
             <div class="card-header">
                 <h3 style="display: flex; align-items: center; gap: 8px;">
                     <span style="color: var(--error);">⚠️</span> Key Threats
@@ -88,7 +87,7 @@ def render_opposition_report():
     with col_right:
         # Top Order Vulnerability
         st.markdown("""
-        <div class="card" style="height: 100%;">
+            <div class="card" style="height: 100%;">
             <div class="card-header">
                 <h3>Top Order Vulnerability</h3>
             </div>
@@ -111,7 +110,7 @@ def render_opposition_report():
         </div>
         """, unsafe_allow_html=True)
         
-    st.markdown("<div style='height: 32px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
 
     # Suggested Bowling Plans
     st.markdown("""

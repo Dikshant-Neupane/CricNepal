@@ -2,12 +2,15 @@ import streamlit as st
 from src.dashboard.demo_data import get_bowling_phases, get_bowling_vs_batter_hand, get_bowling_tactical_directives
 
 def render_bowling_intelligence():
-    st.markdown("""
-    <div style="margin-bottom: 48px;">
-        <h2 class="page-title">Bowling Intelligence</h2>
-        <p class="page-subtitle">Tournament Phase & Tactical Deployment Analysis</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="jb-page-head">
+            <h2 class="page-title">Bowling Intelligence</h2>
+            <p class="page-subtitle">Phase control, resource allocation, and pressure-over plans.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     # Bowling Phase Breakdown
     st.markdown("""
@@ -60,19 +63,19 @@ def render_bowling_intelligence():
         st.markdown("""
         <div class="card" style="height: 100%;">
             <div class="card-header">
-                <h3>Resource Allocation Heatmap</h3>
+                <h3>Resource Allocation by Over</h3>
             </div>
             <div class="card-body" style="display: flex; align-items: center; justify-content: center; height: 300px; background: var(--surface-container-low); margin: 24px; border-radius: 8px;">
-                <span style="color: var(--on-surface-variant);">Heatmap Visualization (Bowler vs Over)</span>
+                <span style="color: var(--on-surface-variant);">Heatmap placeholder (Bowler x Over) - connects to live ball-by-ball layer.</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
         
     with col2:
         st.markdown("""
-        <div class="card" style="height: 100%;">
+            <div class="card" style="height: 100%;">
             <div class="card-header">
-                <h3>vs Batter Hand</h3>
+                <h3>Split: vs Batter Hand</h3>
             </div>
             <div class="card-body" style="padding: 24px;">
         """, unsafe_allow_html=True)
@@ -97,23 +100,26 @@ def render_bowling_intelligence():
             
         st.markdown("</div></div>", unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 32px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
 
     # Tactical Directives
     dirs = get_bowling_tactical_directives()
     st.markdown("""
-    <div style="background: var(--primary); padding: 24px; border-radius: 8px;">
-        <h3 style="color: var(--on-primary-container); margin: 0 0 24px 0; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+    <div style="background: linear-gradient(135deg, var(--primary), var(--primary-2)); padding: 20px; border-radius: 12px;">
+        <h3 style="color: #ffffff; margin: 0 0 18px 0; font-size: 18px; display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 20px;">💡</span> Tactical Directives
         </h3>
     """, unsafe_allow_html=True)
     
     for d in dirs:
-        st.markdown(f"""
-        <div style="background: rgba(255, 255, 255, 0.1); padding: 16px; border-radius: 8px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;">
-            <span style="color: var(--secondary-container); font-size: 18px;">✔️</span>
-            <span style="color: var(--on-primary-container); font-size: 14px;">{d}</span>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <div style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255,255,255,0.25); padding: 14px; border-radius: 10px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px;">
+                <span style="color: #f6e5c8; font-size: 18px;">✔️</span>
+                <span style="color: #ffffff; font-size: 14px;">{d}</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         
     st.markdown("</div>", unsafe_allow_html=True)

@@ -5,6 +5,7 @@ Main Streamlit Application — Entry Point
 import streamlit as st
 import sys
 import os
+from datetime import datetime
 
 # Ensure project root is on path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
@@ -31,9 +32,19 @@ st.set_page_config(
 st.markdown(get_theme_css(), unsafe_allow_html=True)
 
 # ─── Top Header ──────────────────────────────────────────
-st.markdown("""
-<div class="top-header">Bolts Elite Performance</div>
-""", unsafe_allow_html=True)
+today = datetime.now().strftime("%d %b %Y")
+st.markdown(
+    f"""
+    <div class="jb-topbar">
+        <div>
+            <div class="jb-brand-kicker">Janakpur Bolts Performance Lab</div>
+            <div class="jb-brand-title">Season Intelligence Dashboard</div>
+        </div>
+        <div class="jb-date-pill">{today}</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 # ─── Sidebar Navigation ─────────────────────────────────
 active_page = render_sidebar()
@@ -67,38 +78,37 @@ else:
 
     label, desc = LABELS.get(active_page, ("📋 Page", "This page is under construction."))
 
-    st.markdown(f"""
-    <div style="margin-bottom: 48px;">
-        <h2 class="page-title">{label}</h2>
-        <p class="page-subtitle">{desc}</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="card" style="max-width: 600px;">
-        <div style="padding: 48px; text-align: center;">
-            <div style="font-size: 64px; margin-bottom: 16px;">🚧</div>
-            <h3 style="font-size: 24px; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                Coming Soon
-            </h3>
-            <p style="font-size: 16px; color: var(--on-surface-variant); line-height: 24px;">
-                This module is being built. Data scraping and ingestion pipelines
-                need to be completed before this page goes live.
-            </p>
-            <div style="margin-top: 24px; padding: 12px 24px; background: rgba(44, 105, 78, 0.05);
-                        border-radius: 8px; display: inline-block;">
-                <span style="font-size: 14px; font-weight: 600; color: var(--secondary);">
-                    Check back after data collection phase
-                </span>
-            </div>
+    st.markdown(
+        f"""
+        <div class="jb-page-head">
+            <h2 class="page-title">{label}</h2>
+            <p class="page-subtitle">{desc}</p>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )
 
-    # Footer
-    st.markdown("""
+    st.markdown(
+        """
+        <div class="jb-empty">
+            <div class="jb-empty-icon">🚧</div>
+            <h3>Module In Progress</h3>
+            <p>
+                This view will be activated once ingestion, validation, and season intelligence
+                pipelines are synced with production data.
+            </p>
+            <div class="jb-empty-tip">Next: complete tiered tournament ingestion and KPI delta generation.</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+st.markdown(
+    """
     <div class="dashboard-footer">
-        <span>© 2024 Janakpur Bolts. All Rights Reserved.</span>
-        <span>v2.4.1-stable</span>
+        <span>Janakpur Bolts Analytics</span>
+        <span>Build: season-intel-v3</span>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True,
+)

@@ -2,18 +2,21 @@ import streamlit as st
 from src.dashboard.demo_data import get_matchup_plan
 
 def render_matchups():
-    st.markdown("""
-    <div style="margin-bottom: 48px;">
-        <h2 class="page-title">Matchup Engine</h2>
-        <p class="page-subtitle">Head-to-head analysis</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="jb-page-head">
+            <h2 class="page-title">Matchup Engine</h2>
+            <p class="page-subtitle">Head-to-head probabilities and tactical plans by phase.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     col1, col2 = st.columns([1, 3])
     
     with col1:
         st.markdown("""
-        <h3 class="section-header" style="margin-bottom: 24px;">Configuration</h3>
+        <h3 class="section-header" style="margin-bottom: 16px;">Configuration</h3>
         """, unsafe_allow_html=True)
         
         st.selectbox("Batter (Bolts)", ["A. Sheikh", "A. Sharma", "R. Singh"])
@@ -22,18 +25,11 @@ def render_matchups():
         st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
         st.markdown("<div style='font-size: 14px; font-weight: 600; margin-bottom: 8px;'>Season Filter</div>", unsafe_allow_html=True)
         
-        # Pill buttons simulation
-        st.markdown("""
-        <div style="display: flex; gap: 8px; margin-bottom: 24px;">
-            <div style="background: var(--primary); color: white; padding: 6px 16px; border-radius: 999px; font-size: 12px; font-weight: 600;">All</div>
-            <div style="border: 1px solid var(--outline-variant); color: var(--on-surface); padding: 6px 16px; border-radius: 999px; font-size: 12px;">2024</div>
-            <div style="border: 1px solid var(--outline-variant); color: var(--on-surface); padding: 6px 16px; border-radius: 999px; font-size: 12px;">2023</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.radio("Season Filter", ["All", "2024", "2023"], horizontal=True)
         
         st.slider("Sample Min Threshold Balls", 0, 100, 30, label_visibility="visible")
         
-        st.markdown("<div style='margin-top: 48px;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='margin-top: 18px;'></div>", unsafe_allow_html=True)
         st.button("⚡ Run Engine", type="primary", use_container_width=True)
         
     with col2:
@@ -49,7 +45,7 @@ def render_matchups():
                     </div>
                 </div>
                 <div style="text-align: right;">
-                    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(82, 183, 136, 0.1); color: var(--secondary); padding: 8px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; border: 1px solid var(--secondary-container); margin-bottom: 8px;">
+                    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(82, 183, 136, 0.1); color: var(--secondary); padding: 8px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; border: 1px solid var(--secondary-soft); margin-bottom: 8px;">
                         <span style="width: 8px; height: 8px; background: var(--secondary); border-radius: 50%; display: inline-block;"></span> Favorable to Batter
                     </div>
                     <div style="font-size: 12px; color: var(--on-surface-variant);">Data Confidence:<br><span style="font-weight: 600; color: var(--on-surface);">Strong (142 Balls)</span></div>
@@ -95,7 +91,7 @@ def render_matchups():
             """, unsafe_allow_html=True)
             
         # Recommended Plan
-        st.markdown("<div style='margin-bottom: 24px;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='margin-bottom: 14px;'></div>", unsafe_allow_html=True)
         
         plan = get_matchup_plan()
         

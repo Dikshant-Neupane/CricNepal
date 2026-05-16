@@ -23,10 +23,11 @@ def render_sidebar() -> str:
         </div>
         """, unsafe_allow_html=True)
 
+        st.markdown("#### Analysis")
+
         # Main navigation
         for item in NAV_ITEMS:
             is_active = st.session_state.active_page == item["key"]
-            css_class = "nav-item active" if is_active else "nav-item"
 
             # Use a button styled as a nav item
             if st.button(
@@ -39,6 +40,7 @@ def render_sidebar() -> str:
                 st.rerun()
 
         st.markdown("---")
+        st.markdown("#### Workspace")
 
         # Bottom items (Settings, Support)
         for item in NAV_BOTTOM:
@@ -50,5 +52,8 @@ def render_sidebar() -> str:
             ):
                 st.session_state.active_page = item["key"]
                 st.rerun()
+
+        st.markdown("---")
+        st.caption("Model focus: S1 win drivers, S2 loss drivers, S3 tactical plan")
 
     return st.session_state.active_page
