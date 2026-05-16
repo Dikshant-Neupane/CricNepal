@@ -43,6 +43,7 @@ notebooks/*.ipynb
 # Project context and instructions
 context/
 .instructions.md
+docs/
 docs/dashboard_data_requirements.md
 docs/data_collection_checklist.md
 
