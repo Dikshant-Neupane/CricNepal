@@ -90,8 +90,8 @@ Write-Host "   Redis:       localhost:6379" -ForegroundColor White
 Write-Host ""
 
 Write-Host "🔑 Default Credentials (CHANGE THESE!):" -ForegroundColor Yellow
-Write-Host "   PostgreSQL:  bolts_admin / replace_me" -ForegroundColor Gray
-Write-Host "   PgAdmin:     admin@bolts.np / replace_me" -ForegroundColor Gray
+Write-Host "   PostgreSQL:  configured via .env (POSTGRES_USER / POSTGRES_PASSWORD)" -ForegroundColor Gray
+Write-Host "   PgAdmin:     configured via .env (PGADMIN_EMAIL / PGADMIN_PASSWORD)" -ForegroundColor Gray
 Write-Host ""
 
 Write-Host "Useful Commands:" -ForegroundColor Cyan
