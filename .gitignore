@@ -35,6 +35,7 @@ notebooks/*.ipynb
 # IDE
 .vscode/
 .idea/
+*.code-workspace
 *.swp
 *.swo
 *~
@@ -42,6 +43,8 @@ notebooks/*.ipynb
 # Project context and instructions
 context/
 .instructions.md
+docs/dashboard_data_requirements.md
+docs/data_collection_checklist.md
 
 # Logs
 *.log
