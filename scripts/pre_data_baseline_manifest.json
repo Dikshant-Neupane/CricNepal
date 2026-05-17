@@ -1,0 +1,18 @@
+{
+  "release": "pre-data-baseline-v1",
+  "status": "complete",
+  "scope": {
+    "ui_hardening": true,
+    "emoji_reduction": true,
+    "deprecated_api_cleanup": true,
+    "single_metrics_layer": true,
+    "data_contract_validation": true,
+    "db_first_loader_with_fallback": true,
+    "legacy_module_cleanup": true,
+    "tests_added": true,
+    "preflight_script_added": true,
+    "import_smoke_coverage": true,
+    "sensitive_docs_pushed": false
+  },
+  "gate": "ready-for-data-collection"
+}
