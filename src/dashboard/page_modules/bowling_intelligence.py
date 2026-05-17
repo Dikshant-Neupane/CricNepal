@@ -107,7 +107,7 @@ def render_bowling_intelligence():
     st.markdown("""
     <div style="background: linear-gradient(135deg, var(--primary), var(--primary-2)); padding: 20px; border-radius: 12px;">
         <h3 style="color: #ffffff; margin: 0 0 18px 0; font-size: 18px; display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 20px;">💡</span> Tactical Directives
+            <span style="font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.85;">Plan</span> Tactical Directives
         </h3>
     """, unsafe_allow_html=True)
     
@@ -115,7 +115,7 @@ def render_bowling_intelligence():
         st.markdown(
             f"""
             <div style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255,255,255,0.25); padding: 14px; border-radius: 10px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px;">
-                <span style="color: #f6e5c8; font-size: 18px;">✔️</span>
+                <span style="color: #f6e5c8; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;">ITEM</span>
                 <span style="color: #ffffff; font-size: 14px;">{d}</span>
             </div>
             """,
@@ -123,3 +123,20 @@ def render_bowling_intelligence():
         )
         
     st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="card">
+            <div class="card-header"><h3>Decision Summary</h3></div>
+            <div class="card-body">
+                <div class="insight-box"><strong>Insight:</strong> Middle-over control remains your most stable wicket-taking phase.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Risk:</strong> Death overs leak value when slower-ball patterns are shown too early.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Recommended Action:</strong> Delay variation reveal and keep one specialist fresh for over 19.</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )

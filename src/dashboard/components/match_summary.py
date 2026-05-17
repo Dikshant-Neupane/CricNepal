@@ -19,43 +19,35 @@ def render_match_summary(data: dict) -> None:
 
     st.markdown(f"""
     <div class="card">
-        <!-- Header -->
         <div class="match-summary-header">
             <h3>Match Summary</h3>
             <span class="result-badge">{data['result']}</span>
         </div>
 
-        <!-- Scores -->
-        <div style="padding: 24px; display: flex; justify-content: center; align-items: center; gap: 32px; flex-wrap: wrap;">
-            <!-- Team 1 -->
-            <div style="text-align: center; flex: 1; min-width: 180px;">
+        <div class="mr-score-grid">
+            <div class="mr-team-col">
                 <div class="score-team-name" style="color: {t1_color};">{t1['name']}</div>
                 <div class="score-display" style="color: var(--on-surface);">{t1['score']}</div>
                 <div class="score-details">{t1['overs']} ({t1['rr']})</div>
             </div>
 
-            <!-- VS -->
-            <div style="text-align: center; padding: 0 24px; border-left: 1px solid rgba(193,200,194,0.3); border-right: 1px solid rgba(193,200,194,0.3);">
-                <span style="font-size: 14px; font-weight: 600; color: var(--outline); letter-spacing: 0.01em;">VS</span>
+            <div class="mr-vs-divider">
+                <span class="mr-vs-text">VS</span>
             </div>
 
-            <!-- Team 2 -->
-            <div style="text-align: center; flex: 1; min-width: 180px;">
+            <div class="mr-team-col">
                 <div class="score-team-name" style="color: {t2_color};">{t2['name']}</div>
                 <div class="score-display" style="color: var(--on-surface-variant);">{t2['score']}</div>
                 <div class="score-details">{t2['overs']} ({t2['rr']})</div>
             </div>
         </div>
 
-        <!-- POTM Footer -->
         <div class="potm-footer">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="award">🏆</span>
+            <div class="mr-potm-group">
+                <span class="award">POTM</span>
                 <span>POTM: {data['potm']}</span>
             </div>
-            <span style="font-size: 12px; font-weight: 500; color: var(--primary); cursor: pointer;">
-                Full Scorecard →
-            </span>
+            <span class="mr-potm-link">Full Scorecard →</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -70,7 +62,7 @@ def render_tactical_takeaways(takeaways: list[dict]) -> None:
     """
     items_html = ""
     for t in takeaways:
-        icon = "✅" if t["type"] == "success" else "⚠️"
+        icon = "OK" if t["type"] == "success" else "Risk"
         icon_class = "success" if t["type"] == "success" else "warning"
 
         items_html += f"""
@@ -84,14 +76,13 @@ def render_tactical_takeaways(takeaways: list[dict]) -> None:
         """
 
     st.markdown(f"""
-    <div class="card" style="height: 100%;">
+    <div class="card mr-full-height">
         <div class="card-header">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 20px;">💡</span>
-                <h3 style="color: var(--primary);">Tactical Takeaways</h3>
+            <div class="mr-title-row">
+                <h3>Tactical Takeaways</h3>
             </div>
         </div>
-        <div style="padding: 24px; background: rgba(44, 105, 78, 0.05);">
+        <div class="mr-takeaway-body">
             {items_html}
         </div>
     </div>
@@ -114,17 +105,17 @@ def render_phase_table(df, title: str = "Phase Execution (Batting)") -> None:
 
         rows_html += f"""
         <tr>
-            <td style="font-weight: 500;">{row['Phase']}</td>
+            <td class="mr-cell-strong">{row['Phase']}</td>
             <td class="right">{row['Match RR']:.2f}</td>
-            <td class="right" style="color: var(--on-surface-variant);">{row['Season Avg']:.2f}</td>
+            <td class="right mr-cell-muted">{row['Season Avg']:.2f}</td>
             <td class="right {delta_class}">{arrow} {sign}{delta_val:.2f}</td>
         </tr>
         """
 
     st.markdown(f"""
     <div class="card">
-        <div style="padding: 10px 24px; border-bottom: 1px solid var(--outline-variant); background: var(--surface);">
-            <h3 class="section-header" style="color: var(--primary);">{title}</h3>
+        <div class="card-header">
+            <h3>{title}</h3>
         </div>
         <table class="bolts-table">
             <thead>
@@ -152,17 +143,17 @@ def render_partnerships_table(df, title: str = "Defining Partnerships") -> None:
 
         rows_html += f"""
         <tr>
-            <td style="font-weight: 500;">{row['Batters']}</td>
-            <td class="right" style="font-weight: 600;">{row['Runs']}</td>
-            <td class="right" style="color: var(--on-surface-variant);">{row['Balls']}</td>
+            <td class="mr-cell-strong">{row['Batters']}</td>
+            <td class="right mr-cell-strong">{row['Runs']}</td>
+            <td class="right mr-cell-muted">{row['Balls']}</td>
             <td class="right" style="{sr_style}">{sr_val:.1f}</td>
         </tr>
         """
 
     st.markdown(f"""
     <div class="card">
-        <div style="padding: 10px 24px; border-bottom: 1px solid var(--outline-variant); background: var(--surface);">
-            <h3 class="section-header" style="color: var(--primary);">{title}</h3>
+        <div class="card-header">
+            <h3>{title}</h3>
         </div>
         <table class="bolts-table">
             <thead>

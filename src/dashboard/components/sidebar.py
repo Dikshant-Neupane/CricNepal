@@ -28,12 +28,13 @@ def render_sidebar() -> str:
         # Main navigation
         for item in NAV_ITEMS:
             is_active = st.session_state.active_page == item["key"]
+            label = f"{item['icon']}  {item['label']}" if item.get("icon") else item["label"]
 
             # Use a button styled as a nav item
             if st.button(
-                f"{item['icon']}  {item['label']}",
+                label,
                 key=f"nav_{item['key']}",
-                use_container_width=True,
+                width="stretch",
                 type="primary" if is_active else "secondary",
             ):
                 st.session_state.active_page = item["key"]
@@ -44,10 +45,11 @@ def render_sidebar() -> str:
 
         # Bottom items (Settings, Support)
         for item in NAV_BOTTOM:
+            label = f"{item['icon']}  {item['label']}" if item.get("icon") else item["label"]
             if st.button(
-                f"{item['icon']}  {item['label']}",
+                label,
                 key=f"nav_{item['key']}",
-                use_container_width=True,
+                width="stretch",
                 type="secondary",
             ):
                 st.session_state.active_page = item["key"]

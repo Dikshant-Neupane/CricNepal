@@ -28,7 +28,6 @@ def render_order_contribution(data: list[dict]) -> None:
     <div class="card">
         <div class="card-header">
             <h3>Order Contribution (%)</h3>
-            <span style="font-size: 20px; color: var(--on-surface-variant);">📊</span>
         </div>
         <div class="card-body">
             {bars_html}
@@ -82,7 +81,6 @@ def render_resource_heatmap(bowlers: list[dict]) -> None:
     <div class="card">
         <div class="card-header">
             <h3>Resource Heatmap (Overs 1-20)</h3>
-            <span style="font-size: 20px; color: var(--on-surface-variant);">🔥</span>
         </div>
         <div class="card-body">
             {axis_html}

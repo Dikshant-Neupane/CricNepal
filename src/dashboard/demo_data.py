@@ -19,7 +19,7 @@ def get_strategic_metrics() -> list[dict]:
             "delta": "+12% vs Lg",
             "delta_type": "positive",
             "description": "Win probability when batting first after winning toss.",
-            "icon": "🪙",
+            "icon": "",
         },
         {
             "title": "Chasing Efficiency",
@@ -27,7 +27,7 @@ def get_strategic_metrics() -> list[dict]:
             "delta": "Target < 170",
             "delta_type": "neutral",
             "description": "Win rate when chasing. Drops to 41% > 170.",
-            "icon": "📈",
+            "icon": "",
         },
         {
             "title": "Death Economy",
@@ -35,7 +35,7 @@ def get_strategic_metrics() -> list[dict]:
             "delta": "-0.4 vs Lg",
             "delta_type": "negative",
             "description": "Runs per over conceded in overs 16-20.",
-            "icon": "⚠️",
+            "icon": "",
         },
     ]
 
@@ -262,9 +262,9 @@ def get_partnerships() -> pd.DataFrame:
 
 def get_batting_tactical_summary() -> list[dict]:
     return [
-        {"phase": "Powerplay", "icon": "⚡", "text": "Intent is optimal (SR 145+), but early dismissal rate (2.1 avg) is compromising middle-over stability."},
-        {"phase": "Middle Overs", "icon": "🔄", "text": "Dot ball % is 6% above league average against Left-Arm Orthodox. Strike rotation requires immediate addressal."},
-        {"phase": "Death Overs", "icon": "🚀", "text": "Elite execution. Boundary % is top-tier, primarily driven by deep crease positioning against yorker attempts."},
+        {"phase": "Powerplay", "icon": "PP", "text": "Intent is optimal (SR 145+), but early dismissal rate (2.1 avg) is compromising middle-over stability."},
+        {"phase": "Middle Overs", "icon": "MO", "text": "Dot ball % is 6% above league average against Left-Arm Orthodox. Strike rotation requires immediate addressal."},
+        {"phase": "Death Overs", "icon": "DO", "text": "Elite execution. Boundary % is top-tier, primarily driven by deep crease positioning against yorker attempts."},
     ]
 
 def get_batting_core_intelligence() -> pd.DataFrame:
@@ -325,21 +325,137 @@ def get_opposition_bowling_plans() -> pd.DataFrame:
     })
 
 
+def get_season_match_records() -> pd.DataFrame:
+    """Match-level dataset used for KPI and data-quality services in the dashboard."""
+    return pd.DataFrame(
+        [
+            {
+                "season": "S1",
+                "competition_name": "NPL Season 1",
+                "competition_tier": "A",
+                "opposition_strength_bucket": "strong",
+                "match_context": "league",
+                "result": "W",
+                "runs_for": 176,
+                "runs_against": 162,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            },
+            {
+                "season": "S1",
+                "competition_name": "NPL Season 1",
+                "competition_tier": "A",
+                "opposition_strength_bucket": "balanced",
+                "match_context": "league",
+                "result": "W",
+                "runs_for": 182,
+                "runs_against": 170,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            },
+            {
+                "season": "S1",
+                "competition_name": "NPL Season 1",
+                "competition_tier": "A",
+                "opposition_strength_bucket": "strong",
+                "match_context": "knockout",
+                "result": "W",
+                "runs_for": 168,
+                "runs_against": 149,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            },
+            {
+                "season": "S2",
+                "competition_name": "NPL Season 2",
+                "competition_tier": "A",
+                "opposition_strength_bucket": "strong",
+                "match_context": "league",
+                "result": "L",
+                "runs_for": 154,
+                "runs_against": 171,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            },
+            {
+                "season": "S2",
+                "competition_name": "NPL Season 2",
+                "competition_tier": "A",
+                "opposition_strength_bucket": "balanced",
+                "match_context": "league",
+                "result": "L",
+                "runs_for": 149,
+                "runs_against": 165,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            },
+            {
+                "season": "S2",
+                "competition_name": "NPL Season 2",
+                "competition_tier": "A",
+                "opposition_strength_bucket": "strong",
+                "match_context": "knockout",
+                "result": "W",
+                "runs_for": 171,
+                "runs_against": 167,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            },
+            {
+                "season": "S3 Prep",
+                "competition_name": "KP Oli Cup",
+                "competition_tier": "B",
+                "opposition_strength_bucket": "balanced",
+                "match_context": "high-pressure",
+                "result": "W",
+                "runs_for": 188,
+                "runs_against": 172,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            },
+            {
+                "season": "S3 Prep",
+                "competition_name": "KP Oli Cup",
+                "competition_tier": "B",
+                "opposition_strength_bucket": "strong",
+                "match_context": "knockout",
+                "result": "L",
+                "runs_for": 161,
+                "runs_against": 168,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            },
+            {
+                "season": "S3 Prep",
+                "competition_name": "President Cup",
+                "competition_tier": "C",
+                "opposition_strength_bucket": "weak",
+                "match_context": "league",
+                "result": "W",
+                "runs_for": 174,
+                "runs_against": 152,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            },
+        ]
+    )
+
+
 # ═══════════════════════════════════════════════════════════
 # NAVIGATION DATA
 # ═══════════════════════════════════════════════════════════
 
 NAV_ITEMS = [
-    {"icon": "🎛️", "label": "Dashboard", "key": "dashboard"},
-    {"icon": "👥", "label": "Team Overview", "key": "team_overview"},
-    {"icon": "🔍", "label": "Player Profiles", "key": "player_profiles"},
-    {"icon": "🏏", "label": "Batting Analysis", "key": "batting_analysis"},
-    {"icon": "⚾", "label": "Bowling Analysis", "key": "bowling_analysis"},
-    {"icon": "⚔️", "label": "Matchup Engine", "key": "matchup_engine"},
-    {"icon": "📋", "label": "Opposition Reports", "key": "opposition_reports"},
+    {"icon": "", "label": "Dashboard", "key": "dashboard"},
+    {"icon": "", "label": "Team Overview", "key": "team_overview"},
+    {"icon": "", "label": "Player Profiles", "key": "player_profiles"},
+    {"icon": "", "label": "Batting Analysis", "key": "batting_analysis"},
+    {"icon": "", "label": "Bowling Analysis", "key": "bowling_analysis"},
+    {"icon": "", "label": "Matchup Engine", "key": "matchup_engine"},
+    {"icon": "", "label": "Opposition Reports", "key": "opposition_reports"},
 ]
 
 NAV_BOTTOM = [
-    {"icon": "⚙️", "label": "Settings", "key": "settings"},
-    {"icon": "❓", "label": "Support", "key": "support"},
+    {"icon": "", "label": "Settings", "key": "settings"},
+    {"icon": "", "label": "Support", "key": "support"},
 ]

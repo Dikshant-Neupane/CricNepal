@@ -14,9 +14,9 @@ def render_opposition_report():
 
     top_a, top_b = st.columns([1, 1])
     with top_a:
-        st.button("📝 Analyst Notes", use_container_width=True)
+        st.button("Analyst Notes", width="stretch")
     with top_b:
-        st.button("📊 Export PDF", type="primary", use_container_width=True)
+        st.button("Export PDF", type="primary", width="stretch")
 
     # Top Configuration Row
     st.markdown("""
@@ -33,7 +33,7 @@ def render_opposition_report():
         st.selectbox("Data Range", ["Last 10 Matches", "All Time", "2024 Season"])
     with col4:
         st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
-        st.button("Generate Report", type="primary", use_container_width=True)
+        st.button("Generate Report", type="primary", width="stretch")
 
     st.markdown("</div></div>", unsafe_allow_html=True)
 
@@ -45,7 +45,7 @@ def render_opposition_report():
             <div class="card" style="height: 100%;">
             <div class="card-header">
                 <h3 style="display: flex; align-items: center; gap: 8px;">
-                    <span style="color: var(--error);">⚠️</span> Key Threats
+                    <span style="color: var(--error);">Risk</span> Key Threats
                 </h3>
             </div>
             <div class="card-body" style="display: flex; gap: 24px; padding: 24px;">
@@ -154,3 +154,20 @@ def render_opposition_report():
     table_html += "</tbody></table>"
     st.markdown(table_html, unsafe_allow_html=True)
     st.markdown("</div></div>", unsafe_allow_html=True)
+
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="card">
+            <div class="card-header"><h3>Decision Summary</h3></div>
+            <div class="card-body">
+                <div class="insight-box"><strong>Insight:</strong> Middle-order threat profile is strongest in overs 14-18 under pace-on lengths.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Risk:</strong> Early width concessions allow low-risk boundary access and collapse your field plan.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Recommended Action:</strong> Start with hard-length squeeze and reserve death specialist for overs 17-20.</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )

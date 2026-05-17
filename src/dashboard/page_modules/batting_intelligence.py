@@ -21,7 +21,7 @@ def render_batting_intelligence():
             st.markdown(
                 f"""
                 <div class='insight-box' style='height: 100%;'>
-                    <div style='font-size:18px; margin-bottom: 8px;'>{item['icon']}</div>
+                    <div style='font-size:12px; font-weight:700; color: var(--on-surface-variant); margin-bottom: 8px;'>{item['icon']}</div>
                     <div style='font-weight:700; margin-bottom: 6px;'>{item['phase']}</div>
                     <div style='font-size:13px;'>{item['text']}</div>
                 </div>
@@ -76,7 +76,7 @@ def render_batting_intelligence():
         <div class="card" style="height: 100%;">
             <div class="card-header">
                 <h3 style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 20px;">🔠</span> Matchup Heatmap (SR)
+                    <span style="font-size: 14px; color: var(--on-surface-variant);">Matrix</span> Matchup Heatmap (SR)
                 </h3>
                 <span style="font-size: 12px; background: var(--surface-container); padding: 4px 8px; border-radius: 4px;">Top 4 Batters</span>
             </div>
@@ -111,7 +111,7 @@ def render_batting_intelligence():
         <div class="card" style="height: 100%;">
             <div class="card-header">
                 <h3 style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 20px;">📊</span> Core Intelligence
+                    <span style="font-size: 14px; color: var(--on-surface-variant);">Data</span> Core Intelligence
                 </h3>
                 <a href="#" style="font-size: 12px; color: var(--primary); font-weight: 600; text-decoration: none;">View All</a>
             </div>
@@ -128,4 +128,21 @@ def render_batting_intelligence():
         table_html += "</tbody></table>"
         st.markdown(table_html, unsafe_allow_html=True)
         st.markdown("</div></div>", unsafe_allow_html=True)
+
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="card">
+            <div class="card-header"><h3>Decision Summary</h3></div>
+            <div class="card-body">
+                <div class="insight-box"><strong>Insight:</strong> Boundary efficiency in death overs remains your strongest batting differentiator.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Risk:</strong> Powerplay dismissal rate increases when left-arm angle is faced without strike rotation.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Recommended Action:</strong> Use one stability role in top three and preserve one accelerator for overs 13-17.</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 

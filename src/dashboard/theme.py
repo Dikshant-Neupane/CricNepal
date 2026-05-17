@@ -301,6 +301,75 @@ def get_theme_css() -> str:
     .takeaway-desc { font-size: 12px; color: var(--on-surface-variant); margin-top: 2px; }
     .takeaway-icon { margin-top: 2px; }
 
+    .mr-score-grid {
+        padding: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        flex-wrap: wrap;
+    }
+
+    .mr-team-col {
+        text-align: center;
+        flex: 1;
+        min-width: 180px;
+    }
+
+    .mr-vs-divider {
+        text-align: center;
+        padding: 0 24px;
+        border-left: 1px solid rgba(193, 200, 194, 0.3);
+        border-right: 1px solid rgba(193, 200, 194, 0.3);
+    }
+
+    .mr-vs-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--outline);
+        letter-spacing: 0.01em;
+    }
+
+    .mr-potm-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .mr-potm-link {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--primary);
+        cursor: pointer;
+    }
+
+    .mr-full-height {
+        height: 100%;
+    }
+
+    .mr-title-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .mr-title-icon {
+        font-size: 20px;
+    }
+
+    .mr-takeaway-body {
+        padding: 24px;
+        background: rgba(44, 105, 78, 0.05);
+    }
+
+    .mr-cell-strong {
+        font-weight: 600;
+    }
+
+    .mr-cell-muted {
+        color: var(--on-surface-variant);
+    }
+
     .dashboard-footer {
         margin-top: 24px;
         padding: 12px 4px 4px;

@@ -170,17 +170,22 @@ def _build_worm_chart() -> go.Figure:
 def render_match_review():
     """Render the full Match Review page."""
 
-    # ── Page Header ──────────────────────────────────────
     summary = get_match_summary()
 
-    st.markdown(f"""
-    <div style="margin-bottom: 48px;">
+    st.markdown(
+        f"""
+    <div class="jb-page-head">
         <h2 class="page-title">Post-Match Tactical Review</h2>
         <p class="page-subtitle">{summary['match_title']}</p>
+        <div class="insight-alert">
+            <span class="insight-alert-icon">Key</span>
+            <p class="insight-alert-text"><span class="insight-label">Decision Lens:</span> Confirm repeatable win behaviors and isolate non-repeatable spikes before next match.</p>
+        </div>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
-    # ── Top Row: Summary + Takeaways ─────────────────────
     col_summary, col_takeaways = st.columns([2, 1], gap="medium")
 
     with col_summary:
@@ -191,34 +196,40 @@ def render_match_review():
 
     st.markdown("<div style='height: 32px;'></div>", unsafe_allow_html=True)
 
-    # ── Charts Row: Manhattan + Worm ─────────────────────
     col_manhattan, col_worm = st.columns(2, gap="medium")
 
     with col_manhattan:
-        st.markdown("""
+        st.markdown(
+            """
         <div class="card">
             <div class="card-header">
-                <h3 style="color: var(--primary);">Runs Per Over</h3>
+                <h3>Runs Per Over</h3>
             </div>
+            <div class="card-body"></div>
         </div>
-        """, unsafe_allow_html=True)
+        """,
+            unsafe_allow_html=True,
+        )
         fig_manhattan = _build_manhattan_chart()
-        st.plotly_chart(fig_manhattan, use_container_width=True, config={"displayModeBar": False})
+        st.plotly_chart(fig_manhattan, width="stretch", config={"displayModeBar": False})
 
     with col_worm:
-        st.markdown("""
+        st.markdown(
+            """
         <div class="card">
             <div class="card-header">
-                <h3 style="color: var(--primary);">Cumulative Run Flow</h3>
+                <h3>Cumulative Run Flow</h3>
             </div>
+            <div class="card-body"></div>
         </div>
-        """, unsafe_allow_html=True)
+        """,
+            unsafe_allow_html=True,
+        )
         fig_worm = _build_worm_chart()
-        st.plotly_chart(fig_worm, use_container_width=True, config={"displayModeBar": False})
+        st.plotly_chart(fig_worm, width="stretch", config={"displayModeBar": False})
 
     st.markdown("<div style='height: 32px;'></div>", unsafe_allow_html=True)
 
-    # ── Tables Row: Phase Execution + Partnerships ───────
     col_phase, col_partner = st.columns(2, gap="medium")
 
     with col_phase:
@@ -227,14 +238,19 @@ def render_match_review():
     with col_partner:
         render_partnerships_table(get_partnerships())
 
-    # ── Footer ───────────────────────────────────────────
-    st.markdown("""
-    <div class="dashboard-footer">
-        <span>© 2024 Janakpur Bolts. All Rights Reserved.</span>
-        <div style="display: flex; gap: 24px;">
-            <span>v2.4.1-stable</span>
-            <span>System Status</span>
-            <span>Privacy Policy</span>
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="card">
+            <div class="card-header"><h3>Next-Match Action Pack</h3></div>
+            <div class="card-body">
+                <div class="insight-box"><strong>Insight:</strong> Overs 11-15 acceleration was highest leverage in this win profile.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Risk:</strong> Early dot-ball pressure remains elevated against left-arm pace angles.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Recommended Action:</strong> Promote one high-intent right-hander in PP if two dots in first over.</div>
+            </div>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )

@@ -23,7 +23,7 @@ from src.dashboard.page_modules.opposition_report import render_opposition_repor
 # ─── Page Configuration ──────────────────────────────────
 st.set_page_config(
     page_title="Janakpur Bolts Analytics",
-    page_icon="🏏",
+    page_icon="J",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -71,12 +71,12 @@ elif active_page == "review":
 # ─── Coming Soon Stubs ───────────────────────────────────
 else:
     LABELS = {
-        "player_profiles": ("🔍 Player Profiles", "Individual player profiles with career stats, form curves, and shot maps."),
-        "settings": ("⚙️ Settings", "Application configuration, database status, and environment info."),
-        "support": ("❓ Support", "Documentation, FAQ, and contact information."),
+        "player_profiles": ("Player Profiles", "Individual player profiles with career stats, form curves, and shot maps."),
+        "settings": ("Settings", "Application configuration, database status, and environment info."),
+        "support": ("Support", "Documentation, FAQ, and contact information."),
     }
 
-    label, desc = LABELS.get(active_page, ("📋 Page", "This page is under construction."))
+    label, desc = LABELS.get(active_page, ("Page", "This page is under construction."))
 
     st.markdown(
         f"""
@@ -91,7 +91,7 @@ else:
     st.markdown(
         """
         <div class="jb-empty">
-            <div class="jb-empty-icon">🚧</div>
+            <div class="jb-empty-icon">In Progress</div>
             <h3>Module In Progress</h3>
             <p>
                 This view will be activated once ingestion, validation, and season intelligence

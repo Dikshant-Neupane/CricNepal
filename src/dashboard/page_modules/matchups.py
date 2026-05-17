@@ -30,7 +30,7 @@ def render_matchups():
         st.slider("Sample Min Threshold Balls", 0, 100, 30, label_visibility="visible")
         
         st.markdown("<div style='margin-top: 18px;'></div>", unsafe_allow_html=True)
-        st.button("⚡ Run Engine", type="primary", use_container_width=True)
+        st.button("Run Engine", type="primary", width="stretch")
         
     with col2:
         # Matchup Score Card
@@ -100,7 +100,7 @@ def render_matchups():
             <div class="card-header" style="background: var(--primary); border-bottom: none; border-radius: 8px 8px 0 0;">
                 <h3 style="color: white; display: flex; justify-content: space-between; width: 100%;">
                     <span>Recommended Plan</span>
-                    <span style="opacity: 0.8;">📋</span>
+                    <span style="opacity: 0.8;">Detail</span>
                 </h3>
             </div>
             <div class="card-body" style="padding: 32px;">
@@ -113,3 +113,20 @@ def render_matchups():
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="card">
+            <div class="card-header"><h3>Decision Summary</h3></div>
+            <div class="card-body">
+                <div class="insight-box"><strong>Insight:</strong> This batter-bowler pairing is favorable when attacking first two balls of the over.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Risk:</strong> Dot pressure rises if line is forced square on the off side in balls 3-4.</div>
+                <div style="height:8px;"></div>
+                <div class="insight-box"><strong>Recommended Action:</strong> Keep rotation option open and target leg-side release zones early.</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )

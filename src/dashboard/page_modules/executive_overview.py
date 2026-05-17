@@ -4,6 +4,10 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+from src.dashboard.services.data_source import load_match_records
+from src.dashboard.services.metrics import build_executive_cards
+from src.dashboard.services.data_quality import validate_match_records
+
 
 def _momentum_chart() -> None:
     data = pd.DataFrame(
@@ -30,17 +34,20 @@ def _momentum_chart() -> None:
         xaxis_title="Recent Matches",
     )
     fig.update_traces(line_width=3)
-    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
 
 
 def render_executive_overview():
+    match_df, data_source = load_match_records()
+    quality_report = validate_match_records(match_df)
+
     st.markdown(
         """
         <div class="jb-page-head">
             <h2 class="page-title">Executive Overview</h2>
             <p class="page-subtitle">Fast read on win drivers, risk factors, and immediate tactical priorities.</p>
             <div class="insight-alert">
-                <span class="insight-alert-icon">⚠️</span>
+                <span class="insight-alert-icon">Note</span>
                 <p class="insight-alert-text"><span class="insight-label">Focus:</span> Death bowling control remains the highest-impact risk for Season 3.</p>
             </div>
         </div>
@@ -49,25 +56,46 @@ def render_executive_overview():
     )
 
     c1, c2, c3, c4, c5 = st.columns(5)
-    cards = [
-        ("Win %", "62.5%", "+12% vs S2", "🏆"),
-        ("NRR", "+0.847", "+0.3 trend", "📈"),
-        ("League Rank", "3/8", "Stable", "🎯"),
-        ("Form Index", "82", "In Form", "🔥"),
-        ("Tactical Score", "91%", "Execution strong", "🧠"),
-    ]
-    for col, (label, value, delta, icon) in zip([c1, c2, c3, c4, c5], cards):
+    cards = build_executive_cards(match_df)
+    reliability_delta = (
+        f"{quality_report['error_count']} errors, {quality_report['warning_count']} warnings"
+        if quality_report["status"] != "healthy"
+        else "Contract checks passing"
+    )
+    cards.append(
+        (
+            "Data Reliability",
+            str(quality_report["reliability_score"]),
+            reliability_delta,
+            "",
+            "metric-card-delta-positive" if quality_report["status"] == "healthy" else "metric-card-delta-negative",
+        )
+    )
+
+    normalized_cards = []
+    for card in cards:
+        if len(card) == 4:
+            label, value, delta, icon = card
+            normalized_cards.append((label, value, delta, icon, "metric-card-delta-positive"))
+        else:
+            normalized_cards.append(card)
+
+    for col, (label, value, delta, icon, delta_class) in zip([c1, c2, c3, c4, c5], normalized_cards):
         with col:
+            delta_text = f"{icon} {delta}".strip()
             st.markdown(
                 f"""
                 <div class="metric-card">
                     <div class="metric-card-label">{label}</div>
                     <div class="metric-card-value">{value}</div>
-                    <div class="metric-card-delta metric-card-delta-positive">{icon} {delta}</div>
+                    <div class="metric-card-delta {delta_class}">{delta_text}</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
+
+    source_label = "Live DB" if data_source == "database" else "Demo"
+    st.caption(f"Data source: {source_label}")
 
     st.markdown("<div style='height:18px;'></div>", unsafe_allow_html=True)
 
@@ -162,6 +190,42 @@ def render_executive_overview():
             """,
             unsafe_allow_html=True,
         )
+
+        findings = quality_report.get("findings", [])
+        if findings:
+            findings_markup = "".join(
+                [
+                    f"<li><strong>{item['message']}:</strong> {item['details']}</li>"
+                    for item in findings[:3]
+                ]
+            )
+            st.markdown(
+                f"""
+                <div style="height:12px;"></div>
+                <div class="card">
+                    <div class="card-header"><h3>Data Contract Findings</h3></div>
+                    <div class="card-body">
+                        <ul style="padding-left: 18px; margin: 0; line-height: 1.5;">
+                            {findings_markup}
+                        </ul>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                """
+                <div style="height:12px;"></div>
+                <div class="card">
+                    <div class="card-header"><h3>Data Contract Findings</h3></div>
+                    <div class="card-body">
+                        <div class="insight-box"><strong>Status:</strong> Required fields, tiers, contexts, and result values are valid.</div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
         st.markdown(
             """
