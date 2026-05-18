@@ -40,12 +40,20 @@ notebooks/*.ipynb
 *.swo
 *~
 
-# Project context and instructions
+# Project context and internal planning (keep private)
 context/
 .instructions.md
-docs/
+
+# Internal documentation (not for public repo)
 docs/dashboard_data_requirements.md
 docs/data_collection_checklist.md
+docs/data_quality_notes.md
+docs/ingestion_complete.md
+
+# Public documentation (allowed)
+# docs/DATA_SOURCES.md
+# docs/INTEGRATION_GUIDE.md
+# docs/PIPELINE_FIXES.md
 
 # Logs
 *.log
