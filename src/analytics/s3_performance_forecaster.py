@@ -1,0 +1,404 @@
+"""
+S3 Player Performance Forecaster
+Predict S3 stats based on S1 and S2 trends.
+
+Author: Senior Data Scientist
+Date: May 20, 2026
+"""
+
+import pandas as pd
+import numpy as np
+from pathlib import Path
+from typing import Dict, List, Tuple
+import warnings
+warnings.filterwarnings('ignore')
+
+
+class S3PerformanceForecaster:
+    """Predict S3 player performance based on S1→S2 trends."""
+    
+    def __init__(self, s1_data: pd.DataFrame, s2_data: pd.DataFrame):
+        """
+        Initialize forecaster with S1 and S2 player stats.
+        
+        Args:
+            s1_data: DataFrame with S1 player statistics
+            s2_data: DataFrame with S2 player statistics
+        """
+        self.s1_data = s1_data
+        self.s2_data = s2_data
+        self.predictions = None
+        
+    def analyze_trend(self, s1_value: float, s2_value: float, metric: str) -> Dict:
+        """
+        Analyze trend between S1 and S2.
+        
+        Args:
+            s1_value: S1 metric value
+            s2_value: S2 metric value
+            metric: Metric type ('economy', 'average', 'strike_rate', etc.)
+            
+        Returns:
+            Dictionary with trend analysis
+        """
+        if pd.isna(s1_value) or pd.isna(s2_value):
+            return {
+                'trend': 'INSUFFICIENT_DATA',
+                'delta': None,
+                'pct_change': None,
+                'confidence': 0
+            }
+        
+        delta = s2_value - s1_value
+        
+        # Handle division by zero
+        if s1_value == 0:
+            pct_change = 0 if s2_value == 0 else float('inf')
+        else:
+            pct_change = (delta / s1_value) * 100
+        
+        # Classify trend based on metric type
+        if metric in ['economy', 'average_against']:  # Lower is better
+            if delta < -1.0:
+                trend = 'IMPROVING'
+            elif delta > 1.5:
+                trend = 'DECLINING'
+            elif delta > 3.0:
+                trend = 'CATASTROPHIC_DECLINE'
+            else:
+                trend = 'STABLE'
+        else:  # Higher is better (average, strike_rate, wickets)
+            if delta > 50 or pct_change > 50:
+                trend = 'IMPROVING'
+            elif delta < -50 or pct_change < -50:
+                trend = 'DECLINING'
+            elif pct_change < -80:
+                trend = 'CATASTROPHIC_DECLINE'
+            else:
+                trend = 'STABLE'
+        
+        # Calculate confidence based on sample size and consistency
+        confidence = min(100, 50 + abs(pct_change) / 2)
+        
+        return {
+            'trend': trend,
+            'delta': round(delta, 2),
+            'pct_change': round(pct_change, 1),
+            'confidence': round(confidence, 0)
+        }
+    
+    def predict_s3_value(self, s1_value: float, s2_value: float, 
+                        trend: str) -> Tuple[float, float, float]:
+        """
+        Predict S3 value with confidence interval.
+        
+        Args:
+            s1_value: S1 metric value
+            s2_value: S2 metric value
+            trend: Trend classification
+            
+        Returns:
+            Tuple of (predicted_value, lower_bound, upper_bound)
+        """
+        if pd.isna(s1_value) or pd.isna(s2_value):
+            return (None, None, None)
+        
+        # Simple linear extrapolation with regression to mean
+        delta = s2_value - s1_value
+        
+        if trend == 'CATASTROPHIC_DECLINE':
+            # Assume some recovery but not full (60% of delta)
+            s3_pred = s2_value + (delta * -0.4)
+        elif trend == 'DECLINING':
+            # Assume regression to mean (50% recovery)
+            s3_pred = s2_value + (delta * -0.5)
+        elif trend == 'IMPROVING':
+            # Assume continued improvement but slower (30% of delta)
+            s3_pred = s2_value + (delta * 0.3)
+        else:  # STABLE
+            # Weighted average favoring recent performance
+            s3_pred = (s1_value * 0.3) + (s2_value * 0.7)
+        
+        # Calculate confidence interval (±15% for stable, ±30% for volatile)
+        if trend in ['CATASTROPHIC_DECLINE', 'IMPROVING']:
+            margin = s3_pred * 0.30
+        else:
+            margin = s3_pred * 0.15
+        
+        lower_bound = s3_pred - margin
+        upper_bound = s3_pred + margin
+        
+        return (round(s3_pred, 2), round(lower_bound, 2), round(upper_bound, 2))
+    
+    def generate_recommendation(self, player_name: str, role: str, 
+                               trend: str, s3_pred: float, 
+                               metric: str) -> Dict:
+        """
+        Generate auction/retention recommendation.
+        
+        Args:
+            player_name: Player name
+            role: Player role (batter, bowler, all-rounder)
+            trend: Trend classification
+            s3_pred: S3 predicted value
+            metric: Primary metric
+            
+        Returns:
+            Dictionary with recommendation
+        """
+        if trend == 'CATASTROPHIC_DECLINE':
+            return {
+                'decision': '❌ DO NOT RETAIN',
+                'priority': 0,
+                'max_bid': 0,
+                'reason': f'{metric} collapse - high risk of continued decline'
+            }
+        elif trend == 'DECLINING':
+            return {
+                'decision': '⚠️ CAUTION',
+                'priority': 2,
+                'max_bid': '₨5-8 lakh',
+                'reason': f'{metric} declining - only if backup option'
+            }
+        elif trend == 'IMPROVING':
+            return {
+                'decision': '✅ TARGET',
+                'priority': 8,
+                'max_bid': '₨15-20 lakh',
+                'reason': f'{metric} improving - high potential for S3'
+            }
+        else:  # STABLE
+            return {
+                'decision': '🟡 RETAIN/SIGN',
+                'priority': 5,
+                'max_bid': '₨10-15 lakh',
+                'reason': f'{metric} stable - reliable performer'
+            }
+    
+    def forecast_bowlers(self) -> pd.DataFrame:
+        """
+        Forecast S3 bowling performance for all bowlers.
+        
+        Returns:
+            DataFrame with S3 predictions and recommendations
+        """
+        # Merge S1 and S2 data
+        bowlers = pd.merge(
+            self.s1_data[self.s1_data['role'].str.contains('bowl', case=False, na=False)],
+            self.s2_data[self.s2_data['role'].str.contains('bowl', case=False, na=False)],
+            on='player_name',
+            how='outer',
+            suffixes=('_s1', '_s2')
+        )
+        
+        predictions = []
+        
+        for _, row in bowlers.iterrows():
+            player = row['player_name']
+            
+            # Extract S1 and S2 metrics
+            s1_economy = row.get('economy_s1', np.nan)
+            s2_economy = row.get('economy_s2', np.nan)
+            s1_wickets = row.get('wickets_s1', np.nan)
+            s2_wickets = row.get('wickets_s2', np.nan)
+            
+            # Analyze trends
+            economy_trend = self.analyze_trend(s1_economy, s2_economy, 'economy')
+            wickets_trend = self.analyze_trend(s1_wickets, s2_wickets, 'wickets')
+            
+            # Predict S3 values
+            s3_economy_pred, s3_economy_lower, s3_economy_upper = self.predict_s3_value(
+                s1_economy, s2_economy, economy_trend['trend']
+            )
+            s3_wickets_pred, s3_wickets_lower, s3_wickets_upper = self.predict_s3_value(
+                s1_wickets, s2_wickets, wickets_trend['trend']
+            )
+            
+            # Generate recommendation (based on economy as primary metric)
+            recommendation = self.generate_recommendation(
+                player, 'bowler', economy_trend['trend'], 
+                s3_economy_pred, 'Economy'
+            )
+            
+            predictions.append({
+                'player_name': player,
+                'role': 'Bowler',
+                's1_economy': s1_economy,
+                's2_economy': s2_economy,
+                's3_economy_pred': s3_economy_pred,
+                's3_economy_range': f"{s3_economy_lower}-{s3_economy_upper}" if s3_economy_pred else None,
+                'economy_trend': economy_trend['trend'],
+                'economy_delta': economy_trend['delta'],
+                's1_wickets': s1_wickets,
+                's2_wickets': s2_wickets,
+                's3_wickets_pred': s3_wickets_pred,
+                's3_wickets_range': f"{s3_wickets_lower}-{s3_wickets_upper}" if s3_wickets_pred else None,
+                'wickets_trend': wickets_trend['trend'],
+                'recommendation': recommendation['decision'],
+                'priority': recommendation['priority'],
+                'max_bid': recommendation['max_bid'],
+                'reason': recommendation['reason']
+            })
+        
+        return pd.DataFrame(predictions).sort_values('priority', ascending=False)
+    
+    def forecast_batters(self) -> pd.DataFrame:
+        """
+        Forecast S3 batting performance for all batters.
+        
+        Returns:
+            DataFrame with S3 predictions and recommendations
+        """
+        # Merge S1 and S2 data
+        batters = pd.merge(
+            self.s1_data[self.s1_data['role'].str.contains('bat', case=False, na=False)],
+            self.s2_data[self.s2_data['role'].str.contains('bat', case=False, na=False)],
+            on='player_name',
+            how='outer',
+            suffixes=('_s1', '_s2')
+        )
+        
+        predictions = []
+        
+        for _, row in batters.iterrows():
+            player = row['player_name']
+            
+            # Extract S1 and S2 metrics
+            s1_runs = row.get('runs_s1', np.nan)
+            s2_runs = row.get('runs_s2', np.nan)
+            s1_average = row.get('average_s1', np.nan)
+            s2_average = row.get('average_s2', np.nan)
+            s1_sr = row.get('strike_rate_s1', np.nan)
+            s2_sr = row.get('strike_rate_s2', np.nan)
+            
+            # Analyze trends
+            runs_trend = self.analyze_trend(s1_runs, s2_runs, 'runs')
+            sr_trend = self.analyze_trend(s1_sr, s2_sr, 'strike_rate')
+            
+            # Predict S3 values
+            s3_runs_pred, s3_runs_lower, s3_runs_upper = self.predict_s3_value(
+                s1_runs, s2_runs, runs_trend['trend']
+            )
+            s3_sr_pred, s3_sr_lower, s3_sr_upper = self.predict_s3_value(
+                s1_sr, s2_sr, sr_trend['trend']
+            )
+            
+            # Generate recommendation (based on runs as primary metric)
+            recommendation = self.generate_recommendation(
+                player, 'batter', runs_trend['trend'], 
+                s3_runs_pred, 'Runs'
+            )
+            
+            predictions.append({
+                'player_name': player,
+                'role': 'Batter',
+                's1_runs': s1_runs,
+                's2_runs': s2_runs,
+                's3_runs_pred': s3_runs_pred,
+                's3_runs_range': f"{s3_runs_lower}-{s3_runs_upper}" if s3_runs_pred else None,
+                'runs_trend': runs_trend['trend'],
+                'runs_delta': runs_trend['delta'],
+                's1_strike_rate': s1_sr,
+                's2_strike_rate': s2_sr,
+                's3_strike_rate_pred': s3_sr_pred,
+                's3_sr_range': f"{s3_sr_lower}-{s3_sr_upper}" if s3_sr_pred else None,
+                'sr_trend': sr_trend['trend'],
+                'recommendation': recommendation['decision'],
+                'priority': recommendation['priority'],
+                'max_bid': recommendation['max_bid'],
+                'reason': recommendation['reason']
+            })
+        
+        return pd.DataFrame(predictions).sort_values('priority', ascending=False)
+    
+    def generate_full_forecast(self, export_path: str = None) -> Dict[str, pd.DataFrame]:
+        """
+        Generate complete S3 forecast for all players.
+        
+        Args:
+            export_path: Optional path to save CSV exports
+            
+        Returns:
+            Dictionary with bowler and batter forecasts
+        """
+        print("\n" + "="*80)
+        print("S3 PLAYER PERFORMANCE FORECASTER")
+        print("="*80)
+        print(f"Analyzing S1 → S2 trends to predict S3 performance...")
+        print(f"S1 Players: {len(self.s1_data)}")
+        print(f"S2 Players: {len(self.s2_data)}")
+        print("="*80 + "\n")
+        
+        # Generate forecasts
+        bowler_forecast = self.forecast_bowlers()
+        batter_forecast = self.forecast_batters()
+        
+        print(f"✓ Bowler Forecast: {len(bowler_forecast)} players analyzed")
+        print(f"✓ Batter Forecast: {len(batter_forecast)} players analyzed\n")
+        
+        # Export if path provided
+        if export_path:
+            Path(export_path).mkdir(parents=True, exist_ok=True)
+            
+            bowler_file = Path(export_path) / 's3_bowler_forecast.csv'
+            batter_file = Path(export_path) / 's3_batter_forecast.csv'
+            
+            bowler_forecast.to_csv(bowler_file, index=False)
+            batter_forecast.to_csv(batter_file, index=False)
+            
+            print(f"✓ Exported bowler forecast: {bowler_file}")
+            print(f"✓ Exported batter forecast: {batter_file}\n")
+        
+        # Print summary statistics
+        print("="*80)
+        print("BOWLER FORECAST SUMMARY")
+        print("="*80)
+        print(bowler_forecast[['player_name', 's2_economy', 's3_economy_pred', 
+                              'economy_trend', 'recommendation']].head(10).to_string(index=False))
+        
+        print("\n" + "="*80)
+        print("BATTER FORECAST SUMMARY")
+        print("="*80)
+        print(batter_forecast[['player_name', 's2_runs', 's3_runs_pred', 
+                              'runs_trend', 'recommendation']].head(10).to_string(index=False))
+        
+        print("\n" + "="*80)
+        print("FORECAST COMPLETE")
+        print("="*80 + "\n")
+        
+        return {
+            'bowlers': bowler_forecast,
+            'batters': batter_forecast
+        }
+
+
+def main():
+    """
+    Main execution function.
+    Run this after user provides S2 full player data.
+    """
+    print("\n⏳ Waiting for S2 full player data...")
+    print("📋 Expected data structure:")
+    print("   - player_name, role, runs, average, strike_rate, wickets, economy")
+    print("   - Separate files: s1_player_stats.csv, s2_player_stats.csv")
+    print("   - Or combined file with 'season' column\n")
+    print("Once data is available, this script will:")
+    print("  1. Load S1 and S2 player statistics")
+    print("  2. Analyze S1 → S2 trends (improving/declining/stable)")
+    print("  3. Predict S3 values with confidence intervals")
+    print("  4. Generate auction recommendations (retain/sign/avoid)")
+    print("  5. Export forecasts to CSV\n")
+    
+    # Placeholder - will be activated when data is provided
+    # data_dir = Path('data/exports/')
+    # s1_data = pd.read_csv(data_dir / 's1_player_stats.csv')
+    # s2_data = pd.read_csv(data_dir / 's2_player_stats.csv')
+    # 
+    # forecaster = S3PerformanceForecaster(s1_data, s2_data)
+    # results = forecaster.generate_full_forecast(export_path='data/exports/')
+    # 
+    # print("✅ S3 forecast complete! Check data/exports/ for results.")
+
+
+if __name__ == '__main__':
+    main()
