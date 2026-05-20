@@ -26,7 +26,7 @@ def render_opposition_report():
     
     col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
     with col1:
-        st.selectbox("Opponent", ["Kathmandu Gurkhas", "Lalitpur Patriots", "Pokhara Rhinos"])
+        st.selectbox("Opponent", ["Kathmandu Gorkhas", "Lalitpur Patriots", "Pokhara Rhinos"])
     with col2:
         st.selectbox("Venue", ["TU Cricket Ground", "Mulpani Cricket Ground"])
     with col3:

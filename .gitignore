@@ -2,9 +2,14 @@
 .env
 .env.local
 
-# Data
+# Data (never commit data files - use DVC or external storage)
 data/raw/
 data/processed/
+data/normalized/
+data/exports/
+*.parquet
+*.csv
+*.json
 
 # Database
 *.db
@@ -49,6 +54,17 @@ docs/dashboard_data_requirements.md
 docs/data_collection_checklist.md
 docs/data_quality_notes.md
 docs/ingestion_complete.md
+
+# Generated visualizations (reproducible from code)
+docs/visualizations/
+*.png
+*.jpg
+*.jpeg
+
+# Debug and validation scripts (temporary)
+debug_*.py
+validate_*.py
+verify_*.py
 
 # Public documentation (allowed)
 # docs/DATA_SOURCES.md
