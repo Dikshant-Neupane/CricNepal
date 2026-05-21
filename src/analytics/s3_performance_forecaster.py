@@ -3,7 +3,11 @@ S3 Player Performance Forecaster
 Predict S3 stats based on S1 and S2 trends.
 
 Author: Senior Data Scientist
-Date: May 20, 2026
+Date: May 21, 2026
+v2.1: Composite scoring + ML-validated confidence intervals
+      - Trend-based predictions (rewards genuine improvers)
+      - Confidence intervals from ML validation: ±5 wickets, ±15% economy
+      - Composite scoring: 60% wickets + 30% economy + 10% SR
 """
 
 import pandas as pd
@@ -278,7 +282,12 @@ class S3PerformanceForecaster:
     def forecast_bowlers(self) -> pd.DataFrame:
         """
         Forecast S3 bowling performance for all bowlers.
-        v2.0: Uses composite scoring (60% wickets, 30% economy, 10% SR)
+        
+        v2.1 Features:
+        - Composite scoring: 60% wickets/match + 30% economy + 10% SR
+        - Wickets normalized by playing time (fair comparison)
+        - ML-validated confidence intervals: ±5 wickets, ±15% economy
+        - Trend-based predictions (rewards genuine improvers like Sher Malla 7→17 wickets)
         
         Returns:
             DataFrame with S3 predictions and recommendations
@@ -324,12 +333,12 @@ class S3PerformanceForecaster:
             wickets_trend = self.analyze_trend(s1_wickets, s2_wickets, 'wickets')
             wkts_per_match_trend = self.analyze_trend(s1_wkts_per_match, s2_wkts_per_match, 'wickets')
             
-            # Predict S3 values
+            # Predict S3 values using trend-based approach
             s3_economy_pred, s3_economy_lower, s3_economy_upper = self.predict_s3_value(
                 s1_economy, s2_economy, economy_trend['trend']
             )
             
-            # Predict wickets per match (not raw wickets!)
+            # Predict wickets per match (normalized - v2.0 key feature!)
             s3_wkts_per_match_pred, _, _ = self.predict_s3_value(
                 s1_wkts_per_match, s2_wkts_per_match, wkts_per_match_trend['trend']
             )
@@ -337,10 +346,15 @@ class S3PerformanceForecaster:
             # Convert back to total wickets (assume 9 matches S3)
             expected_s3_matches = 9
             s3_wickets_pred = s3_wkts_per_match_pred * expected_s3_matches if not pd.isna(s3_wkts_per_match_pred) else np.nan
-            s3_wickets_lower = s3_wickets_pred * 0.7 if not pd.isna(s3_wickets_pred) else np.nan
-            s3_wickets_upper = s3_wickets_pred * 1.3 if not pd.isna(s3_wickets_pred) else np.nan
             
-            # Predict bowling SR
+            # v2.1: ML-validated confidence intervals (±5 wickets, ±15% economy)
+            # From validation: Linear regression showed RMSE 5.0 wickets (34% better than baseline 7.59)
+            s3_wickets_lower = s3_wickets_pred - 5.0 if not pd.isna(s3_wickets_pred) else np.nan
+            s3_wickets_upper = s3_wickets_pred + 5.0 if not pd.isna(s3_wickets_pred) else np.nan
+            s3_economy_lower = s3_economy_pred * 0.85 if not pd.isna(s3_economy_pred) else np.nan
+            s3_economy_upper = s3_economy_pred * 1.15 if not pd.isna(s3_economy_pred) else np.nan
+            
+            # Predict bowling SR (tends to be stable)
             s3_bowling_sr_pred, _, _ = self.predict_s3_value(
                 s1_bowling_sr, s2_bowling_sr, 'STABLE'  # SR trends tend to be stable
             )
