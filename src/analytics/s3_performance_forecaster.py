@@ -130,11 +130,111 @@ class S3PerformanceForecaster:
         
         return (round(s3_pred, 2), round(lower_bound, 2), round(upper_bound, 2))
     
+    def calculate_composite_bowler_score(self, wkts_per_match: float, 
+                                        economy: float, 
+                                        bowling_sr: float) -> float:
+        """
+        Calculate composite bowler value score (0-100 scale).
+        Weights: 60% wickets per match, 30% economy, 10% bowling strike rate
+        
+        Args:
+            wkts_per_match: Wickets per match (normalized)
+            economy: Economy rate (lower is better)
+            bowling_sr: Bowling strike rate - balls per wicket (lower is better)
+            
+        Returns:
+            Composite score (0-100)
+        """
+        if pd.isna(wkts_per_match) or pd.isna(economy):
+            return 0
+        
+        # Normalize wickets per match (0-100 scale)
+        # Excellent: 2.5+ wkts/match = 100, Average: 1.5 = 60, Poor: 0.5 = 20
+        wickets_score = min(100, max(0, (wkts_per_match / 2.5) * 100))
+        
+        # Normalize economy (0-100 scale, inverted - lower is better)
+        # Excellent: 6.0 economy = 100, Average: 8.0 = 50, Poor: 10.0 = 0
+        economy_score = max(0, min(100, 100 - ((economy - 6.0) / 4.0) * 100))
+        
+        # Normalize bowling SR (0-100 scale, inverted - lower is better)
+        # Excellent: 12 balls/wkt = 100, Average: 20 = 50, Poor: 28+ = 0
+        if pd.isna(bowling_sr):
+            sr_score = 50  # Default to average if missing
+        else:
+            sr_score = max(0, min(100, 100 - ((bowling_sr - 12) / 16) * 100))
+        
+        # Weighted composite (60% wickets, 30% economy, 10% SR)
+        composite = (
+            wickets_score * 0.60 +
+            economy_score * 0.30 +
+            sr_score * 0.10
+        )
+        
+        return round(composite, 1)
+    
+    def assign_priority_from_composite(self, composite_score: float, 
+                                      role: str = 'bowler') -> int:
+        """
+        Assign priority based on composite score.
+        
+        Args:
+            composite_score: Composite bowler value score (0-100)
+            role: Player role
+            
+        Returns:
+            Priority level (0-10)
+        """
+        if pd.isna(composite_score) or composite_score == 0:
+            return 0
+        
+        if composite_score >= 80:
+            return 10  # ELITE
+        elif composite_score >= 70:
+            return 9   # ELITE
+        elif composite_score >= 60:
+            return 8   # TARGET
+        elif composite_score >= 50:
+            return 7   # PRIORITY
+        elif composite_score >= 40:
+            return 5   # RETAIN
+        elif composite_score >= 30:
+            return 3   # CAUTION
+        else:
+            return 2   # AVOID
+    
+    def map_priority_to_npl_grade(self, priority: int) -> Tuple[str, str]:
+        """
+        Map priority to NPL auction grade and bid range.
+        
+        NPL Structure:
+        - Grade A: ₨10-15 Lakhs (Max 3 players)
+        - Grade B: ₨5-10 Lakhs (Max 4 players)  
+        - Grade C: ₨2-5 Lakhs (Max 3 players)
+        
+        Args:
+            priority: Priority level (0-10)
+            
+        Returns:
+            Tuple of (grade, bid_range)
+        """
+        if priority >= 9:
+            return ('Grade A', '₨13-15 Lakhs')
+        elif priority == 8:
+            return ('Grade A/B', '₨8-10 Lakhs')
+        elif priority == 7:
+            return ('Grade B', '₨6-8 Lakhs')
+        elif priority == 5:
+            return ('Grade B/C', '₨5-7 Lakhs')
+        elif priority == 3:
+            return ('Grade C', '₨2-5 Lakhs')
+        else:
+            return ('Skip', 'Below minimum')
+    
     def generate_recommendation(self, player_name: str, role: str, 
                                trend: str, s3_pred: float, 
                                metric: str) -> Dict:
         """
-        Generate auction/retention recommendation.
+        Generate auction/retention recommendation (legacy for batters).
         
         Args:
             player_name: Player name
@@ -178,6 +278,7 @@ class S3PerformanceForecaster:
     def forecast_bowlers(self) -> pd.DataFrame:
         """
         Forecast S3 bowling performance for all bowlers.
+        v2.0: Uses composite scoring (60% wickets, 30% economy, 10% SR)
         
         Returns:
             DataFrame with S3 predictions and recommendations
@@ -202,42 +303,119 @@ class S3PerformanceForecaster:
             s1_wickets = row.get('wickets_s1', np.nan)
             s2_wickets = row.get('wickets_s2', np.nan)
             
+            # Get bowling matches (estimate if missing)
+            s1_bowling_matches = row.get('bowling_matches_s1', 8.0)  # Default 8 matches
+            s2_bowling_matches = row.get('bowling_matches_s2', 8.0)
+            
+            # Calculate wickets per match (normalized)
+            s1_wkts_per_match = s1_wickets / s1_bowling_matches if not pd.isna(s1_wickets) else np.nan
+            s2_wkts_per_match = s2_wickets / s2_bowling_matches if not pd.isna(s2_wickets) else np.nan
+            
+            # Get balls bowled to calculate bowling SR
+            s1_balls = row.get('balls_bowled_s1', np.nan)
+            s2_balls = row.get('balls_bowled_s2', np.nan)
+            
+            # Calculate bowling strike rate (balls per wicket)
+            s1_bowling_sr = s1_balls / s1_wickets if (not pd.isna(s1_balls) and not pd.isna(s1_wickets) and s1_wickets > 0) else np.nan
+            s2_bowling_sr = s2_balls / s2_wickets if (not pd.isna(s2_balls) and not pd.isna(s2_wickets) and s2_wickets > 0) else np.nan
+            
             # Analyze trends
             economy_trend = self.analyze_trend(s1_economy, s2_economy, 'economy')
             wickets_trend = self.analyze_trend(s1_wickets, s2_wickets, 'wickets')
+            wkts_per_match_trend = self.analyze_trend(s1_wkts_per_match, s2_wkts_per_match, 'wickets')
             
             # Predict S3 values
             s3_economy_pred, s3_economy_lower, s3_economy_upper = self.predict_s3_value(
                 s1_economy, s2_economy, economy_trend['trend']
             )
-            s3_wickets_pred, s3_wickets_lower, s3_wickets_upper = self.predict_s3_value(
-                s1_wickets, s2_wickets, wickets_trend['trend']
+            
+            # Predict wickets per match (not raw wickets!)
+            s3_wkts_per_match_pred, _, _ = self.predict_s3_value(
+                s1_wkts_per_match, s2_wkts_per_match, wkts_per_match_trend['trend']
             )
             
-            # Generate recommendation (based on economy as primary metric)
-            recommendation = self.generate_recommendation(
-                player, 'bowler', economy_trend['trend'], 
-                s3_economy_pred, 'Economy'
+            # Convert back to total wickets (assume 9 matches S3)
+            expected_s3_matches = 9
+            s3_wickets_pred = s3_wkts_per_match_pred * expected_s3_matches if not pd.isna(s3_wkts_per_match_pred) else np.nan
+            s3_wickets_lower = s3_wickets_pred * 0.7 if not pd.isna(s3_wickets_pred) else np.nan
+            s3_wickets_upper = s3_wickets_pred * 1.3 if not pd.isna(s3_wickets_pred) else np.nan
+            
+            # Predict bowling SR
+            s3_bowling_sr_pred, _, _ = self.predict_s3_value(
+                s1_bowling_sr, s2_bowling_sr, 'STABLE'  # SR trends tend to be stable
             )
+            
+            # Calculate composite score (v2.0 key feature!)
+            composite_score = self.calculate_composite_bowler_score(
+                s2_wkts_per_match,  # Use S2 actual for current value
+                s2_economy,
+                s2_bowling_sr
+            )
+            
+            # Calculate S3 composite score
+            s3_composite_score = self.calculate_composite_bowler_score(
+                s3_wkts_per_match_pred,
+                s3_economy_pred,
+                s3_bowling_sr_pred
+            )
+            
+            # Assign priority based on S3 composite score
+            priority = self.assign_priority_from_composite(s3_composite_score)
+            
+            # Map to NPL grade
+            npl_grade, bid_range = self.map_priority_to_npl_grade(priority)
+            
+            # Generate recommendation description
+            if priority >= 9:
+                decision = '🔥 ELITE TARGET'
+                reason = f'Composite score {s3_composite_score:.1f}/100 - elite wicket-taker'
+            elif priority == 8:
+                decision = '✅ TARGET'
+                reason = f'Composite score {s3_composite_score:.1f}/100 - high-value bowler'
+            elif priority == 7:
+                decision = '🟢 PRIORITY'
+                reason = f'Composite score {s3_composite_score:.1f}/100 - solid performer'
+            elif priority == 5:
+                decision = '🟡 RETAIN/SIGN'
+                reason = f'Composite score {s3_composite_score:.1f}/100 - reliable option'
+            elif priority == 3:
+                decision = '⚠️ CAUTION'
+                reason = f'Composite score {s3_composite_score:.1f}/100 - depth piece only'
+            else:
+                decision = '❌ AVOID'
+                reason = f'Composite score {s3_composite_score:.1f}/100 - high risk'
             
             predictions.append({
                 'player_name': player,
                 'role': 'Bowler',
+                # Economy metrics
                 's1_economy': s1_economy,
                 's2_economy': s2_economy,
                 's3_economy_pred': s3_economy_pred,
-                's3_economy_range': f"{s3_economy_lower}-{s3_economy_upper}" if s3_economy_pred else None,
+                's3_economy_range': f"{s3_economy_lower:.2f}-{s3_economy_upper:.2f}" if s3_economy_pred else None,
                 'economy_trend': economy_trend['trend'],
-                'economy_delta': economy_trend['delta'],
+                # Wickets metrics (raw)
                 's1_wickets': s1_wickets,
                 's2_wickets': s2_wickets,
                 's3_wickets_pred': s3_wickets_pred,
-                's3_wickets_range': f"{s3_wickets_lower}-{s3_wickets_upper}" if s3_wickets_pred else None,
+                's3_wickets_range': f"{s3_wickets_lower:.1f}-{s3_wickets_upper:.1f}" if s3_wickets_pred else None,
                 'wickets_trend': wickets_trend['trend'],
-                'recommendation': recommendation['decision'],
-                'priority': recommendation['priority'],
-                'max_bid': recommendation['max_bid'],
-                'reason': recommendation['reason']
+                # Wickets per match (normalized) - v2.0 feature
+                's2_wkts_per_match': s2_wkts_per_match,
+                's3_wkts_per_match_pred': s3_wkts_per_match_pred,
+                # Bowling strike rate
+                's2_bowling_sr': s2_bowling_sr,
+                's3_bowling_sr_pred': s3_bowling_sr_pred,
+                # Composite scoring - v2.0 key feature
+                's2_composite_score': composite_score,
+                's3_composite_score': s3_composite_score,
+                # Priority and NPL mapping
+                'priority': priority,
+                'npl_grade': npl_grade,
+                'bid_range': bid_range,
+                # Recommendations
+                'recommendation': decision,
+                'reason': reason
             })
         
         return pd.DataFrame(predictions).sort_values('priority', ascending=False)
