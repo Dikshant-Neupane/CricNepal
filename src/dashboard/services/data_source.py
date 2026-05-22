@@ -3,8 +3,13 @@
 from __future__ import annotations
 
 import pandas as pd
+import os
 
 from src.dashboard.demo_data import get_season_match_records
+
+
+# Path to real parquet data
+PARQUET_DATA_PATH = "D:/Cric_Data/data/final/parquet"
 
 
 def _empty_result(columns: list[str]) -> pd.DataFrame:
@@ -98,14 +103,133 @@ def _load_from_database() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def _load_from_parquet(team_name: str = "Janakpur Bolts") -> pd.DataFrame:
+    """Load match records from parquet files for a specific team."""
+    matches_path = os.path.join(PARQUET_DATA_PATH, "matches.parquet")
+    
+    if not os.path.exists(matches_path):
+        return _empty_result([
+            "season",
+            "competition_name",
+            "competition_tier",
+            "opposition_strength_bucket",
+            "match_context",
+            "result",
+            "runs_for",
+            "runs_against",
+            "overs_faced",
+            "overs_bowled",
+        ])
+    
+    # Load matches
+    matches = pd.read_parquet(matches_path)
+    
+    # Filter for the specified team
+    team_matches = matches[
+        (matches['team_1_name'] == team_name) | 
+        (matches['team_2_name'] == team_name)
+    ].copy()
+    
+    if team_matches.empty:
+        return _empty_result([
+            "season",
+            "competition_name",
+            "competition_tier",
+            "opposition_strength_bucket",
+            "match_context",
+            "result",
+            "runs_for",
+            "runs_against",
+            "overs_faced",
+            "overs_bowled",
+        ])
+    
+    # Transform to expected format
+    records = []
+    for _, row in team_matches.iterrows():
+        # Determine if team was batting first or second
+        team_batted_first = row['innings_1_team'] == team_name
+        
+        if team_batted_first:
+            runs_for = row['innings_1_runs'] if pd.notna(row['innings_1_runs']) else 0
+            runs_against = row['innings_2_runs'] if pd.notna(row['innings_2_runs']) else 0
+            overs_faced = row['innings_1_overs'] if pd.notna(row['innings_1_overs']) else 20.0
+            overs_bowled = row['innings_2_overs'] if pd.notna(row['innings_2_overs']) else 20.0
+        else:
+            runs_for = row['innings_2_runs'] if pd.notna(row['innings_2_runs']) else 0
+            runs_against = row['innings_1_runs'] if pd.notna(row['innings_1_runs']) else 0
+            overs_faced = row['innings_2_overs'] if pd.notna(row['innings_2_overs']) else 20.0
+            overs_bowled = row['innings_1_overs'] if pd.notna(row['innings_1_overs']) else 20.0
+        
+        # Determine result
+        if pd.isna(row['winner_name']):
+            result = 'NR'  # No result
+        elif row['winner_name'] == team_name:
+            result = 'W'
+        else:
+            result = 'L'
+        
+        # Determine match context based on match_type
+        match_type = str(row['match_type']) if pd.notna(row['match_type']) else ''
+        if any(keyword in match_type for keyword in ['Final', 'Qualifier', 'Eliminator', 'Playoff']):
+            match_context = 'knockout'
+        elif 'Match' in match_type:
+            # Extract match number if available
+            try:
+                match_num = int(match_type.split()[-1])
+                if match_num >= 25:  # Late-season matches
+                    match_context = 'high-pressure'
+                else:
+                    match_context = 'league'
+            except:
+                match_context = 'league'
+        else:
+            match_context = 'league'
+        
+        # Use opposition_strength if available, else default to 'balanced'
+        # Ensure lowercase and valid value
+        opposition_strength_bucket = row.get('opposition_strength', 'balanced')
+        if pd.isna(opposition_strength_bucket):
+            opposition_strength_bucket = 'balanced'
+        else:
+            # Convert to lowercase and validate
+            opposition_strength_bucket = str(opposition_strength_bucket).lower()
+            if opposition_strength_bucket not in ['strong', 'balanced', 'weak']:
+                opposition_strength_bucket = 'balanced'  # Default to balanced if invalid
+        
+        records.append({
+            'season': row['season'],
+            'competition_name': row['tournament_name'] if pd.notna(row['tournament_name']) else 'NPL',
+            'competition_tier': 'A',  # NPL is tier A
+            'opposition_strength_bucket': opposition_strength_bucket,
+            'match_context': match_context,
+            'result': result,
+            'runs_for': float(runs_for),
+            'runs_against': float(runs_against),
+            'overs_faced': float(overs_faced),
+            'overs_bowled': float(overs_bowled),
+        })
+    
+    return pd.DataFrame(records)
+
+
 def load_match_records() -> tuple[pd.DataFrame, str]:
-    """Return match records and source tag (database or demo)."""
+    """Return match records and source tag (database, parquet, or demo)."""
+    # Try database first
     try:
         db_df = _load_from_database()
         if not db_df.empty:
             return db_df, "database"
     except Exception:
-        # Fall back to demo data until DB and ingestion are ready.
+        pass
+    
+    # Try parquet files
+    try:
+        parquet_df = _load_from_parquet()
+        if not parquet_df.empty:
+            return parquet_df, "parquet"
+    except Exception:
         pass
 
+    # Fall back to demo data as last resort
     return get_season_match_records(), "demo"

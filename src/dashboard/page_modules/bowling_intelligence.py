@@ -21,11 +21,7 @@ def render_bowling_intelligence():
         <div class="card-body" style="padding: 24px;">
     """, unsafe_allow_html=True)
     
-    phases = [
-        {"name": "POWERPLAY (1-6)", "econ": "7.8", "wkts": "12", "dot": "45%", "pressure": "High", "pressure_c": "var(--secondary)"},
-        {"name": "MIDDLE (7-15)", "econ": "6.5", "wkts": "24", "dot": "32%", "pressure": "Optimal", "pressure_c": "var(--primary)"},
-        {"name": "DEATH (16-20)", "econ": "11.2", "econ_c": "var(--error)", "wkts": "8", "dot": "21%", "pressure": "Critical", "pressure_c": "var(--error)"}
-    ]
+    phases = get_bowling_phases()
     
     cols = st.columns(3)
     for i, col in enumerate(cols):

@@ -1,9 +1,32 @@
 """
 Janakpur Bolts Dashboard — Demo Data Module
-Hardcoded data from the HTML mockups for the demo dashboard.
+Dynamically checks data/exports/ for computed analysis outputs, falling back to mock demo data if they are missing.
 All functions return data ready for display — no DB dependency.
 """
 import pandas as pd
+import json
+from pathlib import Path
+
+def get_exports_filepath(filename: str) -> Path:
+    """Helper to locate a file in the data/exports directory under different run contexts."""
+    try:
+        from src.config.paths import EXPORTS_DIR
+        path = EXPORTS_DIR / filename
+        if path.exists():
+            return path
+    except ImportError:
+        pass
+    
+    # Absolute and relative fallbacks
+    for path_candidate in [
+        Path("data/exports") / filename,
+        Path(__file__).resolve().parent.parent.parent / "data" / "exports" / filename,
+        Path("D:/CricNepal/data/exports") / filename,
+        Path("../data/exports") / filename
+    ]:
+        if path_candidate.exists():
+            return path_candidate
+    return None
 
 
 # ═══════════════════════════════════════════════════════════
@@ -12,29 +35,67 @@ import pandas as pd
 
 def get_strategic_metrics() -> list[dict]:
     """Three top-level KPI cards from the Team Intelligence mockup."""
+    # Attempt to load real data
+    tactical_path = get_exports_filepath("tactical_audit_summary.json")
+    bowling_path = get_exports_filepath("s1_vs_s2_bowling_by_phase.csv")
+    
+    # Defaults
+    toss_val, toss_delta, toss_type = "68%", "+12% vs Lg", "positive"
+    chase_val, chase_delta, chase_type = "72%", "Target < 170", "neutral"
+    death_val, death_delta, death_type = "9.8", "-0.4 vs Lg", "negative"
+    
+    if tactical_path:
+        try:
+            with open(tactical_path, 'r') as f:
+                data = json.load(f)
+            s2 = data.get("season_2", {})
+            deltas = data.get("deltas", {})
+            
+            toss_val = f"{int(s2.get('toss_win_pct', 57.1))}%"
+            toss_delta = f"{deltas.get('toss_win_pct', +7.1):+.1f}% vs S1"
+            toss_type = "positive" if deltas.get('toss_win_pct', 0) >= 0 else "negative"
+            
+            chase_val = f"{int(s2.get('chase_win_pct', 25.0))}%"
+            chase_delta = f"{deltas.get('chase_win_pct', -50.0):+.1f}% vs S1"
+            chase_type = "positive" if deltas.get('chase_win_pct', 0) >= 0 else "negative"
+        except Exception:
+            pass
+            
+    if bowling_path:
+        try:
+            df = pd.read_csv(bowling_path)
+            s1_death = df[(df['season'] == 'S1') & (df['phase'] == 'death')]['economy'].values[0]
+            s2_death = df[(df['season'] == 'S2') & (df['phase'] == 'death')]['economy'].values[0]
+            death_val = f"{s2_death:.2f}"
+            econ_delta = s2_death - s1_death
+            death_delta = f"{econ_delta:+.2f} vs S1"
+            death_type = "negative" if econ_delta > 0 else "positive"
+        except Exception:
+            pass
+            
     return [
         {
-            "title": "Toss Impact",
-            "value": "68%",
-            "delta": "+12% vs Lg",
-            "delta_type": "positive",
-            "description": "Win probability when batting first after winning toss.",
+            "title": "Toss Win Rate (S2)",
+            "value": toss_val,
+            "delta": toss_delta,
+            "delta_type": toss_type,
+            "description": "Toss winning rate in Season 2 matches.",
             "icon": "",
         },
         {
-            "title": "Chasing Efficiency",
-            "value": "72%",
-            "delta": "Target < 170",
-            "delta_type": "neutral",
-            "description": "Win rate when chasing. Drops to 41% > 170.",
+            "title": "Chase Win Rate (S2)",
+            "value": chase_val,
+            "delta": chase_delta,
+            "delta_type": chase_type,
+            "description": "Win rate when chasing in S2.",
             "icon": "",
         },
         {
-            "title": "Death Economy",
-            "value": "9.8",
-            "delta": "-0.4 vs Lg",
-            "delta_type": "negative",
-            "description": "Runs per over conceded in overs 16-20.",
+            "title": "Death Economy (S2)",
+            "value": death_val,
+            "delta": death_delta,
+            "delta_type": death_type,
+            "description": "Runs per over conceded in death overs (16-20).",
             "icon": "",
         },
     ]
@@ -42,6 +103,91 @@ def get_strategic_metrics() -> list[dict]:
 
 def get_batting_phases() -> list[dict]:
     """Batting phase analysis — Powerplay / Middle / Death."""
+    path = get_exports_filepath("s1_vs_s2_batting_by_phase.csv")
+    
+    if path:
+        try:
+            df = pd.read_csv(path)
+            pp_s2 = df[(df['season'] == 'S2') & (df['phase'] == 'powerplay')].iloc[0]
+            pp_s1 = df[(df['season'] == 'S1') & (df['phase'] == 'powerplay')].iloc[0]
+            
+            mid_s2 = df[(df['season'] == 'S2') & (df['phase'] == 'middle')].iloc[0]
+            mid_s1 = df[(df['season'] == 'S1') & (df['phase'] == 'middle')].iloc[0]
+            
+            death_s2 = df[(df['season'] == 'S2') & (df['phase'] == 'death')].iloc[0]
+            death_s1 = df[(df['season'] == 'S1') & (df['phase'] == 'death')].iloc[0]
+            
+            return [
+                {
+                    "name": "Powerplay (1-6)",
+                    "highlight": None,
+                    "stats": [
+                        {"label": "SR", "value": f"{pp_s2['strike_rate']:.1f}", "style": "primary"},
+                        {"label": "Dot %", "value": f"{pp_s2['dot_ball_pct']:.1f}%", "style": "normal"},
+                        {"label": "Bnd %", "value": f"{pp_s2['boundary_pct']:.1f}%", "style": "accent"},
+                        {"label": "Wkts Lost", "value": f"{int(pp_s2['wickets_lost'])}", "style": "normal"},
+                    ],
+                    "sr": f"{pp_s2['strike_rate']:.1f}",
+                    "dot": f"{pp_s2['dot_ball_pct']:.1f}%",
+                    "bnd": f"{pp_s2['boundary_pct']:.1f}%",
+                    "dis": f"{pp_s2['wickets_lost']/7:.1f}",
+                    "sr_delta": f"{(pp_s2['strike_rate'] - pp_s1['strike_rate']):+.1f} vs S1",
+                    "dot_delta": f"{(pp_s2['dot_ball_pct'] - pp_s1['dot_ball_pct']):+.1f}% vs S1",
+                    "bnd_delta": f"{(pp_s2['boundary_pct'] - pp_s1['boundary_pct']):+.1f}% vs S1",
+                    "dis_delta": "Avg wkts lost/match",
+                    "sr_c": "var(--secondary)" if pp_s2['strike_rate'] > pp_s1['strike_rate'] else "var(--error)",
+                    "dot_c": "var(--error)" if pp_s2['dot_ball_pct'] > pp_s1['dot_ball_pct'] else "var(--secondary)",
+                    "bnd_c": "var(--secondary)" if pp_s2['boundary_pct'] > pp_s1['boundary_pct'] else "var(--error)",
+                    "dis_c": "var(--error)" if (pp_s2['wickets_lost']/7) > (pp_s1['wickets_lost']/10) else "var(--secondary)",
+                },
+                {
+                    "name": "Middle (7-15)",
+                    "highlight": None,
+                    "stats": [
+                        {"label": "SR", "value": f"{mid_s2['strike_rate']:.1f}", "style": "primary"},
+                        {"label": "Dot %", "value": f"{mid_s2['dot_ball_pct']:.1f}%", "style": "normal"},
+                        {"label": "Bnd %", "value": f"{mid_s2['boundary_pct']:.1f}%", "style": "normal"},
+                        {"label": "Wkts Lost", "value": f"{int(mid_s2['wickets_lost'])}", "style": "normal"},
+                    ],
+                    "sr": f"{mid_s2['strike_rate']:.1f}",
+                    "dot": f"{mid_s2['dot_ball_pct']:.1f}%",
+                    "bnd": f"{mid_s2['boundary_pct']:.1f}%",
+                    "dis": f"{mid_s2['wickets_lost']/7:.1f}",
+                    "sr_delta": f"{(mid_s2['strike_rate'] - mid_s1['strike_rate']):+.1f} vs S1",
+                    "dot_delta": f"{(mid_s2['dot_ball_pct'] - mid_s1['dot_ball_pct']):+.1f}% vs S1",
+                    "bnd_delta": f"{(mid_s2['boundary_pct'] - mid_s1['boundary_pct']):+.1f}% vs S1",
+                    "dis_delta": "Avg wkts lost/match",
+                    "sr_c": "var(--secondary)" if mid_s2['strike_rate'] > mid_s1['strike_rate'] else "var(--error)",
+                    "dot_c": "var(--error)" if mid_s2['dot_ball_pct'] > mid_s1['dot_ball_pct'] else "var(--secondary)",
+                    "bnd_c": "var(--secondary)" if mid_s2['boundary_pct'] > mid_s1['boundary_pct'] else "var(--error)",
+                    "dis_c": "var(--error)" if (mid_s2['wickets_lost']/7) > (mid_s1['wickets_lost']/10) else "var(--secondary)",
+                },
+                {
+                    "name": "Death (16-20)",
+                    "highlight": "secondary",
+                    "stats": [
+                        {"label": "SR", "value": f"{death_s2['strike_rate']:.1f}", "style": "primary"},
+                        {"label": "Dot %", "value": f"{death_s2['dot_ball_pct']:.1f}%", "style": "normal"},
+                        {"label": "Bnd %", "value": f"{death_s2['boundary_pct']:.1f}%", "style": "accent"},
+                        {"label": "Wkts Lost", "value": f"{int(death_s2['wickets_lost'])}", "style": "normal"},
+                    ],
+                    "sr": f"{death_s2['strike_rate']:.1f}",
+                    "dot": f"{death_s2['dot_ball_pct']:.1f}%",
+                    "bnd": f"{death_s2['boundary_pct']:.1f}%",
+                    "dis": f"{death_s2['wickets_lost']/7:.1f}",
+                    "sr_delta": f"{(death_s2['strike_rate'] - death_s1['strike_rate']):+.1f} vs S1",
+                    "dot_delta": f"{(death_s2['dot_ball_pct'] - death_s1['dot_ball_pct']):+.1f}% vs S1",
+                    "bnd_delta": f"{(death_s2['boundary_pct'] - death_s1['boundary_pct']):+.1f}% vs S1",
+                    "dis_delta": "Avg wkts lost/match",
+                    "sr_c": "var(--secondary)" if death_s2['strike_rate'] > death_s1['strike_rate'] else "var(--error)",
+                    "dot_c": "var(--error)" if death_s2['dot_ball_pct'] > death_s1['dot_ball_pct'] else "var(--secondary)",
+                    "bnd_c": "var(--secondary)" if death_s2['boundary_pct'] > death_s1['boundary_pct'] else "var(--error)",
+                    "dis_c": "var(--error)" if (death_s2['wickets_lost']/7) > (death_s1['wickets_lost']/10) else "var(--secondary)",
+                },
+            ]
+        except Exception:
+            pass
+
     return [
         {
             "name": "Powerplay (1-6)",
@@ -52,6 +198,9 @@ def get_batting_phases() -> list[dict]:
                 {"label": "Dot %", "value": "42%", "style": "normal"},
                 {"label": "Bnd %", "value": "21%", "style": "accent"},
             ],
+            "sr": "134.5", "dot": "42%", "bnd": "21%", "dis": "32.1",
+            "sr_delta": "↓ 2.4", "dot_delta": "↑ 1.2%", "bnd_delta": "↓ 0.5%", "dis_delta": "Avg runs/wkt",
+            "sr_c": "var(--error)", "dot_c": "var(--error)", "bnd_c": "var(--error)", "dis_c": "var(--error)",
         },
         {
             "name": "Middle (7-15)",
@@ -62,6 +211,9 @@ def get_batting_phases() -> list[dict]:
                 {"label": "Dot %", "value": "28%", "style": "normal"},
                 {"label": "Bnd %", "value": "12%", "style": "normal"},
             ],
+            "sr": "121.0", "dot": "28%", "bnd": "12%", "dis": "28.4",
+            "sr_delta": "↓ 5.2", "dot_delta": "↓ 2.1%", "bnd_delta": "↓ 1.4%", "dis_delta": "Avg runs/wkt",
+            "sr_c": "var(--error)", "dot_c": "var(--secondary)", "bnd_c": "var(--error)", "dis_c": "var(--error)",
         },
         {
             "name": "Death (16-20)",
@@ -72,15 +224,83 @@ def get_batting_phases() -> list[dict]:
                 {"label": "Dot %", "value": "22%", "style": "normal"},
                 {"label": "Bnd %", "value": "28%", "style": "accent"},
             ],
+            "sr": "185.2", "dot": "22%", "bnd": "28%", "dis": "18.5",
+            "sr_delta": "↑ 12.4", "dot_delta": "↓ 4.5%", "bnd_delta": "↑ 3.2%", "dis_delta": "Avg runs/wkt",
+            "sr_c": "var(--secondary)", "dot_c": "var(--secondary)", "bnd_c": "var(--secondary)", "dis_c": "var(--secondary)",
         },
     ]
 
 
 def get_bowling_phases() -> list[dict]:
     """Bowling phase analysis — Powerplay / Middle / Death."""
+    path = get_exports_filepath("s1_vs_s2_bowling_by_phase.csv")
+    
+    if path:
+        try:
+            df = pd.read_csv(path)
+            pp_s2 = df[(df['season'] == 'S2') & (df['phase'] == 'powerplay')].iloc[0]
+            pp_s1 = df[(df['season'] == 'S1') & (df['phase'] == 'powerplay')].iloc[0]
+            
+            mid_s2 = df[(df['season'] == 'S2') & (df['phase'] == 'middle')].iloc[0]
+            mid_s1 = df[(df['season'] == 'S1') & (df['phase'] == 'middle')].iloc[0]
+            
+            death_s2 = df[(df['season'] == 'S2') & (df['phase'] == 'death')].iloc[0]
+            death_s1 = df[(df['season'] == 'S1') & (df['phase'] == 'death')].iloc[0]
+            
+            return [
+                {
+                    "name": "POWERPLAY (1-6)",
+                    "highlight": None,
+                    "stats": [
+                        {"label": "Econ", "value": f"{pp_s2['economy']:.2f}", "style": "primary"},
+                        {"label": "Wkts", "value": f"{int(pp_s2['wickets_taken'])}", "style": "primary"},
+                        {"label": "Dot %", "value": f"{pp_s2['dot_ball_pct']:.1f}%", "style": "accent"},
+                        {"label": "vs S1", "value": f"{(pp_s2['economy'] - pp_s1['economy']):+.2f}", "style": "accent" if (pp_s2['economy'] - pp_s1['economy']) <= 0 else "error"},
+                    ],
+                    "econ": f"{pp_s2['economy']:.2f}",
+                    "wkts": f"{int(pp_s2['wickets_taken'])}",
+                    "dot": f"{pp_s2['dot_ball_pct']:.1f}%",
+                    "pressure": "Optimal" if pp_s2['economy'] < 7.0 else "High",
+                    "pressure_c": "var(--primary)" if pp_s2['economy'] < 7.0 else "var(--secondary)",
+                },
+                {
+                    "name": "MIDDLE (7-15)",
+                    "highlight": None,
+                    "stats": [
+                        {"label": "Econ", "value": f"{mid_s2['economy']:.2f}", "style": "primary"},
+                        {"label": "Wkts", "value": f"{int(mid_s2['wickets_taken'])}", "style": "primary"},
+                        {"label": "Dot %", "value": f"{mid_s2['dot_ball_pct']:.1f}%", "style": "normal"},
+                        {"label": "vs S1", "value": f"{(mid_s2['economy'] - mid_s1['economy']):+.2f}", "style": "normal"},
+                    ],
+                    "econ": f"{mid_s2['economy']:.2f}",
+                    "wkts": f"{int(mid_s2['wickets_taken'])}",
+                    "dot": f"{mid_s2['dot_ball_pct']:.1f}%",
+                    "pressure": "Optimal" if mid_s2['economy'] < 7.5 else "High",
+                    "pressure_c": "var(--primary)" if mid_s2['economy'] < 7.5 else "var(--secondary)",
+                },
+                {
+                    "name": "DEATH (16-20)",
+                    "highlight": "error",
+                    "stats": [
+                        {"label": "Econ", "value": f"{death_s2['economy']:.2f}", "style": "error"},
+                        {"label": "Wkts", "value": f"{int(death_s2['wickets_taken'])}", "style": "primary"},
+                        {"label": "Dot %", "value": f"{death_s2['dot_ball_pct']:.1f}%", "style": "normal"},
+                        {"label": "vs S1", "value": f"{(death_s2['economy'] - death_s1['economy']):+.2f}", "style": "error"},
+                    ],
+                    "econ": f"{death_s2['economy']:.2f}",
+                    "econ_c": "var(--error)" if death_s2['economy'] > 9.0 else "var(--on-surface)",
+                    "wkts": f"{int(death_s2['wickets_taken'])}",
+                    "dot": f"{death_s2['dot_ball_pct']:.1f}%",
+                    "pressure": "Critical" if death_s2['economy'] > 9.0 else "Optimal",
+                    "pressure_c": "var(--error)" if death_s2['economy'] > 9.0 else "var(--primary)",
+                },
+            ]
+        except Exception:
+            pass
+
     return [
         {
-            "name": "Powerplay (1-6)",
+            "name": "POWERPLAY (1-6)",
             "highlight": None,
             "stats": [
                 {"label": "Econ", "value": "7.2", "style": "primary"},
@@ -88,9 +308,11 @@ def get_bowling_phases() -> list[dict]:
                 {"label": "Dot %", "value": "48%", "style": "accent"},
                 {"label": "vs Lg", "value": "-0.5", "style": "accent"},
             ],
+            "econ": "7.2", "wkts": "12", "dot": "48%",
+            "pressure": "High", "pressure_c": "var(--secondary)",
         },
         {
-            "name": "Middle (7-15)",
+            "name": "MIDDLE (7-15)",
             "highlight": None,
             "stats": [
                 {"label": "Econ", "value": "7.8", "style": "primary"},
@@ -98,9 +320,11 @@ def get_bowling_phases() -> list[dict]:
                 {"label": "Dot %", "value": "32%", "style": "normal"},
                 {"label": "vs Lg", "value": "+0.1", "style": "normal"},
             ],
+            "econ": "7.8", "wkts": "24", "dot": "32%",
+            "pressure": "Optimal", "pressure_c": "var(--primary)",
         },
         {
-            "name": "Death (16-20)",
+            "name": "DEATH (16-20)",
             "highlight": "error",
             "stats": [
                 {"label": "Econ", "value": "9.8", "style": "error"},
@@ -108,6 +332,8 @@ def get_bowling_phases() -> list[dict]:
                 {"label": "Dot %", "value": "25%", "style": "normal"},
                 {"label": "vs Lg", "value": "+0.4", "style": "error"},
             ],
+            "econ": "9.8", "econ_c": "var(--error)", "wkts": "8", "dot": "25%",
+            "pressure": "Critical", "pressure_c": "var(--error)",
         },
     ]
 
@@ -192,6 +418,32 @@ def get_match_summary() -> dict:
 
 def get_tactical_takeaways() -> list[dict]:
     """Post-match tactical insights."""
+    path = get_exports_filepath("tactical_audit_summary.json")
+    if path:
+        try:
+            with open(path, 'r') as f:
+                data = json.load(f)
+            insights = data.get("key_insights", [])
+            if insights:
+                results = []
+                for insight in insights[:3]:
+                    itype = "warning" if "CRITICAL" in insight or "Delta" in insight or "Decline" in insight else "success"
+                    title = "Tactical Insight"
+                    if "Captaincy" in insight or "Wayne Parnell" in insight:
+                        title = "Captaincy Change"
+                    elif "chase" in insight or "CHASING" in insight:
+                        title = "Chasing Dynamics"
+                    elif "Performance" in insight:
+                        title = "Season 2 Performance"
+                    results.append({
+                        "type": itype,
+                        "title": title,
+                        "desc": insight
+                    })
+                return results
+        except Exception:
+            pass
+            
     return [
         {
             "type": "success",
@@ -268,6 +520,33 @@ def get_batting_tactical_summary() -> list[dict]:
     ]
 
 def get_batting_core_intelligence() -> pd.DataFrame:
+    path = get_exports_filepath("s3_batter_forecast.csv")
+    if path:
+        try:
+            df = pd.read_csv(path)
+            valid_df = df[df['s2_runs'].notna() & (df['s2_runs'] > 0)].copy()
+            if not valid_df.empty:
+                # Sort by s2_runs descending, take top 4
+                top_batters = valid_df.sort_values(by='s2_runs', ascending=False).head(4)
+                
+                records = []
+                for _, row in top_batters.iterrows():
+                    inns = 8  # fallback
+                    priority = row.get('priority', 5)
+                    fit = "OPTIMAL" if priority >= 8 else "FAVORABLE" if priority >= 6 else "NEUTRAL"
+                    
+                    records.append({
+                        "Player": row['player_name'],
+                        "Inns": inns,
+                        "Runs": int(row['s2_runs']),
+                        "SR": round(row.get('s2_strike_rate', 130.0), 1),
+                        "Bndry %": f"{row.get('boundary_pct', 18.0):.1f}%" if 'boundary_pct' in row else "18.5%",
+                        "Matchup Fit": fit
+                    })
+                return pd.DataFrame(records)
+        except Exception:
+            pass
+            
     return pd.DataFrame({
         "Player": ["A. Sharma", "R. Singh", "S. Jha", "K. Malla"],
         "Inns": [8, 9, 8, 7],
@@ -446,13 +725,13 @@ def get_season_match_records() -> pd.DataFrame:
 # ═══════════════════════════════════════════════════════════
 
 NAV_ITEMS = [
-    {"icon": "", "label": "Dashboard", "key": "dashboard"},
-    {"icon": "", "label": "Team Overview", "key": "team_overview"},
-    {"icon": "", "label": "Player Profiles", "key": "player_profiles"},
-    {"icon": "", "label": "Batting Analysis", "key": "batting_analysis"},
-    {"icon": "", "label": "Bowling Analysis", "key": "bowling_analysis"},
-    {"icon": "", "label": "Matchup Engine", "key": "matchup_engine"},
-    {"icon": "", "label": "Opposition Reports", "key": "opposition_reports"},
+    {"icon": "📊", "label": "Dashboard", "key": "dashboard"},
+    {"icon": "⚡", "label": "Season Analysis", "key": "team_decline_analysis"},
+    {"icon": "👤", "label": "Player Profiles", "key": "player_profiles"},
+    {"icon": "🏏", "label": "Batting Analysis", "key": "batting_analysis"},
+    {"icon": "🎯", "label": "Bowling Analysis", "key": "bowling_analysis"},
+    {"icon": "⚔️", "label": "Matchup Engine", "key": "matchup_engine"},
+    {"icon": "🔍", "label": "Opposition Reports", "key": "opposition_reports"},
 ]
 
 NAV_BOTTOM = [

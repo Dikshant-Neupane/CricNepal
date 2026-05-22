@@ -3,10 +3,12 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from datetime import datetime, timedelta
 
 from src.dashboard.services.data_source import load_match_records
 from src.dashboard.services.metrics import build_executive_cards
 from src.dashboard.services.data_quality import validate_match_records
+from src.dashboard.demo_data import get_exports_filepath
 
 
 def _momentum_chart() -> None:
@@ -94,7 +96,14 @@ def render_executive_overview():
                 unsafe_allow_html=True,
             )
 
-    source_label = "Live DB" if data_source == "database" else "Demo"
+    # Update source label to recognize parquet data
+    if data_source == "database":
+        source_label = "Live DB"
+    elif data_source == "parquet":
+        source_label = "Parquet (Real Data)"
+    else:
+        source_label = "Demo"
+    
     st.caption(f"Data source: {source_label}")
 
     st.markdown("<div style='height:18px;'></div>", unsafe_allow_html=True)
@@ -121,22 +130,59 @@ def render_executive_overview():
             unsafe_allow_html=True,
         )
 
+        # Dynamic contributor tables from real data
+        bat_rows = ""
+        bat_path = get_exports_filepath("s3_batter_forecast.csv")
+        if bat_path:
+            try:
+                bdf = pd.read_csv(bat_path)
+                top_bat = bdf[bdf['s2_runs'].notna()].nlargest(3, 's2_runs')
+                for _, r in top_bat.iterrows():
+                    sr_val = f"{r['s2_strike_rate']:.1f}" if pd.notna(r.get('s2_strike_rate')) else "—"
+                    bat_rows += f"<tr><td>{r['player_name']}</td><td class='text-right'>{int(r['s2_runs'])}</td><td class='text-right'>{sr_val}</td></tr>"
+            except Exception:
+                pass
+        if not bat_rows:
+            bat_rows = "<tr><td colspan='3' style='text-align:center; color:var(--on-surface-variant);'>No data</td></tr>"
+
+        bowl_rows = ""
+        pp_wkts, mid_wkts, death_wkts = "—", "—", "—"
+        bowl_path = get_exports_filepath("s3_bowler_forecast.csv")
+        phase_path = get_exports_filepath("s1_vs_s2_bowling_by_phase.csv")
+        if bowl_path:
+            try:
+                bowldf = pd.read_csv(bowl_path)
+                top_bowl = bowldf[bowldf['s2_wickets'].notna()].nlargest(3, 's2_wickets')
+                for _, r in top_bowl.iterrows():
+                    econ_val = f"{r['s2_economy']:.1f}" if pd.notna(r.get('s2_economy')) else "—"
+                    econ_class = 'text-right text-error' if pd.notna(r.get('s2_economy')) and r['s2_economy'] > 8.5 else 'text-right'
+                    bowl_rows += f"<tr><td>{r['player_name']}</td><td class='text-right'>{int(r['s2_wickets'])}</td><td class='{econ_class}'>{econ_val}</td></tr>"
+            except Exception:
+                pass
+        if not bowl_rows:
+            bowl_rows = "<tr><td colspan='3' style='text-align:center; color:var(--on-surface-variant);'>No data</td></tr>"
+        if phase_path:
+            try:
+                pdf = pd.read_csv(phase_path)
+                s2 = pdf[pdf['season'] == 'S2']
+                pp_wkts = str(int(s2[s2['phase'] == 'powerplay']['wickets_taken'].values[0]))
+                mid_wkts = str(int(s2[s2['phase'] == 'middle']['wickets_taken'].values[0]))
+                death_wkts = str(int(s2[s2['phase'] == 'death']['wickets_taken'].values[0]))
+            except Exception:
+                pass
+
         a, b = st.columns(2)
         with a:
             st.markdown(
-                """
+                f"""
                 <div class="card">
-                    <div class="card-header"><h3>Top Batting Contributors</h3></div>
+                    <div class="card-header"><h3>Top Batting Contributors (S2)</h3></div>
                     <div class="card-body">
                         <table class="data-table">
                             <thead><tr><th>Player</th><th class="text-right">Runs</th><th class="text-right">SR</th></tr></thead>
-                            <tbody>
-                                <tr><td>A. Sharma</td><td class="text-right">342</td><td class="text-right">145.2</td></tr>
-                                <tr><td>K. Malla</td><td class="text-right">289</td><td class="text-right">132.8</td></tr>
-                                <tr><td>D. Singh</td><td class="text-right">156</td><td class="text-right">168.5</td></tr>
-                            </tbody>
+                            <tbody>{bat_rows}</tbody>
                         </table>
-                        <div class="insight-box"><strong>Watch:</strong> top-order vs left-arm pace in first 3 overs.</div>
+                        <div class="insight-box"><strong>Watch:</strong> Powerplay dot-ball rate increased +4.3% in S2 — top-order intent needs review.</div>
                     </div>
                 </div>
                 """,
@@ -145,22 +191,18 @@ def render_executive_overview():
 
         with b:
             st.markdown(
-                """
+                f"""
                 <div class="card">
-                    <div class="card-header"><h3>Top Bowling Contributors</h3></div>
+                    <div class="card-header"><h3>Top Bowling Contributors (S2)</h3></div>
                     <div class="card-body">
                         <table class="data-table">
                             <thead><tr><th>Player</th><th class="text-right">Wkts</th><th class="text-right">Econ</th></tr></thead>
-                            <tbody>
-                                <tr><td>S. Kami</td><td class="text-right">14</td><td class="text-right">7.2</td></tr>
-                                <tr><td>L. Rajbanshi</td><td class="text-right">11</td><td class="text-right">6.8</td></tr>
-                                <tr><td>G. Jha</td><td class="text-right">9</td><td class="text-right text-error">9.5</td></tr>
-                            </tbody>
+                            <tbody>{bowl_rows}</tbody>
                         </table>
                         <div style="display:flex; gap:8px; margin-top: 8px;">
-                            <div class="phase-box" style="flex:1;"><div class="phase-box-label">PP Wkts</div><div class="phase-box-value">18</div></div>
-                            <div class="phase-box" style="flex:1;"><div class="phase-box-label">Middle</div><div class="phase-box-value">24</div></div>
-                            <div class="phase-box phase-box-error" style="flex:1;"><div class="phase-box-label phase-box-label-error">Death</div><div class="phase-box-value phase-box-value-error">8</div></div>
+                            <div class="phase-box" style="flex:1;"><div class="phase-box-label">PP Wkts</div><div class="phase-box-value">{pp_wkts}</div></div>
+                            <div class="phase-box" style="flex:1;"><div class="phase-box-label">Middle</div><div class="phase-box-value">{mid_wkts}</div></div>
+                            <div class="phase-box phase-box-error" style="flex:1;"><div class="phase-box-label phase-box-label-error">Death</div><div class="phase-box-value phase-box-value-error">{death_wkts}</div></div>
                         </div>
                     </div>
                 </div>
@@ -227,15 +269,16 @@ def render_executive_overview():
                 unsafe_allow_html=True,
             )
 
+        next_date = (datetime.now() + timedelta(days=3)).strftime("%b %d, %Y")
         st.markdown(
-            """
+            f"""
             <div style="height:12px;"></div>
             <div class="card">
-                <div class="card-header"><h3>Next Match Snapshot</h3></div>
+                <div class="card-header"><h3>Season 3 Preparation</h3></div>
                 <div class="card-body">
-                    <div style="font-size:20px; font-weight:800; color: var(--primary);">Kathmandu Kings</div>
-                    <div style="font-size:13px; color: var(--on-surface-variant); margin-bottom: 12px;">May 18, 2026 • TU Cricket Ground</div>
-                    <div class="insight-box"><strong>Threat:</strong> middle-over spin choke and late acceleration.</div>
+                    <div style="font-size:20px; font-weight:800; color: var(--primary);">NPL Season 3</div>
+                    <div style="font-size:13px; color: var(--on-surface-variant); margin-bottom: 12px;">Upcoming • Use Batting & Bowling Intelligence tabs for phase-level prep</div>
+                    <div class="insight-box"><strong>Priority:</strong> Address death-over economy regression (+1.64 vs S1) and powerplay batting intent (SR dropped -12.4).</div>
                 </div>
             </div>
             """,

@@ -37,15 +37,9 @@ def render_batting_intelligence():
     phases = get_batting_phases()
     phase_cols = st.columns(3)
 
-    metrics_mapping = [
-        {"sr": "145.2", "dot": "38.4%", "bnd": "24.1%", "dis": "21.5", "sr_delta": "↑ 138.0 (Lg Avg)", "dot_delta": "↓ 42.1% (Lg Avg)", "bnd_delta": "↑ 21.0% (Lg Avg)", "dis_delta": "Avg runs/wkt", "sr_c": "var(--secondary)", "dot_c": "var(--error)", "bnd_c": "var(--secondary)", "dis_c": "var(--error)"},
-        {"sr": "122.8", "dot": "32.1%", "bnd": "12.5%", "dis": "35.2", "sr_delta": "↓ 128.5 (Lg Avg)", "dot_delta": "↑ 28.5% (Lg Avg)", "bnd_delta": "~ 13.0% (Lg Avg)", "dis_delta": "Avg runs/wkt", "sr_c": "var(--error)", "dot_c": "var(--error)", "bnd_c": "var(--on-surface-variant)", "dis_c": "var(--primary)"},
-        {"sr": "185.4", "dot": "22.0%", "bnd": "31.2%", "dis": "14.8", "sr_delta": "↑ 165.0 (Lg Avg)", "dot_delta": "↓ 26.5% (Lg Avg)", "bnd_delta": "↑ 25.0% (Lg Avg)", "dis_delta": "Avg runs/wkt", "sr_c": "var(--secondary)", "dot_c": "var(--secondary)", "bnd_c": "var(--secondary)", "dis_c": "var(--on-surface-variant)"}
-    ]
-
     for i, col in enumerate(phase_cols):
-        m = metrics_mapping[i]
-        phase_name = phases[i]['name']
+        p = phases[i]
+        phase_name = p['name']
         title_split = phase_name.split(" ")
         title_main = title_split[0]
         title_sub = " ".join(title_split[1:])
@@ -56,10 +50,10 @@ def render_batting_intelligence():
                 <div class="card" style="padding: 18px;">
                     <h3 style="margin:0 0 14px 0;">{title_main} <span style="font-size:13px; color:var(--on-surface-variant);">{title_sub}</span></h3>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                        <div><div style="font-size:11px; color:var(--on-surface-variant);">Strike Rate</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{m['sr']}</div><div style="font-size:11px; color:{m['sr_c']};">{m['sr_delta']}</div></div>
-                        <div><div style="font-size:11px; color:var(--on-surface-variant);">Dot Ball %</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{m['dot']}</div><div style="font-size:11px; color:{m['dot_c']};">{m['dot_delta']}</div></div>
-                        <div><div style="font-size:11px; color:var(--on-surface-variant);">Boundary %</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{m['bnd']}</div><div style="font-size:11px; color:{m['bnd_c']};">{m['bnd_delta']}</div></div>
-                        <div><div style="font-size:11px; color:var(--on-surface-variant);">Dismissal Rate</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{m['dis']}</div><div style="font-size:11px; color:{m['dis_c']};">{m['dis_delta']}</div></div>
+                        <div><div style="font-size:11px; color:var(--on-surface-variant);">Strike Rate</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{p['sr']}</div><div style="font-size:11px; color:{p['sr_c']};">{p['sr_delta']}</div></div>
+                        <div><div style="font-size:11px; color:var(--on-surface-variant);">Dot Ball %</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{p['dot']}</div><div style="font-size:11px; color:{p['dot_c']};">{p['dot_delta']}</div></div>
+                        <div><div style="font-size:11px; color:var(--on-surface-variant);">Boundary %</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{p['bnd']}</div><div style="font-size:11px; color:{p['bnd_c']};">{p['bnd_delta']}</div></div>
+                        <div><div style="font-size:11px; color:var(--on-surface-variant);">Dismissal Rate</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{p['dis']}</div><div style="font-size:11px; color:{p['dis_c']};">{p['dis_delta']}</div></div>
                     </div>
                 </div>
                 """,

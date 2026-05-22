@@ -52,9 +52,38 @@ def get_theme_css() -> str:
     h1, h2, h3, h4, .page-title, .jb-brand-title {
         font-family: "Manrope", "Segoe UI", sans-serif !important;
     }
+    /* Hide all Streamlit chrome: menu, deploy, status, header */
+    #MainMenu, [data-testid="stDecoration"],
+    [data-testid="stStatusWidget"],
+    .stDeployButton, .stAppDeployButton,
+    [data-testid="stHeaderActionElements"],
+    [data-testid="stToolbar"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
 
-    #MainMenu, header {
-        visibility: hidden;
+    header[data-testid="stHeader"] {
+        background: transparent !important;
+        pointer-events: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* Lock sidebar open — always visible */
+    [data-testid="stSidebarCollapsedControl"] {
+        display: none !important;
+    }
+    section[data-testid="stSidebar"] {
+        min-width: 220px !important;
+        width: 220px !important;
+        transform: none !important;
+    }
+    section[data-testid="stSidebar"][aria-expanded="false"] {
+        min-width: 220px !important;
+        width: 220px !important;
+        transform: none !important;
+        margin-left: 0 !important;
     }
 
     [data-testid="stAppViewContainer"] {
@@ -451,6 +480,44 @@ def get_theme_css() -> str:
         border-radius: 10px !important;
         font-weight: 600 !important;
     }
+
+    .tactical-box {
+        background: var(--surface-container-low);
+        border: 1px solid var(--outline-variant);
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 12px;
+    }
+
+    .tactical-box-error {
+        background: rgba(180, 35, 24, 0.06);
+        border-color: rgba(180, 35, 24, 0.25);
+    }
+
+    .tactical-box-success {
+        background: rgba(16, 59, 47, 0.06);
+        border-color: rgba(16, 59, 47, 0.25);
+    }
+
+    .tactical-box-title {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 6px;
+        color: var(--on-surface-variant);
+    }
+
+    .tactical-box-title-error { color: var(--error); }
+    .tactical-box-title-success { color: var(--primary); }
+
+    .tactical-box-body {
+        font-size: 13px;
+        color: var(--on-surface);
+        line-height: 1.5;
+    }
+
+    .metric-card-delta-negative { color: var(--error); font-weight: 600; }
 
     @media (max-width: 1100px) {
         .jb-topbar {

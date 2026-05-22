@@ -34,7 +34,7 @@ def render_sidebar() -> str:
             if st.button(
                 label,
                 key=f"nav_{item['key']}",
-                width="stretch",
+                use_container_width=True,
                 type="primary" if is_active else "secondary",
             ):
                 st.session_state.active_page = item["key"]
@@ -49,7 +49,7 @@ def render_sidebar() -> str:
             if st.button(
                 label,
                 key=f"nav_{item['key']}",
-                width="stretch",
+                use_container_width=True,
                 type="secondary",
             ):
                 st.session_state.active_page = item["key"]

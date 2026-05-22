@@ -18,6 +18,7 @@ from src.dashboard.page_modules.batting_intelligence import render_batting_intel
 from src.dashboard.page_modules.bowling_intelligence import render_bowling_intelligence
 from src.dashboard.page_modules.matchups import render_matchups
 from src.dashboard.page_modules.opposition_report import render_opposition_report
+from src.dashboard.page_modules.team_decline_analysis import render_team_decline_analysis
 
 
 # ─── Page Configuration ──────────────────────────────────
@@ -64,6 +65,9 @@ elif active_page == "matchup_engine":
 
 elif active_page == "opposition_reports":
     render_opposition_report()
+
+elif active_page == "team_decline_analysis":
+    render_team_decline_analysis()
 
 elif active_page == "review":
     render_match_review()
