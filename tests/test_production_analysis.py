@@ -473,8 +473,96 @@ def test_type_i_error_rate():
 
 
 # ============================================================================
+# TEST: Project-Specific Business Logic (Senior DS Fixes)
+# ============================================================================
+
+def test_normalize_team_names():
+    """Verify team names normalization handles Gurkhas and spacing issues"""
+    from src.preprocessing.normalize_data import normalize_team_names
+    
+    test_df = pd.DataFrame({
+        'team_1_name': ['Kathmandu Gurkhas', 'Sudur Paschim Royals', 'Janakpur Bolts'],
+        'winner_name': ['Kathmandu Gurkhas', 'Karnali Yaks', 'Sudur Paschim Royals']
+    })
+    
+    normalized = normalize_team_names(test_df)
+    
+    # Gurkhas -> Gorkhas
+    assert normalized.loc[0, 'team_1_name'] == 'Kathmandu Gorkhas'
+    assert normalized.loc[0, 'winner_name'] == 'Kathmandu Gorkhas'
+    
+    # Sudur Paschim -> Sudurpaschim
+    assert normalized.loc[1, 'team_1_name'] == 'Sudurpaschim Royals'
+    assert normalized.loc[2, 'winner_name'] == 'Sudurpaschim Royals'
+
+
+def test_analyze_trend_catastrophic_decline():
+    """Verify that CATASTROPHIC_DECLINE classification triggers correctly (Bug Fix verification)"""
+    from src.analytics.s3_performance_forecaster import S3PerformanceForecaster
+    
+    # Instantiating is fine, no complex state required
+    forecaster = S3PerformanceForecaster.__new__(S3PerformanceForecaster)
+    
+    # Test economy trend: S1 = 6.0, S2 = 10.0 (delta = +4.0 runs/over)
+    # Since lower is better, delta > 3.0 should trigger CATASTROPHIC_DECLINE (not DECLINING)
+    trend_econ = forecaster.analyze_trend(6.0, 10.0, 'economy')
+    assert trend_econ['trend'] == 'CATASTROPHIC_DECLINE'
+    
+    # Test wickets trend: S1 = 15.0, S2 = 2.0 (pct_change = -86.7%)
+    # Since higher is better, pct_change < -80% should trigger CATASTROPHIC_DECLINE
+    trend_wkts = forecaster.analyze_trend(15.0, 2.0, 'wickets')
+    assert trend_wkts['trend'] == 'CATASTROPHIC_DECLINE'
+
+
+def test_analyze_trend_standard_cases():
+    """Verify standard stable, declining, improving trend classifications"""
+    from src.analytics.s3_performance_forecaster import S3PerformanceForecaster
+    forecaster = S3PerformanceForecaster.__new__(S3PerformanceForecaster)
+    
+    # Economy IMPROVING: 8.0 -> 6.5 (delta = -1.5)
+    assert forecaster.analyze_trend(8.0, 6.5, 'economy')['trend'] == 'IMPROVING'
+    
+    # Wickets STABLE: 10.0 -> 11.0 (delta = +1.0)
+    assert forecaster.analyze_trend(10.0, 11.0, 'wickets')['trend'] == 'STABLE'
+    
+    # Wickets IMPROVING: 5.0 -> 10.0 (pct_change = +100%)
+    assert forecaster.analyze_trend(5.0, 10.0, 'wickets')['trend'] == 'IMPROVING'
+
+
+def test_composite_bowler_score_calculation():
+    """Verify composite bowler scoring matches the 60/30/10 weight specifications with raw values"""
+    from src.analytics.s3_performance_forecaster import S3PerformanceForecaster
+    forecaster = S3PerformanceForecaster.__new__(S3PerformanceForecaster)
+    
+    # Excellent case: 2.5 wkts/match, 6.0 economy, 12 balls/wkt
+    # Wickets score = 100
+    # Economy score = 100
+    # Strike rate score = 100
+    # Composite = 100
+    score_excellent = forecaster.calculate_composite_bowler_score(
+        wkts_per_match=2.5,
+        economy=6.0,
+        bowling_sr=12.0
+    )
+    assert abs(score_excellent - 100.0) < 1e-6, f"Expected 100.0, got {score_excellent}"
+    
+    # Average case: 1.25 wkts/match, 8.0 economy, 20 balls/wkt
+    # Wickets score = 50
+    # Economy score = 50
+    # Strike rate score = 50
+    # Composite = 50
+    score_avg = forecaster.calculate_composite_bowler_score(
+        wkts_per_match=1.25,
+        economy=8.0,
+        bowling_sr=20.0
+    )
+    assert abs(score_avg - 50.0) < 1e-6, f"Expected 50.0, got {score_avg}"
+
+
+# ============================================================================
 # RUN TESTS
 # ============================================================================
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v", "--tb=short"])
+    import sys
+    sys.exit(pytest.main([__file__, "-v", "--tb=short"]))

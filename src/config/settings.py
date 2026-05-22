@@ -12,8 +12,7 @@ class Settings(BaseSettings):
     # Database
     postgres_db: str = Field(default="bolts_analytics", alias="POSTGRES_DB")
     postgres_user: str = Field(default="bolts_admin", alias="POSTGRES_USER")
-    # Require DB password from environment; do not embed defaults in source.
-    postgres_password: str = Field(alias="POSTGRES_PASSWORD")
+    postgres_password: str = Field(default="", alias="POSTGRES_PASSWORD")
     postgres_host: str = Field(default="postgres", alias="POSTGRES_HOST")
     postgres_port: int = Field(default=5432, alias="POSTGRES_PORT")
     

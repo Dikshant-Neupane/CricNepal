@@ -21,8 +21,13 @@ from typing import Dict, List, Tuple
 # CONFIGURATION
 # ============================================================
 TEAM = "Janakpur Bolts"
-DATA_DIR = Path("D:/CricNepal/data/normalized")
-EXPORT_DIR = Path("D:/CricNepal/data/exports")
+
+try:
+    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR
+    DATA_DIR = NORMALIZED_DIR
+except ImportError:
+    DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "normalized"
+    EXPORT_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "exports"
 
 MATCHES_FILE = DATA_DIR / "matches_normalized.parquet"
 DELIVERIES_FILE = DATA_DIR / "ball_by_ball_normalized.parquet"

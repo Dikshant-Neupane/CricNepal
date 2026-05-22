@@ -21,11 +21,20 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # ══════════════════════════════════════════════════════════════════════════
-# Configuration
-# ══════════════════════════════════════════════════════════════════════════
+import pandas as pd
+from pathlib import Path
+import numpy as np
+from typing import Dict, Tuple
+import warnings
+warnings.filterwarnings('ignore')
 
-PARQUET_DIR = Path("D:/Cric_Data/data/final/parquet")
-EXPORT_DIR = Path("D:/CricNepal/data/normalized")
+try:
+    from src.config.paths import PARQUET_DIR, NORMALIZED_DIR
+    EXPORT_DIR = NORMALIZED_DIR
+except ImportError:
+    PARQUET_DIR = Path("D:/Cric_Data/data/final/parquet")
+    EXPORT_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "normalized"
+
 EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Team name normalization mapping

@@ -4,10 +4,15 @@ Predict S3 stats based on S1 and S2 trends.
 
 Author: Senior Data Scientist
 Date: May 21, 2026
-v2.1: Composite scoring + ML-validated confidence intervals
+v2.2: Composite scoring + projection-based confidence intervals
       - Trend-based predictions (rewards genuine improvers)
-      - Confidence intervals from ML validation: ±5 wickets, ±15% economy
+      - Confidence intervals: relative to prediction magnitude and volatility
       - Composite scoring: 60% wickets + 30% economy + 10% SR
+
+Methodology Note:
+    This is a heuristic projection model using domain-informed linear
+    extrapolation with regression-to-mean adjustments. It is NOT a trained
+    machine learning model. Confidence intervals are approximate.
 """
 
 import pandas as pd
@@ -62,22 +67,23 @@ class S3PerformanceForecaster:
             pct_change = (delta / s1_value) * 100
         
         # Classify trend based on metric type
+        # NOTE: Check most extreme thresholds FIRST to avoid dead-code branches
         if metric in ['economy', 'average_against']:  # Lower is better
-            if delta < -1.0:
-                trend = 'IMPROVING'
+            if delta > 3.0:
+                trend = 'CATASTROPHIC_DECLINE'
             elif delta > 1.5:
                 trend = 'DECLINING'
-            elif delta > 3.0:
-                trend = 'CATASTROPHIC_DECLINE'
+            elif delta < -1.0:
+                trend = 'IMPROVING'
             else:
                 trend = 'STABLE'
         else:  # Higher is better (average, strike_rate, wickets)
-            if delta > 50 or pct_change > 50:
-                trend = 'IMPROVING'
+            if pct_change < -80:
+                trend = 'CATASTROPHIC_DECLINE'
             elif delta < -50 or pct_change < -50:
                 trend = 'DECLINING'
-            elif pct_change < -80:
-                trend = 'CATASTROPHIC_DECLINE'
+            elif delta > 50 or pct_change > 50:
+                trend = 'IMPROVING'
             else:
                 trend = 'STABLE'
         
@@ -283,10 +289,10 @@ class S3PerformanceForecaster:
         """
         Forecast S3 bowling performance for all bowlers.
         
-        v2.1 Features:
+        v2.2 Features:
         - Composite scoring: 60% wickets/match + 30% economy + 10% SR
         - Wickets normalized by playing time (fair comparison)
-        - ML-validated confidence intervals: ±5 wickets, ±15% economy
+        - Projection-based confidence intervals (relative to magnitude + volatility)
         - Trend-based predictions (rewards genuine improvers like Sher Malla 7→17 wickets)
         
         Returns:
@@ -347,12 +353,26 @@ class S3PerformanceForecaster:
             expected_s3_matches = 9
             s3_wickets_pred = s3_wkts_per_match_pred * expected_s3_matches if not pd.isna(s3_wkts_per_match_pred) else np.nan
             
-            # v2.1: ML-validated confidence intervals (±5 wickets, ±15% economy)
-            # From validation: Linear regression showed RMSE 5.0 wickets (34% better than baseline 7.59)
-            s3_wickets_lower = s3_wickets_pred - 5.0 if not pd.isna(s3_wickets_pred) else np.nan
-            s3_wickets_upper = s3_wickets_pred + 5.0 if not pd.isna(s3_wickets_pred) else np.nan
-            s3_economy_lower = s3_economy_pred * 0.85 if not pd.isna(s3_economy_pred) else np.nan
-            s3_economy_upper = s3_economy_pred * 1.15 if not pd.isna(s3_economy_pred) else np.nan
+            # v2.2: Projection-based confidence intervals
+            # Width scales with prediction magnitude and trend volatility
+            if not pd.isna(s3_wickets_pred):
+                # Base margin: 25% of predicted value, min 2.0 wickets
+                wkt_volatility = abs(s2_wickets - s1_wickets) if not pd.isna(s1_wickets) else 5.0
+                wkt_margin = max(2.0, s3_wickets_pred * 0.25, wkt_volatility * 0.5)
+                s3_wickets_lower = max(0, s3_wickets_pred - wkt_margin)
+                s3_wickets_upper = s3_wickets_pred + wkt_margin
+            else:
+                s3_wickets_lower = np.nan
+                s3_wickets_upper = np.nan
+            
+            if not pd.isna(s3_economy_pred):
+                econ_volatility = abs(s2_economy - s1_economy) if not pd.isna(s1_economy) else 1.0
+                econ_margin = max(0.5, s3_economy_pred * 0.12, econ_volatility * 0.4)
+                s3_economy_lower = max(0, s3_economy_pred - econ_margin)
+                s3_economy_upper = s3_economy_pred + econ_margin
+            else:
+                s3_economy_lower = np.nan
+                s3_economy_upper = np.nan
             
             # Predict bowling SR (tends to be stable)
             s3_bowling_sr_pred, _, _ = self.predict_s3_value(

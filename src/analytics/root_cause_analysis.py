@@ -37,13 +37,16 @@ from typing import Dict, Tuple
 import warnings
 warnings.filterwarnings('ignore')
 
-# ══════════════════════════════════════════════════════════════════════════
-# Configuration
-# ══════════════════════════════════════════════════════════════════════════
+try:
+    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR
+except ImportError:
+    # Fallback for direct script execution
+    NORMALIZED_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "normalized"
+    EXPORT_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "exports"
 
-DATA_DIR = Path("D:/CricNepal/data/normalized")
-EXPORT_DIR = Path("D:/CricNepal/data/exports")
 EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+
+DATA_DIR = NORMALIZED_DIR
 
 TEAM = "Janakpur Bolts"
 
