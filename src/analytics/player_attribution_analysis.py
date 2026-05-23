@@ -17,6 +17,12 @@ import pandas as pd
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+# Import logging
+from src.utils.logging_config import get_logger
+
+# Initialize logger for this module
+logger = get_logger(__name__)
+
 # ============================================================
 # CONFIGURATION
 # ============================================================
@@ -43,7 +49,7 @@ POWERPLAY_OVERS = (1, 7)
 # ============================================================
 def load_janakpur_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Load matches and deliveries for Janakpur Bolts."""
-    print(f"\n[1/6] Loading normalized data...")
+    logger.info(f"\n[1/6] Loading normalized data...")
     
     matches = pd.read_parquet(MATCHES_FILE)
     deliveries = pd.read_parquet(DELIVERIES_FILE)
@@ -65,9 +71,9 @@ def load_janakpur_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
         how='left'
     )
     
-    print(f"  Loaded: {len(janakpur_matches)} matches, {len(janakpur_deliveries)} deliveries")
-    print(f"  S1 matches: {len(janakpur_matches[janakpur_matches['season'] == 'S1'])}")
-    print(f"  S2 matches: {len(janakpur_matches[janakpur_matches['season'] == 'S2'])}")
+    logger.info(f"  Loaded: {len(janakpur_matches)} matches, {len(janakpur_deliveries)} deliveries")
+    logger.info(f"  S1 matches: {len(janakpur_matches[janakpur_matches['season'] == 'S1'])}")
+    logger.info(f"  S2 matches: {len(janakpur_matches[janakpur_matches['season'] == 'S2'])}")
     
     return janakpur_matches, janakpur_deliveries
 
@@ -86,7 +92,7 @@ def analyze_death_bowlers(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame)
     - Wickets taken
     - Overs bowled
     """
-    print("\n[2/6] Analyzing death overs bowlers...")
+    logger.info("\n[2/6] Analyzing death overs bowlers...")
     
     # Filter death overs bowling by Janakpur
     death_bowling = deliveries_df[
@@ -95,7 +101,7 @@ def analyze_death_bowlers(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame)
         (deliveries_df['over'] < DEATH_OVERS[1])
     ].copy()
     
-    print(f"  Found {len(death_bowling)} death overs deliveries bowled")
+    logger.info(f"  Found {len(death_bowling)} death overs deliveries bowled")
     
     # Group by bowler and season
     bowler_stats = []
@@ -132,9 +138,9 @@ def analyze_death_bowlers(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame)
     # Sort by economy within each season
     df = df.sort_values(['season', 'economy_rate'])
     
-    print(f"  Analyzed {len(df)} bowler-season combinations")
-    print(f"  S1 death bowlers: {len(df[df['season'] == 'S1'])}")
-    print(f"  S2 death bowlers: {len(df[df['season'] == 'S2'])}")
+    logger.info(f"  Analyzed {len(df)} bowler-season combinations")
+    logger.info(f"  S1 death bowlers: {len(df[df['season'] == 'S1'])}")
+    logger.info(f"  S2 death bowlers: {len(df[df['season'] == 'S2'])}")
     
     return df
 
@@ -152,7 +158,7 @@ def analyze_middle_bowlers(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame
     - Wickets taken
     - Overs bowled
     """
-    print("\n[3/6] Analyzing middle overs bowlers...")
+    logger.info("\n[3/6] Analyzing middle overs bowlers...")
     
     # Filter middle overs bowling by Janakpur
     middle_bowling = deliveries_df[
@@ -161,7 +167,7 @@ def analyze_middle_bowlers(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame
         (deliveries_df['over'] < MIDDLE_OVERS[1])
     ].copy()
     
-    print(f"  Found {len(middle_bowling)} middle overs deliveries bowled")
+    logger.info(f"  Found {len(middle_bowling)} middle overs deliveries bowled")
     
     # Group by bowler and season
     bowler_stats = []
@@ -192,7 +198,7 @@ def analyze_middle_bowlers(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame
     df = pd.DataFrame(bowler_stats)
     df = df.sort_values(['season', 'economy_rate'])
     
-    print(f"  Analyzed {len(df)} bowler-season combinations")
+    logger.info(f"  Analyzed {len(df)} bowler-season combinations")
     
     return df
 
@@ -209,7 +215,7 @@ def analyze_squad_retention(deliveries_df: pd.DataFrame) -> Dict[str, pd.DataFra
     - Both seasons (retained players)
     - S2 only (new recruits)
     """
-    print("\n[4/6] Analyzing squad retention...")
+    logger.info("\n[4/6] Analyzing squad retention...")
     
     # Get unique players per season
     s1_players = set(deliveries_df[deliveries_df['season'] == 'S1']['batter_name'].unique())
@@ -223,11 +229,11 @@ def analyze_squad_retention(deliveries_df: pd.DataFrame) -> Dict[str, pd.DataFra
     departed = s1_players - s2_players
     recruited = s2_players - s1_players
     
-    print(f"  S1 squad size: {len(s1_players)}")
-    print(f"  S2 squad size: {len(s2_players)}")
-    print(f"  Retained: {len(retained)} ({len(retained)/len(s1_players)*100:.1f}%)")
-    print(f"  Departed: {len(departed)} ({len(departed)/len(s1_players)*100:.1f}%)")
-    print(f"  Recruited: {len(recruited)}")
+    logger.info(f"  S1 squad size: {len(s1_players)}")
+    logger.info(f"  S2 squad size: {len(s2_players)}")
+    logger.info(f"  Retained: {len(retained)} ({len(retained)/len(s1_players)*100:.1f}%)")
+    logger.info(f"  Departed: {len(departed)} ({len(departed)/len(s1_players)*100:.1f}%)")
+    logger.info(f"  Recruited: {len(recruited)}")
     
     # Create summary dataframes
     retained_df = pd.DataFrame({'player_name': sorted(retained), 'status': 'Retained'})
@@ -315,7 +321,7 @@ def analyze_chase_batters(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame)
     - Balls faced
     - Matches chased
     """
-    print("\n[5/6] Analyzing chase batting performance...")
+    logger.info("\n[5/6] Analyzing chase batting performance...")
     
     # Determine which matches Janakpur was chasing
     chasing_matches = []
@@ -337,9 +343,9 @@ def analyze_chase_batters(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame)
             })
     
     chase_df = pd.DataFrame(chasing_matches)
-    print(f"  Found {len(chase_df)} chase matches")
-    print(f"  S1 chases: {len(chase_df[chase_df['season'] == 'S1'])}, wins: {chase_df[(chase_df['season'] == 'S1') & chase_df['won']]['won'].sum()}")
-    print(f"  S2 chases: {len(chase_df[chase_df['season'] == 'S2'])}, wins: {chase_df[(chase_df['season'] == 'S2') & chase_df['won']]['won'].sum()}")
+    logger.info(f"  Found {len(chase_df)} chase matches")
+    logger.info(f"  S1 chases: {len(chase_df[chase_df['season'] == 'S1'])}, wins: {chase_df[(chase_df['season'] == 'S1') & chase_df['won']]['won'].sum()}")
+    logger.info(f"  S2 chases: {len(chase_df[chase_df['season'] == 'S2'])}, wins: {chase_df[(chase_df['season'] == 'S2') & chase_df['won']]['won'].sum()}")
     
     # Analyze batter performance in chases
     chase_match_ids = chase_df['match_id'].unique()
@@ -384,7 +390,7 @@ def analyze_chase_batters(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame)
     df = pd.DataFrame(batter_stats)
     df = df.sort_values(['season', 'runs_scored'], ascending=[True, False])
     
-    print(f"  Analyzed {len(df)} batter-season combinations in chases")
+    logger.info(f"  Analyzed {len(df)} batter-season combinations in chases")
     
     return df
 
@@ -429,16 +435,16 @@ def calculate_player_deltas(s1_df: pd.DataFrame, s2_df: pd.DataFrame,
 def export_results(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
                   retention: Dict, chase_batters: pd.DataFrame):
     """Export all analysis results to CSV."""
-    print("\n" + "="*70)
-    print("EXPORTING PLAYER ANALYSIS RESULTS")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("EXPORTING PLAYER ANALYSIS RESULTS")
+    logger.info("="*70)
     
     EXPORT_DIR.mkdir(parents=True, exist_ok=True)
     
     # Death bowlers
     death_file = EXPORT_DIR / "player_death_bowlers_s1_vs_s2.csv"
     death_bowlers.to_csv(death_file, index=False)
-    print(f"  [OK] Exported: {death_file}")
+    logger.info(f"  [OK] Exported: {death_file}")
     
     # Death bowler deltas
     death_s1 = death_bowlers[death_bowlers['season'] == 'S1']
@@ -450,12 +456,12 @@ def export_results(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
     if not death_deltas.empty:
         death_delta_file = EXPORT_DIR / "player_death_bowlers_deltas.csv"
         death_deltas.to_csv(death_delta_file, index=False)
-        print(f"  [OK] Exported: {death_delta_file}")
+        logger.info(f"  [OK] Exported: {death_delta_file}")
     
     # Middle bowlers
     middle_file = EXPORT_DIR / "player_middle_bowlers_s1_vs_s2.csv"
     middle_bowlers.to_csv(middle_file, index=False)
-    print(f"  [OK] Exported: {middle_file}")
+    logger.info(f"  [OK] Exported: {middle_file}")
     
     # Middle bowler deltas
     middle_s1 = middle_bowlers[middle_bowlers['season'] == 'S1']
@@ -467,22 +473,22 @@ def export_results(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
     if not middle_deltas.empty:
         middle_delta_file = EXPORT_DIR / "player_middle_bowlers_deltas.csv"
         middle_deltas.to_csv(middle_delta_file, index=False)
-        print(f"  [OK] Exported: {middle_delta_file}")
+        logger.info(f"  [OK] Exported: {middle_delta_file}")
     
     # Squad retention
     retention_file = EXPORT_DIR / "player_squad_retention.csv"
     retention['retention_summary'].to_csv(retention_file, index=False)
-    print(f"  [OK] Exported: {retention_file}")
+    logger.info(f"  [OK] Exported: {retention_file}")
     
     # Departed impact
     departed_file = EXPORT_DIR / "player_departed_impact.csv"
     retention['departed_impact'].to_csv(departed_file, index=False)
-    print(f"  [OK] Exported: {departed_file}")
+    logger.info(f"  [OK] Exported: {departed_file}")
     
     # Chase batters
     chase_file = EXPORT_DIR / "player_chase_batters_s1_vs_s2.csv"
     chase_batters.to_csv(chase_file, index=False)
-    print(f"  [OK] Exported: {chase_file}")
+    logger.info(f"  [OK] Exported: {chase_file}")
     
     # Chase batter deltas
     chase_s1 = chase_batters[chase_batters['season'] == 'S1']
@@ -494,7 +500,7 @@ def export_results(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
     if not chase_deltas.empty:
         chase_delta_file = EXPORT_DIR / "player_chase_batters_deltas.csv"
         chase_deltas.to_csv(chase_delta_file, index=False)
-        print(f"  [OK] Exported: {chase_delta_file}")
+        logger.info(f"  [OK] Exported: {chase_delta_file}")
 
 
 # ============================================================
@@ -503,55 +509,55 @@ def export_results(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
 def print_summary(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
                  retention: Dict, chase_batters: pd.DataFrame):
     """Print key findings summary."""
-    print("\n" + "="*70)
-    print("KEY FINDINGS SUMMARY - PLAYER ATTRIBUTION")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("KEY FINDINGS SUMMARY - PLAYER ATTRIBUTION")
+    logger.info("="*70)
     
     # Death bowlers
-    print("\n[DEATH BOWLERS] TOP 3 BY SEASON:")
+    logger.info("\n[DEATH BOWLERS] TOP 3 BY SEASON:")
     death_s1 = death_bowlers[death_bowlers['season'] == 'S1'].head(3)
     death_s2 = death_bowlers[death_bowlers['season'] == 'S2'].head(3)
     
-    print("\n  S1 (Best Economy):")
+    logger.info("\n  S1 (Best Economy):")
     for _, row in death_s1.iterrows():
-        print(f"    {row['bowler_name']}: {row['economy_rate']} economy, {row['dot_ball_pct']}% dots, {row['wickets']} wkts")
+        logger.info(f"    {row['bowler_name']}: {row['economy_rate']} economy, {row['dot_ball_pct']}% dots, {row['wickets']} wkts")
     
-    print("\n  S2 (Best Economy):")
+    logger.info("\n  S2 (Best Economy):")
     for _, row in death_s2.iterrows():
-        print(f"    {row['bowler_name']}: {row['economy_rate']} economy, {row['dot_ball_pct']}% dots, {row['wickets']} wkts")
+        logger.info(f"    {row['bowler_name']}: {row['economy_rate']} economy, {row['dot_ball_pct']}% dots, {row['wickets']} wkts")
     
     # Squad retention
-    print(f"\n[SQUAD RETENTION]:")
+    logger.info(f"\n[SQUAD RETENTION]:")
     stats = retention['stats']
-    print(f"  Retention rate: {stats['retention_rate']}%")
-    print(f"  Retained: {stats['retained']}/{stats['total_s1']} players")
-    print(f"  Departed: {stats['departed']} players")
-    print(f"  New recruits: {stats['recruited']} players")
+    logger.info(f"  Retention rate: {stats['retention_rate']}%")
+    logger.info(f"  Retained: {stats['retained']}/{stats['total_s1']} players")
+    logger.info(f"  Departed: {stats['departed']} players")
+    logger.info(f"  New recruits: {stats['recruited']} players")
     
     # Top departed players
     if not retention['departed_impact'].empty:
-        print("\n  TOP 3 DEPARTED PLAYERS (by S1 batting):")
+        logger.info("\n  TOP 3 DEPARTED PLAYERS (by S1 batting):")
         for _, row in retention['departed_impact'].head(3).iterrows():
-            print(f"    {row['player_name']}: {row['s1_batting_runs']} runs, {row['s1_bowling_wickets']} wkts")
+            logger.info(f"    {row['player_name']}: {row['s1_batting_runs']} runs, {row['s1_bowling_wickets']} wkts")
     
     # Chase batters
-    print("\n[CHASE BATTING] TOP 3 RUN SCORERS BY SEASON:")
+    logger.info("\n[CHASE BATTING] TOP 3 RUN SCORERS BY SEASON:")
     chase_s1 = chase_batters[chase_batters['season'] == 'S1'].head(3)
     chase_s2 = chase_batters[chase_batters['season'] == 'S2'].head(3)
     
-    print("\n  S1:")
+    logger.info("\n  S1:")
     for _, row in chase_s1.iterrows():
-        print(f"    {row['batter_name']}: {row['runs_scored']} runs @ {row['strike_rate']} SR")
+        logger.info(f"    {row['batter_name']}: {row['runs_scored']} runs @ {row['strike_rate']} SR")
     
-    print("\n  S2:")
+    logger.info("\n  S2:")
     for _, row in chase_s2.iterrows():
-        print(f"    {row['batter_name']}: {row['runs_scored']} runs @ {row['strike_rate']} SR")
+        logger.info(f"    {row['batter_name']}: {row['runs_scored']} runs @ {row['strike_rate']} SR")
     
-    print("\n" + "="*70)
-    print("PLAYER ATTRIBUTION ANALYSIS COMPLETE")
-    print("="*70)
-    print(f"\nExport location: {EXPORT_DIR}")
-    print("\nNext step: Generate player attribution report")
+    logger.info("\n" + "="*70)
+    logger.info("PLAYER ATTRIBUTION ANALYSIS COMPLETE")
+    logger.info("="*70)
+    logger.info(f"\nExport location: {EXPORT_DIR}")
+    logger.info("\nNext step: Generate player attribution report")
 
 
 # ============================================================
@@ -559,12 +565,12 @@ def print_summary(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
 # ============================================================
 def main():
     """Execute full player attribution analysis."""
-    print("="*70)
-    print("PLAYER ATTRIBUTION ANALYSIS: JANAKPUR BOLTS S1 VS S2")
-    print("="*70)
-    print(f"\nObjective: Identify individual player contributions to performance change")
-    print(f"Team: {TEAM}")
-    print(f"Data source: {DATA_DIR}")
+    logger.info("="*70)
+    logger.info("PLAYER ATTRIBUTION ANALYSIS: JANAKPUR BOLTS S1 VS S2")
+    logger.info("="*70)
+    logger.info(f"\nObjective: Identify individual player contributions to performance change")
+    logger.info(f"Team: {TEAM}")
+    logger.info(f"Data source: {DATA_DIR}")
     
     # Load data
     matches, deliveries = load_janakpur_data()

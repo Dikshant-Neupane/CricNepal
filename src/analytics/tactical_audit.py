@@ -12,6 +12,12 @@ import pandas as pd
 from pathlib import Path
 import json
 
+# Import logging
+from src.utils.logging_config import get_logger
+
+# Initialize logger for this module
+logger = get_logger(__name__)
+
 # ══════════════════════════════════════════════════════════════════════════
 # Configuration
 # ══════════════════════════════════════════════════════════════════════════
@@ -69,9 +75,9 @@ def analyze_toss_impact():
     - Did batting first vs chasing affect win rate?
     - How did S1 vs S2 compare?
     """
-    print("="*70)
-    print("TACTICAL AUDIT: TOSS IMPACT ANALYSIS")
-    print("="*70)
+    logger.info("="*70)
+    logger.info("TACTICAL AUDIT: TOSS IMPACT ANALYSIS")
+    logger.info("="*70)
     
     # Load match data
     matches = pd.read_parquet(DATA_DIR / "matches_normalized.parquet")
@@ -79,9 +85,9 @@ def analyze_toss_impact():
         (matches['team_1_name'] == TEAM) | (matches['team_2_name'] == TEAM)
     ].copy()
     
-    print(f"\n[INFO] Loaded {len(jab_matches)} Janakpur Bolts matches")
-    print(f"  S1: {len(jab_matches[jab_matches['season'] == 'S1'])} matches")
-    print(f"  S2: {len(jab_matches[jab_matches['season'] == 'S2'])} matches")
+    logger.info(f"\n[INFO] Loaded {len(jab_matches)} Janakpur Bolts matches")
+    logger.info(f"  S1: {len(jab_matches[jab_matches['season'] == 'S1'])} matches")
+    logger.info(f"  S2: {len(jab_matches[jab_matches['season'] == 'S2'])} matches")
     
     # Merge toss data
     toss_records = []
@@ -108,9 +114,9 @@ def analyze_toss_impact():
     
     toss_df = pd.DataFrame(toss_records)
     
-    print("\n" + "="*70)
-    print("TOSS WIN RATE ANALYSIS")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("TOSS WIN RATE ANALYSIS")
+    logger.info("="*70)
     
     # S1 toss analysis
     s1_tosses = toss_df[toss_df['season'] == 'S1']
@@ -118,13 +124,13 @@ def analyze_toss_impact():
     s1_total = len(jab_matches[jab_matches['season'] == 'S1'])
     s1_toss_pct = (s1_toss_wins / s1_total * 100) if s1_total > 0 else 0
     
-    print(f"\nSEASON 1:")
-    print(f"  Toss wins: {s1_toss_wins}/{s1_total} ({s1_toss_pct:.1f}%)")
-    print(f"  Toss decisions when won:")
+    logger.info(f"\nSEASON 1:")
+    logger.info(f"  Toss wins: {s1_toss_wins}/{s1_total} ({s1_toss_pct:.1f}%)")
+    logger.info(f"  Toss decisions when won:")
     if len(s1_tosses[s1_tosses['toss_won']]) > 0:
         for _, row in s1_tosses[s1_tosses['toss_won']].iterrows():
             playoff_tag = f" [{row['playoff']}]" if row['playoff'] else ""
-            print(f"    Match {row['match_num']}: {row['toss_decision'].upper()}{playoff_tag}")
+            logger.info(f"    Match {row['match_num']}: {row['toss_decision'].upper()}{playoff_tag}")
     
     # S2 toss analysis
     s2_tosses = toss_df[toss_df['season'] == 'S2']
@@ -132,17 +138,17 @@ def analyze_toss_impact():
     s2_total = len(jab_matches[jab_matches['season'] == 'S2'])
     s2_toss_pct = (s2_toss_wins / s2_total * 100) if s2_total > 0 else 0
     
-    print(f"\nSEASON 2:")
-    print(f"  Toss wins: {s2_toss_wins}/{s2_total} ({s2_toss_pct:.1f}%)")
-    print(f"  Toss decisions when won:")
+    logger.info(f"\nSEASON 2:")
+    logger.info(f"  Toss wins: {s2_toss_wins}/{s2_total} ({s2_toss_pct:.1f}%)")
+    logger.info(f"  Toss decisions when won:")
     if len(s2_tosses[s2_tosses['toss_won']]) > 0:
         for _, row in s2_tosses[s2_tosses['toss_won']].iterrows():
-            print(f"    Match {row['match_num']}: {row['toss_decision'].upper()}")
+            logger.info(f"    Match {row['match_num']}: {row['toss_decision'].upper()}")
     
     # Toss conversion analysis
-    print("\n" + "="*70)
-    print("TOSS CONVERSION ANALYSIS (Win match after winning toss)")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("TOSS CONVERSION ANALYSIS (Win match after winning toss)")
+    logger.info("="*70)
     
     # Calculate from existing match data
     s1_matches = jab_matches[jab_matches['season'] == 'S1']
@@ -151,20 +157,20 @@ def analyze_toss_impact():
     s2_matches = jab_matches[jab_matches['season'] == 'S2']
     s2_wins = len(s2_matches[s2_matches['winner_name'] == TEAM])
     
-    print(f"\nSEASON 1:")
-    print(f"  Total wins: {s1_wins}/{len(s1_matches)} ({s1_wins/len(s1_matches)*100:.1f}%)")
-    print(f"  Toss wins: {s1_toss_wins}/{s1_total}")
-    print(f"  ⚠️  NOTE: Toss conversion rate requires match-by-match alignment")
-    print(f"      (need to map which toss wins led to match wins)")
+    logger.info(f"\nSEASON 1:")
+    logger.info(f"  Total wins: {s1_wins}/{len(s1_matches)} ({s1_wins/len(s1_matches)*100:.1f}%)")
+    logger.info(f"  Toss wins: {s1_toss_wins}/{s1_total}")
+    logger.info(f"  ⚠️  NOTE: Toss conversion rate requires match-by-match alignment")
+    logger.info(f"      (need to map which toss wins led to match wins)")
     
-    print(f"\nSEASON 2:")
-    print(f"  Total wins: {s2_wins}/{len(s2_matches)} ({s2_wins/len(s2_matches)*100:.1f}%)")
-    print(f"  Toss wins: {s2_toss_wins}/{s2_total}")
+    logger.info(f"\nSEASON 2:")
+    logger.info(f"  Total wins: {s2_wins}/{len(s2_matches)} ({s2_wins/len(s2_matches)*100:.1f}%)")
+    logger.info(f"  Toss wins: {s2_toss_wins}/{s2_total}")
     
     # Batting first vs chasing analysis
-    print("\n" + "="*70)
-    print("BATTING FIRST VS CHASING (Toss Decision Impact)")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("BATTING FIRST VS CHASING (Toss Decision Impact)")
+    logger.info("="*70)
     
     # Load ball-by-ball to identify batting first vs chasing
     deliveries = pd.read_parquet(DATA_DIR / "ball_by_ball_normalized.parquet")
@@ -203,49 +209,49 @@ def analyze_toss_impact():
     s2_bat_first_wins = len([m for m in s2_bat_first if m in s2_matches[s2_matches['winner_name'] == TEAM]['match_id'].values])
     s2_chase_wins = len([m for m in s2_chase if m in s2_matches[s2_matches['winner_name'] == TEAM]['match_id'].values])
     
-    print(f"\nSEASON 1:")
-    print(f"  Batting first: {s1_bat_first_wins}/{len(s1_bat_first)} wins ({s1_bat_first_wins/len(s1_bat_first)*100 if len(s1_bat_first) > 0 else 0:.1f}%)")
-    print(f"  Chasing: {s1_chase_wins}/{len(s1_chase)} wins ({s1_chase_wins/len(s1_chase)*100 if len(s1_chase) > 0 else 0:.1f}%)")
+    logger.info(f"\nSEASON 1:")
+    logger.info(f"  Batting first: {s1_bat_first_wins}/{len(s1_bat_first)} wins ({s1_bat_first_wins/len(s1_bat_first)*100 if len(s1_bat_first) > 0 else 0:.1f}%)")
+    logger.info(f"  Chasing: {s1_chase_wins}/{len(s1_chase)} wins ({s1_chase_wins/len(s1_chase)*100 if len(s1_chase) > 0 else 0:.1f}%)")
     
-    print(f"\nSEASON 2:")
-    print(f"  Batting first: {s2_bat_first_wins}/{len(s2_bat_first)} wins ({s2_bat_first_wins/len(s2_bat_first)*100 if len(s2_bat_first) > 0 else 0:.1f}%)")
-    print(f"  Chasing: {s2_chase_wins}/{len(s2_chase)} wins ({s2_chase_wins/len(s2_chase)*100 if len(s2_chase) > 0 else 0:.1f}%)")
+    logger.info(f"\nSEASON 2:")
+    logger.info(f"  Batting first: {s2_bat_first_wins}/{len(s2_bat_first)} wins ({s2_bat_first_wins/len(s2_bat_first)*100 if len(s2_bat_first) > 0 else 0:.1f}%)")
+    logger.info(f"  Chasing: {s2_chase_wins}/{len(s2_chase)} wins ({s2_chase_wins/len(s2_chase)*100 if len(s2_chase) > 0 else 0:.1f}%)")
     
     # KEY INSIGHT
-    print("\n" + "="*70)
-    print("🔑 KEY TACTICAL INSIGHTS")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("🔑 KEY TACTICAL INSIGHTS")
+    logger.info("="*70)
     
-    print("\n1. TOSS WIN RATE:")
-    print(f"   S1: {s1_toss_pct:.1f}% → S2: {s2_toss_pct:.1f}%")
-    print(f"   Delta: {s2_toss_pct - s1_toss_pct:+.1f}pp")
+    logger.info("\n1. TOSS WIN RATE:")
+    logger.info(f"   S1: {s1_toss_pct:.1f}% → S2: {s2_toss_pct:.1f}%")
+    logger.info(f"   Delta: {s2_toss_pct - s1_toss_pct:+.1f}pp")
     
-    print("\n2. TOSS DECISION PREFERENCE:")
+    logger.info("\n2. TOSS DECISION PREFERENCE:")
     s1_field_first = len(s1_tosses[(s1_tosses['toss_won']) & (s1_tosses['toss_decision'] == 'field')])
     s1_bat_first_toss = len(s1_tosses[(s1_tosses['toss_won']) & (s1_tosses['toss_decision'] == 'bat')])
     s2_field_first = len(s2_tosses[(s2_tosses['toss_won']) & (s2_tosses['toss_decision'] == 'field')])
     s2_bat_first_toss = len(s2_tosses[(s2_tosses['toss_won']) & (s2_tosses['toss_decision'] == 'bat')])
     
-    print(f"   S1: Field {s1_field_first}/{s1_toss_wins}, Bat {s1_bat_first_toss}/{s1_toss_wins}")
-    print(f"   S2: Field {s2_field_first}/{s2_toss_wins}, Bat {s2_bat_first_toss}/{s2_toss_wins}")
+    logger.info(f"   S1: Field {s1_field_first}/{s1_toss_wins}, Bat {s1_bat_first_toss}/{s1_toss_wins}")
+    logger.info(f"   S2: Field {s2_field_first}/{s2_toss_wins}, Bat {s2_bat_first_toss}/{s2_toss_wins}")
     
-    print("\n3. BATTING FIRST VS CHASING:")
+    logger.info("\n3. BATTING FIRST VS CHASING:")
     s1_chase_pct = (s1_chase_wins/len(s1_chase)*100) if len(s1_chase) > 0 else 0
     s2_chase_pct = (s2_chase_wins/len(s2_chase)*100) if len(s2_chase) > 0 else 0
-    print(f"   S1 chase win rate: {s1_chase_pct:.1f}%")
-    print(f"   S2 chase win rate: {s2_chase_pct:.1f}%")
-    print(f"   Delta: {s2_chase_pct - s1_chase_pct:+.1f}pp")
+    logger.info(f"   S1 chase win rate: {s1_chase_pct:.1f}%")
+    logger.info(f"   S2 chase win rate: {s2_chase_pct:.1f}%")
+    logger.info(f"   Delta: {s2_chase_pct - s1_chase_pct:+.1f}pp")
     
-    print("\n4. CRITICAL PLAYOFF PATTERN (S1):")
-    print("   - Qualifier 1: Won toss → BAT FIRST → LOST to SPR by 8 wickets")
-    print("   - Qualifier 2: Won toss → FIELD → WON vs KAY by 2 wickets")
-    print("   - Final: SPR won toss (bat) → JAB chased and WON by 5 wickets")
-    print("   ➡️  LESSON: Janakpur wins when CHASING. Always chase if you win toss.")
+    logger.info("\n4. CRITICAL PLAYOFF PATTERN (S1):")
+    logger.info("   - Qualifier 1: Won toss → BAT FIRST → LOST to SPR by 8 wickets")
+    logger.info("   - Qualifier 2: Won toss → FIELD → WON vs KAY by 2 wickets")
+    logger.info("   - Final: SPR won toss (bat) → JAB chased and WON by 5 wickets")
+    logger.info("   ➡️  LESSON: Janakpur wins when CHASING. Always chase if you win toss.")
     
-    print("\n5. COACH'S PRIORITY - CAPTAINCY CHANGE:")
-    print("   ⚠️  Anil Sah (S1 captain, removed mid-S2) vs Wayne Parnell (S2 captain)")
-    print("   ⚠️  REQUIRES: Match-by-match captain assignment for S2")
-    print("   ⚠️  ACTION: External research needed to split S2 matches by captain")
+    logger.info("\n5. COACH'S PRIORITY - CAPTAINCY CHANGE:")
+    logger.info("   ⚠️  Anil Sah (S1 captain, removed mid-S2) vs Wayne Parnell (S2 captain)")
+    logger.info("   ⚠️  REQUIRES: Match-by-match captain assignment for S2")
+    logger.info("   ⚠️  ACTION: External research needed to split S2 matches by captain")
     
     # Export summary
     summary = {
@@ -299,27 +305,27 @@ def analyze_captaincy_change():
     
     Current Status: BLOCKED - requires external research
     """
-    print("\n" + "="*70)
-    print("CAPTAINCY CHANGE ANALYSIS")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("CAPTAINCY CHANGE ANALYSIS")
+    logger.info("="*70)
     
-    print("\n⚠️  CRITICAL GAP IDENTIFIED:")
-    print("   The coach explicitly mentioned:")
-    print("   'Anil Sah was removed from captain of Janakpur Bolts mid-season")
-    print("    & Wayne Parnell was appointed as captain.'")
-    print("\n   To complete this analysis, we need:")
-    print("   1. Which S2 matches were captained by Anil Sah?")
-    print("   2. Which S2 matches were captained by Wayne Parnell?")
-    print("   3. Win/loss record under each captain")
-    print("   4. Death overs economy under each captain")
-    print("   5. Toss decision patterns under each captain")
+    logger.info("\n⚠️  CRITICAL GAP IDENTIFIED:")
+    logger.info("   The coach explicitly mentioned:")
+    logger.info("   'Anil Sah was removed from captain of Janakpur Bolts mid-season")
+    logger.info("    & Wayne Parnell was appointed as captain.'")
+    logger.info("\n   To complete this analysis, we need:")
+    logger.info("   1. Which S2 matches were captained by Anil Sah?")
+    logger.info("   2. Which S2 matches were captained by Wayne Parnell?")
+    logger.info("   3. Win/loss record under each captain")
+    logger.info("   4. Death overs economy under each captain")
+    logger.info("   5. Toss decision patterns under each captain")
     
-    print("\n   RECOMMENDATION:")
-    print("   - Search ESPNcricinfo match scorecards for captain names")
-    print("   - Look for press releases announcing captaincy change")
-    print("   - Check NPL official website for squad/captain announcements")
+    logger.info("\n   RECOMMENDATION:")
+    logger.info("   - Search ESPNcricinfo match scorecards for captain names")
+    logger.info("   - Look for press releases announcing captaincy change")
+    logger.info("   - Check NPL official website for squad/captain announcements")
     
-    print("\n" + "="*70)
+    logger.info("\n" + "="*70)
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -327,10 +333,10 @@ def analyze_captaincy_change():
 # ══════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
-    print("\n" + "="*70)
-    print("LAYER 4: TACTICAL / CAPTAINCY AUDIT")
-    print("Janakpur Bolts - NPL Season 1 vs Season 2")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("LAYER 4: TACTICAL / CAPTAINCY AUDIT")
+    logger.info("Janakpur Bolts - NPL Season 1 vs Season 2")
+    logger.info("="*70)
     
     # Run toss impact analysis
     summary = analyze_toss_impact()
@@ -345,14 +351,14 @@ if __name__ == "__main__":
     with open(summary_file, 'w') as f:
         json.dump(summary, f, indent=2)
     
-    print(f"\n✓ Exported: {summary_file}")
+    logger.info(f"\n✓ Exported: {summary_file}")
     
-    print("\n" + "="*70)
-    print("TACTICAL AUDIT COMPLETE")
-    print("="*70)
-    print("\nNext steps:")
-    print("1. ✅ Toss impact analysis complete")
-    print("2. ⚠️  Captaincy change analysis BLOCKED (needs captain assignments)")
-    print("3. ⚠️  Bowling change patterns (requires over-by-over bowler rotation data)")
-    print("4. ⚠️  DLS/NRR impact (requires match-specific calculations)")
-    print("\n" + "="*70)
+    logger.info("\n" + "="*70)
+    logger.info("TACTICAL AUDIT COMPLETE")
+    logger.info("="*70)
+    logger.info("\nNext steps:")
+    logger.info("1. ✅ Toss impact analysis complete")
+    logger.info("2. ⚠️  Captaincy change analysis BLOCKED (needs captain assignments)")
+    logger.info("3. ⚠️  Bowling change patterns (requires over-by-over bowler rotation data)")
+    logger.info("4. ⚠️  DLS/NRR impact (requires match-specific calculations)")
+    logger.info("\n" + "="*70)

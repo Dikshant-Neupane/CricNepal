@@ -33,6 +33,12 @@ ASKING: "Which performance dimensions changed most significantly?"
 import pandas as pd
 from pathlib import Path
 import numpy as np
+
+# Import logging
+from src.utils.logging_config import get_logger
+
+# Initialize logger for this module
+logger = get_logger(__name__)
 from typing import Dict, Tuple
 import warnings
 warnings.filterwarnings('ignore')
@@ -377,42 +383,42 @@ def calculate_deltas(df: pd.DataFrame, metrics: list, by_phase: bool = False) ->
 # ══════════════════════════════════════════════════════════════════════════
 
 def main():
-    print("="*70)
-    print("ROOT CAUSE ANALYSIS: JANAKPUR BOLTS S1 VS S2")
-    print("="*70)
-    print(f"\nFraming: What structural performance dimensions collapsed?")
-    print(f"Team: {TEAM}")
-    print(f"Data source: {DATA_DIR}")
+    logger.info("="*70)
+    logger.info("ROOT CAUSE ANALYSIS: JANAKPUR BOLTS S1 VS S2")
+    logger.info("="*70)
+    logger.info(f"\nFraming: What structural performance dimensions collapsed?")
+    logger.info(f"Team: {TEAM}")
+    logger.info(f"Data source: {DATA_DIR}")
     
     # Load data
-    print("\n[1/4] Loading normalized data...")
+    logger.info("\n[1/4] Loading normalized data...")
     matches, deliveries = load_janakpur_matches()
-    print(f"  Loaded: {len(matches)} Janakpur matches, {len(deliveries)} deliveries")
-    print(f"  S1 matches: {len(matches[matches['season'] == 'S1'])}")
-    print(f"  S2 matches: {len(matches[matches['season'] == 'S2'])}")
+    logger.info(f"  Loaded: {len(matches)} Janakpur matches, {len(deliveries)} deliveries")
+    logger.info(f"  S1 matches: {len(matches[matches['season'] == 'S1'])}")
+    logger.info(f"  S2 matches: {len(matches[matches['season'] == 'S2'])}")
     
     # 1. Batting analysis
-    print("\n[2/4] Analyzing batting performance by phase...")
+    logger.info("\n[2/4] Analyzing batting performance by phase...")
     batting_metrics = analyze_batting_by_phase(matches, deliveries)
-    print(batting_metrics.to_string(index=False))
+    logger.info(batting_metrics.to_string(index=False))
     
     # Calculate batting deltas
     batting_delta_metrics = ['run_rate', 'strike_rate', 'dot_ball_pct', 'boundary_pct', 'wickets_lost']
     batting_deltas = calculate_deltas(batting_metrics, batting_delta_metrics, by_phase=True)
     
     # 2. Bowling analysis
-    print("\n[3/4] Analyzing bowling performance by phase...")
+    logger.info("\n[3/4] Analyzing bowling performance by phase...")
     bowling_metrics = analyze_bowling_by_phase(matches, deliveries)
-    print(bowling_metrics.to_string(index=False))
+    logger.info(bowling_metrics.to_string(index=False))
     
     # Calculate bowling deltas
     bowling_delta_metrics = ['economy', 'dot_ball_pct', 'boundary_conceded_pct', 'wickets_taken']
     bowling_deltas = calculate_deltas(bowling_metrics, bowling_delta_metrics, by_phase=True)
     
     # 3. Match context analysis
-    print("\n[4/4] Analyzing match context effects...")
+    logger.info("\n[4/4] Analyzing match context effects...")
     context_metrics = analyze_match_context(matches, deliveries)
-    print(context_metrics.to_string(index=False))
+    logger.info(context_metrics.to_string(index=False))
     
     # Calculate context deltas
     context_delta_metrics = ['win_rate', 'toss_conversion_rate', 'batting_first_win_rate', 
@@ -420,9 +426,9 @@ def main():
     context_deltas = calculate_deltas(context_metrics, context_delta_metrics, by_phase=False)
     
     # Export results
-    print("\n" + "="*70)
-    print("EXPORTING ANALYSIS RESULTS")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("EXPORTING ANALYSIS RESULTS")
+    logger.info("="*70)
     
     exports = {
         's1_vs_s2_batting_by_phase.csv': batting_metrics,
@@ -437,43 +443,43 @@ def main():
         if len(df) > 0:
             output_path = EXPORT_DIR / filename
             df.to_csv(output_path, index=False)
-            print(f"  [OK] Exported: {output_path}")
+            logger.info(f"  [OK] Exported: {output_path}")
     
     # Summary of key findings
-    print("\n" + "="*70)
-    print("KEY FINDINGS SUMMARY")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("KEY FINDINGS SUMMARY")
+    logger.info("="*70)
     
     # Identify largest deltas
     if len(batting_deltas) > 0:
-        print("\n[BATTING] DELTAS (S2 - S1):")
+        logger.info("\n[BATTING] DELTAS (S2 - S1):")
         for _, row in batting_deltas.iterrows():
             phase = row['phase']
             rr_delta = row.get('run_rate_delta', 0)
             dot_delta = row.get('dot_ball_pct_delta', 0)
-            print(f"  {phase.upper()}: Run rate {rr_delta:+.2f}, Dot% {dot_delta:+.1f}%")
+            logger.info(f"  {phase.upper()}: Run rate {rr_delta:+.2f}, Dot% {dot_delta:+.1f}%")
     
     if len(bowling_deltas) > 0:
-        print("\n[BOWLING] DELTAS (S2 - S1):")
+        logger.info("\n[BOWLING] DELTAS (S2 - S1):")
         for _, row in bowling_deltas.iterrows():
             phase = row['phase']
             eco_delta = row.get('economy_delta', 0)
             dot_delta = row.get('dot_ball_pct_delta', 0)
-            print(f"  {phase.upper()}: Economy {eco_delta:+.2f}, Dot% {dot_delta:+.1f}%")
+            logger.info(f"  {phase.upper()}: Economy {eco_delta:+.2f}, Dot% {dot_delta:+.1f}%")
     
     if len(context_deltas) > 0:
-        print("\n[MATCH CONTEXT] DELTAS (S2 - S1):")
+        logger.info("\n[MATCH CONTEXT] DELTAS (S2 - S1):")
         row = context_deltas.iloc[0]
         for metric in context_delta_metrics:
             delta_col = f'{metric}_delta'
             if delta_col in row:
-                print(f"  {metric}: {row[delta_col]:+.1f}%")
+                logger.info(f"  {metric}: {row[delta_col]:+.1f}%")
     
-    print("\n" + "="*70)
-    print("ROOT CAUSE ANALYSIS COMPLETE")
-    print("="*70)
-    print(f"\nNext step: Create management brief from findings")
-    print(f"Export location: {EXPORT_DIR}")
+    logger.info("\n" + "="*70)
+    logger.info("ROOT CAUSE ANALYSIS COMPLETE")
+    logger.info("="*70)
+    logger.info(f"\nNext step: Create management brief from findings")
+    logger.info(f"Export location: {EXPORT_DIR}")
 
 
 if __name__ == "__main__":
