@@ -54,32 +54,66 @@ class S3PerformanceForecaster:
         Returns:
             Dictionary with MAE, RMSE, MAPE, and prediction accuracy metrics
         """
-        # Filter players with both S1 and S2 data
-        if player_type == 'bowler':
+        try:
+            # Validate input DataFrames
+            if self.s1_data.empty or self.s2_data.empty:
+                return {
+                    'error': 'Empty data frames provided',
+                    'n_players': 0
+                }
+            
+            # Check if role column exists
+            if 'role' not in self.s1_data.columns or 'role' not in self.s2_data.columns:
+                return {
+                    'error': 'Missing role column in data',
+                    'n_players': 0
+                }
+            
+            # Filter players with both S1 and S2 data
+            if player_type == 'bowler':
+                s1_filtered = self.s1_data[self.s1_data['role'].str.contains('bowl', case=False, na=False)]
+                s2_filtered = self.s2_data[self.s2_data['role'].str.contains('bowl', case=False, na=False)]
+            else:
+                s1_filtered = self.s1_data[self.s1_data['role'].str.contains('bat', case=False, na=False)]
+                s2_filtered = self.s2_data[self.s2_data['role'].str.contains('bat', case=False, na=False)]
+            
+            # Check if we have any players after filtering
+            if s1_filtered.empty or s2_filtered.empty:
+                return {
+                    'error': f'No {player_type}s found in data',
+                    'n_players': 0
+                }
+            
             players = pd.merge(
-                self.s1_data[self.s1_data['role'].str.contains('bowl', case=False, na=False)],
-                self.s2_data[self.s2_data['role'].str.contains('bowl', case=False, na=False)],
+                s1_filtered,
+                s2_filtered,
                 on='player_name',
                 suffixes=('_s1', '_s2')
             )
-        else:
-            players = pd.merge(
-                self.s1_data[self.s1_data['role'].str.contains('bat', case=False, na=False)],
-                self.s2_data[self.s2_data['role'].str.contains('bat', case=False, na=False)],
-                on='player_name',
-                suffixes=('_s1', '_s2')
-            )
-        
-        # Get S1 and S2 values
-        s1_col = f"{metric_col}_s1"
-        s2_col = f"{metric_col}_s2"
-        
-        # Filter players with valid data
-        valid_players = players[[s1_col, s2_col]].dropna()
-        
-        if len(valid_players) == 0:
+            
+            # Get S1 and S2 values
+            s1_col = f"{metric_col}_s1"
+            s2_col = f"{metric_col}_s2"
+            
+            # Check if metric columns exist
+            if s1_col not in players.columns or s2_col not in players.columns:
+                return {
+                    'error': f'Metric column "{metric_col}" not found in data',
+                    'n_players': 0
+                }
+            
+            # Filter players with valid data
+            valid_players = players[[s1_col, s2_col]].dropna()
+            
+            if len(valid_players) == 0:
+                return {
+                    'error': 'No valid players with both S1 and S2 data',
+                    'n_players': 0
+                }
+            
+        except Exception as e:
             return {
-                'error': 'No valid players with both S1 and S2 data',
+                'error': f'Validation failed: {str(e)}',
                 'n_players': 0
             }
         
