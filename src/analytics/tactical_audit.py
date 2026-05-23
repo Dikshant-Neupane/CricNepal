@@ -66,7 +66,7 @@ TOSS_DATA_S2 = {
 # Analysis Functions
 # ══════════════════════════════════════════════════════════════════════════
 
-def analyze_toss_impact():
+def analyze_toss_impact() -> None:
     """
     Analyze toss win rate, toss decision patterns, and impact on match outcomes.
     
@@ -294,7 +294,7 @@ def analyze_toss_impact():
     return summary
 
 
-def analyze_captaincy_change():
+def analyze_captaincy_change() -> None:
     """
     PLACEHOLDER: Analyze win rate under Anil Sah vs Wayne Parnell.
     

@@ -433,7 +433,7 @@ def calculate_player_deltas(s1_df: pd.DataFrame, s2_df: pd.DataFrame,
 # EXPORT RESULTS
 # ============================================================
 def export_results(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
-                  retention: Dict, chase_batters: pd.DataFrame):
+                  retention: Dict, chase_batters: pd.DataFrame) -> None:
     """Export all analysis results to CSV."""
     logger.info("\n" + "="*70)
     logger.info("EXPORTING PLAYER ANALYSIS RESULTS")
@@ -507,7 +507,7 @@ def export_results(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
 # SUMMARY REPORT
 # ============================================================
 def print_summary(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
-                 retention: Dict, chase_batters: pd.DataFrame):
+                 retention: Dict, chase_batters: pd.DataFrame) -> None:
     """Print key findings summary."""
     logger.info("\n" + "="*70)
     logger.info("KEY FINDINGS SUMMARY - PLAYER ATTRIBUTION")
@@ -563,7 +563,7 @@ def print_summary(death_bowlers: pd.DataFrame, middle_bowlers: pd.DataFrame,
 # ============================================================
 # MAIN EXECUTION
 # ============================================================
-def main():
+def main() -> None:
     """Execute full player attribution analysis."""
     logger.info("="*70)
     logger.info("PLAYER ATTRIBUTION ANALYSIS: JANAKPUR BOLTS S1 VS S2")

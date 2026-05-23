@@ -336,7 +336,7 @@ def analyze_match_context(matches_df: pd.DataFrame, deliveries_df: pd.DataFrame)
 # 4. DELTA CALCULATION
 # ══════════════════════════════════════════════════════════════════════════
 
-def calculate_deltas(df: pd.DataFrame, metrics: list, by_phase: bool = False) -> pd.DataFrame:
+def calculate_deltas(df: pd.DataFrame, metrics: List[str], by_phase: bool = False) -> pd.DataFrame:
     """Calculate S2 - S1 deltas for specified metrics."""
     if by_phase:
         # Phase-based comparison
