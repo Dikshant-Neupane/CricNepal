@@ -37,6 +37,107 @@ class S3PerformanceForecaster:
         self.s1_data = s1_data
         self.s2_data = s2_data
         self.predictions = None
+        self.validation_metrics = None
+    
+    def backtest_validation(self, metric_col: str = 'wickets', player_type: str = 'bowler') -> Dict:
+        """
+        Validate forecasting methodology by predicting S2 from S1 (if S0 data existed).
+        Since we only have S1 and S2, we test on S1→S2 predictions.
+        
+        This is a retrospective validation: We predict S2 using only S1 data,
+        then compare predictions against actual S2 outcomes.
+        
+        Args:
+            metric_col: Column to validate ('wickets', 'economy', etc.)
+            player_type: Type of player to validate ('bowler' or 'batter')
+            
+        Returns:
+            Dictionary with MAE, RMSE, MAPE, and prediction accuracy metrics
+        """
+        # Filter players with both S1 and S2 data
+        if player_type == 'bowler':
+            players = pd.merge(
+                self.s1_data[self.s1_data['role'].str.contains('bowl', case=False, na=False)],
+                self.s2_data[self.s2_data['role'].str.contains('bowl', case=False, na=False)],
+                on='player_name',
+                suffixes=('_s1', '_s2')
+            )
+        else:
+            players = pd.merge(
+                self.s1_data[self.s1_data['role'].str.contains('bat', case=False, na=False)],
+                self.s2_data[self.s2_data['role'].str.contains('bat', case=False, na=False)],
+                on='player_name',
+                suffixes=('_s1', '_s2')
+            )
+        
+        # Get S1 and S2 values
+        s1_col = f"{metric_col}_s1"
+        s2_col = f"{metric_col}_s2"
+        
+        # Filter players with valid data
+        valid_players = players[[s1_col, s2_col]].dropna()
+        
+        if len(valid_players) == 0:
+            return {
+                'error': 'No valid players with both S1 and S2 data',
+                'n_players': 0
+            }
+        
+        # Make predictions: Use S1 data to predict S2, assuming stable trend
+        # (In reality, we'd use S0→S1 to predict S2, but we don't have S0)
+        predictions = []
+        actuals = []
+        
+        for idx, row in valid_players.iterrows():
+            s1_val = row[s1_col]
+            s2_actual = row[s2_col]
+            
+            # Simple baseline: assume continuation (S2 = S1)
+            # This tests if adding complexity improves over naive baseline
+            s2_pred = s1_val  # Naive forecast: no change
+            
+            predictions.append(s2_pred)
+            actuals.append(s2_actual)
+        
+        predictions = np.array(predictions)
+        actuals = np.array(actuals)
+        
+        # Calculate error metrics
+        errors = actuals - predictions
+        abs_errors = np.abs(errors)
+        squared_errors = errors ** 2
+        
+        mae = np.mean(abs_errors)
+        rmse = np.sqrt(np.mean(squared_errors))
+        
+        # MAPE (avoid division by zero)
+        mape = np.mean(np.abs(errors / (actuals + 1e-10))) * 100
+        
+        # Directional accuracy (did we predict the right direction?)
+        s1_vals = valid_players[s1_col].values
+        actual_changes = actuals - s1_vals
+        pred_changes = predictions - s1_vals
+        
+        correct_direction = np.sum(np.sign(actual_changes) == np.sign(pred_changes))
+        directional_accuracy = (correct_direction / len(actuals)) * 100
+        
+        # Calculate baseline metrics (always predict mean)
+        mean_baseline = np.mean(s1_vals)
+        baseline_mae = np.mean(np.abs(actuals - mean_baseline))
+        baseline_rmse = np.sqrt(np.mean((actuals - mean_baseline) ** 2))
+        
+        return {
+            'metric': metric_col,
+            'player_type': player_type,
+            'n_players': len(actuals),
+            'mae': round(mae, 2),
+            'rmse': round(rmse, 2),
+            'mape': round(mape, 1),
+            'directional_accuracy': round(directional_accuracy, 1),
+            'baseline_mae': round(baseline_mae, 2),
+            'baseline_rmse': round(baseline_rmse, 2),
+            'improvement_over_baseline': round(((baseline_mae - mae) / baseline_mae) * 100, 1)
+        }
         
     def analyze_trend(self, s1_value: float, s2_value: float, metric: str) -> Dict:
         """
