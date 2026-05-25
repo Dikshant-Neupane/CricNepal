@@ -291,12 +291,11 @@ def test_analyze_squad_retention_calculates_retention_rate(sample_squad_deliveri
     result = analyze_squad_retention(sample_squad_deliveries)
     
     stats = result['stats']
-    retention_rate = stats['retention_rate']
     
     # Retention rate should be between 0 and 100
-    assert 0 <= retention_rate <= 100
-    assert stats['total_s1'] > 0
-    assert stats['total_s2'] > 0
+    assert 0 <= stats['retention_rate'] <= 100  # type: ignore[operator]
+    assert stats['total_s1'] > 0  # type: ignore[operator]
+    assert stats['total_s2'] > 0  # type: ignore[operator]
 
 
 # ══════════════════════════════════════════════════════════════════════════

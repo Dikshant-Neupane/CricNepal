@@ -16,7 +16,7 @@ Must run BEFORE any comparative analysis.
 import pandas as pd
 from pathlib import Path
 import numpy as np
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Any
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -24,7 +24,7 @@ warnings.filterwarnings('ignore')
 import pandas as pd
 from pathlib import Path
 import numpy as np
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Any
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -70,7 +70,7 @@ def normalize_team_names(df: pd.DataFrame) -> pd.DataFrame:
     return df_normalized
 
 
-def validate_team_normalization(df: pd.DataFrame) -> Dict[str, any]:
+def validate_team_normalization(df: pd.DataFrame) -> Dict[str, Any]:
     """Verify team normalization was successful."""
     team_cols = ['team_1_name', 'team_2_name', 'winner_name']
     all_teams = set()
@@ -132,7 +132,7 @@ def detect_player_variants(df: pd.DataFrame) -> pd.DataFrame:
 # 3. Match Validation
 # ══════════════════════════════════════════════════════════════════════════
 
-def validate_matches(matches_df: pd.DataFrame) -> Dict[str, any]:
+def validate_matches(matches_df: pd.DataFrame) -> Dict[str, Any]:
     """
     Validate match data integrity.
     
@@ -170,7 +170,7 @@ def validate_matches(matches_df: pd.DataFrame) -> Dict[str, any]:
 # 4. Deliveries Data Validation
 # ══════════════════════════════════════════════════════════════════════════
 
-def validate_deliveries(deliveries_df: pd.DataFrame, matches_df: pd.DataFrame) -> Dict[str, any]:
+def validate_deliveries(deliveries_df: pd.DataFrame, matches_df: pd.DataFrame) -> Dict[str, Any]:
     """
     Validate ball-by-ball data completeness.
     
