@@ -51,7 +51,7 @@ def render_opposition_report():
     st.markdown(
         """
         <div class="jb-page-head">
-            <h2 class="page-title">🎯 Opposition Intelligence & NPL Comparison</h2>
+            <h2 class="page-title">Opposition Intelligence & NPL Comparison</h2>
             <p class="page-subtitle">Tactical analysis, multi-team comparison, and league-wide performance metrics</p>
         </div>
         """,
@@ -60,9 +60,9 @@ def render_opposition_report():
     
     # Create tabs for different analysis types
     tab1, tab2, tab3 = st.tabs([
-        "📊 League Comparison",
-        "🔍 Team Analysis", 
-        "⚔️ Tactical Report"
+        "League Comparison",
+        "Team Analysis", 
+        "Tactical Report"
     ])
     
     with tab1:
@@ -168,7 +168,7 @@ def render_league_comparison_tab():
 
 def render_team_analysis_tab():
     """Detailed analysis of a selected opposition team"""
-    st.markdown("### 🔍 Opposition Team Deep Dive")
+    st.markdown("### Opposition Team Deep Dive")
     
     df = load_npl_teams_data()
     
@@ -182,7 +182,7 @@ def render_team_analysis_tab():
     with col1:
         selected_team = st.selectbox("Select Opposition Team", teams)
     with col2:
-        st.info(f"💡 Analyzing **{selected_team}** roster and performance trends")
+        st.info(f"Analyzing **{selected_team}** roster and performance trends")
     
     # Analyze selected team
     team_data = df[df['team'] == selected_team]
@@ -205,12 +205,12 @@ def render_team_analysis_tab():
     st.markdown("---")
     
     # Top performers
-    st.markdown(f"### 🌟 {selected_team} - Top Performers (Season 2)")
+    st.markdown(f"### {selected_team} - Top Performers (Season 2)")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("#### 🏏 Top Batters")
+        st.markdown("#### Top Batters")
         top_batters = s2[s2['batting_matches'] > 0].nlargest(5, 'runs_scored')
         if len(top_batters) > 0:
             batter_df = top_batters[['player_name', 'runs_scored', 'strike_rate']].copy()
@@ -220,7 +220,7 @@ def render_team_analysis_tab():
             st.info("No batting data")
     
     with col2:
-        st.markdown("#### 🎯 Top Bowlers")
+        st.markdown("#### Top Bowlers")
         top_bowlers = s2[s2['bowling_matches'] > 0].nlargest(5, 'wickets_taken')
         if len(top_bowlers) > 0:
             bowler_df = top_bowlers[['player_name', 'wickets_taken', 'economy_rate']].copy()
@@ -247,7 +247,7 @@ def render_team_analysis_tab():
             st.info("No players lost")
     
     with col2:
-        st.markdown("#### ✅ New Additions")
+        st.markdown("#### New Additions")
         if gained_players:
             for player in sorted(list(gained_players))[:10]:
                 st.markdown(f"- {player}")

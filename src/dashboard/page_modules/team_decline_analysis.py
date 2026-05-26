@@ -230,7 +230,7 @@ def render_team_decline_analysis():
     st.markdown(
         """
         <div class="jb-page-head">
-            <h2 class="page-title">📊 NPL Team Decline Analysis</h2>
+            <h2 class="page-title">NPL Team Decline Analysis</h2>
             <p class="page-subtitle">Statistical analysis of team performance changes across Season 1 & Season 2</p>
         </div>
         """,
@@ -258,16 +258,16 @@ def render_team_decline_analysis():
         )
     
     with col2:
-        st.info(f"💡 **New Features:** Phase analysis, match results, and enriched player data now integrated!")
+        st.info(f"**New Features:** Phase analysis, match results, and enriched player data now integrated!")
     
     # No championship banner for Janakpur Bolts (not in finals)
     
     # Create tabs for different views
     tab1, tab2, tab3, tab4 = st.tabs([
-        "📈 Overview", 
-        "🎻 Phase Analysis", 
-        "📊 Match Results",
-        "👑 Player Details"
+        "Overview", 
+        "Phase Analysis", 
+        "Match Results",
+        "Player Details"
     ])
     
     with tab1:
@@ -292,55 +292,50 @@ def render_overview_tab(all_data, df, selected_team, teams):
         return
     
     # Display metrics
-    st.markdown("### 📈 Season Comparison")
+    st.markdown("### Season Comparison")
     
     cols = st.columns(5)
     
     with cols[0]:
-        wicket_emoji = "🚿" if analysis['wicket_change_pct'] < -20 else "📉" if analysis['wicket_change_pct'] < 0 else "📈"
         st.metric(
             "Total Wickets",
             f"{analysis['s2_wickets']}",
-            delta=f"{analysis['wicket_change_pct']:.1f}% {wicket_emoji}",
+            delta=f"{analysis['wicket_change_pct']:.1f}%",
             help=f"S1: {analysis['s1_wickets']} ΓåÆ S2: {analysis['s2_wickets']}"
         )
     
     with cols[1]:
-        runs_emoji = "📉" if analysis['runs_change_pct'] < -10 else "📈" if analysis['runs_change_pct'] > 10 else "➡️"
         st.metric(
             "Total Runs",
             f"{analysis['s2_runs']:,}",
-            delta=f"{analysis['runs_change_pct']:.1f}% {runs_emoji}",
+            delta=f"{analysis['runs_change_pct']:.1f}%",
             help=f"S1: {analysis['s1_runs']:,} ΓåÆ S2: {analysis['s2_runs']:,}"
         )
     
     with cols[2]:
         bowler_change = analysis['s2_elite_bowlers'] - analysis['s1_elite_bowlers']
-        bowler_emoji = "🚿" if bowler_change <= -2 else "📉" if bowler_change < 0 else "✅"
         st.metric(
             "Elite Bowlers (10+ wkts)",
             f"{analysis['s2_elite_bowlers']}",
-            delta=f"{bowler_change:+d} {bowler_emoji}",
+            delta=f"{bowler_change:+d}",
             help=f"S1: {analysis['s1_elite_bowlers']} ΓåÆ S2: {analysis['s2_elite_bowlers']}"
         )
     
     with cols[3]:
         eco_change = analysis['s2_economy'] - analysis['s1_economy']
-        eco_emoji = "✅" if eco_change < 0 else "📈"
         st.metric(
             "Economy Rate",
             f"{analysis['s2_economy']:.2f}",
-            delta=f"{eco_change:+.2f} {eco_emoji}",
+            delta=f"{eco_change:+.2f}",
             help=f"Lower is better. S1: {analysis['s1_economy']:.2f} ΓåÆ S2: {analysis['s2_economy']:.2f}"
         )
     
     with cols[4]:
         sr_change = analysis['s2_sr'] - analysis['s1_sr']
-        sr_emoji = "✅" if sr_change > 0 else "📉"
         st.metric(
             "Strike Rate",
             f"{analysis['s2_sr']:.1f}",
-            delta=f"{sr_change:+.1f} {sr_emoji}",
+            delta=f"{sr_change:+.1f}",
             help=f"Higher is better. S1: {analysis['s1_sr']:.1f} ΓåÆ S2: {analysis['s2_sr']:.1f}"
         )
     
@@ -390,7 +385,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
         """, unsafe_allow_html=True)
     
     with col2:
-        st.markdown("### 📊 Performance Attribution")
+        st.markdown("### Performance Attribution")
         
         attr_data = pd.DataFrame({
             'Factor': ['Retained Player\nDecline', 'Net Roster\nChange'],
@@ -505,7 +500,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
     
     # Summary insights
     st.markdown("---")
-    st.markdown("### 💡 Statistical Summary")
+    st.markdown("### Statistical Summary")
     
     rank = league_df.reset_index(drop=True)[league_df['Team'] == selected_team].index[0] + 1
     league_avg = league_df['Change %'].mean()
@@ -531,7 +526,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
 
 def render_phase_analysis_tab(all_data, team_name):
     """Render phase-level performance analysis"""
-    st.markdown("### 🎻 Phase Performance (Powerplay / Middle / Death)")
+    st.markdown("### Phase Performance (Powerplay / Middle / Death)")
     
     phase_stats = get_team_phase_performance(all_data, team_name)
     
@@ -556,7 +551,7 @@ def render_phase_analysis_tab(all_data, team_name):
     st.markdown("---")
     
     # Create comparison chart
-    st.markdown("### 📊 Phase Comparison Chart")
+    st.markdown("### Phase Comparison Chart")
     
     fig = go.Figure()
     
@@ -593,11 +588,11 @@ def render_phase_analysis_tab(all_data, team_name):
     
     st.plotly_chart(fig, use_container_width=True)
     
-    st.info("💡 **Insight:** Compare phases to identify strengths and weaknesses. Low dot ball % with high boundary % indicates aggressive batting.")
+    st.info("**Insight:** Compare phases to identify strengths and weaknesses. Low dot ball % with high boundary % indicates aggressive batting.")
 
 def render_match_results_tab(all_data, team_name):
     """Render match-by-match results"""
-    st.markdown("### 🏏 Match Results Timeline")
+    st.markdown("### Match Results Timeline")
     
     match_results = get_team_match_results(all_data, team_name)
     
@@ -653,7 +648,7 @@ def render_match_results_tab(all_data, team_name):
             },
             'Kathmandu Gorkhas': {
                 'path': ['Eliminator vs Lumbini Lions (Lost)'],
-                'result': '📊 Playoff Finish',
+                'result': 'Playoff Finish',
                 'color': '#6b7280'
             }
         }
@@ -702,7 +697,7 @@ def render_match_results_tab(all_data, team_name):
     
     # Win/Loss timeline
     st.markdown("---")
-    st.markdown("### 📈 Form Timeline")
+    st.markdown("### Form Timeline")
     
     match_results['match_num'] = range(1, len(match_results) + 1)
     match_results['result_num'] = match_results['result'].map({'Won': 1, 'Lost': 0})
@@ -735,7 +730,7 @@ def render_match_results_tab(all_data, team_name):
 
 def render_player_details_tab(all_data, df, team_name):
     """Render detailed player analysis"""
-    st.markdown("### 👑 Player Performance Details")
+    st.markdown("### Player Performance Details")
     
     # Get enriched player data
     enriched = all_data['enriched']
@@ -761,7 +756,7 @@ def render_player_details_tab(all_data, df, team_name):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("#### 🏏 Top Batters")
+        st.markdown("#### Top Batters")
         top_batters = season_data[season_data['batting_matches'] > 0].nlargest(5, 'runs_scored')
         if len(top_batters) > 0:
             batter_df = top_batters[['player_name', 'runs_scored', 'strike_rate', 'batting_hand', 'age']].copy()
@@ -771,7 +766,7 @@ def render_player_details_tab(all_data, df, team_name):
             st.info("No batting data")
     
     with col2:
-        st.markdown("#### 🎻 Top Bowlers")
+        st.markdown("#### Top Bowlers")
         top_bowlers = season_data[season_data['bowling_matches'] > 0].nlargest(5, 'wickets_taken')
         if len(top_bowlers) > 0:
             bowler_df = top_bowlers[['player_name', 'wickets_taken', 'economy_rate', 'bowling_type', 'age']].copy()
@@ -783,7 +778,7 @@ def render_player_details_tab(all_data, df, team_name):
     st.markdown("---")
     
     # Role distribution
-    st.markdown("### 📊 Squad Composition")
+    st.markdown("### Squad Composition")
     
     col1, col2 = st.columns(2)
     

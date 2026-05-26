@@ -725,14 +725,14 @@ def get_season_match_records() -> pd.DataFrame:
 # ═══════════════════════════════════════════════════════════
 
 NAV_ITEMS = [
-    {"icon": "📊", "label": "Dashboard", "key": "dashboard"},
-    {"icon": "⚡", "label": "Season Analysis", "key": "team_decline_analysis"},
-    {"icon": "👤", "label": "Player Profiles", "key": "player_profiles"},
-    {"icon": "🏏", "label": "Batting Analysis", "key": "batting_analysis"},
-    {"icon": "🎯", "label": "Bowling Analysis", "key": "bowling_analysis"},
-    {"icon": "⚔️", "label": "Matchup Engine", "key": "matchup_engine"},
-    {"icon": "🔍", "label": "Opposition Reports", "key": "opposition_reports"},
-    {"icon": "🌟", "label": "S3 Recruiting", "key": "s3_recruiting"},
+    {"icon": "", "label": "Dashboard", "key": "dashboard"},
+    {"icon": "", "label": "Season Analysis", "key": "team_decline_analysis"},
+    {"icon": "", "label": "Player Profiles", "key": "player_profiles"},
+    {"icon": "", "label": "Batting Analysis", "key": "batting_analysis"},
+    {"icon": "", "label": "Bowling Analysis", "key": "bowling_analysis"},
+    {"icon": "", "label": "Matchup Engine", "key": "matchup_engine"},
+    {"icon": "", "label": "Opposition Reports", "key": "opposition_reports"},
+    {"icon": "", "label": "S3 Recruiting", "key": "s3_recruiting"},
 ]
 
 NAV_BOTTOM = [
