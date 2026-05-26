@@ -5,11 +5,12 @@
 # Data (never commit data files - use DVC or external storage)
 data/raw/
 data/processed/
-data/normalized/
 data/exports/
-*.parquet
-*.csv
 *.json
+
+# Except: Allow dashboard data files (small, needed for deployment)
+!data/normalized/*.parquet
+!deliverables/*.csv
 
 # Database
 *.db
