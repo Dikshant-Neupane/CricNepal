@@ -1,8 +1,11 @@
 """Executive overview module with stronger hierarchy and clearer strategic narrative."""
 
+import os
 import streamlit as st
 import pandas as pd
+import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 from datetime import datetime, timedelta
 
 from src.dashboard.services.data_source import load_match_records
@@ -10,36 +13,183 @@ from src.dashboard.services.metrics import build_executive_cards
 from src.dashboard.services.data_quality import validate_match_records
 from src.dashboard.demo_data import get_exports_filepath
 
+TEAM = "Janakpur Bolts"
+PARQUET_MATCHES = "data/normalized/matches_normalized.parquet"
 
-def _momentum_chart() -> None:
-    data = pd.DataFrame(
-        {
+
+def _load_real_matches() -> pd.DataFrame | None:
+    """Load match data from parquet."""
+    try:
+        df = pd.read_parquet(PARQUET_MATCHES)
+        jab = df[
+            (df["team_1_name"] == TEAM) | (df["team_2_name"] == TEAM)
+        ].sort_values("match_date").copy()
+        jab["is_win"] = (jab["winner_name"] == TEAM).astype(int)
+        return jab
+    except Exception:
+        return None
+
+
+def _season_kpis(jab: pd.DataFrame) -> dict:
+    """Calculate win%, NRR, and match counts per season."""
+    result = {}
+    for season, grp in jab.groupby("season"):
+        n = len(grp)
+        wins = grp["is_win"].sum()
+        win_pct = wins / n * 100 if n > 0 else 0
+
+        # Try innings columns first
+        runs_for_col = pd.to_numeric(
+            grp.apply(
+                lambda r: r["innings_1_runs"] if r.get("innings_1_team") == TEAM else r["innings_2_runs"],
+                axis=1,
+            ),
+            errors="coerce",
+        )
+        innings_available = runs_for_col.notna().any()
+
+        if innings_available:
+            runs_against = pd.to_numeric(
+                grp.apply(
+                    lambda r: r["innings_2_runs"] if r.get("innings_1_team") == TEAM else r["innings_1_runs"],
+                    axis=1,
+                ),
+                errors="coerce",
+            ).fillna(0)
+            overs_faced = pd.to_numeric(
+                grp.apply(
+                    lambda r: r["innings_1_overs"] if r.get("innings_1_team") == TEAM else r["innings_2_overs"],
+                    axis=1,
+                ),
+                errors="coerce",
+            ).fillna(20.0).replace(0, 20.0)
+            overs_bowled = pd.to_numeric(
+                grp.apply(
+                    lambda r: r["innings_2_overs"] if r.get("innings_1_team") == TEAM else r["innings_1_overs"],
+                    axis=1,
+                ),
+                errors="coerce",
+            ).fillna(20.0).replace(0, 20.0)
+            runs_for_col = runs_for_col.fillna(0)
+            nrr = (runs_for_col / overs_faced).mean() - (runs_against / overs_bowled).mean()
+        else:
+            # Compute from ball-by-ball
+            nrr = _nrr_from_bbb(grp["match_id"].tolist(), season)
+
+        result[season] = {
+            "n": n,
+            "wins": int(wins),
+            "losses": n - int(wins),
+            "win_pct": win_pct,
+            "nrr": nrr,
+        }
+    return result
+
+
+def _nrr_from_bbb(match_ids: list, season: str) -> float:
+    """Calculate NRR from ball-by-ball data."""
+    try:
+        bbb = pd.read_parquet("data/normalized/ball_by_ball_normalized.parquet")
+        bbb = bbb[bbb["match_id"].isin(match_ids)].copy()
+        if bbb.empty:
+            return float("nan")
+
+        # Runs for (Janakpur batting)
+        batting = bbb[bbb["batting_team"] == TEAM]
+        # Runs against (Janakpur bowling)
+        bowling = bbb[bbb["bowling_team"] == TEAM]
+
+        runs_for_total = pd.to_numeric(batting["runs_total"], errors="coerce").sum()
+        runs_against_total = pd.to_numeric(bowling["runs_total"], errors="coerce").sum()
+
+        # Balls (legal deliveries) for overs
+        # Each row is one delivery; divide by 6 for overs
+        balls_faced = len(batting)
+        balls_bowled = len(bowling)
+        overs_faced = balls_faced / 6 if balls_faced > 0 else 1.0
+        overs_bowled = balls_bowled / 6 if balls_bowled > 0 else 1.0
+
+        nrr = (runs_for_total / overs_faced) - (runs_against_total / overs_bowled)
+        return float(nrr)
+    except Exception:
+        return float("nan")
+
+
+def _form_index(jab: pd.DataFrame, n_recent: int = 5) -> float:
+    """Last N matches win rate."""
+    recent = jab.sort_values("match_date").tail(n_recent)
+    return recent["is_win"].mean() * 100
+
+
+def _momentum_chart(jab: pd.DataFrame | None) -> None:
+    """Plot win rate trajectory by season."""
+    if jab is None or jab.empty:
+        # Fallback demo
+        data = pd.DataFrame({
             "match": ["M1", "M2", "M3", "M4", "M5", "M6"],
             "team_form": [58, 63, 61, 69, 72, 78],
             "middle_over_index": [52, 55, 60, 67, 70, 74],
-        }
-    )
-    fig = px.line(
-        data,
-        x="match",
-        y=["team_form", "middle_over_index"],
-        markers=True,
-        color_discrete_sequence=["#103b2f", "#b7802f"],
-    )
+        })
+        fig = px.line(data, x="match", y=["team_form", "middle_over_index"],
+                      markers=True, color_discrete_sequence=["#103b2f", "#b7802f"])
+        fig.update_layout(height=280, margin=dict(l=20, r=10, t=20, b=20),
+                          paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                          legend_title_text="", yaxis_title="Index", xaxis_title="Recent Matches")
+        fig.update_traces(line_width=3)
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+        return
+
+    rows = []
+    for season, grp in jab.groupby("season"):
+        grp = grp.sort_values("match_date").reset_index(drop=True)
+        grp["match_num"] = range(1, len(grp) + 1)
+        grp["cum_wins"] = grp["is_win"].cumsum()
+        grp["win_rate_pct"] = (grp["cum_wins"] / grp["match_num"] * 100).round(1)
+        grp["label"] = season
+        rows.append(grp[["match_num", "win_rate_pct", "label", "match_date", "winner_name"]])
+
+    plot_df = pd.concat(rows, ignore_index=True)
+    season_colors = {"S1": "#103b2f", "S2": "#b42318"}
+
+    fig = go.Figure()
+    for season, grp in plot_df.groupby("label"):
+        color = season_colors.get(season, "#b7802f")
+        fig.add_trace(go.Scatter(
+            x=grp["match_num"], y=grp["win_rate_pct"],
+            mode="lines+markers", name=season,
+            line=dict(color=color, width=3),
+            marker=dict(size=7),
+            hovertemplate=(
+                f"<b>{season}</b> Match %{{x}}<br>"
+                "Win Rate: %{y:.1f}%<extra></extra>"
+            ),
+        ))
+
+    fig.add_hline(y=50, line_dash="dot", line_color="#7d8f88", line_width=1,
+                  annotation_text="50% break-even", annotation_position="bottom right")
+
     fig.update_layout(
         height=280,
         margin=dict(l=20, r=10, t=20, b=20),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        legend_title_text="",
-        yaxis_title="Index",
-        xaxis_title="Recent Matches",
+        legend_title_text="Season",
+        yaxis_title="Win Rate %",
+        xaxis_title="Match Number",
+        yaxis=dict(range=[0, 105], gridcolor="rgba(0,0,0,0.06)"),
+        xaxis=dict(gridcolor="rgba(0,0,0,0.06)"),
     )
-    fig.update_traces(line_width=3)
-    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 
 def render_executive_overview():
+    jab = _load_real_matches()
+    season_kpis = _season_kpis(jab) if jab is not None else {}
+    s1 = season_kpis.get("S1", {})
+    s2 = season_kpis.get("S2", {})
+    form_idx = _form_index(jab) if jab is not None else 0.0
+
+    # Legacy data_source for contributor tables + quality check
     match_df, data_source = load_match_records()
     quality_report = validate_match_records(match_df)
 
@@ -47,66 +197,107 @@ def render_executive_overview():
         """
         <div class="jb-page-head">
             <h2 class="page-title">Executive Overview</h2>
-            <p class="page-subtitle">Fast read on win drivers, risk factors, and immediate tactical priorities.</p>
+            <p class="page-subtitle">The story of a championship collapse — and the data-driven plan to recover.</p>
             <div class="insight-alert">
                 <span class="insight-alert-icon">Note</span>
-                <p class="insight-alert-text"><span class="insight-label">Focus:</span> Death bowling control remains the highest-impact risk for Season 3.</p>
+                <p class="insight-alert-text"><span class="insight-label">Core finding:</span> 82% of S2 decline attributed to retained-player underperformance, not roster changes. Death bowling lost ~15 runs/match vs S1.</p>
             </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    c1, c2, c3, c4, c5 = st.columns(5)
-    cards = build_executive_cards(match_df)
+    s1_win_pct  = s1.get("win_pct", 0.0)
+    s2_win_pct  = s2.get("win_pct", 0.0)
+    s1_nrr      = s1.get("nrr", float("nan"))
+    s2_nrr      = s2.get("nrr", float("nan"))
+    s1_n        = s1.get("n", 0)
+    s2_n        = s2.get("n", 0)
+    win_delta   = s2_win_pct - s1_win_pct
+
+    # Format NRR safely
+    def _fmt_nrr(v):
+        try:
+            import math
+            return f"{v:+.3f}" if v is not None and not math.isnan(v) else "N/A"
+        except Exception:
+            return "N/A"
+
+    s2_nrr_str = _fmt_nrr(s2_nrr)
+    nrr_delta_str = f"S1: {_fmt_nrr(s1_nrr)} | S2: {_fmt_nrr(s2_nrr)}"
+    nrr_delta_class = "metric-card-delta-neutral"
+    try:
+        import math
+        if not math.isnan(s2_nrr) and not math.isnan(s1_nrr):
+            nrr_delta_class = "metric-card-delta-positive" if s2_nrr > s1_nrr else "metric-card-delta-negative"
+    except Exception:
+        pass
+
+    win_delta_class = "metric-card-delta-negative" if win_delta < 0 else "metric-card-delta-positive"
+
     reliability_delta = (
         f"{quality_report['error_count']} errors, {quality_report['warning_count']} warnings"
         if quality_report["status"] != "healthy"
         else "Contract checks passing"
     )
-    cards.append(
-        (
-            "Data Reliability",
-            str(quality_report["reliability_score"]),
-            reliability_delta,
-            "",
-            "metric-card-delta-positive" if quality_report["status"] == "healthy" else "metric-card-delta-negative",
-        )
-    )
 
-    normalized_cards = []
-    for card in cards:
-        if len(card) == 4:
-            label, value, delta, icon = card
-            normalized_cards.append((label, value, delta, icon, "metric-card-delta-positive"))
-        else:
-            normalized_cards.append(card)
-
-    for col, (label, value, delta, icon, delta_class) in zip([c1, c2, c3, c4, c5], normalized_cards):
+    c1, c2, c3, c4, c5 = st.columns(5)
+    kpi_specs = [
+        (c1, "S1 Win Rate",   f"{s1_win_pct:.1f}%", f"{s1.get('wins',0)}W/{s1.get('losses',0)}L  Champions", "metric-card-delta-positive"),
+        (c2, "S2 Win Rate",   f"{s2_win_pct:.1f}%", f"{win_delta:+.1f}pp vs S1", win_delta_class),
+        (c3, "Season NRR",    s2_nrr_str,            nrr_delta_str, nrr_delta_class),
+        (c4, "Form Index",    f"{form_idx:.0f}%",    "Win rate — last 5 matches",
+         "metric-card-delta-positive" if form_idx >= 50 else "metric-card-delta-negative"),
+        (c5, "Data Reliability", str(quality_report["reliability_score"]), reliability_delta,
+         "metric-card-delta-positive" if quality_report["status"] == "healthy" else "metric-card-delta-negative"),
+    ]
+    for col, label, value, delta, delta_class in kpi_specs:
         with col:
-            delta_text = f"{icon} {delta}".strip()
             st.markdown(
                 f"""
                 <div class="metric-card">
                     <div class="metric-card-label">{label}</div>
                     <div class="metric-card-value">{value}</div>
-                    <div class="metric-card-delta {delta_class}">{delta_text}</div>
+                    <div class="metric-card-delta {delta_class}">{delta}</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
 
-    # Update source label to recognize parquet data
-    if data_source == "database":
-        source_label = "Live DB"
-    elif data_source == "parquet":
-        source_label = "Parquet (Real Data)"
-    else:
-        source_label = "Demo"
-    
-    st.caption(f"Data source: {source_label}")
+    st.caption(f"Data source: {'Parquet (Real)' if jab is not None else 'Demo'} — {s1_n} S1 matches, {s2_n} S2 matches")
 
-    st.markdown("<div style='height:18px;'></div>", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div style="display:flex; gap:12px; margin: 16px 0;">
+        <div style="flex:1; background:var(--surface-container-low); border-left:4px solid #103b2f;
+                    padding:14px 16px; border-radius:0 10px 10px 0;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase;
+                        letter-spacing:.08em; color:#103b2f; margin-bottom:4px;">Act 1 — S1: The Glory</div>
+            <div style="font-size:22px; font-weight:800; color:#103b2f;">{s1_win_pct:.0f}% wins</div>
+            <div style="font-size:12px; color:var(--on-surface-variant); margin-top:4px;">
+                {s1.get('wins',0)}/{s1_n} matches &middot; NPL Champions
+            </div>
+        </div>
+        <div style="flex:1; background:var(--surface-container-low); border-left:4px solid #b42318;
+                    padding:14px 16px; border-radius:0 10px 10px 0;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase;
+                        letter-spacing:.08em; color:#b42318; margin-bottom:4px;">Act 2 — S2: The Collapse</div>
+            <div style="font-size:22px; font-weight:800; color:#b42318;">{s2_win_pct:.0f}% wins</div>
+            <div style="font-size:12px; color:var(--on-surface-variant); margin-top:4px;">
+                {s2.get('wins',0)}/{s2_n} matches &middot; {win_delta:+.0f}pp &darr; from S1
+            </div>
+        </div>
+        <div style="flex:1; background:var(--surface-container-low); border-left:4px solid #b7802f;
+                    padding:14px 16px; border-radius:0 10px 10px 0;">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase;
+                        letter-spacing:.08em; color:#b7802f; margin-bottom:4px;">Act 4 — S3: The Recovery</div>
+            <div style="font-size:22px; font-weight:800; color:#b7802f;">Rebuilding</div>
+            <div style="font-size:12px; color:var(--on-surface-variant); margin-top:4px;">
+                15 shortlisted targets &middot; Shrinkage forecasts ready
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
 
     left, right = st.columns([2.2, 1])
 
@@ -114,17 +305,17 @@ def render_executive_overview():
         st.markdown(
             """
             <div class="card">
-                <div class="card-header"><h3>Performance Momentum</h3></div>
+                <div class="card-header"><h3>Season Win-Rate Trajectory (S1 vs S2)</h3></div>
                 <div class="card-body"></div>
             </div>
             """,
             unsafe_allow_html=True,
         )
-        _momentum_chart()
+        _momentum_chart(jab)
         st.markdown(
             """
             <div class="insight-box">
-                <strong>Insight:</strong> Middle-over stability and wicket preservation explain most recent win momentum.
+                <strong>Insight:</strong> S1 win rate climbed steadily to 70%. S2 opened 0-for-4 and never recovered — the collapse was immediate, not gradual.
             </div>
             """,
             unsafe_allow_html=True,

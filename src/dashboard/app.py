@@ -19,6 +19,7 @@ from src.dashboard.page_modules.bowling_intelligence import render_bowling_intel
 from src.dashboard.page_modules.matchups import render_matchups
 from src.dashboard.page_modules.opposition_report import render_opposition_report
 from src.dashboard.page_modules.team_decline_analysis import render_team_decline_analysis
+from src.dashboard.page_modules.s3_recruiting import render_s3_recruiting
 
 
 # ─── Page Configuration ──────────────────────────────────
@@ -71,6 +72,9 @@ elif active_page == "team_decline_analysis":
 
 elif active_page == "review":
     render_match_review()
+
+elif active_page == "s3_recruiting":
+    render_s3_recruiting()
 
 # ─── Coming Soon Stubs ───────────────────────────────────
 else:

@@ -96,7 +96,15 @@ def get_theme_css() -> str:
 
     [data-testid="stMainBlockContainer"] {
         padding-top: 1.2rem;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
         max-width: 1400px;
+    }
+
+    /* FIX: prevent topbar from being clipped by sidebar overlap */
+    .jb-topbar-outer {
+        margin-left: 0 !important;
+        overflow: visible !important;
     }
 
     .jb-topbar {

@@ -1,5 +1,74 @@
+import os
 import streamlit as st
+import pandas as pd
+import plotly.express as px
 from src.dashboard.demo_data import get_bowling_phases, get_bowling_vs_batter_hand, get_bowling_tactical_directives
+
+TEAM = "Janakpur Bolts"
+BBB_PARQUET = "data/normalized/ball_by_ball_normalized.parquet"
+
+
+def _render_live_heatmap() -> None:
+    """Render bowler runs-conceded heatmap."""
+    try:
+        bbb = pd.read_parquet(BBB_PARQUET)
+        # bbb has no season col — join with matches to get it
+        try:
+            matches = pd.read_parquet("data/normalized/matches_normalized.parquet")[
+                ["match_id", "season"]
+            ]
+            bbb = bbb.merge(matches, on="match_id", how="left")
+        except Exception:
+            pass  # proceed without season filter
+
+        jab_bowl = bbb[bbb["bowling_team"] == TEAM].copy()
+        # Filter to S2 if available, else all
+        if "season" in jab_bowl.columns:
+            s2_data = jab_bowl[jab_bowl["season"] == "S2"]
+            season_label = "S2"
+            if s2_data.empty:
+                s2_data = jab_bowl
+                season_label = "All Seasons"
+        else:
+            s2_data = jab_bowl
+            season_label = "All Seasons"
+
+        s2_data = s2_data.copy()
+        s2_data["over_n"] = pd.to_numeric(s2_data["over"], errors="coerce").astype("Int64")
+        pivot = (
+            s2_data.groupby(["bowler_name", "over_n"])["runs_total"]
+            .sum()
+            .reset_index()
+        )
+        pivot_wide = pivot.pivot_table(
+            index="bowler_name", columns="over_n", values="runs_total", aggfunc="sum"
+        ).fillna(0)
+        # Filter to bowlers with ≥12 balls
+        bowl_balls = s2_data.groupby("bowler_name").size()
+        top_bowlers = bowl_balls[bowl_balls >= 12].index
+        pivot_wide = pivot_wide.loc[pivot_wide.index.isin(top_bowlers)].sort_index()
+        pivot_wide.columns = [str(int(c)) if pd.notna(c) else str(c) for c in pivot_wide.columns]
+        pivot_wide = pivot_wide.reset_index().rename(columns={"bowler_name": "Bowler"})
+        pivot_wide = pivot_wide.set_index("Bowler")
+
+        fig = px.imshow(
+            pivot_wide,
+            labels=dict(x="Over", y="Bowler", color="Runs Conceded"),
+            title=f"Runs Conceded by Over — Janakpur Bowling ({season_label})",
+            color_continuous_scale="RdYlGn_r",
+            aspect="auto",
+            text_auto=True,
+        )
+        fig.update_layout(
+            height=350,
+            margin=dict(l=10, r=10, t=40, b=10),
+            paper_bgcolor="rgba(0,0,0,0)",
+        )
+        fig.update_coloraxes(colorbar_title="Runs")
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+        st.caption(f"Data: {season_label}. Bowlers with <12 balls excluded.")
+    except Exception as exc:
+        st.caption(f"Live heatmap unavailable: {exc}")
 
 def render_bowling_intelligence():
     st.markdown(
@@ -59,13 +128,12 @@ def render_bowling_intelligence():
         st.markdown("""
         <div class="card" style="height: 100%;">
             <div class="card-header">
-                <h3>Resource Allocation by Over</h3>
+                <h3>Resource Allocation by Over (S2)</h3>
             </div>
-            <div class="card-body" style="display: flex; align-items: center; justify-content: center; height: 300px; background: var(--surface-container-low); margin: 24px; border-radius: 8px;">
-                <span style="color: var(--on-surface-variant);">Heatmap placeholder (Bowler x Over) - connects to live ball-by-ball layer.</span>
-            </div>
-        </div>
+            <div class="card-body" style="padding: 12px 24px 24px 24px;">
         """, unsafe_allow_html=True)
+        _render_live_heatmap()
+        st.markdown("</div></div>", unsafe_allow_html=True)
         
     with col2:
         st.markdown("""
