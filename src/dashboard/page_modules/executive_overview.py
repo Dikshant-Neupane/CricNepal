@@ -199,7 +199,7 @@ def render_executive_overview():
             <h2 class="page-title">Executive Overview</h2>
             <p class="page-subtitle">The story of a championship collapse — and the data-driven plan to recover.</p>
             <div class="insight-alert">
-                <span class="insight-alert-icon">Note</span>
+                <span class="insight-alert-icon">⚠️</span>
                 <p class="insight-alert-text"><span class="insight-label">Core finding:</span> 82% of S2 decline attributed to retained-player underperformance, not roster changes. Death bowling lost ~15 runs/match vs S1.</p>
             </div>
         </div>
@@ -264,40 +264,60 @@ def render_executive_overview():
                 unsafe_allow_html=True,
             )
 
-    st.caption(f"Data source: {'Parquet (Real)' if jab is not None else 'Demo'} — {s1_n} S1 matches, {s2_n} S2 matches")
+    st.caption(f"📊 Data source: {'Parquet (Real)' if jab is not None else 'Demo'} — {s1_n} S1 matches, {s2_n} S2 matches")
 
+    st.markdown("<div style='height:24px;'></div>", unsafe_allow_html=True)
+    st.markdown("### 📖 Season Story Arc")
     st.markdown(f"""
-    <div style="display:flex; gap:12px; margin: 16px 0;">
-        <div style="flex:1; background:var(--surface-container-low); border-left:4px solid #103b2f;
-                    padding:14px 16px; border-radius:0 10px 10px 0;">
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin: 16px 0;">
+        <div style="background:linear-gradient(135deg, rgba(16,59,47,0.08), rgba(16,59,47,0.03)); 
+                    border-left:4px solid #103b2f; padding:18px 20px; border-radius:var(--radius-md);
+                    box-shadow:var(--shadow-sm); transition:all var(--transition-base);
+                    animation:slideIn 0.4s ease-out;">
             <div style="font-size:10px; font-weight:700; text-transform:uppercase;
-                        letter-spacing:.08em; color:#103b2f; margin-bottom:4px;">Act 1 — S1: The Glory</div>
-            <div style="font-size:22px; font-weight:800; color:#103b2f;">{s1_win_pct:.0f}% wins</div>
-            <div style="font-size:12px; color:var(--on-surface-variant); margin-top:4px;">
-                {s1.get('wins',0)}/{s1_n} matches &middot; NPL Champions
+                        letter-spacing:.08em; color:#103b2f; margin-bottom:6px; display:flex; align-items:center; gap:8px;">
+                <span style="font-size:16px;">🏆</span> Act 1 — S1: The Glory
+            </div>
+            <div style="font-size:28px; font-weight:800; color:#103b2f; margin:8px 0;">{s1_win_pct:.0f}% wins</div>
+            <div style="font-size:13px; color:var(--on-surface-variant); line-height:1.5;">
+                {s1.get('wins',0)}/{s1_n} matches • NPL Champions
             </div>
         </div>
-        <div style="flex:1; background:var(--surface-container-low); border-left:4px solid #b42318;
-                    padding:14px 16px; border-radius:0 10px 10px 0;">
+        <div style="background:linear-gradient(135deg, rgba(180,35,24,0.08), rgba(180,35,24,0.03)); 
+                    border-left:4px solid #b42318; padding:18px 20px; border-radius:var(--radius-md);
+                    box-shadow:var(--shadow-sm); transition:all var(--transition-base);
+                    animation:slideIn 0.4s ease-out 0.1s backwards;">
             <div style="font-size:10px; font-weight:700; text-transform:uppercase;
-                        letter-spacing:.08em; color:#b42318; margin-bottom:4px;">Act 2 — S2: The Collapse</div>
-            <div style="font-size:22px; font-weight:800; color:#b42318;">{s2_win_pct:.0f}% wins</div>
-            <div style="font-size:12px; color:var(--on-surface-variant); margin-top:4px;">
-                {s2.get('wins',0)}/{s2_n} matches &middot; {win_delta:+.0f}pp &darr; from S1
+                        letter-spacing:.08em; color:#b42318; margin-bottom:6px; display:flex; align-items:center; gap:8px;">
+                <span style="font-size:16px;">📉</span> Act 2 — S2: The Collapse
+            </div>
+            <div style="font-size:28px; font-weight:800; color:#b42318; margin:8px 0;">{s2_win_pct:.0f}% wins</div>
+            <div style="font-size:13px; color:var(--on-surface-variant); line-height:1.5;">
+                {s2.get('wins',0)}/{s2_n} matches • {win_delta:+.0f}pp ↓ from S1
             </div>
         </div>
-        <div style="flex:1; background:var(--surface-container-low); border-left:4px solid #b7802f;
-                    padding:14px 16px; border-radius:0 10px 10px 0;">
+        <div style="background:linear-gradient(135deg, rgba(183,128,47,0.08), rgba(183,128,47,0.03)); 
+                    border-left:4px solid #b7802f; padding:18px 20px; border-radius:var(--radius-md);
+                    box-shadow:var(--shadow-sm); transition:all var(--transition-base);
+                    animation:slideIn 0.4s ease-out 0.2s backwards;">
             <div style="font-size:10px; font-weight:700; text-transform:uppercase;
-                        letter-spacing:.08em; color:#b7802f; margin-bottom:4px;">Act 4 — S3: The Recovery</div>
-            <div style="font-size:22px; font-weight:800; color:#b7802f;">Rebuilding</div>
-            <div style="font-size:12px; color:var(--on-surface-variant); margin-top:4px;">
-                15 shortlisted targets &middot; Shrinkage forecasts ready
+                        letter-spacing:.08em; color:#b7802f; margin-bottom:6px; display:flex; align-items:center; gap:8px;">
+                <span style="font-size:16px;">🎯</span> Act 3 — S3: The Recovery
+            </div>
+            <div style="font-size:28px; font-weight:800; color:#b7802f; margin:8px 0;">Rebuilding</div>
+            <div style="font-size:13px; color:var(--on-surface-variant); line-height:1.5;">
+                69 shortlisted targets • AI forecasts ready
             </div>
         </div>
     </div>
+    <style>
+        div[style*="slideIn"]:hover {{
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md) !important;
+        }}
+    </style>
     """, unsafe_allow_html=True)
-    st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
 
     left, right = st.columns([2.2, 1])
 

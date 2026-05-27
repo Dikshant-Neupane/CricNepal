@@ -49,21 +49,22 @@ def _delta_arrow(val: float | None) -> str:
 def render_s3_recruiting() -> None:
     st.markdown("""
     <div class="jb-page-head">
-        <h2 class="page-title">S3 Recruiting Shortlist</h2>
+        <h2 class="page-title">🎯 S3 Recruiting Shortlist</h2>
         <p class="page-subtitle">Bayesian shrinkage forecasts for S3 bowler economy.
         Ranked by multi-criteria weighted score (SOS economy, dot-ball %, death economy, volume).</p>
     </div>
     """, unsafe_allow_html=True)
 
-    st.info(
-        "**Methodology:** Bayesian Shrinkage Estimator (n=33 paired seasons). "
-        "Ridge regression did NOT beat the shrinkage baseline (LOO-MSE 6.31 vs 3.51). "
-        "Predictions use: `reliability = balls / (balls + 30)` · "
-        "`S3 estimate = reliability × S2_economy + (1 − reliability) × league_avg (8.2)`. "
-        "Higher confidence = more data, more trustworthy forecast."
-    )
+    with st.expander("📊 **Model Methodology** — Click to expand", expanded=False):
+        st.markdown("""
+        **Bayesian Shrinkage Estimator** trained on n=33 paired seasons:
+        - Ridge regression did **NOT** beat the shrinkage baseline (LOO-MSE 6.31 vs 3.51)
+        - Formula: `reliability = balls / (balls + 30)`
+        - Prediction: `S3 estimate = reliability × S2_economy + (1 − reliability) × league_avg (8.2)`
+        - Higher confidence = more data = more trustworthy forecast
+        """)
 
-    df = _load_data()
+    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
     if df is None:
         return
 
@@ -71,22 +72,31 @@ def render_s3_recruiting() -> None:
     t2 = df[df["shortlist_tier"] == "TIER-2 CONSIDER"]
     t3 = df[df["shortlist_tier"] == "TIER-3 MONITOR"]
     high_conf = df[df.get("confidence_tier", pd.Series(dtype=str)).str.startswith("HIGH", na=False)]
+    
+    st.markdown("### 📊 Shortlist Summary")
     k1, k2, k3, k4 = st.columns(4)
-    for col, label, value, color in [
-        (k1, "Tier-1 Priorities", len(t1), "#103b2f"),
-        (k2, "Tier-2 Candidates", len(t2), "#b7802f"),
-        (k3, "Tier-3 Monitors",   len(t3), "#7d8f88"),
-        (k4, "High Confidence",   len(high_conf), "#1a6b51"),
+    for col, label, value, color, icon in [
+        (k1, "Tier-1 Priorities", len(t1), "#103b2f", "🎯"),
+        (k2, "Tier-2 Candidates", len(t2), "#b7802f", "🔶"),
+        (k3, "Tier-3 Monitors",   len(t3), "#7d8f88", "⚪"),
+        (k4, "High Confidence",   len(high_conf), "#1a6b51", "✅"),
     ]:
         with col:
             st.markdown(f"""
             <div class="metric-card">
-                <div class="metric-card-label">{label}</div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div class="metric-card-label">{label}</div>
+                    <span style="font-size:20px;">{icon}</span>
+                </div>
                 <div class="metric-card-value" style="color:{color};">{value}</div>
+                <div style="font-size:11px; color:var(--on-surface-variant); margin-top:8px;">
+                    {(value/len(df)*100):.1f}% of pool
+                </div>
             </div>""", unsafe_allow_html=True)
 
-    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
-
+    st.markdown("<div style='height:24px;'></div>", unsafe_allow_html=True)
+    st.markdown("### 🎛️ Filter Players")
+    
     f1, f2, f3 = st.columns(3)
     all_tiers = ["TIER-1 PRIORITY", "TIER-2 CONSIDER", "TIER-3 MONITOR"]
     all_confs = sorted(df["confidence_tier"].dropna().unique().tolist()) if "confidence_tier" in df.columns else []
@@ -94,20 +104,23 @@ def render_s3_recruiting() -> None:
 
     with f1:
         tier_filter = st.multiselect(
-            "Shortlist Tier", all_tiers,
+            "📋 Shortlist Tier", all_tiers,
             default=["TIER-1 PRIORITY", "TIER-2 CONSIDER"],
             key="s3_tier_filter",
+            help="Filter by recruitment priority tier"
         )
     with f2:
         conf_filter = st.multiselect(
-            "Confidence Level", all_confs,
+            "📈 Confidence Level", all_confs,
             default=[c for c in all_confs if "HIGH" in c or "MEDIUM" in c],
             key="s3_conf_filter",
+            help="Filter by prediction confidence (based on balls bowled)"
         )
     with f3:
         type_filter = st.multiselect(
-            "Bowling Type", all_types, default=all_types,
+            "🎳 Bowling Type", all_types, default=all_types,
             key="s3_type_filter",
+            help="Filter by bowling style"
         )
 
     filtered = df.copy()
@@ -118,12 +131,18 @@ def render_s3_recruiting() -> None:
     if type_filter and "bowling_type" in filtered.columns:
         filtered = filtered[filtered["bowling_type"].isin(type_filter)]
 
-    st.markdown(f"**{len(filtered)} players** match filters")
+    if len(filtered) == 0:
+        st.warning("🔍 No players match the current filters. Try adjusting your selection.")
+        return
+    
+    st.success(f"✅ **{len(filtered)} players** match filters ({(len(filtered)/len(df)*100):.1f}% of total pool)")
+
+    st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)
 
     scatter_df = filtered.dropna(subset=["sos_economy", "pred_s3_final"]).copy()
     if not scatter_df.empty:
-        st.markdown("#### S2 Economy (SOS-adjusted) vs S3 Predicted Economy")
-        st.caption("Bubble size = balls bowled in S2. Better players sit bottom-left (lower economy).")
+        st.markdown("### 📊 S2 Economy vs S3 Forecast")
+        st.caption("💡 Bubble size = balls bowled in S2. Better players sit **bottom-left** (lower economy). Hover for details.")
         fig = px.scatter(
             scatter_df,
             x="sos_economy",
