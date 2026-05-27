@@ -371,7 +371,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
             yaxis_title="Players",
             showlegend=False
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         st.markdown(f"""
         <div class="card">
@@ -409,7 +409,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
             showlegend=False,
             annotations=[dict(text='Decline<br>Attribution', x=0.5, y=0.5, font_size=14, showarrow=False)]
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         st.markdown(f"""
         <div class="card">
@@ -431,7 +431,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
         if len(analysis['departed_df']) > 0:
             departed_display = analysis['departed_df'][['player_name', 'runs_scored', 'wickets_taken', 'impact']].copy()
             departed_display.columns = ['Player', 'Runs', 'Wickets', 'Impact']
-            st.dataframe(departed_display, use_container_width=True, hide_index=True)
+            st.dataframe(departed_display, width='stretch', hide_index=True)
         else:
             st.info("No departed players")
     
@@ -440,7 +440,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
         if len(analysis['new_df']) > 0:
             new_display = analysis['new_df'][['player_name', 'runs_scored', 'wickets_taken', 'impact']].copy()
             new_display.columns = ['Player', 'Runs', 'Wickets', 'Impact']
-            st.dataframe(new_display, use_container_width=True, hide_index=True)
+            st.dataframe(new_display, width='stretch', hide_index=True)
         else:
             st.info("No new players")
     
@@ -496,7 +496,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
         xaxis={'tickangle': -45}
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     
     # Summary insights
     st.markdown("---")
@@ -586,7 +586,7 @@ def render_phase_analysis_tab(all_data, team_name):
         margin=dict(l=20, r=20, t=40, b=20)
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     
     st.info("**Insight:** Compare phases to identify strengths and weaknesses. Low dot ball % with high boundary % indicates aggressive batting.")
 
@@ -690,7 +690,7 @@ def render_match_results_tab(all_data, team_name):
     
     st.dataframe(
         display_df.style.apply(highlight_result, axis=1),
-        use_container_width=True,
+        width='stretch',
         hide_index=True,
         height=400
     )
@@ -726,7 +726,7 @@ def render_match_results_tab(all_data, team_name):
         yaxis=dict(range=[0, 100])
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 def render_player_details_tab(all_data, df, team_name):
     """Render detailed player analysis"""
@@ -761,7 +761,7 @@ def render_player_details_tab(all_data, df, team_name):
         if len(top_batters) > 0:
             batter_df = top_batters[['player_name', 'runs_scored', 'strike_rate', 'batting_hand', 'age']].copy()
             batter_df.columns = ['Player', 'Runs', 'SR', 'Hand', 'Age']
-            st.dataframe(batter_df, use_container_width=True, hide_index=True)
+            st.dataframe(batter_df, width='stretch', hide_index=True)
         else:
             st.info("No batting data")
     
@@ -771,7 +771,7 @@ def render_player_details_tab(all_data, df, team_name):
         if len(top_bowlers) > 0:
             bowler_df = top_bowlers[['player_name', 'wickets_taken', 'economy_rate', 'bowling_type', 'age']].copy()
             bowler_df.columns = ['Player', 'Wickets', 'Economy', 'Type', 'Age']
-            st.dataframe(bowler_df, use_container_width=True, hide_index=True)
+            st.dataframe(bowler_df, width='stretch', hide_index=True)
         else:
             st.info("No bowling data")
     
@@ -800,7 +800,7 @@ def render_player_details_tab(all_data, df, team_name):
                 annotations=[dict(text='Roles', x=0.5, y=0.5, font_size=14, showarrow=False)]
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         else:
             st.info("Role data not available")
     
@@ -823,7 +823,7 @@ def render_player_details_tab(all_data, df, team_name):
                 margin=dict(l=20, r=20, t=20, b=20)
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         else:
             st.info("Age data not available")
     
@@ -865,7 +865,7 @@ def render_player_details_tab(all_data, df, team_name):
                     paper_bgcolor='rgba(0,0,0,0)',
                     margin=dict(l=20, r=20, t=40, b=20)
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
             
             with col2:
                 if player_form['wickets_taken'].sum() > 0:
@@ -893,7 +893,7 @@ def render_player_details_tab(all_data, df, team_name):
                         paper_bgcolor='rgba(0,0,0,0)',
                         margin=dict(l=20, r=20, t=40, b=20)
                     )
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
                 else:
                     st.info("No bowling data for this player")
         else:

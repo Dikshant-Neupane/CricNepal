@@ -183,7 +183,7 @@ def render_s3_recruiting() -> None:
             xaxis=dict(gridcolor="rgba(0,0,0,0.06)"),
             yaxis=dict(gridcolor="rgba(0,0,0,0.06)"),
         )
-        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+        st.plotly_chart(fig, width='stretch', config={"displayModeBar": False})
     else:
         st.info("No scatter data for current filters.")
 
@@ -213,7 +213,7 @@ def render_s3_recruiting() -> None:
     }
     table = table.rename(columns={k: v for k, v in rename_map.items() if k in table.columns})
 
-    st.dataframe(table, use_container_width=True, hide_index=True)
+    st.dataframe(table, width='stretch', hide_index=True)
 
     # ── Model explanation expander ────────────────────────────────────────────
     with st.expander("Model Methodology & Confidence Tiers"):

@@ -136,7 +136,7 @@ def _momentum_chart(jab: pd.DataFrame | None) -> None:
                           paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                           legend_title_text="", yaxis_title="Index", xaxis_title="Recent Matches")
         fig.update_traces(line_width=3)
-        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+        st.plotly_chart(fig, width='stretch', config={"displayModeBar": False})
         return
 
     rows = []
@@ -179,7 +179,7 @@ def _momentum_chart(jab: pd.DataFrame | None) -> None:
         yaxis=dict(range=[0, 105], gridcolor="rgba(0,0,0,0.06)"),
         xaxis=dict(gridcolor="rgba(0,0,0,0.06)"),
     )
-    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    st.plotly_chart(fig, width='stretch', config={"displayModeBar": False})
 
 
 def render_executive_overview():

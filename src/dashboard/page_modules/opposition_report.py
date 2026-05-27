@@ -137,7 +137,7 @@ def render_league_comparison_tab():
         hovermode='x unified'
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     
     st.markdown("---")
     
@@ -159,7 +159,7 @@ def render_league_comparison_tab():
             'S2 Avg Wickets': '{:.2f}',
             'Change %': '{:+.1f}%'
         }),
-        use_container_width=True,
+        width='stretch',
         hide_index=True,
         height=350
     )
@@ -215,7 +215,7 @@ def render_team_analysis_tab():
         if len(top_batters) > 0:
             batter_df = top_batters[['player_name', 'runs_scored', 'strike_rate']].copy()
             batter_df.columns = ['Player', 'Runs', 'Strike Rate']
-            st.dataframe(batter_df, use_container_width=True, hide_index=True)
+            st.dataframe(batter_df, width='stretch', hide_index=True)
         else:
             st.info("No batting data")
     
@@ -225,7 +225,7 @@ def render_team_analysis_tab():
         if len(top_bowlers) > 0:
             bowler_df = top_bowlers[['player_name', 'wickets_taken', 'economy_rate']].copy()
             bowler_df.columns = ['Player', 'Wickets', 'Economy']
-            st.dataframe(bowler_df, use_container_width=True, hide_index=True)
+            st.dataframe(bowler_df, width='stretch', hide_index=True)
         else:
             st.info("No bowling data")
     
@@ -268,9 +268,9 @@ def render_tactical_report_tab():
 
     top_a, top_b = st.columns([1, 1])
     with top_a:
-        st.button("Analyst Notes", use_container_width=True)
+        st.button("Analyst Notes", width='stretch')
     with top_b:
-        st.button("Export PDF", type="primary", use_container_width=True)
+        st.button("Export PDF", type="primary", width='stretch')
 
     # Top Configuration Row
     st.markdown("""
@@ -287,7 +287,7 @@ def render_tactical_report_tab():
         st.selectbox("Data Range", ["Last 10 Matches", "All Time", "2024 Season"])
     with col4:
         st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
-        st.button("Generate Report", type="primary", use_container_width=True)
+        st.button("Generate Report", type="primary", width='stretch')
 
     st.markdown("</div></div>", unsafe_allow_html=True)
 
