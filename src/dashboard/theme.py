@@ -926,11 +926,12 @@ def get_theme_css() -> str:
     }
 
     @media (max-width: 768px) {
-        /* Main container padding */
+        /* Main content: full width on mobile (sidebar overlays, doesn't push) */
         [data-testid="stMainBlockContainer"] {
             padding-left: var(--space-sm) !important;
             padding-right: var(--space-sm) !important;
             padding-top: var(--space-sm) !important;
+            margin-left: 0 !important;
         }
         
         /* Topbar mobile optimization */
@@ -1082,37 +1083,51 @@ def get_theme_css() -> str:
             margin-bottom: 8px !important;
         }
         
-        /* Sidebar mobile adjustments - make collapsible */
+        /* Sidebar mobile: hidden by default, slides in when opened */
         [data-testid="stSidebar"] {
-            min-width: 0 !important;
-            width: auto !important;
-            transform: translateX(0) !important;
             position: fixed !important;
+            left: 0 !important;
+            top: 0 !important;
+            height: 100vh !important;
             z-index: 999999 !important;
+            width: 260px !important;
+            min-width: 260px !important;
+            max-width: 260px !important;
+            transform: translateX(-100%);
             transition: transform 0.3s ease-in-out !important;
         }
         
-        /* Allow collapse button to show on mobile */
+        /* Show sidebar when user opens it - higher specificity */
+        section[data-testid="stSidebar"][aria-expanded="true"] {
+            transform: translateX(0) !important;
+        }
+        
+        /* Ensure collapsed stays hidden */
+        section[data-testid="stSidebar"][aria-expanded="false"] {
+            transform: translateX(-100%) !important;
+        }
+        
+        /* Show collapse button on mobile */
         [data-testid="stSidebarCollapsedControl"],
         [data-testid="stSidebarCollapseButton"],
         .st-emotion-cache-10p9htt,
-        .eelgd2m4,
-        section[data-testid="stSidebar"] > div > button {
+        .eelgd2m4 {
             display: flex !important;
             visibility: visible !important;
             opacity: 1 !important;
-            position: static !important;
-            z-index: auto !important;
-            width: auto !important;
-            height: auto !important;
-            overflow: visible !important;
+            z-index: 1000000 !important;
         }
         
-        /* Collapsed sidebar on mobile */
-        section[data-testid="stSidebar"][aria-expanded="false"] {
-            transform: translateX(-100%) !important;
-            min-width: 0 !important;
-            width: 0 !important;
+        /* Backdrop when sidebar is open on mobile */
+        section[data-testid="stSidebar"][aria-expanded="true"]::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
         }
         
         /* Full width main content when sidebar collapsed */
