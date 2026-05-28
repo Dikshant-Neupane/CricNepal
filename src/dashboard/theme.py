@@ -144,9 +144,25 @@ def get_theme_css() -> str:
         max-height: 0 !important;
     }
 
-    /* Lock sidebar open — always visible */
-    [data-testid="stSidebarCollapsedControl"] {
+    /* Lock sidebar open — always visible & hide all collapse controls */
+    [data-testid="stSidebarCollapsedControl"],
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="collapsedControl"],
+    button[kind="header"],
+    .st-emotion-cache-10p9htt,
+    .eelgd2m4,
+    .eelgd2m3,
+    section[data-testid="stSidebar"] button[aria-label*="Close"],
+    section[data-testid="stSidebar"] button[aria-label*="collapse"],
+    section[data-testid="stSidebar"] > div > button {
         display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: absolute !important;
+        z-index: -9999 !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
     }
     section[data-testid="stSidebar"] {
         min-width: 220px !important;
