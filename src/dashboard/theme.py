@@ -1166,14 +1166,33 @@ def get_theme_css() -> str:
             cursor: pointer !important;
             align-items: center !important;
             justify-content: center !important;
-            color: white !important;
-            font-size: 20px !important;
+            color: transparent !important;
+            font-size: 0 !important;
             transition: all 0.2s ease !important;
+            overflow: hidden !important;
+        }
+        
+        /* Replace icon text with hamburger menu icon */
+        button[data-testid="stExpandSidebarButton"]::before {
+            content: '' !important;
+            position: absolute !important;
+            width: 20px !important;
+            height: 2px !important;
+            background: white !important;
+            box-shadow: 0 -6px 0 white, 0 6px 0 white !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
         }
         
         button[data-testid="stExpandSidebarButton"]:hover {
             transform: scale(1.05) !important;
             box-shadow: var(--shadow-xl) !important;
+        }
+        
+        /* Hide the icon text content */
+        button[data-testid="stExpandSidebarButton"] * {
+            display: none !important;
         }
         
         /* Style collapse button too */
@@ -1183,6 +1202,35 @@ def get_theme_css() -> str:
             height: 44px !important;
             min-width: 44px !important;
             min-height: 44px !important;
+            font-size: 0 !important;
+            color: transparent !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        /* Replace collapse button icon with X */
+        button[data-testid="stSidebarCollapseButton"]::before,
+        button[data-testid="stSidebarCollapseButton"]::after {
+            content: '' !important;
+            position: absolute !important;
+            width: 16px !important;
+            height: 2px !important;
+            background: currentColor !important;
+            top: 50% !important;
+            left: 50% !important;
+        }
+        
+        button[data-testid="stSidebarCollapseButton"]::before {
+            transform: translate(-50%, -50%) rotate(45deg) !important;
+        }
+        
+        button[data-testid="stSidebarCollapseButton"]::after {
+            transform: translate(-50%, -50%) rotate(-45deg) !important;
+        }
+        
+        /* Hide the icon text in collapse button */
+        button[data-testid="stSidebarCollapseButton"] * {
+            display: none !important;
         }
         
         /* Backdrop when sidebar is open on mobile */
