@@ -845,19 +845,245 @@ def get_theme_css() -> str:
     }
 
     @media (max-width: 768px) {
+        /* Main container padding */
         [data-testid="stMainBlockContainer"] {
-            padding-left: var(--space-md) !important;
-            padding-right: var(--space-md) !important;
+            padding-left: var(--space-sm) !important;
+            padding-right: var(--space-sm) !important;
+            padding-top: var(--space-sm) !important;
         }
+        
+        /* Typography optimizations */
         .page-title {
-            font-size: 24px;
+            font-size: 22px !important;
+            line-height: 1.3;
         }
+        .page-subtitle {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        /* Metric cards for mobile */
         .metric-card {
-            min-height: 120px;
-            padding: var(--space-md);
+            min-height: 100px;
+            padding: 12px;
+            margin-bottom: 8px;
         }
         .metric-card-value {
-            font-size: 28px;
+            font-size: 24px !important;
+        }
+        .metric-card-label {
+            font-size: 10px !important;
+            margin-bottom: 6px;
+        }
+        .metric-card-delta {
+            font-size: 10px !important;
+            padding: 4px 8px;
+        }
+        
+        /* Topbar mobile optimization */
+        .jb-topbar {
+            padding: 12px !important;
+            margin-bottom: 12px !important;
+        }
+        .jb-brand-title {
+            font-size: 18px !important;
+        }
+        .jb-date-pill {
+            font-size: 11px !important;
+            padding: 6px 12px !important;
+        }
+        
+        /* Page header spacing */
+        .jb-page-head {
+            padding: 12px 0 !important;
+            margin-bottom: 16px !important;
+        }
+        
+        /* Insight alerts */
+        .insight-alert {
+            padding: 12px !important;
+            font-size: 12px !important;
+        }
+        .insight-alert-text {
+            font-size: 12px !important;
+        }
+        
+        /* Tables - horizontal scroll with better UX */
+        [data-testid="stDataFrame"] {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            max-width: 100%;
+        }
+        [data-testid="stDataFrame"] > div {
+            min-width: 600px;
+        }
+        
+        /* Table text sizing */
+        .bolts-table, .data-table {
+            font-size: 11px !important;
+        }
+        .bolts-table th, .data-table th {
+            font-size: 10px !important;
+            padding: 8px 4px !important;
+            white-space: nowrap;
+        }
+        .bolts-table td, .data-table td {
+            padding: 8px 4px !important;
+        }
+        
+        /* Touch-optimized buttons */
+        button {
+            min-height: 44px !important;
+            font-size: 14px !important;
+            padding: 10px 16px !important;
+        }
+        [data-testid="stSidebar"] button {
+            min-height: 42px !important;
+            font-size: 13px !important;
+        }
+        
+        /* Stack grid layouts */
+        div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+        }
+        
+        /* Column spacing optimization */
+        [data-testid="stHorizontalBlock"] {
+            gap: 4px !important;
+            flex-wrap: wrap;
+        }
+        [data-testid="column"] {
+            min-width: 0 !important;
+            padding: 0 2px !important;
+            flex: 1 1 auto !important;
+        }
+        
+        /* Charts mobile optimization */
+        [data-testid="stPlotlyChart"] {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        
+        /* Expander mobile optimization */
+        [data-testid="stExpander"] {
+            margin-bottom: 12px;
+        }
+        [data-testid="stExpanderDetails"] {
+            padding: 12px !important;
+        }
+        
+        /* Multiselect and select boxes */
+        [data-baseweb="select"] {
+            font-size: 13px !important;
+        }
+        
+        /* Reduce section spacing */
+        .stMarkdown > div {
+            margin-bottom: 8px !important;
+        }
+        
+        /* Sidebar mobile adjustments */
+        [data-testid="stSidebar"] {
+            min-width: 260px !important;
+        }
+        [data-testid="stSidebar"] .sidebar-brand {
+            padding: 12px !important;
+        }
+        [data-testid="stSidebar"] .sidebar-brand h1 {
+            font-size: 16px !important;
+        }
+        [data-testid="stSidebar"] .sidebar-brand p {
+            font-size: 11px !important;
+        }
+    }
+    
+    /* Extra small devices (phones in portrait) */
+    @media (max-width: 480px) {
+        .page-title {
+            font-size: 20px !important;
+        }
+        .metric-card-value {
+            font-size: 22px !important;
+        }
+        .jb-topbar {
+            padding: 10px !important;
+        }
+        .jb-brand-title {
+            font-size: 16px !important;
+        }
+        /* Force single column for KPI cards */
+        [data-testid="stHorizontalBlock"]:has(.metric-card) {
+            flex-direction: column !important;
+        }
+        [data-testid="stHorizontalBlock"]:has(.metric-card) > [data-testid="column"] {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+        }
+    }
+        .bolts-table td, .data-table td {
+            padding: 8px 6px;
+            font-size: 12px;
+        }
+        /* Wrap table container */
+        .stDataFrame > div {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+
+    @media (max-width: 480px) {
+        [data-testid="stMainBlockContainer"] {
+            padding-left: var(--space-xs) !important;
+            padding-right: var(--space-xs) !important;
+        }
+        .jb-topbar {
+            padding: var(--space-sm) var(--space-md);
+        }
+        .jb-brand-title {
+            font-size: 18px;
+        }
+        .jb-date-pill {
+            font-size: 11px;
+            padding: 4px 10px;
+        }
+        .page-title {
+            font-size: 22px;
+        }
+        .metric-card {
+            min-height: 100px;
+            padding: var(--space-sm);
+        }
+        .metric-card-value {
+            font-size: 24px;
+        }
+        .metric-card-label {
+            font-size: 10px;
+        }
+        .insight-alert {
+            padding: var(--space-sm);
+            font-size: 12px;
+        }
+        [data-testid="stSidebar"] .sidebar-brand h1 {
+            font-size: 16px !important;
+        }
+        [data-testid="stSidebar"] .sidebar-brand p {
+            font-size: 11px !important;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .page-title {
+            font-size: 20px;
+        }
+        .metric-card-value {
+            font-size: 22px;
+        }
+        .jb-brand-title {
+            font-size: 16px;
+        }
+        button {
+            font-size: 13px !important;
         }
     }
 
