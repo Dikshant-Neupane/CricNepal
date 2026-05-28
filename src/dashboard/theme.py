@@ -981,7 +981,7 @@ def get_theme_css() -> str:
         
         /* Topbar mobile optimization */
         .jb-topbar {
-            padding: 14px 16px !important;
+            padding: 14px 16px 14px 68px !important;
             margin: 0 !important;
             border-radius: 0 0 12px 12px !important;
         }
@@ -1156,8 +1156,8 @@ def get_theme_css() -> str:
             min-width: 44px !important;
             min-height: 44px !important;
             position: fixed !important;
-            top: 12px !important;
-            left: 12px !important;
+            top: 76px !important;
+            left: 16px !important;
             z-index: 1000001 !important;
             background: var(--primary) !important;
             border-radius: 50% !important;
