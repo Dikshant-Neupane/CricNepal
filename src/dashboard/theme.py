@@ -144,36 +144,38 @@ def get_theme_css() -> str:
         max-height: 0 !important;
     }
 
-    /* Lock sidebar open — always visible & hide all collapse controls */
-    [data-testid="stSidebarCollapsedControl"],
-    [data-testid="stSidebarCollapseButton"],
-    [data-testid="collapsedControl"],
-    button[kind="header"],
-    .st-emotion-cache-10p9htt,
-    .eelgd2m4,
-    .eelgd2m3,
-    section[data-testid="stSidebar"] button[aria-label*="Close"],
-    section[data-testid="stSidebar"] button[aria-label*="collapse"],
-    section[data-testid="stSidebar"] > div > button {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        position: absolute !important;
-        z-index: -9999 !important;
-        width: 0 !important;
-        height: 0 !important;
-        overflow: hidden !important;
-    }
-    section[data-testid="stSidebar"] {
-        min-width: 220px !important;
-        width: 220px !important;
-        transform: none !important;
-    }
-    section[data-testid="stSidebar"][aria-expanded="false"] {
-        min-width: 220px !important;
-        width: 220px !important;
-        transform: none !important;
-        margin-left: 0 !important;
+    /* Lock sidebar open on desktop — hide collapse controls on desktop only */
+    @media (min-width: 769px) {
+        [data-testid="stSidebarCollapsedControl"],
+        [data-testid="stSidebarCollapseButton"],
+        [data-testid="collapsedControl"],
+        button[kind="header"],
+        .st-emotion-cache-10p9htt,
+        .eelgd2m4,
+        .eelgd2m3,
+        section[data-testid="stSidebar"] button[aria-label*="Close"],
+        section[data-testid="stSidebar"] button[aria-label*="collapse"],
+        section[data-testid="stSidebar"] > div > button {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            position: absolute !important;
+            z-index: -9999 !important;
+            width: 0 !important;
+            height: 0 !important;
+            overflow: hidden !important;
+        }
+        section[data-testid="stSidebar"] {
+            min-width: 220px !important;
+            width: 220px !important;
+            transform: none !important;
+        }
+        section[data-testid="stSidebar"][aria-expanded="false"] {
+            min-width: 220px !important;
+            width: 220px !important;
+            transform: none !important;
+            margin-left: 0 !important;
+        }
     }
 
     [data-testid="stAppViewContainer"] {
@@ -931,6 +933,24 @@ def get_theme_css() -> str:
             padding-top: var(--space-sm) !important;
         }
         
+        /* Topbar mobile optimization */
+        .jb-topbar {
+            padding: 14px 16px !important;
+            margin: 0 !important;
+            border-radius: 0 0 12px 12px !important;
+        }
+        .jb-brand-kicker {
+            font-size: 10px !important;
+        }
+        .jb-brand-title {
+            font-size: 18px !important;
+            line-height: 1.2 !important;
+        }
+        .jb-date-pill {
+            font-size: 10px !important;
+            padding: 6px 10px !important;
+        }
+        
         /* Typography optimizations */
         .page-title {
             font-size: 22px !important;
@@ -1062,35 +1082,101 @@ def get_theme_css() -> str:
             margin-bottom: 8px !important;
         }
         
-        /* Sidebar mobile adjustments */
+        /* Sidebar mobile adjustments - make collapsible */
         [data-testid="stSidebar"] {
-            min-width: 260px !important;
+            min-width: 0 !important;
+            width: auto !important;
+            transform: translateX(0) !important;
+            position: fixed !important;
+            z-index: 999999 !important;
+            transition: transform 0.3s ease-in-out !important;
         }
+        
+        /* Allow collapse button to show on mobile */
+        [data-testid="stSidebarCollapsedControl"],
+        [data-testid="stSidebarCollapseButton"],
+        .st-emotion-cache-10p9htt,
+        .eelgd2m4,
+        section[data-testid="stSidebar"] > div > button {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: static !important;
+            z-index: auto !important;
+            width: auto !important;
+            height: auto !important;
+            overflow: visible !important;
+        }
+        
+        /* Collapsed sidebar on mobile */
+        section[data-testid="stSidebar"][aria-expanded="false"] {
+            transform: translateX(-100%) !important;
+            min-width: 0 !important;
+            width: 0 !important;
+        }
+        
+        /* Full width main content when sidebar collapsed */
+        [data-testid="stSidebar"][aria-expanded="false"] ~ [data-testid="stMainBlockContainer"],
+        [data-testid="stSidebar"][aria-expanded="false"] ~ * [data-testid="stMainBlockContainer"] {
+            margin-left: 0 !important;
+            max-width: 100% !important;
+        }
+        
         [data-testid="stSidebar"] .sidebar-brand {
             padding: 12px !important;
         }
         [data-testid="stSidebar"] .sidebar-brand h1 {
-            font-size: 16px !important;
+            font-size: 14px !important;
         }
         [data-testid="stSidebar"] .sidebar-brand p {
-            font-size: 11px !important;
+            font-size: 10px !important;
+        }
+        
+        /* Compact sidebar buttons */
+        [data-testid="stSidebar"] button {
+            padding: 8px 12px !important;
+            font-size: 12px !important;
         }
     }
     
     /* Extra small devices (phones in portrait) */
     @media (max-width: 480px) {
+        /* Even more compact topbar */
+        .jb-topbar {
+            padding: 10px 12px !important;
+        }
+        .jb-brand-kicker {
+            font-size: 9px !important;
+        }
+        .jb-brand-title {
+            font-size: 16px !important;
+        }
+        .jb-date-pill {
+            font-size: 9px !important;
+            padding: 5px 8px !important;
+        }
+        
+        /* Typography */
         .page-title {
             font-size: 20px !important;
         }
         .metric-card-value {
             font-size: 22px !important;
         }
-        .jb-topbar {
-            padding: 10px !important;
+        
+        /* Sidebar even more compact */
+        [data-testid="stSidebar"] .sidebar-brand h1 {
+            font-size: 13px !important;
         }
-        .jb-brand-title {
-            font-size: 16px !important;
+        [data-testid="stSidebar"] .sidebar-brand p {
+            font-size: 9px !important;
         }
+        [data-testid="stSidebar"] button {
+            padding: 6px 10px !important;
+            font-size: 11px !important;
+            min-height: 40px !important;
+        }
+        
         /* Force single column for KPI cards */
         [data-testid="stHorizontalBlock"]:has(.metric-card) {
             flex-direction: column !important;
