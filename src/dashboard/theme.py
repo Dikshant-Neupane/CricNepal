@@ -969,7 +969,7 @@ def get_theme_css() -> str:
         [data-testid="stMainBlockContainer"] {
             padding-left: var(--space-sm) !important;
             padding-right: var(--space-sm) !important;
-            padding-top: var(--space-sm) !important;
+            padding-top: 70px !important;
             margin-left: 200px !important;
             transition: margin-left 0.3s ease-in-out !important;
         }
@@ -982,19 +982,24 @@ def get_theme_css() -> str:
         /* Topbar mobile optimization */
         .jb-topbar {
             padding: 14px 16px 14px 68px !important;
-            margin: 0 !important;
+            margin: 0 0 12px 0 !important;
             border-radius: 0 0 12px 12px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
         }
         .jb-brand-kicker {
-            font-size: 10px !important;
+            font-size: 11px !important;
+            letter-spacing: 0.05em !important;
+            opacity: 0.9 !important;
         }
         .jb-brand-title {
             font-size: 18px !important;
             line-height: 1.2 !important;
         }
         .jb-date-pill {
-            font-size: 10px !important;
-            padding: 6px 10px !important;
+            font-size: 11px !important;
+            padding: 6px 12px !important;
         }
         
         /* Typography optimizations */
@@ -1023,19 +1028,6 @@ def get_theme_css() -> str:
         .metric-card-delta {
             font-size: 10px !important;
             padding: 4px 8px;
-        }
-        
-        /* Topbar mobile optimization */
-        .jb-topbar {
-            padding: 12px !important;
-            margin-bottom: 12px !important;
-        }
-        .jb-brand-title {
-            font-size: 18px !important;
-        }
-        .jb-date-pill {
-            font-size: 11px !important;
-            padding: 6px 12px !important;
         }
         
         /* Page header spacing */
@@ -1271,10 +1263,7 @@ def get_theme_css() -> str:
     
     /* Extra small devices (phones in portrait) */
     @media (max-width: 480px) {
-        /* Even more compact topbar */
-        .jb-topbar {
-            padding: 10px 12px !important;
-        }
+        /* Kicker and date styling for small screens */
         .jb-brand-kicker {
             font-size: 9px !important;
         }
@@ -1333,14 +1322,21 @@ def get_theme_css() -> str:
             padding-right: var(--space-xs) !important;
         }
         .jb-topbar {
-            padding: var(--space-sm) var(--space-md);
+            padding: 10px 12px 10px 64px !important;
+        }
+        .jb-brand-kicker {
+            font-size: 10px !important;
+            letter-spacing: 0.08em !important;
+            opacity: 1 !important;
+            font-weight: 600 !important;
         }
         .jb-brand-title {
-            font-size: 18px;
+            font-size: 18px !important;
+            margin-top: 2px !important;
         }
         .jb-date-pill {
-            font-size: 11px;
-            padding: 4px 10px;
+            font-size: 11px !important;
+            padding: 5px 10px !important;
         }
         .page-title {
             font-size: 22px;
