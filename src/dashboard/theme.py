@@ -90,9 +90,12 @@ def get_theme_css() -> str:
     [data-testid="stStatusWidget"],
     .stDeployButton, .stAppDeployButton,
     [data-testid="stHeaderActionElements"],
-    [data-testid="stToolbar"] {
+    [data-testid="stToolbar"],
+    header[data-testid="stHeader"]::before,
+    header[data-testid="stHeader"]::after {
         display: none !important;
         visibility: hidden !important;
+        opacity: 0 !important;
     }
 
     header[data-testid="stHeader"] {
@@ -101,6 +104,11 @@ def get_theme_css() -> str:
         height: 0 !important;
         min-height: 0 !important;
         overflow: hidden !important;
+    }
+    
+    header[data-testid="stHeader"] * {
+        display: none !important;
+        visibility: hidden !important;
     }
 
     /* Lock sidebar open — always visible */
@@ -132,6 +140,19 @@ def get_theme_css() -> str:
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
         max-width: 1400px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* Ensure proper stacking context */
+    [data-testid="stAppViewContainer"] {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Hide Streamlit branding elements that might interfere */
+    [data-testid="stToolbar"] {
+        display: none;
     }
 
     /* FIX: prevent topbar from being clipped by sidebar overlap */
@@ -145,12 +166,16 @@ def get_theme_css() -> str:
         color: #ffffff;
         border-radius: var(--radius-lg);
         padding: var(--space-lg) 22px;
-        margin-bottom: var(--space-lg);
+        margin: 0 0 var(--space-lg) 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
         box-shadow: var(--shadow-lg);
         transition: transform var(--transition-base), box-shadow var(--transition-base);
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .jb-topbar:hover {
