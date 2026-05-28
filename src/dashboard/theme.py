@@ -99,17 +99,15 @@ def get_theme_css() -> str:
         letter-spacing: -0.02em;
         line-height: 1.2;
     }
-    /* Hide all Streamlit chrome: menu, deploy, status, header */
+    /* Hide all Streamlit chrome: menu, deploy, status, header (but not on mobile where we need toolbar for sidebar button) */
     #MainMenu, [data-testid="stDecoration"],
     [data-testid="stStatusWidget"],
     .stDeployButton, .stAppDeployButton,
     [data-testid="stHeaderActionElements"],
-    [data-testid="stToolbar"],
     header[data-testid="stHeader"]::before,
     header[data-testid="stHeader"]::after,
     iframe[title="streamlit_option_menu.streamlit_option_menu"],
-    [data-testid="stToolbarActions"],
-    [data-testid="stHeader"] {
+    [data-testid="stToolbarActions"] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -119,29 +117,70 @@ def get_theme_css() -> str:
         position: absolute !important;
         z-index: -9999 !important;
     }
-
-    header[data-testid="stHeader"] {
-        background: transparent !important;
-        pointer-events: none !important;
-        height: 0 !important;
-        min-height: 0 !important;
-        max-height: 0 !important;
-        overflow: hidden !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        position: absolute !important;
-        top: -1000px !important;
-        left: -1000px !important;
+    
+    /* Hide toolbar on desktop only */
+    @media (min-width: 769px) {
+        [data-testid="stToolbar"],
+        [data-testid="stHeader"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            max-height: 0 !important;
+            overflow: hidden !important;
+            position: absolute !important;
+            z-index: -9999 !important;
+        }
+        
+        header[data-testid="stHeader"] {
+            background: transparent !important;
+            pointer-events: none !important;
+            height: 0 !important;
+            min-height: 0 !important;
+            max-height: 0 !important;
+            overflow: hidden !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            position: absolute !important;
+            top: -1000px !important;
+            left: -1000px !important;
+        }
+        
+        header[data-testid="stHeader"] *,
+        header[data-testid="stHeader"] *::before,
+        header[data-testid="stHeader"] *::after {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            max-height: 0 !important;
+        }
     }
     
-    header[data-testid="stHeader"] *,
-    header[data-testid="stHeader"] *::before,
-    header[data-testid="stHeader"] *::after {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        height: 0 !important;
-        max-height: 0 !important;
+    /* On mobile, keep toolbar visible but hide everything except sidebar button */
+    @media (max-width: 768px) {
+        [data-testid="stToolbar"],
+        [data-testid="stToolbar"] > *,
+        [data-testid="stToolbar"] > * > *,
+        [data-testid="stToolbar"] > * > * > * {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            height: auto !important;
+            max-height: none !important;
+            overflow: visible !important;
+        }
+        
+        [data-testid="stToolbar"] {
+            position: relative !important;
+            z-index: 1000000 !important;
+        }
+        
+        /* Hide main menu and other toolbar items except sidebar controls */
+        [data-testid="stToolbar"] button[data-testid="stMainMenuButton"],
+        [data-testid="stToolbar"] [data-testid="stToolbarActions"] {
+            display: none !important;
+        }
     }
 
     /* Lock sidebar open on desktop — hide collapse controls on desktop only */
@@ -926,11 +965,17 @@ def get_theme_css() -> str:
     }
 
     @media (max-width: 768px) {
-        /* Main content: full width on mobile (sidebar overlays, doesn't push) */
+        /* Main content: account for narrow sidebar on mobile */
         [data-testid="stMainBlockContainer"] {
             padding-left: var(--space-sm) !important;
             padding-right: var(--space-sm) !important;
             padding-top: var(--space-sm) !important;
+            margin-left: 200px !important;
+            transition: margin-left 0.3s ease-in-out !important;
+        }
+        
+        /* Full width when sidebar is hidden */
+        section[data-testid="stSidebar"][aria-expanded="false"] ~ * [data-testid="stMainBlockContainer"] {
             margin-left: 0 !important;
         }
         
@@ -1083,39 +1128,61 @@ def get_theme_css() -> str:
             margin-bottom: 8px !important;
         }
         
-        /* Sidebar mobile: hidden by default, slides in when opened */
+        /* Sidebar mobile: narrow width, always visible */
         [data-testid="stSidebar"] {
             position: fixed !important;
             left: 0 !important;
             top: 0 !important;
             height: 100vh !important;
-            z-index: 999999 !important;
-            width: 260px !important;
-            min-width: 260px !important;
-            max-width: 260px !important;
-            transform: translateX(-100%);
+            z-index: 999 !important;
+            width: 200px !important;
+            min-width: 200px !important;
+            max-width: 200px !important;
             transition: transform 0.3s ease-in-out !important;
         }
         
-        /* Show sidebar when user opens it - higher specificity */
-        section[data-testid="stSidebar"][aria-expanded="true"] {
-            transform: translateX(0) !important;
-        }
-        
-        /* Ensure collapsed stays hidden */
+        /* Allow toggling */
         section[data-testid="stSidebar"][aria-expanded="false"] {
             transform: translateX(-100%) !important;
         }
         
-        /* Show collapse button on mobile */
-        [data-testid="stSidebarCollapsedControl"],
-        [data-testid="stSidebarCollapseButton"],
-        .st-emotion-cache-10p9htt,
-        .eelgd2m4 {
+        /* Force expand button to show when sidebar is collapsed */
+        button[data-testid="stExpandSidebarButton"] {
             display: flex !important;
             visibility: visible !important;
             opacity: 1 !important;
-            z-index: 1000000 !important;
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            min-height: 44px !important;
+            position: fixed !important;
+            top: 12px !important;
+            left: 12px !important;
+            z-index: 1000001 !important;
+            background: var(--primary) !important;
+            border-radius: 50% !important;
+            box-shadow: var(--shadow-lg) !important;
+            border: none !important;
+            cursor: pointer !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: white !important;
+            font-size: 20px !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        button[data-testid="stExpandSidebarButton"]:hover {
+            transform: scale(1.05) !important;
+            box-shadow: var(--shadow-xl) !important;
+        }
+        
+        /* Style collapse button too */
+        button[data-testid="stSidebarCollapseButton"] {
+            border-radius: 50% !important;
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            min-height: 44px !important;
         }
         
         /* Backdrop when sidebar is open on mobile */
