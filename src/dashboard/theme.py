@@ -75,6 +75,20 @@ def get_theme_css() -> str:
         --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* Global resets to eliminate any gaps */
+    html, body, #root, .stApp {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden;
+    }
+    
+    body::before,
+    body::after,
+    .stApp::before,
+    .stApp::after {
+        display: none !important;
+    }
+
     * {
         font-family: "IBM Plex Sans", "Segoe UI", sans-serif !important;
     }
@@ -92,10 +106,18 @@ def get_theme_css() -> str:
     [data-testid="stHeaderActionElements"],
     [data-testid="stToolbar"],
     header[data-testid="stHeader"]::before,
-    header[data-testid="stHeader"]::after {
+    header[data-testid="stHeader"]::after,
+    iframe[title="streamlit_option_menu.streamlit_option_menu"],
+    [data-testid="stToolbarActions"],
+    [data-testid="stHeader"] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+        position: absolute !important;
+        z-index: -9999 !important;
     }
 
     header[data-testid="stHeader"] {
@@ -103,12 +125,23 @@ def get_theme_css() -> str:
         pointer-events: none !important;
         height: 0 !important;
         min-height: 0 !important;
+        max-height: 0 !important;
         overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: absolute !important;
+        top: -1000px !important;
+        left: -1000px !important;
     }
     
-    header[data-testid="stHeader"] * {
+    header[data-testid="stHeader"] *,
+    header[data-testid="stHeader"] *::before,
+    header[data-testid="stHeader"] *::after {
         display: none !important;
         visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        max-height: 0 !important;
     }
 
     /* Lock sidebar open — always visible */
@@ -133,6 +166,10 @@ def get_theme_css() -> str:
             radial-gradient(circle at 90% 0%, rgba(16, 59, 47, 0.12), transparent 36%),
             var(--surface);
         color: var(--on-surface);
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        position: relative;
+        z-index: 1;
     }
 
     [data-testid="stMainBlockContainer"] {
@@ -142,6 +179,7 @@ def get_theme_css() -> str:
         max-width: 1400px;
         position: relative;
         overflow-x: hidden;
+        margin-top: 0 !important;
     }
 
     /* Ensure proper stacking context */
