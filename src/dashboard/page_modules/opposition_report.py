@@ -1,23 +1,143 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from src.dashboard.demo_data import get_opposition_bowling_plans
+from src.dashboard.services.data_loaders import load_npl_rosters
+from src.config.paths import EXPORT_DIR
+
+# Real NPL teams in this dataset (anti-drift list — these come straight
+# from `data/normalized/matches_normalized.parquet`).
+NPL_TEAMS = [
+    "Biratnagar Kings",
+    "Chitwan Rhinos",
+    "Janakpur Bolts",
+    "Karnali Yaks",
+    "Kathmandu Gorkhas",
+    "Lumbini Lions",
+    "Pokhara Avengers",
+    "Sudurpaschim Royals",
+]
+
+
+def get_opposition_bowling_plans() -> pd.DataFrame:
+    """
+    Generate real bowling plans based on S2 Janakpur Bolts bowlers
+    and their phase-specific performance data.
+    """
+    try:
+        # Load phase bowler forecast (has specialist flags and economy by phase)
+        phase_df = pd.read_csv(EXPORT_DIR / "s3_phase_bowler_forecast.csv")
+        
+        # Load roster to get S2 Janakpur Bolts bowlers
+        roster_df = load_npl_rosters()
+        if roster_df is not None:
+            jb_s2 = roster_df[
+                (roster_df['team'] == 'Janakpur Bolts') & 
+                (roster_df['season'] == 'Season 2') &
+                (roster_df['bowling_matches'] > 0)
+            ].copy()
+            jb_bowlers = set(jb_s2['player_name'].unique())
+        else:
+            jb_bowlers = set()
+        
+        # Filter phase data for JB bowlers
+        jb_phase = phase_df[phase_df['bowler_name'].isin(jb_bowlers)].copy()
+        
+        # Build bowling plans for each phase
+        plans = []
+        
+        # Powerplay (1-6)
+        pp_bowlers = jb_phase[jb_phase['phase'] == 'Powerplay'].copy()
+        if len(pp_bowlers) > 0:
+            pp_bowlers = pp_bowlers.sort_values('s3_economy_proj')
+            top_pp = pp_bowlers.head(2)['bowler_name'].tolist()
+            pp_eco = pp_bowlers.head(2)['s3_economy_proj'].mean()
+            
+            plans.append({
+                "Phase": "Powerplay (1-6)",
+                "Primary Tactic": f"Attack with pace, exploit new ball. Target economy < {pp_eco:.1f} RPO.",
+                "Key Bowler(s)": ", ".join(top_pp) if top_pp else "Best pacers available",
+                "Field Setting Focus": "Slip and gully early, deep square leg back for pull shots"
+            })
+        else:
+            plans.append({
+                "Phase": "Powerplay (1-6)",
+                "Primary Tactic": "Attack with pace, exploit new ball swing",
+                "Key Bowler(s)": "Opening bowlers",
+                "Field Setting Focus": "Attacking field with slips"
+            })
+        
+        # Middle overs (7-15)
+        mid_bowlers = jb_phase[jb_phase['phase'] == 'Middle'].copy()
+        if len(mid_bowlers) > 0:
+            mid_bowlers = mid_bowlers.sort_values('s3_economy_proj')
+            top_mid = mid_bowlers.head(2)['bowler_name'].tolist()
+            mid_eco = mid_bowlers.head(2)['s3_economy_proj'].mean()
+            
+            plans.append({
+                "Phase": "Middle (7-15)",
+                "Primary Tactic": f"Spin control, dry up runs. Target economy < {mid_eco:.1f} RPO.",
+                "Key Bowler(s)": ", ".join(top_mid) if top_mid else "Spin options",
+                "Field Setting Focus": "Sweepers on both sides, tight inner ring to stop singles"
+            })
+        else:
+            plans.append({
+                "Phase": "Middle (7-15)",
+                "Primary Tactic": "Spin control, pressure through dot balls",
+                "Key Bowler(s)": "Spin options",
+                "Field Setting Focus": "Defensive ring with deep fielders"
+            })
+        
+        # Death overs (16-20)
+        death_bowlers = jb_phase[jb_phase['phase'] == 'Death'].copy()
+        if len(death_bowlers) > 0:
+            # Prioritize specialists
+            specialists = death_bowlers[death_bowlers['specialist_flag'] == 'SPECIALIST']
+            if len(specialists) > 0:
+                top_death = specialists.sort_values('s3_economy_proj').head(2)['bowler_name'].tolist()
+                death_eco = specialists.sort_values('s3_economy_proj').head(2)['s3_economy_proj'].mean()
+            else:
+                death_bowlers = death_bowlers.sort_values('s3_economy_proj')
+                top_death = death_bowlers.head(2)['bowler_name'].tolist()
+                death_eco = death_bowlers.head(2)['s3_economy_proj'].mean()
+            
+            plans.append({
+                "Phase": "Death (16-20)",
+                "Primary Tactic": f"Yorkers and slower balls. Target economy < {death_eco:.1f} RPO.",
+                "Key Bowler(s)": ", ".join(top_death) if top_death else "Death specialists",
+                "Field Setting Focus": "Protect straight boundaries, pack the off-side boundary"
+            })
+        else:
+            plans.append({
+                "Phase": "Death (16-20)",
+                "Primary Tactic": "Yorkers and wide variations",
+                "Key Bowler(s)": "Death specialists",
+                "Field Setting Focus": "Straight boundary protection"
+            })
+        
+        return pd.DataFrame(plans)
+        
+    except Exception as e:
+        # Fallback to generic plan if data loading fails
+        st.warning(f"Could not load bowling plans from data: {e}")
+        return pd.DataFrame({
+            "Phase": ["Powerplay (1-6)", "Middle (7-15)", "Death (16-20)"],
+            "Primary Tactic": [
+                "Attack with pace, exploit new ball swing",
+                "Spin control, pressure through dot balls",
+                "Yorkers and wide variations"
+            ],
+            "Key Bowler(s)": ["Opening bowlers", "Spin options", "Death specialists"],
+            "Field Setting Focus": [
+                "Attacking field with slips",
+                "Defensive ring with deep fielders",
+                "Straight boundary protection"
+            ]
+        })
+
 
 def load_npl_teams_data():
-    """Load roster data for all NPL teams"""
-    try:
-        import os
-        roster_path = "D:/Cric_Data/data/player_rosters/npl_player_rosters_20260521.csv"
-        if os.path.exists(roster_path):
-            df = pd.read_csv(roster_path)
-            # Normalize team names
-            df['team'] = df['team'].replace({'Kathmandu Gurkhas': 'Kathmandu Gorkhas'})
-            # Calculate wickets_per_match on the fly
-            df['wickets_per_match'] = df['wickets_taken'] / df['bowling_matches'].replace(0, 1)
-            return df
-    except Exception as e:
-        print(f"Error loading roster: {e}")
-    return None
+    """Load roster data for all NPL teams (cached, paths centralized)."""
+    return load_npl_rosters()
 
 def analyze_all_teams(df):
     """Analyze all NPL teams for comparison"""
@@ -255,7 +375,14 @@ def render_team_analysis_tab():
             st.info("No new additions")
 
 def render_tactical_report_tab():
-    """Legacy tactical report interface"""
+    """Legacy tactical report interface — currently demo content."""
+    st.warning(
+        "ℹ️ This tab is a tactical-planning mockup using demo content. "
+        "Live opponent-specific plans require per-match scouting feeds that "
+        "are not yet wired in. Use the **League Comparison** and **Team "
+        "Analysis** tabs above for live data."
+    )
+
     st.markdown(
         """
         <div class="jb-page-head">
@@ -277,14 +404,16 @@ def render_tactical_report_tab():
     <div class="card" style="margin-bottom: 32px;">
         <div class="card-body" style="padding: 18px;">
     """, unsafe_allow_html=True)
-    
+
     col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
     with col1:
-        st.selectbox("Opponent", ["Kathmandu Gorkhas", "Lalitpur Patriots", "Pokhara Rhinos"])
+        # Use real NPL opponent names (excluding JAB itself)
+        opponents = [t for t in NPL_TEAMS if t != "Janakpur Bolts"]
+        st.selectbox("Opponent", opponents)
     with col2:
-        st.selectbox("Venue", ["TU Cricket Ground", "Mulpani Cricket Ground"])
+        st.selectbox("Venue", ["Tribhuvan University Cricket Ground"])
     with col3:
-        st.selectbox("Data Range", ["Last 10 Matches", "All Time", "2024 Season"])
+        st.selectbox("Data Range", ["S1 + S2", "S2 only", "S1 only"])
     with col4:
         st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
         st.button("Generate Report", type="primary", width='stretch')

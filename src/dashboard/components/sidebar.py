@@ -3,7 +3,7 @@ Sidebar navigation component for Janakpur Bolts dashboard.
 Renders the branded sidebar matching the HTML mockup.
 """
 import streamlit as st
-from src.dashboard.demo_data import NAV_ITEMS, NAV_BOTTOM
+from src.dashboard.config.nav_config import NAV_ITEMS, NAV_BOTTOM
 
 
 def render_sidebar() -> str:

@@ -9,25 +9,48 @@ import plotly.graph_objects as go
 from datetime import datetime, timedelta
 
 from src.dashboard.services.data_source import load_match_records
+from src.dashboard.services.data_loaders import (
+    load_ball_by_ball_normalized,
+    load_team_matches_for,
+    export_path,
+)
 from src.dashboard.services.metrics import build_executive_cards
 from src.dashboard.services.data_quality import validate_match_records
-from src.dashboard.demo_data import get_exports_filepath
 
 TEAM = "Janakpur Bolts"
-PARQUET_MATCHES = "data/normalized/matches_normalized.parquet"
 
 
 def _load_real_matches() -> pd.DataFrame | None:
-    """Load match data from parquet."""
+    """Load Janakpur Bolts match data via the cached normalized parquet loader."""
     try:
-        df = pd.read_parquet(PARQUET_MATCHES)
-        jab = df[
-            (df["team_1_name"] == TEAM) | (df["team_2_name"] == TEAM)
-        ].sort_values("match_date").copy()
-        jab["is_win"] = (jab["winner_name"] == TEAM).astype(int)
-        return jab
+        return load_team_matches_for(TEAM)
     except Exception:
         return None
+
+
+def _nrr_from_bbb(match_ids: list, season: str) -> float:
+    """Calculate NRR from ball-by-ball data (cached underneath)."""
+    bbb = load_ball_by_ball_normalized()
+    if bbb is None:
+        return float("nan")
+    bbb = bbb[bbb["match_id"].isin(match_ids)].copy()
+    if bbb.empty:
+        return float("nan")
+
+    # Runs for (Janakpur batting)
+    batting = bbb[bbb["batting_team"] == TEAM]
+    # Runs against (Janakpur bowling)
+    bowling = bbb[bbb["bowling_team"] == TEAM]
+
+    runs_for_total = pd.to_numeric(batting["runs_total"], errors="coerce").sum()
+    runs_against_total = pd.to_numeric(bowling["runs_total"], errors="coerce").sum()
+
+    # Balls (legal deliveries) for overs
+    balls_faced = len(batting)
+    balls_bowled = len(bowling)
+    overs_faced = balls_faced / 6 if balls_faced > 0 else 1.0
+    overs_bowled = balls_bowled / 6 if balls_bowled > 0 else 1.0
+    return float(runs_for_total / overs_faced - runs_against_total / overs_bowled)
 
 
 def _season_kpis(jab: pd.DataFrame) -> dict:
@@ -200,7 +223,7 @@ def render_executive_overview():
             <p class="page-subtitle">The story of a championship collapse — and the data-driven plan to recover.</p>
             <div class="insight-alert">
                 <span class="insight-alert-icon">⚠️</span>
-                <p class="insight-alert-text"><span class="insight-label">Core finding:</span> 82% of S2 decline attributed to retained-player underperformance, not roster changes. Death bowling lost ~15 runs/match vs S1.</p>
+                <p class="insight-alert-text"><span class="insight-label">Core finding:</span> 70-90% of the S2 decline (likely ~80%) is retained-player underperformance, not roster turnover. The two largest execution failures are death bowling (+1.64 rpo, ~+8 runs/match) and powerplay batting (-0.75 rpo, ~-4.5 runs/match). See LIMITATIONS.md for the full sensitivity analysis.</p>
             </div>
         </div>
         """,
@@ -241,7 +264,8 @@ def render_executive_overview():
         else "Contract checks passing"
     )
 
-    c1, c2, c3, c4, c5 = st.columns(5)
+    # Responsive columns: 5 on desktop, 2-3 on tablet, 1-2 on mobile
+    c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1, 1])
     kpi_specs = [
         (c1, "S1 Win Rate",   f"{s1_win_pct:.1f}%", f"{s1.get('wins',0)}W/{s1.get('losses',0)}L  Champions", "metric-card-delta-positive"),
         (c2, "S2 Win Rate",   f"{s2_win_pct:.1f}%", f"{win_delta:+.1f}pp vs S1", win_delta_class),
@@ -343,8 +367,8 @@ def render_executive_overview():
 
         # Dynamic contributor tables from real data
         bat_rows = ""
-        bat_path = get_exports_filepath("s3_batter_forecast.csv")
-        if bat_path:
+        bat_path = export_path("s3_batter_forecast.csv")
+        if bat_path.exists():
             try:
                 bdf = pd.read_csv(bat_path)
                 top_bat = bdf[bdf['s2_runs'].notna()].nlargest(3, 's2_runs')
@@ -358,9 +382,9 @@ def render_executive_overview():
 
         bowl_rows = ""
         pp_wkts, mid_wkts, death_wkts = "—", "—", "—"
-        bowl_path = get_exports_filepath("s3_bowler_forecast.csv")
-        phase_path = get_exports_filepath("s1_vs_s2_bowling_by_phase.csv")
-        if bowl_path:
+        bowl_path = export_path("s3_bowler_forecast.csv")
+        phase_path = export_path("s1_vs_s2_bowling_by_phase.csv")
+        if bowl_path.exists():
             try:
                 bowldf = pd.read_csv(bowl_path)
                 top_bowl = bowldf[bowldf['s2_wickets'].notna()].nlargest(3, 's2_wickets')
@@ -372,7 +396,7 @@ def render_executive_overview():
                 pass
         if not bowl_rows:
             bowl_rows = "<tr><td colspan='3' style='text-align:center; color:var(--on-surface-variant);'>No data</td></tr>"
-        if phase_path:
+        if phase_path.exists():
             try:
                 pdf = pd.read_csv(phase_path)
                 s2 = pdf[pdf['season'] == 'S2']
@@ -489,7 +513,7 @@ def render_executive_overview():
                 <div class="card-body">
                     <div style="font-size:20px; font-weight:800; color: var(--primary);">NPL Season 3</div>
                     <div style="font-size:13px; color: var(--on-surface-variant); margin-bottom: 12px;">Upcoming • Use Batting & Bowling Intelligence tabs for phase-level prep</div>
-                    <div class="insight-box"><strong>Priority:</strong> Address death-over economy regression (+1.64 vs S1) and powerplay batting intent (SR dropped -12.4).</div>
+                    <div class="insight-box"><strong>Priority:</strong> Address death-over bowling (+1.64 rpo conditional economy) and powerplay batting (run rate -0.75 rpo, dot ball % +4.3pp). Middle overs net -0.68 rpo; powerplay bowling delta is small (+0.28 rpo).</div>
                 </div>
             </div>
             """,
