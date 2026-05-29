@@ -1,3 +1,6 @@
+# Documentation (excluded from git)
+*.md
+
 # Environment
 .env
 .env.local
