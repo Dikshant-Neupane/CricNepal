@@ -6,14 +6,11 @@
 .env.local
 
 # Data (never commit data files - use DVC or external storage)
-data/raw/
-data/processed/
-data/exports/
+data/
+*.csv
+*.parquet
+*.zip
 *.json
-
-# Except: Allow dashboard data files (small, needed for deployment)
-!data/normalized/*.parquet
-!deliverables/*.csv
 
 # Database
 *.db
