@@ -241,7 +241,7 @@ def render_team_decline_analysis():
     all_data = load_all_data()
     
     if all_data is None:
-        st.error("Γ¥î Could not load data. Please check data paths.")
+        st.error("⚠️ Could not load data. Please check data paths.")
         return
     
     df = all_data['roster']
@@ -301,7 +301,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
             "Total Wickets",
             f"{analysis['s2_wickets']}",
             delta=f"{analysis['wicket_change_pct']:.1f}%",
-            help=f"S1: {analysis['s1_wickets']} ΓåÆ S2: {analysis['s2_wickets']}"
+            help=f"S1: {analysis['s1_wickets']} → S2: {analysis['s2_wickets']}"
         )
     
     with cols[1]:
@@ -309,7 +309,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
             "Total Runs",
             f"{analysis['s2_runs']:,}",
             delta=f"{analysis['runs_change_pct']:.1f}%",
-            help=f"S1: {analysis['s1_runs']:,} ΓåÆ S2: {analysis['s2_runs']:,}"
+            help=f"S1: {analysis['s1_runs']:,} → S2: {analysis['s2_runs']:,}"
         )
     
     with cols[2]:
@@ -318,7 +318,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
             "Elite Bowlers (10+ wkts)",
             f"{analysis['s2_elite_bowlers']}",
             delta=f"{bowler_change:+d}",
-            help=f"S1: {analysis['s1_elite_bowlers']} ΓåÆ S2: {analysis['s2_elite_bowlers']}"
+            help=f"S1: {analysis['s1_elite_bowlers']} → S2: {analysis['s2_elite_bowlers']}"
         )
     
     with cols[3]:
@@ -327,7 +327,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
             "Economy Rate",
             f"{analysis['s2_economy']:.2f}",
             delta=f"{eco_change:+.2f}",
-            help=f"Lower is better. S1: {analysis['s1_economy']:.2f} ΓåÆ S2: {analysis['s2_economy']:.2f}"
+            help=f"Lower is better. S1: {analysis['s1_economy']:.2f} → S2: {analysis['s2_economy']:.2f}"
         )
     
     with cols[4]:
@@ -336,7 +336,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
             "Strike Rate",
             f"{analysis['s2_sr']:.1f}",
             delta=f"{sr_change:+.1f}",
-            help=f"Higher is better. S1: {analysis['s1_sr']:.1f} ΓåÆ S2: {analysis['s2_sr']:.1f}"
+            help=f"Higher is better. S1: {analysis['s1_sr']:.1f} → S2: {analysis['s2_sr']:.1f}"
         )
     
     st.markdown("---")
@@ -377,9 +377,9 @@ def render_overview_tab(all_data, df, selected_team, teams):
         <div class="card">
             <div class="card-body">
                 <strong>Roster Impact:</strong><br/>
-                ΓÇó Departed Impact: <strong>{analysis['departed_impact']:,}</strong><br/>
-                ΓÇó New Players Impact: <strong>{analysis['new_impact']:,}</strong><br/>
-                ΓÇó Net Roster Change: <strong>{analysis['net_roster_impact']:+,}</strong>
+                • Departed Impact: <strong>{analysis['departed_impact']:,}</strong><br/>
+                • New Players Impact: <strong>{analysis['new_impact']:,}</strong><br/>
+                • Net Roster Change: <strong>{analysis['net_roster_impact']:+,}</strong>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -427,7 +427,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### Γ¼ç∩╕Å Top Departed Players")
+        st.markdown("### 📤 Top Departed Players")
         if len(analysis['departed_df']) > 0:
             departed_display = analysis['departed_df'][['player_name', 'runs_scored', 'wickets_taken', 'impact']].copy()
             departed_display.columns = ['Player', 'Runs', 'Wickets', 'Impact']
@@ -436,7 +436,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
             st.info("No departed players")
     
     with col2:
-        st.markdown("### Γ¼å∩╕Å Top New Players")
+        st.markdown("### 📥 Top New Players")
         if len(analysis['new_df']) > 0:
             new_display = analysis['new_df'][['player_name', 'runs_scored', 'wickets_taken', 'impact']].copy()
             new_display.columns = ['Player', 'Runs', 'Wickets', 'Impact']
@@ -505,24 +505,23 @@ def render_overview_tab(all_data, df, selected_team, teams):
     rank = league_df.reset_index(drop=True)[league_df['Team'] == selected_team].index[0] + 1
     league_avg = league_df['Change %'].mean()
     
-    st.markdown(f"""
-    <div class="card">
-        <div class="card-body">
-            <h4>{selected_team} Performance Summary</h4>
-            <ul>
-                <li><strong>League Rank:</strong> {rank} of {len(league_df)} teams</li>
-                <li><strong>Team Change:</strong> {analysis['wicket_change_pct']:.1f}% vs League Average {league_avg:.1f}%</li>
-                <li><strong>Gap:</strong> {abs(analysis['wicket_change_pct'] - league_avg):.1f} percentage points {'worse' if analysis['wicket_change_pct'] < league_avg else 'better'} than league</li>
-                <li><strong>Sample Size:</strong> {analysis['retained']} retained players (n < 30 = exploratory findings)</li>
-            </ul>
-            
-            <div style="margin-top: 16px; padding: 12px; background: rgba(59, 130, 246, 0.1); border-radius: 8px;">
-                <strong>ΓÜá∩╕Å Statistical Note:</strong> This analysis uses correlation, not causation. 
-                Multiple factors (opponent strength, pitch conditions, coaching changes) may contribute to performance changes.
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.subheader(f"{selected_team} Performance Summary")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("League Rank", f"{rank} of {len(league_df)}")
+    with col2:
+        st.metric("Team Change", f"{analysis['wicket_change_pct']:.1f}%")
+    with col3:
+        st.metric("League Average", f"{league_avg:.1f}%")
+    with col4:
+        gap_value = abs(analysis['wicket_change_pct'] - league_avg)
+        gap_label = 'worse' if analysis['wicket_change_pct'] < league_avg else 'better'
+        st.metric("Gap", f"{gap_value:.1f}pp {gap_label}")
+    
+    st.caption(f"**Sample Size:** {analysis['retained']} retained players (n < 30 = exploratory findings)")
+    
+    st.info("📊 **Statistical Note:** This analysis uses correlation, not causation. Multiple factors (opponent strength, pitch conditions, coaching changes) may contribute to performance changes.")
 
 def render_phase_analysis_tab(all_data, team_name):
     """Render phase-level performance analysis"""
@@ -658,16 +657,10 @@ def render_match_results_tab(all_data, team_name):
             st.markdown("### 🏆 NPL Season 2 Playoff Path")
             playoff_info = playoff_teams[team_name]
             
-            st.markdown(f"""
-            <div style="padding: 12px; background: rgba(59, 130, 246, 0.1); 
-                        border-radius: 8px; border-left: 4px solid {playoff_info['color']};">
-                <h4 style="margin: 0 0 8px 0; color: {playoff_info['color']};">{playoff_info['result']}</h4>
-            """, unsafe_allow_html=True)
-            
+            # Use native Streamlit components instead of HTML
+            st.success(playoff_info['result'])
             for match in playoff_info['path']:
                 st.markdown(f"- {match}")
-            
-            st.markdown("</div>", unsafe_allow_html=True)
     
     st.markdown("---")
     

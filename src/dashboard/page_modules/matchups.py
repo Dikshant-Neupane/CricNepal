@@ -1,5 +1,5 @@
 import streamlit as st
-from src.dashboard.demo_data import get_matchup_plan
+from ..demo_data import get_matchup_plan
 
 def render_matchups():
     st.markdown(

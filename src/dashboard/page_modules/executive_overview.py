@@ -8,23 +8,37 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 
-from src.dashboard.services.data_source import load_match_records
-from src.dashboard.services.data_loaders import (
+from ..services.data_source import load_match_records
+from ..services.data_loaders import (
     load_ball_by_ball_normalized,
     load_team_matches_for,
     export_path,
 )
-from src.dashboard.services.metrics import build_executive_cards
-from src.dashboard.services.data_quality import validate_match_records
+from ..services.metrics import build_executive_cards
+from ..services.data_quality import validate_match_records
 
 TEAM = "Janakpur Bolts"
 
 
 def _load_real_matches() -> pd.DataFrame | None:
-    """Load Janakpur Bolts match data via the cached normalized parquet loader."""
+    """Load Janakpur Bolts match data via the data_source loader."""
     try:
-        return load_team_matches_for(TEAM)
-    except Exception:
+        # Use the working data_source loader - already filtered for Janakpur Bolts
+        match_df, source = load_match_records()
+        if match_df is None or match_df.empty:
+            return None
+        
+        # Add is_win column from result (W/L)
+        match_df["is_win"] = (match_df["result"] == "W").astype(int)
+        
+        # Add match_date column if not present (use index as fallback)
+        if "match_date" not in match_df.columns:
+            match_df["match_date"] = pd.to_datetime("2026-05-01") + pd.to_timedelta(match_df.index, unit="D")
+        
+        return match_df
+    except Exception as e:
+        import logging
+        logging.error(f"Failed to load matches: {e}")
         return None
 
 
@@ -61,43 +75,14 @@ def _season_kpis(jab: pd.DataFrame) -> dict:
         wins = grp["is_win"].sum()
         win_pct = wins / n * 100 if n > 0 else 0
 
-        # Try innings columns first
-        runs_for_col = pd.to_numeric(
-            grp.apply(
-                lambda r: r["innings_1_runs"] if r.get("innings_1_team") == TEAM else r["innings_2_runs"],
-                axis=1,
-            ),
-            errors="coerce",
-        )
-        innings_available = runs_for_col.notna().any()
-
-        if innings_available:
-            runs_against = pd.to_numeric(
-                grp.apply(
-                    lambda r: r["innings_2_runs"] if r.get("innings_1_team") == TEAM else r["innings_1_runs"],
-                    axis=1,
-                ),
-                errors="coerce",
-            ).fillna(0)
-            overs_faced = pd.to_numeric(
-                grp.apply(
-                    lambda r: r["innings_1_overs"] if r.get("innings_1_team") == TEAM else r["innings_2_overs"],
-                    axis=1,
-                ),
-                errors="coerce",
-            ).fillna(20.0).replace(0, 20.0)
-            overs_bowled = pd.to_numeric(
-                grp.apply(
-                    lambda r: r["innings_2_overs"] if r.get("innings_1_team") == TEAM else r["innings_1_overs"],
-                    axis=1,
-                ),
-                errors="coerce",
-            ).fillna(20.0).replace(0, 20.0)
-            runs_for_col = runs_for_col.fillna(0)
-            nrr = (runs_for_col / overs_faced).mean() - (runs_against / overs_bowled).mean()
-        else:
-            # Compute from ball-by-ball
-            nrr = _nrr_from_bbb(grp["match_id"].tolist(), season)
+        # Use runs_for, runs_against, overs_faced, overs_bowled columns
+        runs_for = pd.to_numeric(grp["runs_for"], errors="coerce").fillna(0)
+        runs_against = pd.to_numeric(grp["runs_against"], errors="coerce").fillna(0)
+        overs_faced = pd.to_numeric(grp["overs_faced"], errors="coerce").fillna(20.0).replace(0, 20.0)
+        overs_bowled = pd.to_numeric(grp["overs_bowled"], errors="coerce").fillna(20.0).replace(0, 20.0)
+        
+        # Calculate NRR: (runs_for/overs_faced) - (runs_against/overs_bowled)
+        nrr = (runs_for / overs_faced).mean() - (runs_against / overs_bowled).mean()
 
         result[season] = {
             "n": n,
@@ -169,7 +154,7 @@ def _momentum_chart(jab: pd.DataFrame | None) -> None:
         grp["cum_wins"] = grp["is_win"].cumsum()
         grp["win_rate_pct"] = (grp["cum_wins"] / grp["match_num"] * 100).round(1)
         grp["label"] = season
-        rows.append(grp[["match_num", "win_rate_pct", "label", "match_date", "winner_name"]])
+        rows.append(grp[["match_num", "win_rate_pct", "label", "match_date", "result"]])
 
     plot_df = pd.concat(rows, ignore_index=True)
     season_colors = {"S1": "#103b2f", "S2": "#b42318"}

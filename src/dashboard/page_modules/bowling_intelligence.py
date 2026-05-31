@@ -2,7 +2,7 @@ import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from src.dashboard.demo_data import get_bowling_phases, get_bowling_vs_batter_hand, get_bowling_tactical_directives
+from ..demo_data import get_bowling_phases, get_bowling_vs_batter_hand, get_bowling_tactical_directives
 
 TEAM = "Janakpur Bolts"
 BBB_PARQUET = "data/normalized/ball_by_ball_normalized.parquet"
