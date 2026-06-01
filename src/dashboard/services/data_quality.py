@@ -101,19 +101,56 @@ def validate_match_records(df: pd.DataFrame) -> dict:
                 }
             )
 
+        # Data consistency checks
+        zero_runs_records = len(df[(df["runs_for"] == 0) & (df["runs_against"] == 0)])
+        if zero_runs_records > 0:
+            findings.append(
+                {
+                    "level": "warning",
+                    "message": f"{zero_runs_records} records with zero runs (may indicate missing ball-by-ball data)",
+                    "details": "Check if runs data is populated correctly",
+                }
+            )
+        
+        # Overs validation (should be between 0 and 20 for T20)
+        invalid_overs = len(df[(df["overs_faced"] > 20.0) | (df["overs_bowled"] > 20.0)])
+        if invalid_overs > 0:
+            findings.append(
+                {
+                    "level": "error",
+                    "message": f"{invalid_overs} records with overs > 20 (invalid for T20)",
+                    "details": "Overs should not exceed 20 in T20 format",
+                }
+            )
+        
+        # Season distribution check
+        season_counts = df["season"].value_counts().to_dict()
+        if "S1" in season_counts and "S2" in season_counts:
+            findings.append(
+                {
+                    "level": "info",
+                    "message": f"Multi-season data available: S1={season_counts.get('S1', 0)}, S2={season_counts.get('S2', 0)}",
+                    "details": "Good coverage for season comparison analysis",
+                }
+            )
+
     total_rows = int(len(df))
     error_count = sum(1 for item in findings if item["level"] == "error")
     warning_count = sum(1 for item in findings if item["level"] == "warning")
+    info_count = sum(1 for item in findings if item["level"] == "info")
+    
+    # Calculate reliability score
     score = 100 - (error_count * 20) - (warning_count * 8)
     reliability_score = max(0, score)
 
-    status = "healthy" if error_count == 0 else "blocked"
+    status = "healthy" if error_count == 0 else "degraded" if warning_count > 0 else "blocked"
 
     return {
         "status": status,
         "total_rows": total_rows,
         "error_count": error_count,
         "warning_count": warning_count,
+        "info_count": info_count,
         "reliability_score": reliability_score,
         "findings": findings,
     }

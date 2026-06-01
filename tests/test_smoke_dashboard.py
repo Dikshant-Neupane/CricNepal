@@ -74,16 +74,27 @@ def test_data_loaders():
             load_ball_by_ball_normalized,
             load_team_matches_for
         )
+        from dashboard.services.data_quality import validate_match_records
+        
         print("✅ Data source functions imported")
         print("✅ Data loader functions imported")
+        print("✅ Data quality validator imported")
         
         # Test export path helper
         test_path = export_path("test.csv")
         print(f"✅ Export path helper: {test_path}")
         
+        # Test data quality validation
+        df, source = load_match_records()
+        report = validate_match_records(df)
+        print(f"✅ Data quality: {report['status']} (score: {report['reliability_score']}/100)")
+        print(f"   └─ {report['total_rows']} records, {report['error_count']} errors, {report['warning_count']} warnings")
+        
         return True
     except Exception as e:
         print(f"❌ Data loader test failed: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 

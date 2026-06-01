@@ -328,6 +328,39 @@ def render_executive_overview():
     """, unsafe_allow_html=True)
     st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
 
+    # Data Quality Panel
+    if quality_report["findings"]:
+        with st.expander(
+            f"🔍 Data Quality Report — {quality_report['status'].upper()} "
+            f"(Score: {quality_report['reliability_score']}/100, {quality_report['total_rows']} records)",
+            expanded=(quality_report['status'] != 'healthy')
+        ):
+            st.markdown("#### Validation Results")
+            
+            if quality_report['error_count'] > 0:
+                st.error(f"**{quality_report['error_count']} Critical Errors Found**")
+            if quality_report['warning_count'] > 0:
+                st.warning(f"**{quality_report['warning_count']} Warnings**")
+            if quality_report['error_count'] == 0 and quality_report['warning_count'] == 0:
+                st.success("✅ All validation checks passed")
+            
+            # Display findings
+            for finding in quality_report['findings']:
+                level = finding['level']
+                message = finding['message']
+                details = finding['details']
+                
+                if level == 'error':
+                    st.error(f"**{message}**\n\n{details}")
+                elif level == 'warning':
+                    st.warning(f"**{message}**\n\n{details}")
+                elif level == 'info':
+                    st.info(f"**{message}**\n\n{details}")
+            
+            st.caption("💡 **Contract checks:** Validates required fields, data types, value ranges, and consistency rules to ensure reliable tactical analysis.")
+
+    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+
     left, right = st.columns([2.2, 1])
 
     with left:
