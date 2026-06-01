@@ -120,6 +120,98 @@ def test_theme():
         return False
 
 
+def test_ui_components():
+    """Test UI components and patterns (Day 4)"""
+    print("\n" + "=" * 60)
+    print("UI COMPONENTS TEST")
+    print("=" * 60)
+    
+    try:
+        from dashboard.components.ui_patterns import (
+            render_page_header,
+            render_card_start,
+            render_card_end,
+            render_spacer,
+            render_insight_card,
+            render_table_card
+        )
+        from dashboard.components.match_summary import (
+            render_match_summary,
+            render_tactical_takeaways,
+            render_phase_table,
+            render_partnerships_table
+        )
+        from dashboard.components.metric_card import (
+            render_metric_card,
+            render_metric_row
+        )
+        
+        print("✅ UI patterns component imported")
+        print("✅ Match summary components imported")
+        print("✅ Metric card components imported")
+        
+        return True
+    except Exception as e:
+        print(f"❌ UI components test failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def test_metrics_service():
+    """Test enhanced metrics service (Day 3)"""
+    print("\n" + "=" * 60)
+    print("METRICS SERVICE TEST")
+    print("=" * 60)
+    
+    try:
+        from dashboard.services.metrics import (
+            compute_team_kpis,
+            compute_season_kpis,
+            compute_season_delta,
+            compute_form_index,
+            compute_weighted_form_index,
+            build_executive_cards
+        )
+        
+        print("✅ compute_team_kpis imported")
+        print("✅ compute_season_kpis imported (Day 3)")
+        print("✅ compute_season_delta imported (Day 3)")
+        print("✅ compute_form_index imported (Day 3)")
+        print("✅ compute_weighted_form_index imported")
+        print("✅ build_executive_cards imported")
+        
+        # Quick functional test
+        import pandas as pd
+        sample_df = pd.DataFrame([
+            {
+                "season": "S1",
+                "competition_name": "NPL Season 1",
+                "result": "W",
+                "runs_for": 180,
+                "runs_against": 170,
+                "overs_faced": 20.0,
+                "overs_bowled": 20.0,
+            }
+        ])
+        
+        kpis = compute_team_kpis(sample_df)
+        print(f"✅ compute_team_kpis functional: win_pct={kpis['win_pct']}")
+        
+        season_kpis = compute_season_kpis(sample_df)
+        print(f"✅ compute_season_kpis functional: {len(season_kpis)} season(s)")
+        
+        form = compute_form_index(sample_df)
+        print(f"✅ compute_form_index functional: form={form}")
+        
+        return True
+    except Exception as e:
+        print(f"❌ Metrics service test failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 if __name__ == "__main__":
     print("\n🔍 Starting Dashboard Smoke Tests...\n")
     
