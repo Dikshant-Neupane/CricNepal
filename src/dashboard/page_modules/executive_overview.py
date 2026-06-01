@@ -21,6 +21,10 @@ from ..services.metrics import (
     compute_form_index
 )
 from ..services.data_quality import validate_match_records
+from ..components.ui_patterns import (
+    render_page_header,
+    render_spacer
+)
 
 TEAM = "Janakpur Bolts"
 
@@ -150,18 +154,12 @@ def render_executive_overview():
     match_df, data_source = load_match_records()
     quality_report = validate_match_records(match_df)
 
-    st.markdown(
-        """
-        <div class="jb-page-head">
-            <h2 class="page-title">Executive Overview</h2>
-            <p class="page-subtitle">The story of a championship collapse — and the data-driven plan to recover.</p>
-            <div class="insight-alert">
-                <span class="insight-alert-icon">⚠️</span>
-                <p class="insight-alert-text"><span class="insight-label">Core finding:</span> 70-90% of the S2 decline (likely ~80%) is retained-player underperformance, not roster turnover. The two largest execution failures are death bowling (+1.64 rpo, ~+8 runs/match) and powerplay batting (-0.75 rpo, ~-4.5 runs/match). See LIMITATIONS.md for the full sensitivity analysis.</p>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
+    render_page_header(
+        title="Executive Overview",
+        subtitle="The story of a championship collapse — and the data-driven plan to recover.",
+        insight_label="Core finding",
+        insight_text="70-90% of the S2 decline (likely ~80%) is retained-player underperformance, not roster turnover. The two largest execution failures are death bowling (+1.64 rpo, ~+8 runs/match) and powerplay batting (-0.75 rpo, ~-4.5 runs/match). See LIMITATIONS.md for the full sensitivity analysis.",
+        alert_icon="⚠️"
     )
 
     s1_win_pct  = s1.get("win_pct", 0.0)
@@ -224,7 +222,7 @@ def render_executive_overview():
 
     st.caption(f"📊 Data source: {'Parquet (Real)' if jab is not None else 'Demo'} — {s1_n} S1 matches, {s2_n} S2 matches")
 
-    st.markdown("<div style='height:24px;'></div>", unsafe_allow_html=True)
+    render_spacer(24)
     st.markdown("### 📖 Season Story Arc")
     st.markdown(f"""
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin: 16px 0;">
@@ -275,7 +273,7 @@ def render_executive_overview():
         }}
     </style>
     """, unsafe_allow_html=True)
-    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+    render_spacer(16)
 
     # Data Quality Panel
     if quality_report["findings"]:
@@ -308,7 +306,7 @@ def render_executive_overview():
             
             st.caption("💡 **Contract checks:** Validates required fields, data types, value ranges, and consistency rules to ensure reliable tactical analysis.")
 
-    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+    render_spacer(16)
 
     left, right = st.columns([2.2, 1])
 

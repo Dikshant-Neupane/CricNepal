@@ -24,6 +24,13 @@ from src.dashboard.components.match_summary import (
     render_phase_table,
     render_partnerships_table,
 )
+from src.dashboard.components.ui_patterns import (
+    render_page_header,
+    render_spacer,
+    render_card_start,
+    render_card_end,
+    render_insight_card
+)
 from src.dashboard.theme import COLORS
 
 
@@ -172,18 +179,12 @@ def render_match_review():
 
     summary = get_match_summary()
 
-    st.markdown(
-        f"""
-    <div class="jb-page-head">
-        <h2 class="page-title">Post-Match Tactical Review</h2>
-        <p class="page-subtitle">{summary['match_title']}</p>
-        <div class="insight-alert">
-            <span class="insight-alert-icon">Key</span>
-            <p class="insight-alert-text"><span class="insight-label">Decision Lens:</span> Confirm repeatable win behaviors and isolate non-repeatable spikes before next match.</p>
-        </div>
-    </div>
-    """,
-        unsafe_allow_html=True,
+    render_page_header(
+        title="Post-Match Tactical Review",
+        subtitle=summary['match_title'],
+        insight_label="Decision Lens",
+        insight_text="Confirm repeatable win behaviors and isolate non-repeatable spikes before next match.",
+        alert_icon="Key"
     )
 
     col_summary, col_takeaways = st.columns([2, 1], gap="medium")
@@ -194,41 +195,23 @@ def render_match_review():
     with col_takeaways:
         render_tactical_takeaways(get_tactical_takeaways())
 
-    st.markdown("<div style='height: 32px;'></div>", unsafe_allow_html=True)
+    render_spacer(32)
 
     col_manhattan, col_worm = st.columns(2, gap="medium")
 
     with col_manhattan:
-        st.markdown(
-            """
-        <div class="card">
-            <div class="card-header">
-                <h3>Runs Per Over</h3>
-            </div>
-            <div class="card-body"></div>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
+        render_card_start("Runs Per Over")
         fig_manhattan = _build_manhattan_chart()
         st.plotly_chart(fig_manhattan, width="stretch", config={"displayModeBar": False})
+        render_card_end()
 
     with col_worm:
-        st.markdown(
-            """
-        <div class="card">
-            <div class="card-header">
-                <h3>Cumulative Run Flow</h3>
-            </div>
-            <div class="card-body"></div>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
+        render_card_start("Cumulative Run Flow")
         fig_worm = _build_worm_chart()
         st.plotly_chart(fig_worm, width="stretch", config={"displayModeBar": False})
+        render_card_end()
 
-    st.markdown("<div style='height: 32px;'></div>", unsafe_allow_html=True)
+    render_spacer(32)
 
     col_phase, col_partner = st.columns(2, gap="medium")
 
@@ -238,19 +221,25 @@ def render_match_review():
     with col_partner:
         render_partnerships_table(get_partnerships())
 
-    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        <div class="card">
-            <div class="card-header"><h3>Next-Match Action Pack</h3></div>
-            <div class="card-body">
-                <div class="insight-box"><strong>Insight:</strong> Overs 11-15 acceleration was highest leverage in this win profile.</div>
-                <div style="height:8px;"></div>
-                <div class="insight-box"><strong>Risk:</strong> Early dot-ball pressure remains elevated against left-arm pace angles.</div>
-                <div style="height:8px;"></div>
-                <div class="insight-box"><strong>Recommended Action:</strong> Promote one high-intent right-hander in PP if two dots in first over.</div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
+    render_spacer(12)
+    
+    render_insight_card(
+        title="Next-Match Action Pack",
+        insights=[
+            {
+                "label": "Insight",
+                "text": "Overs 11-15 acceleration was highest leverage in this win profile.",
+                "type": "neutral"
+            },
+            {
+                "label": "Risk",
+                "text": "Early dot-ball pressure remains elevated against left-arm pace angles.",
+                "type": "warning"
+            },
+            {
+                "label": "Recommended Action",
+                "text": "Promote one high-intent right-hander in PP if two dots in first over.",
+                "type": "neutral"
+            }
+        ]
     )
