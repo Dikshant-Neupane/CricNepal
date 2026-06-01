@@ -14,7 +14,12 @@ from ..services.data_loaders import (
     load_team_matches_for,
     export_path,
 )
-from ..services.metrics import build_executive_cards
+from ..services.metrics import (
+    build_executive_cards,
+    compute_season_kpis,
+    compute_season_delta,
+    compute_form_index
+)
 from ..services.data_quality import validate_match_records
 
 TEAM = "Janakpur Bolts"
@@ -43,59 +48,7 @@ def _load_real_matches() -> pd.DataFrame | None:
 
 
 def _nrr_from_bbb(match_ids: list, season: str) -> float:
-    """Calculate NRR from ball-by-ball data (cached underneath)."""
-    bbb = load_ball_by_ball_normalized()
-    if bbb is None:
-        return float("nan")
-    bbb = bbb[bbb["match_id"].isin(match_ids)].copy()
-    if bbb.empty:
-        return float("nan")
-
-    # Runs for (Janakpur batting)
-    batting = bbb[bbb["batting_team"] == TEAM]
-    # Runs against (Janakpur bowling)
-    bowling = bbb[bbb["bowling_team"] == TEAM]
-
-    runs_for_total = pd.to_numeric(batting["runs_total"], errors="coerce").sum()
-    runs_against_total = pd.to_numeric(bowling["runs_total"], errors="coerce").sum()
-
-    # Balls (legal deliveries) for overs
-    balls_faced = len(batting)
-    balls_bowled = len(bowling)
-    overs_faced = balls_faced / 6 if balls_faced > 0 else 1.0
-    overs_bowled = balls_bowled / 6 if balls_bowled > 0 else 1.0
-    return float(runs_for_total / overs_faced - runs_against_total / overs_bowled)
-
-
-def _season_kpis(jab: pd.DataFrame) -> dict:
-    """Calculate win%, NRR, and match counts per season."""
-    result = {}
-    for season, grp in jab.groupby("season"):
-        n = len(grp)
-        wins = grp["is_win"].sum()
-        win_pct = wins / n * 100 if n > 0 else 0
-
-        # Use runs_for, runs_against, overs_faced, overs_bowled columns
-        runs_for = pd.to_numeric(grp["runs_for"], errors="coerce").fillna(0)
-        runs_against = pd.to_numeric(grp["runs_against"], errors="coerce").fillna(0)
-        overs_faced = pd.to_numeric(grp["overs_faced"], errors="coerce").fillna(20.0).replace(0, 20.0)
-        overs_bowled = pd.to_numeric(grp["overs_bowled"], errors="coerce").fillna(20.0).replace(0, 20.0)
-        
-        # Calculate NRR: (runs_for/overs_faced) - (runs_against/overs_bowled)
-        nrr = (runs_for / overs_faced).mean() - (runs_against / overs_bowled).mean()
-
-        result[season] = {
-            "n": n,
-            "wins": int(wins),
-            "losses": n - int(wins),
-            "win_pct": win_pct,
-            "nrr": nrr,
-        }
-    return result
-
-
-def _nrr_from_bbb(match_ids: list, season: str) -> float:
-    """Calculate NRR from ball-by-ball data."""
+    """Calculate NRR from ball-by-ball data (legacy function - kept for reference)."""
     try:
         bbb = pd.read_parquet("data/normalized/ball_by_ball_normalized.parquet")
         bbb = bbb[bbb["match_id"].isin(match_ids)].copy()
@@ -121,12 +74,6 @@ def _nrr_from_bbb(match_ids: list, season: str) -> float:
         return float(nrr)
     except Exception:
         return float("nan")
-
-
-def _form_index(jab: pd.DataFrame, n_recent: int = 5) -> float:
-    """Last N matches win rate."""
-    recent = jab.sort_values("match_date").tail(n_recent)
-    return recent["is_win"].mean() * 100
 
 
 def _momentum_chart(jab: pd.DataFrame | None) -> None:
@@ -192,10 +139,12 @@ def _momentum_chart(jab: pd.DataFrame | None) -> None:
 
 def render_executive_overview():
     jab = _load_real_matches()
-    season_kpis = _season_kpis(jab) if jab is not None else {}
+    
+    # Use centralized metrics service for season KPIs and form index
+    season_kpis = compute_season_kpis(jab) if jab is not None and not jab.empty else {}
     s1 = season_kpis.get("S1", {})
     s2 = season_kpis.get("S2", {})
-    form_idx = _form_index(jab) if jab is not None else 0.0
+    form_idx = compute_form_index(jab, n_recent=5) if jab is not None and not jab.empty else 0.0
 
     # Legacy data_source for contributor tables + quality check
     match_df, data_source = load_match_records()
