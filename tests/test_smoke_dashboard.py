@@ -212,6 +212,43 @@ def test_metrics_service():
         return False
 
 
+def test_decision_intelligence():
+    """Test Day 6: Decision Intelligence Service"""
+    print("\n=== Testing Decision Intelligence Service (Day 6) ===")
+    try:
+        from src.dashboard.services.decision_intelligence import (
+            generate_executive_recommendations,
+            generate_phase_recommendations,
+            format_recommendation_card
+        )
+        print("✅ generate_executive_recommendations imported (Day 6)")
+        print("✅ generate_phase_recommendations imported (Day 6)")
+        print("✅ format_recommendation_card imported (Day 6)")
+        
+        # Quick functional test
+        season_kpis = {
+            "S1": {"win_pct": 50.0, "nrr": 0.250},
+            "S2": {"win_pct": 25.0, "nrr": -0.350}
+        }
+        recommendations = generate_executive_recommendations(season_kpis, 92)
+        print(f"✅ generate_executive_recommendations functional: {len(recommendations)} recommendations")
+        
+        s1_stats = {"run_rate": 8.5, "dot_pct": 30.0, "boundary_pct": 18.0}
+        s2_stats = {"run_rate": 7.5, "dot_pct": 35.0, "boundary_pct": 15.0}
+        phase_recs = generate_phase_recommendations(s1_stats, s2_stats, "powerplay")
+        print(f"✅ generate_phase_recommendations functional: {len(phase_recs)} keys")
+        
+        html = format_recommendation_card(recommendations)
+        print(f"✅ format_recommendation_card functional: {len(html)} chars HTML")
+        
+        return True
+    except Exception as e:
+        print(f"❌ Decision intelligence test failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 if __name__ == "__main__":
     print("\n🔍 Starting Dashboard Smoke Tests...\n")
     
@@ -219,6 +256,9 @@ if __name__ == "__main__":
     all_passed &= test_imports()
     all_passed &= test_data_loaders()
     all_passed &= test_theme()
+    all_passed &= test_ui_components()
+    all_passed &= test_metrics_service()
+    all_passed &= test_decision_intelligence()
     
     print("\n" + "=" * 60)
     if all_passed:

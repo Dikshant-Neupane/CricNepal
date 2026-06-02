@@ -21,6 +21,10 @@ from ..services.metrics import (
     compute_form_index
 )
 from ..services.data_quality import validate_match_records
+from ..services.decision_intelligence import (
+    generate_executive_recommendations,
+    format_recommendation_card
+)
 from ..components.ui_patterns import (
     render_page_header,
     render_spacer
@@ -469,18 +473,16 @@ def render_executive_overview():
                 unsafe_allow_html=True,
             )
 
-        next_date = (datetime.now() + timedelta(days=3)).strftime("%b %d, %Y")
-        st.markdown(
-            f"""
-            <div style="height:12px;"></div>
-            <div class="card">
-                <div class="card-header"><h3>Season 3 Preparation</h3></div>
-                <div class="card-body">
-                    <div style="font-size:20px; font-weight:800; color: var(--primary);">NPL Season 3</div>
-                    <div style="font-size:13px; color: var(--on-surface-variant); margin-bottom: 12px;">Upcoming • Use Batting & Bowling Intelligence tabs for phase-level prep</div>
-                    <div class="insight-box"><strong>Priority:</strong> Address death-over bowling (+1.64 rpo conditional economy) and powerplay batting (run rate -0.75 rpo, dot ball % +4.3pp). Middle overs net -0.68 rpo; powerplay bowling delta is small (+0.28 rpo).</div>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
+        # Day 6: Decision Intelligence - Generate data-driven recommendations
+        exec_recommendations = generate_executive_recommendations(
+            season_kpis=season_kpis,
+            quality_score=quality_report["reliability_score"]
         )
+        
+        recommendations_html = format_recommendation_card(
+            exec_recommendations,
+            title="Season 3 Tactical Priorities"
+        )
+        
+        st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+        st.markdown(recommendations_html, unsafe_allow_html=True)

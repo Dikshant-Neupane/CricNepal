@@ -891,4 +891,48 @@ def render_player_details_tab(all_data, df, team_name):
                     st.info("No bowling data for this player")
         else:
             st.info("No match-by-match data available for this player")
+    
+    # Day 6: Decision Intelligence - Add structured recommendations
+    st.markdown("---")
+    st.markdown("## 🎯 Season 3 Action Plan")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        <div class="card">
+            <div class="card-header"><h3>📊 Key Insight</h3></div>
+            <div class="card-body">
+                <div class="insight-box-success">
+                    <strong>Data Finding:</strong> 70-90% of S2 decline is retained-player underperformance, not roster turnover. Role execution, not personnel, is the primary driver.
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div class="card">
+            <div class="card-header"><h3>⚠️ Risk Factor</h3></div>
+            <div class="card-body">
+                <div class="insight-box-warning">
+                    <strong>Execution Risk:</strong> Death bowling (+1.64 rpo) and powerplay batting (-0.75 rpo) are highest leverage failure points. Combined impact: ~12-15 runs per match.
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div class="card">
+            <div class="card-header"><h3>✅ Recommended Action</h3></div>
+            <div class="card-body">
+                <div class="insight-box">
+                    <strong>Priority 1:</strong> Fix death bowling discipline (target -1.0 rpo recovery).<br><br>
+                    <strong>Priority 2:</strong> Increase powerplay intent (target +0.75 rpo, -3pp dot%).<br><br>
+                    <strong>Priority 3:</strong> Maintain middle-overs rotation strength.
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 

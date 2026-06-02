@@ -524,7 +524,7 @@ def get_theme_css() -> str:
     .section-card-header { padding: 14px 16px; border-bottom: 1px solid var(--outline-2); }
     .section-card-header-primary { background: var(--primary); }
     .section-card-title { font-size: 18px; margin: 0; color: var(--on-surface); font-weight: 700; }
-    .section-card-title-white { color: #fff; }
+    .section-card-title-white { color: #fff !important; }
     .section-card-body { padding: 16px; }
 
     .chart-placeholder {
@@ -551,6 +551,42 @@ def get_theme_css() -> str:
         border-radius: 10px;
         padding: 10px;
         color: var(--on-surface-variant);
+        font-size: 13px;
+    }
+
+    .insight-box-success {
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        border-radius: 10px;
+        padding: 10px;
+        color: var(--on-surface);
+        font-size: 13px;
+    }
+
+    .insight-box-warning {
+        background: rgba(245, 158, 11, 0.08);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        border-radius: 10px;
+        padding: 10px;
+        color: var(--on-surface);
+        font-size: 13px;
+    }
+
+    .insight-box-error {
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        border-radius: 10px;
+        padding: 10px;
+        color: var(--on-surface);
+        font-size: 13px;
+    }
+
+    .insight-box-info {
+        background: rgba(59, 130, 246, 0.08);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        border-radius: 10px;
+        padding: 10px;
+        color: var(--on-surface);
         font-size: 13px;
     }
 
@@ -734,6 +770,17 @@ def get_theme_css() -> str:
         background: linear-gradient(180deg, #eff5f2, #f7faf8) !important;
         border-right: 1px solid var(--outline-2) !important;
         box-shadow: 2px 0 12px rgba(12, 36, 28, 0.04);
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: 100vh !important;
+    }
+    
+    /* Enable smooth scrolling in sidebar */
+    [data-testid="stSidebar"] > div:first-child {
+        height: 100% !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding-bottom: 20px !important;
     }
 
     [data-testid="stSidebar"] .sidebar-brand {
