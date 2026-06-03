@@ -249,6 +249,42 @@ def test_decision_intelligence():
         return False
 
 
+def test_player_form_service():
+    """Test Season 3 player form service."""
+    print("\n=== Testing Player Form Service ===")
+    try:
+        from src.dashboard.services.player_form import (
+            build_player_form_table,
+            classify_form_band,
+            summarize_selection_decisions,
+        )
+        print("✅ build_player_form_table imported")
+        print("✅ classify_form_band imported")
+        print("✅ summarize_selection_decisions imported")
+
+        sample_matches = pd.DataFrame([
+            {"match_id": "m1", "match_date": "2024-12-01", "season": "S1", "tournament_name": "NPL Season 1", "winner_name": "Janakpur Bolts"},
+            {"match_id": "m2", "match_date": "2024-12-05", "season": "S2", "tournament_name": "NPL Season 2", "winner_name": "Janakpur Bolts"},
+            {"match_id": "m3", "match_date": "2025-01-10", "season": "S2", "tournament_name": "KP Oli Cup", "winner_name": "Janakpur Bolts"},
+        ])
+        sample_players = pd.DataFrame([
+            {"match_id": "m1", "player_name": "A Batter", "team_name": "Janakpur Bolts", "player_role": "Batter", "runs_scored": 35, "balls_faced": 28, "strike_rate": 125.0, "balls_bowled": 0, "wickets_taken": 0, "economy_rate": None},
+            {"match_id": "m2", "player_name": "A Batter", "team_name": "Janakpur Bolts", "player_role": "Batter", "runs_scored": 48, "balls_faced": 30, "strike_rate": 160.0, "balls_bowled": 0, "wickets_taken": 0, "economy_rate": None},
+            {"match_id": "m3", "player_name": "A Batter", "team_name": "Janakpur Bolts", "player_role": "Batter", "runs_scored": 40, "balls_faced": 26, "strike_rate": 153.8, "balls_bowled": 0, "wickets_taken": 0, "economy_rate": None},
+        ])
+        form_table = build_player_form_table(sample_players, sample_matches, n_recent=3, min_matches=3)
+        print(f"✅ build_player_form_table functional: {len(form_table)} player(s)")
+        print(f"✅ classify_form_band functional: {classify_form_band(72.0)}")
+        summary = summarize_selection_decisions(form_table)
+        print(f"✅ summarize_selection_decisions functional: {len(summary)} blocks")
+        return True
+    except Exception as e:
+        print(f"❌ Player form service test failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 if __name__ == "__main__":
     print("\n🔍 Starting Dashboard Smoke Tests...\n")
     
@@ -259,6 +295,7 @@ if __name__ == "__main__":
     all_passed &= test_ui_components()
     all_passed &= test_metrics_service()
     all_passed &= test_decision_intelligence()
+    all_passed &= test_player_form_service()
     
     print("\n" + "=" * 60)
     if all_passed:
