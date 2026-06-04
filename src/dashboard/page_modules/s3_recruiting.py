@@ -94,19 +94,24 @@ def _render_form_ranking_tab() -> None:
             )
 
     render_spacer(20)
-    filter_col_1, filter_col_2 = st.columns(2)
+    filter_col_1, filter_col_2, filter_col_3 = st.columns(3)
     with filter_col_1:
         roles = ["All"] + sorted(form_table["primary_role"].dropna().unique().tolist())
-        role_filter = st.selectbox("Role", roles, index=0, key="s3_form_role")
+        role_filter = st.selectbox("Primary Role", roles, index=0, key="s3_form_role")
     with filter_col_2:
         bands = ["All", "In Form", "Stable", "Risky", "Out of Form"]
         band_filter = st.selectbox("Form Band", bands, index=0, key="s3_form_band")
+    with filter_col_3:
+        s3_roles = ["All"] + sorted(form_table["recommended_role"].dropna().unique().tolist())
+        s3_role_filter = st.selectbox("S3 Tactical Role", s3_roles, index=0, key="s3_form_s3_role")
 
     filtered = form_table.copy()
     if role_filter != "All":
         filtered = filtered[filtered["primary_role"] == role_filter]
     if band_filter != "All":
         filtered = filtered[filtered["form_band"] == band_filter]
+    if s3_role_filter != "All":
+        filtered = filtered[filtered["recommended_role"] == s3_role_filter]
 
     filtered = filtered.reset_index(drop=True)
     filtered.insert(0, "rank", filtered.index + 1)
@@ -123,6 +128,7 @@ def _render_form_ranking_tab() -> None:
             "recommended_role",
             "avg_runs",
             "avg_strike_rate",
+            "avg_balls_faced",
             "avg_wickets",
             "avg_economy",
         ]
@@ -138,6 +144,7 @@ def _render_form_ranking_tab() -> None:
             "recommended_role": "S3 Role",
             "avg_runs": "Avg Runs",
             "avg_strike_rate": "Avg SR",
+            "avg_balls_faced": "Avg Balls",
             "avg_wickets": "Avg Wkts",
             "avg_economy": "Avg Econ",
         }
