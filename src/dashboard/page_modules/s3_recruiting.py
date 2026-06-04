@@ -94,6 +94,69 @@ def _render_form_ranking_tab() -> None:
             )
 
     render_spacer(20)
+    
+    # Visual insights section
+    st.markdown("### Squad Intelligence Overview")
+    chart_col1, chart_col2 = st.columns(2)
+    
+    with chart_col1:
+        # Form band distribution
+        band_counts = form_table["form_band"].value_counts().reindex(
+            ["In Form", "Stable", "Risky", "Out of Form"], fill_value=0
+        )
+        fig_bands = go.Figure(data=[
+            go.Bar(
+                x=band_counts.index,
+                y=band_counts.values,
+                marker_color=["#1e7d5e", "#3a9679", "#e89b3c", "#c74b4b"],
+                text=band_counts.values,
+                textposition="outside",
+            )
+        ])
+        fig_bands.update_layout(
+            title="Form Band Distribution",
+            xaxis_title="Form Band",
+            yaxis_title="Player Count",
+            height=300,
+            margin=dict(l=20, r=20, t=40, b=20),
+            showlegend=False,
+        )
+        st.plotly_chart(fig_bands, use_container_width=True)
+    
+    with chart_col2:
+        # Role coverage by form band
+        role_form_matrix = pd.crosstab(
+            form_table["recommended_role"],
+            form_table["form_band"],
+        )
+        # Reorder columns to match band priority
+        role_form_matrix = role_form_matrix.reindex(
+            columns=["In Form", "Stable", "Risky", "Out of Form"], fill_value=0
+        )
+        # Sort by total count descending
+        role_form_matrix["_total"] = role_form_matrix.sum(axis=1)
+        role_form_matrix = role_form_matrix.sort_values("_total", ascending=False).drop("_total", axis=1)
+        
+        fig_coverage = go.Figure(data=go.Heatmap(
+            z=role_form_matrix.values,
+            x=role_form_matrix.columns,
+            y=role_form_matrix.index,
+            colorscale=[[0, "#f5f5f5"], [0.5, "#3a9679"], [1, "#1e7d5e"]],
+            text=role_form_matrix.values,
+            texttemplate="%{text}",
+            textfont={"size": 10},
+            showscale=False,
+        ))
+        fig_coverage.update_layout(
+            title="Role Coverage by Form Band",
+            xaxis_title="Form Band",
+            yaxis_title="S3 Tactical Role",
+            height=400,
+            margin=dict(l=20, r=20, t=40, b=20),
+        )
+        st.plotly_chart(fig_coverage, use_container_width=True)
+    
+    render_spacer(20)
     filter_col_1, filter_col_2, filter_col_3 = st.columns(3)
     with filter_col_1:
         roles = ["All"] + sorted(form_table["primary_role"].dropna().unique().tolist())
