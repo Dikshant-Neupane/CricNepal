@@ -56,6 +56,42 @@ def _tier_color(tier: str) -> str:
     }.get(tier, "#999")
 
 
+def _analyze_priority_gaps(form_table: pd.DataFrame) -> list[dict[str, str]]:
+    """Identify critical tactical role gaps for recruitment priority."""
+    critical_roles = {
+        "Death specialist": {"min_stable": 2, "priority": "HIGH"},
+        "Powerplay strike bowler": {"min_stable": 2, "priority": "HIGH"},
+        "Finisher (explosive)": {"min_stable": 1, "priority": "MEDIUM"},
+        "Opener (intent)": {"min_stable": 1, "priority": "MEDIUM"},
+        "Middle-overs controller": {"min_stable": 3, "priority": "MEDIUM"},
+    }
+    
+    gaps = []
+    for role, targets in critical_roles.items():
+        role_data = form_table[form_table["recommended_role"] == role]
+        total = len(role_data)
+        stable_or_better = int(role_data["form_band"].isin(["In Form", "Stable"]).sum())
+        gap_size = max(0, targets["min_stable"] - stable_or_better)
+        
+        if gap_size > 0 or total == 0:
+            status = "🔴 URGENT" if targets["priority"] == "HIGH" else "🟡 MONITOR"
+            if total == 0:
+                recommendation = f"Zero {role.lower()} players identified. Recruit external talent immediately."
+            elif stable_or_better == 0:
+                recommendation = f"{total} player(s) present but all risky/out of form. Seek backup or upgrade."
+            else:
+                recommendation = f"Need {gap_size} more stable {role.lower()}(s) to meet minimum squad depth."
+            
+            gaps.append({
+                "status": status,
+                "role": role,
+                "current": f"{stable_or_better}/{targets['min_stable']}",
+                "recommendation": recommendation,
+            })
+    
+    return gaps
+
+
 def _delta_arrow(val: float | None) -> str:
     if val is None or pd.isna(val):
         return "—"
@@ -155,6 +191,42 @@ def _render_form_ranking_tab() -> None:
             margin=dict(l=20, r=20, t=40, b=20),
         )
         st.plotly_chart(fig_coverage, use_container_width=True)
+    
+    render_spacer(20)
+    
+    # Priority recruitment recommendations
+    priority_gaps = _analyze_priority_gaps(form_table)
+    if priority_gaps:
+        st.markdown("### Priority Recruitment Recommendations")
+        st.caption("Based on minimum squad depth targets for critical tactical roles.")
+        
+        for gap in priority_gaps:
+            st.markdown(
+                f"""
+                <div style="
+                    background: var(--surface-secondary); 
+                    border-left: 4px solid {'#c74b4b' if '🔴' in gap['status'] else '#e89b3c'}; 
+                    padding: 12px 16px; 
+                    margin-bottom: 12px; 
+                    border-radius: 4px;
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <strong>{gap['status']} {gap['role']}</strong>
+                        <span style="
+                            background: var(--surface); 
+                            padding: 4px 10px; 
+                            border-radius: 12px; 
+                            font-size: 12px;
+                            font-weight: 600;
+                        ">Coverage: {gap['current']}</span>
+                    </div>
+                    <div style="color: var(--on-surface-variant); font-size: 14px;">
+                        {gap['recommendation']}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
     
     render_spacer(20)
     filter_col_1, filter_col_2, filter_col_3 = st.columns(3)
