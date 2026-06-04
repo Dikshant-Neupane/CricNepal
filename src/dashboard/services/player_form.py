@@ -140,40 +140,92 @@ def _season_reference(role: str, s1: pd.DataFrame, s2: pd.DataFrame) -> str:
     )
 
 
-def _recommended_role(role: str, avg_runs: float, avg_sr: float, avg_wickets: float, avg_econ: float) -> str:
+def _recommended_role(
+    role: str,
+    avg_runs: float,
+    avg_sr: float,
+    avg_wickets: float,
+    avg_econ: float,
+    avg_balls_faced: float,
+) -> str:
+    """Assign granular S3 role based on recent performance profile."""
     if role == "Bowler":
-        if avg_econ <= 7.2 and avg_wickets >= 1.0:
-            return "Frontline strike bowler"
-        if avg_econ <= 8.0:
-            return "Control bowler"
-        return "Matchup bowler"
+        # Phase-inferred bowling roles based on economy and wicket-taking
+        if avg_econ <= 7.0 and avg_wickets >= 0.9:
+            return "Death specialist"  # Precision required in high-pressure overs
+        if avg_econ <= 7.5 and avg_wickets >= 1.0:
+            return "Powerplay strike bowler"  # Early wickets with economy control
+        if avg_econ <= 8.3:
+            return "Middle-overs controller"  # Stem run flow in rotation phase
+        if avg_wickets >= 1.2:
+            return "Wicket-taking option"  # High wicket rate, economy secondary
+        return "Matchup / backup bowler"  # Limited role or situational use
+    
     if role == "All-rounder":
-        if avg_runs >= 20 and avg_wickets >= 0.8:
-            return "Core all-rounder"
-        return "Flex all-rounder"
-    if avg_sr >= 135 and avg_runs >= 20:
-        return "Top-order aggressor"
-    if avg_runs >= 24:
-        return "Anchor"
-    return "Finisher / depth batter"
+        if avg_runs >= 22 and avg_wickets >= 1.0 and avg_econ <= 8.5:
+            return "Primary all-rounder"  # Dual threat in both disciplines
+        if avg_runs >= 18 and avg_wickets >= 0.7:
+            return "Batting all-rounder"  # Batting primary, bowling support
+        if avg_wickets >= 1.0 and avg_econ <= 8.5:
+            return "Bowling all-rounder"  # Bowling primary, batting depth
+        return "Flex utility"  # Situational dual role
+    
+    # Batter roles inferred from balls faced and strike patterns
+    if avg_balls_faced >= 25:  # Substantial innings length
+        if avg_sr >= 140:
+            return "Opener (intent)"  # High SR with volume = powerplay aggressor
+        if avg_sr >= 125:
+            return "Opener (balanced)"  # Good SR with stability
+        if avg_runs >= 28:
+            return "No. 3 anchor"  # High-volume run accumulator
+        return "Top-order batter"
+    
+    if avg_balls_faced >= 18:  # Medium innings length
+        if avg_sr >= 135 and avg_runs >= 20:
+            return "Middle-order accelerator"  # Strike rotation + boundaries
+        if avg_runs >= 22:
+            return "Middle-order anchor"  # Stabilizer in overs 10-16
+        return "Middle-order batter"
+    
+    # Low balls faced = finishing or depth role
+    if avg_sr >= 145:
+        return "Finisher (explosive)"  # High-impact cameos
+    if avg_sr >= 120:
+        return "Finisher (rotator)"  # Rotation-focused closer
+    return "Lower-order / depth"  # Limited batting output
 
 
 def _role_recommendation(role: str, band: str, recommended_role: str, season_ref: str) -> str:
+    """Generate tactical S3 selection guidance based on form band and recommended role."""
     if band == "In Form":
         action = f"Retain as {recommended_role.lower()} for S3."
     elif band == "Stable":
-        action = f"Keep in the core rotation as {recommended_role.lower()}, but role clarity matters."
+        action = f"Keep in core rotation as {recommended_role.lower()}, but monitor role execution."
     elif band == "Risky":
-        action = f"Carry only with a protected {recommended_role.lower()} role and matchup support."
+        action = f"Carry only with clearly defined {recommended_role.lower()} role and matchup protection."
     else:
-        action = f"Do not lock into the starting XI until {recommended_role.lower()} output recovers."
+        action = f"Do not lock into starting XI until {recommended_role.lower()} output recovers."
 
-    if role == "Bowler":
-        tactic = "Prioritize overs where economy control matters most."
-    elif role == "All-rounder":
-        tactic = "Use dual-skill value only if both batting and bowling workloads stay consistent."
+    # Tactical guidance based on granular role
+    role_lower = recommended_role.lower()
+    if "death specialist" in role_lower:
+        tactic = "Reserve for overs 17-20; prioritize yorkers and wide variations."
+    elif "powerplay" in role_lower:
+        tactic = "Deploy in overs 1-6; target early wickets with attacking lengths."
+    elif "middle-overs controller" in role_lower:
+        tactic = "Use in overs 7-15 to stem run flow; focus on hard lengths and change-ups."
+    elif "wicket-taking" in role_lower:
+        tactic = "Deploy when breakthrough needed; accept higher economy for strike capability."
+    elif "opener" in role_lower:
+        tactic = "Target 40-50 runs in powerplay with intent on scoring opportunities."
+    elif "no. 3" in role_lower or "anchor" in role_lower:
+        tactic = "Stabilize innings through middle overs; rotate strike and punish poor lengths."
+    elif "finisher" in role_lower:
+        tactic = "Reserve for overs 16-20; prioritize boundary hitting and run-chase finishing."
+    elif "all-rounder" in role_lower:
+        tactic = "Balance batting and bowling loads; use as tactical flexibility asset."
     else:
-        tactic = "Select for a clearly defined batting slot rather than generic depth."
+        tactic = "Define specific match role before selection to avoid generic depth usage."
 
     return f"{action} {season_ref} {tactic}"
 
@@ -222,6 +274,7 @@ def build_player_form_table(
 
         avg_runs = round(float(recent["runs_scored"].fillna(0).mean()), 1)
         avg_strike_rate = round(float(recent["strike_rate"].fillna(0).mean()), 1)
+        avg_balls_faced = round(float(recent["balls_faced"].fillna(0).mean()), 1)
         avg_wickets = round(float(recent["wickets_taken"].fillna(0).mean()), 2)
         avg_economy = recent["economy_rate"].replace(0, pd.NA).dropna()
         avg_economy_value = round(float(avg_economy.mean()), 2) if not avg_economy.empty else 0.0
@@ -231,7 +284,9 @@ def build_player_form_table(
             group[group["season"] == "S1"],
             group[group["season"] == "S2"],
         )
-        recommended_role = _recommended_role(primary_role, avg_runs, avg_strike_rate, avg_wickets, avg_economy_value)
+        recommended_role = _recommended_role(
+            primary_role, avg_runs, avg_strike_rate, avg_wickets, avg_economy_value, avg_balls_faced
+        )
         role_recommendation = _role_recommendation(primary_role, form_band, recommended_role, season_ref)
 
         rows.append(
@@ -246,6 +301,7 @@ def build_player_form_table(
                 "role_recommendation": role_recommendation,
                 "avg_runs": avg_runs,
                 "avg_strike_rate": avg_strike_rate,
+                "avg_balls_faced": avg_balls_faced,
                 "avg_wickets": avg_wickets,
                 "avg_economy": avg_economy_value,
                 "s1_s2_reference": season_ref,
