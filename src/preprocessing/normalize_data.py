@@ -199,6 +199,78 @@ def validate_deliveries(deliveries_df: pd.DataFrame, matches_df: pd.DataFrame) -
 
 
 # ══════════════════════════════════════════════════════════════════════════
+# 4. Scorecard backfill (innings_X_* reconstruction from ball-by-ball)
+# ══════════════════════════════════════════════════════════════════════════
+
+def backfill_scorecard_from_bbb(matches_df: pd.DataFrame, ball_by_ball_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Backfill innings_1_* and innings_2_* in `matches_df` using ball-by-ball rows.
+
+    Pinned invariants (see tests):
+    - Never overwrite existing non-null innings_X_* fields.
+    - innings_X_team is derived from ball_by_ball_df.batting_team for that innings.
+    - innings_X_runs is sum(ball_by_ball_df.runs_total) for that match+innings.
+    - innings_X_wickets is sum(ball_by_ball_df.is_wicket), capped at 10.
+    - innings_X_overs is computed as balls/6 rounded to 1 decimal.
+    - If ball_by_ball_df is empty, return matches_df unchanged.
+    """
+    if ball_by_ball_df is None or ball_by_ball_df.empty:
+        return matches_df
+
+    required_bbb_cols = {"match_id", "innings", "over", "batting_team", "runs_total", "runs_extras", "is_wicket"}
+    missing = required_bbb_cols - set(ball_by_ball_df.columns)
+    if missing:
+        raise ValueError(f"ball_by_ball_df missing required columns: {sorted(missing)}")
+
+    out = matches_df.copy()
+
+    # Aggregate bbb at match+innings
+    bbb = ball_by_ball_df.copy()
+    # wickets are stored as boolean in some datasets; normalize to int for summation
+    bbb["is_wicket"] = bbb["is_wicket"].astype(int)
+
+    aggs = (
+        bbb.groupby(["match_id", "innings"])
+        .agg(
+            team=("batting_team", lambda x: x.dropna().iloc[0] if len(x.dropna()) else None),
+            runs=("runs_total", "sum"),
+            wickets=("is_wicket", "sum"),
+            balls=("over", "size"),
+        )
+        .reset_index()
+    )
+    aggs["wickets"] = aggs["wickets"].clip(upper=10)
+    aggs["overs"] = (aggs["balls"] / 6.0).round(1)
+
+    # Fill for innings 1 and 2
+    for match_idx in range(len(out)):
+        match_id = out.at[match_idx, "match_id"] if "match_id" in out.columns else None
+        if match_id is None:
+            continue
+
+        for inn in (1, 2):
+            row = aggs[(aggs["match_id"] == match_id) & (aggs["innings"] == inn)]
+            if row.empty:
+                continue
+
+            r = row.iloc[0]
+
+            # Helper: only fill if current value is null/NaN
+            def set_if_null(col_name: str, value):
+                if col_name not in out.columns:
+                    return
+                if pd.isna(out.at[match_idx, col_name]):
+                    out.at[match_idx, col_name] = value
+
+            set_if_null(f"innings_{inn}_team", r["team"])
+            set_if_null(f"innings_{inn}_runs", float(r["runs"]) if pd.notna(r["runs"]) else None)
+            set_if_null(f"innings_{inn}_wickets", int(r["wickets"]) if pd.notna(r["wickets"]) else None)
+            set_if_null(f"innings_{inn}_overs", float(r["overs"]) if pd.notna(r["overs"]) else None)
+
+    return out
+
+
+# ══════════════════════════════════════════════════════════════════════════
 # Main Execution
 # ══════════════════════════════════════════════════════════════════════════
 

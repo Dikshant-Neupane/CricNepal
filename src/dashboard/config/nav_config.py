@@ -15,6 +15,7 @@ NAV_ITEMS = [
     {"icon": "", "label": "Opposition Reports", "key": "opposition_reports"},
     {"icon": "", "label": "Win Probability Model", "key": "win_probability"},
     {"icon": "", "label": "S3 Recruiting", "key": "s3_recruiting"},
+    {"icon": "🎯", "label": "S3 Strategic Analysis", "key": "s3_strategic_analysis"},
     {"icon": "", "label": "Player Archetypes", "key": "player_archetypes"},
 ]
 

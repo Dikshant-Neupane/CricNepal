@@ -20,6 +20,7 @@ from src.dashboard.page_modules.matchups import render_matchups
 from src.dashboard.page_modules.opposition_report import render_opposition_report
 from src.dashboard.page_modules.team_decline_analysis import render_team_decline_analysis
 from src.dashboard.page_modules.s3_recruiting import render_s3_recruiting
+from src.dashboard.page_modules.s3_strategic_analysis import render_s3_strategic_analysis
 
 
 # ─── Page Configuration ──────────────────────────────────
@@ -75,6 +76,9 @@ elif active_page == "review":
 
 elif active_page == "s3_recruiting":
     render_s3_recruiting()
+
+elif active_page == "s3_strategic_analysis":
+    render_s3_strategic_analysis()
 
 # ─── Coming Soon Stubs ───────────────────────────────────
 else:

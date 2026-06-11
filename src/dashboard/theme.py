@@ -99,10 +99,14 @@ def get_theme_css() -> str:
         letter-spacing: -0.02em;
         line-height: 1.2;
     }
-    /* Hide all Streamlit chrome: menu, deploy, status, header (but not on mobile where we need toolbar for sidebar button) */
-    #MainMenu, [data-testid="stDecoration"],
+    /* Hide only Streamlit chrome elements we explicitly don't want visible.
+       Avoid aggressive absolute positioning / negative z-index which can break layout/text visibility
+       across Streamlit versions. */
+    #MainMenu,
+    [data-testid="stDecoration"],
     [data-testid="stStatusWidget"],
-    .stDeployButton, .stAppDeployButton,
+    .stDeployButton,
+    .stAppDeployButton,
     [data-testid="stHeaderActionElements"],
     header[data-testid="stHeader"]::before,
     header[data-testid="stHeader"]::after,
@@ -111,11 +115,6 @@ def get_theme_css() -> str:
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
-        height: 0 !important;
-        max-height: 0 !important;
-        overflow: hidden !important;
-        position: absolute !important;
-        z-index: -9999 !important;
     }
     
     /* Hide toolbar on desktop only */
@@ -1350,16 +1349,6 @@ def get_theme_css() -> str:
         [data-testid="stHorizontalBlock"]:has(.metric-card) > [data-testid="column"] {
             width: 100% !important;
             flex: 1 1 100% !important;
-        }
-    }
-        .bolts-table td, .data-table td {
-            padding: 8px 6px;
-            font-size: 12px;
-        }
-        /* Wrap table container */
-        .stDataFrame > div {
-            overflow-x: auto !important;
-            -webkit-overflow-scrolling: touch;
         }
     }
 

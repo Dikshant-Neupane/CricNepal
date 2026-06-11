@@ -25,15 +25,17 @@ DATA_DIR = PROJECT_ROOT / "data"
 NORMALIZED_DIR = DATA_DIR / "normalized"
 EXPORT_DIR = DATA_DIR / "exports"
 RAW_DIR = DATA_DIR / "raw"
+DELIVERABLES_DIR = PROJECT_ROOT / "deliverables"
 
 # ── External data paths ─────────────────────────────────────
 _cric_data_default = str(PROJECT_ROOT.parent / "Cric_Data" / "data")
 CRIC_DATA_DIR = Path(os.environ.get("CRIC_DATA_DIR", _cric_data_default))
 PARQUET_DIR = CRIC_DATA_DIR / "final" / "parquet"
 ROSTER_DIR = CRIC_DATA_DIR / "player_rosters"
+PROFILES_DIR = CRIC_DATA_DIR / "player_profiles"
 
 
 def ensure_dirs() -> None:
     """Create output directories if they don't exist."""
-    for d in [DATA_DIR, NORMALIZED_DIR, EXPORT_DIR]:
+    for d in [DATA_DIR, NORMALIZED_DIR, EXPORT_DIR, DELIVERABLES_DIR]:
         d.mkdir(parents=True, exist_ok=True)
