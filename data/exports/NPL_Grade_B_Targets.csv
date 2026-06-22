@@ -1,0 +1,6 @@
+player_name,role,s1_economy,s2_economy,s3_economy_pred,s3_economy_range,economy_trend,s1_wickets,s2_wickets,s3_wickets_pred,s3_wickets_range,wickets_trend,s2_wkts_per_match,s3_wkts_per_match_pred,s2_bowling_sr,s3_bowling_sr_pred,s2_composite_score,s3_composite_score,priority,npl_grade,bid_range,recommendation,reason
+BP Sharma,Bowler,5.83,6.76,6.48,5.51-7.45,STABLE,13.0,3.0,10.709999999999999,5.7-15.7,DECLINING,0.75,1.19,26.333333333333332,22.52,43.3,58.4,7,Grade B,₨6-8 Lakhs,🟢 PRIORITY,Composite score 58.4/100 - solid performer
+R Dhakal,Bowler,8.25,7.54,7.75,6.59-8.91,STABLE,16.0,4.0,12.6,7.6-17.6,DECLINING,0.8,1.4,25.25,21.03,39.4,54.8,7,Grade B,₨6-8 Lakhs,🟢 PRIORITY,Composite score 54.8/100 - solid performer
+Rashid Khan,Bowler,8.0,8.1,8.07,6.86-9.28,STABLE,7.0,10.0,11.07,6.1-16.1,STABLE,1.25,1.23,13.4,14.01,53.4,52.7,7,Grade B,₨6-8 Lakhs,🟢 PRIORITY,Composite score 52.7/100 - solid performer
+Surya Tamang,Bowler,7.58,7.7,7.66,6.51-8.81,STABLE,1.0,5.0,9.09,4.1-14.1,IMPROVING,0.8333333333333334,1.01,16.2,38.64,44.6,41.8,5,Grade B/C,₨5-7 Lakhs,🟡 RETAIN/SIGN,Composite score 41.8/100 - reliable option
+N Saud,Bowler,6.68,7.0,6.9,5.87-7.93,STABLE,7.0,2.0,5.8500000000000005,0.9-10.9,DECLINING,0.5,0.65,18.0,16.37,40.8,46.1,5,Grade B/C,₨5-7 Lakhs,🟡 RETAIN/SIGN,Composite score 46.1/100 - reliable option

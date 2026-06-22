@@ -1,0 +1,3 @@
+player_name,role,s1_economy,s2_economy,s3_economy_pred,s3_economy_range,economy_trend,s1_wickets,s2_wickets,s3_wickets_pred,s3_wickets_range,wickets_trend,s2_wkts_per_match,s3_wkts_per_match_pred,s2_bowling_sr,s3_bowling_sr_pred,s2_composite_score,s3_composite_score,priority,npl_grade,bid_range,recommendation,reason
+S Dhakal,Bowler,6.64,9.1,7.87,6.69-9.05,DECLINING,5.0,3.0,5.67,0.7-10.7,STABLE,0.6,0.63,29.666666666666668,29.77,21.2,31.1,3,Grade C,₨2-5 Lakhs,⚠️ CAUTION,Composite score 31.1/100 - depth piece only
+K Mahato,Bowler,7.6,8.64,8.33,7.08-9.58,STABLE,15.0,1.0,7.92,2.9-12.9,DECLINING,0.25,0.88,50.0,39.34,16.2,33.6,3,Grade C,₨2-5 Lakhs,⚠️ CAUTION,Composite score 33.6/100 - depth piece only

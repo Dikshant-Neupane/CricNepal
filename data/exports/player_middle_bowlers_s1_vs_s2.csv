@@ -1,0 +1,23 @@
+season,bowler_name,overs_bowled,balls_bowled,runs_conceded,economy_rate,dot_ball_pct,wickets,avg_balls_per_wicket
+S1,H Thaker,15.3,92,87,5.67,41.3,7,13.1
+S1,LN Rajbanshi,11.0,66,66,6.0,48.5,4,16.5
+S1,Mohammad Mohsin,24.0,144,155,6.46,45.1,5,28.8
+S1,K Mahato,7.3,44,48,6.55,20.5,3,14.7
+S1,JDS Neesham,9.3,56,62,6.64,35.7,3,18.7
+S1,S Malla,14.2,85,96,6.78,38.8,5,17.0
+S1,A Yadav,8.0,48,55,6.88,41.7,3,16.0
+S1,TB Thapa,2.0,12,19,9.5,33.3,0,
+S1,BWM Mike,1.2,7,15,12.86,14.3,0,
+S2,B Aagri,1.0,6,5,5.0,50.0,0,
+S2,LN Rajbanshi,9.3,56,47,5.04,33.9,2,28.0
+S2,AK Sah,8.2,49,46,5.63,34.7,2,24.5
+S2,SMLD Samarakoon,1.0,6,6,6.0,16.7,0,
+S2,SP Krishnamurthi,10.2,61,64,6.3,27.9,5,12.2
+S2,Mayan Yadav,3.0,18,19,6.33,33.3,2,9.0
+S2,Maaz Sadaqat,8.2,49,53,6.49,26.5,2,24.5
+S2,MMMS Cooray,3.0,18,20,6.67,22.2,2,9.0
+S2,TB Thapa,2.0,12,15,7.5,25.0,0,
+S2,JN Loftie-Eaton,5.0,30,40,8.0,26.7,2,15.0
+S2,Rupesh Singh,3.0,18,26,8.67,22.2,0,
+S2,A Mahata,7.3,44,68,9.27,34.1,4,11.0
+S2,Sachin Bhatt,3.3,20,33,9.9,25.0,0,

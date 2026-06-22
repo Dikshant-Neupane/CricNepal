@@ -1,0 +1,62 @@
+player_name,role,s1_economy,s2_economy,s3_economy_pred,s3_economy_range,economy_trend,s1_wickets,s2_wickets,s3_wickets_pred,s3_wickets_range,wickets_trend,s2_wkts_per_match,s3_wkts_per_match_pred,s2_bowling_sr,s3_bowling_sr_pred,s2_composite_score,s3_composite_score,priority,npl_grade,bid_range,recommendation,reason
+A Bohara,Bowler,7.72,7.4,7.5,6.38-8.62,STABLE,8.0,19.0,21.96,17.0-27.0,IMPROVING,2.111111111111111,2.44,8.368421052631579,11.22,80.2,87.3,10,Grade A,₨13-15 Lakhs,🔥 ELITE TARGET,Composite score 87.3/100 - elite wicket-taker
+S Lamichhane,Bowler,7.34,4.88,4.14,3.52-4.76,IMPROVING,8.0,17.0,18.99,14.0-24.0,IMPROVING,1.8888888888888888,2.11,12.941176470588236,15.62,84.7,88.4,10,Grade A,₨13-15 Lakhs,🔥 ELITE TARGET,Composite score 88.4/100 - elite wicket-taker
+S Malla,Bowler,6.66,6.53,6.57,5.58-7.56,STABLE,7.0,17.0,17.189999999999998,12.2-22.2,IMPROVING,1.7,1.91,12.764705882352942,14.04,76.3,80.3,10,Grade A,₨13-15 Lakhs,🔥 ELITE TARGET,Composite score 80.3/100 - elite wicket-taker
+Shahab Alam,Bowler,5.44,6.21,5.98,5.08-6.88,STABLE,6.0,13.0,16.740000000000002,11.7-21.7,IMPROVING,1.625,1.86,13.0,16.05,76.8,82.1,10,Grade A,₨13-15 Lakhs,🔥 ELITE TARGET,Composite score 82.1/100 - elite wicket-taker
+Subash Bhandari,Bowler,7.44,5.5,4.92,4.18-5.66,IMPROVING,1.0,5.0,27.900000000000002,22.9-32.9,IMPROVING,2.5,3.1,9.6,14.22,100.0,98.6,10,Grade A,₨13-15 Lakhs,🔥 ELITE TARGET,Composite score 98.6/100 - elite wicket-taker
+Bipin Khatri,Bowler,7.36,6.22,5.88,5.00-6.76,IMPROVING,9.0,8.0,11.88,6.9-16.9,STABLE,1.3333333333333333,1.32,13.875,13.38,69.2,70.8,9,Grade A,₨13-15 Lakhs,🔥 ELITE TARGET,Composite score 70.8/100 - elite wicket-taker
+R Kumar,Bowler,8.44,5.9,5.14,4.37-5.91,IMPROVING,2.0,8.0,17.64,12.6-22.6,IMPROVING,1.6,1.96,15.0,23.4,76.5,79.9,9,Grade A,₨13-15 Lakhs,🔥 ELITE TARGET,Composite score 79.9/100 - elite wicket-taker
+Sohail Tanvir,Bowler,5.63,7.1,6.66,5.66-7.66,STABLE,15.0,9.0,16.38,11.4-21.4,STABLE,1.8,1.82,12.777777777777779,12.78,74.5,78.2,9,Grade A,₨13-15 Lakhs,🔥 ELITE TARGET,Composite score 78.2/100 - elite wicket-taker
+NK Yadav,Bowler,7.42,8.49,8.17,6.94-9.40,STABLE,13.0,11.0,14.31,9.3-19.3,STABLE,1.5714285714285714,1.59,14.454545454545455,13.53,57.5,60.9,8,Grade A/B,₨8-10 Lakhs,✅ TARGET,Composite score 60.9/100 - high-value bowler
+LN Rajbanshi,Bowler,5.46,7.03,6.25,5.31-7.19,DECLINING,17.0,4.0,11.25,6.2-16.2,DECLINING,0.8,1.25,29.0,24.61,41.5,60.2,8,Grade A/B,₨8-10 Lakhs,✅ TARGET,Composite score 60.2/100 - high-value bowler
+Abhishesh Gautam,Bowler,5.38,6.71,6.31,5.36-7.26,STABLE,7.0,7.0,11.07,6.1-16.1,STABLE,0.7,1.23,27.714285714285715,23.56,41.7,60.0,8,Grade A/B,₨8-10 Lakhs,✅ TARGET,Composite score 60.0/100 - high-value bowler
+TR Bhandari,Bowler,6.0,5.39,5.57,4.73-6.41,STABLE,2.0,8.0,11.700000000000001,6.7-16.7,IMPROVING,1.0,1.3,20.75,18.12,58.5,67.4,8,Grade A/B,₨8-10 Lakhs,✅ TARGET,Composite score 67.4/100 - high-value bowler
+BP Sharma,Bowler,5.83,6.76,6.48,5.51-7.45,STABLE,13.0,3.0,10.709999999999999,5.7-15.7,DECLINING,0.75,1.19,26.333333333333332,22.52,43.3,58.4,7,Grade B,₨6-8 Lakhs,🟢 PRIORITY,Composite score 58.4/100 - solid performer
+R Dhakal,Bowler,8.25,7.54,7.75,6.59-8.91,STABLE,16.0,4.0,12.6,7.6-17.6,DECLINING,0.8,1.4,25.25,21.03,39.4,54.8,7,Grade B,₨6-8 Lakhs,🟢 PRIORITY,Composite score 54.8/100 - solid performer
+Rashid Khan,Bowler,8.0,8.1,8.07,6.86-9.28,STABLE,7.0,10.0,11.07,6.1-16.1,STABLE,1.25,1.23,13.4,14.01,53.4,52.7,7,Grade B,₨6-8 Lakhs,🟢 PRIORITY,Composite score 52.7/100 - solid performer
+Surya Tamang,Bowler,7.58,7.7,7.66,6.51-8.81,STABLE,1.0,5.0,9.09,4.1-14.1,IMPROVING,0.8333333333333334,1.01,16.2,38.64,44.6,41.8,5,Grade B/C,₨5-7 Lakhs,🟡 RETAIN/SIGN,Composite score 41.8/100 - reliable option
+N Saud,Bowler,6.68,7.0,6.9,5.87-7.93,STABLE,7.0,2.0,5.8500000000000005,0.9-10.9,DECLINING,0.5,0.65,18.0,16.37,40.8,46.1,5,Grade B/C,₨5-7 Lakhs,🟡 RETAIN/SIGN,Composite score 46.1/100 - reliable option
+S Dhakal,Bowler,6.64,9.1,7.87,6.69-9.05,DECLINING,5.0,3.0,5.67,0.7-10.7,STABLE,0.6,0.63,29.666666666666668,29.77,21.2,31.1,3,Grade C,₨2-5 Lakhs,⚠️ CAUTION,Composite score 31.1/100 - depth piece only
+K Mahato,Bowler,7.6,8.64,8.33,7.08-9.58,STABLE,15.0,1.0,7.92,2.9-12.9,DECLINING,0.25,0.88,50.0,39.34,16.2,33.6,3,Grade C,₨2-5 Lakhs,⚠️ CAUTION,Composite score 33.6/100 - depth piece only
+Aakash Chand,Bowler,9.65,10.77,10.43,8.87-11.99,STABLE,1.0,4.0,8.459999999999999,3.5-13.5,IMPROVING,0.8,0.94,22.0,29.2,22.9,22.6,2,Skip,Below minimum,❌ AVOID,Composite score 22.6/100 - high risk
+BWM Mike,Bowler,8.45,,,,INSUFFICIENT_DATA,1.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Basil Hameed,Bowler,9.0,,,,INSUFFICIENT_DATA,1.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+A Yadav,Bowler,7.67,,,,INSUFFICIENT_DATA,3.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+AS Routela,Bowler,,9.5,,,INSUFFICIENT_DATA,,1.0,,nan-nan,INSUFFICIENT_DATA,1.0,,12.0,,37.8,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Aqib Ilyas,Bowler,7.14,,,,INSUFFICIENT_DATA,1.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+B Aagri,Bowler,7.0,,,,INSUFFICIENT_DATA,3.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+BFW de Leede,Bowler,4.8,,,,INSUFFICIENT_DATA,2.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+A Mahata,Bowler,,8.76,,,INSUFFICIENT_DATA,,4.0,,nan-nan,INSUFFICIENT_DATA,0.8,,12.5,,38.2,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+A Kharel,Bowler,8.58,,,,INSUFFICIENT_DATA,5.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Karan KC,Bowler,,7.36,,,INSUFFICIENT_DATA,,14.0,,nan-nan,INSUFFICIENT_DATA,1.75,,12.928571428571429,,71.2,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+KS Airee,Bowler,,10.1,,,INSUFFICIENT_DATA,,6.0,,nan-nan,INSUFFICIENT_DATA,1.0,,16.833333333333332,,31.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+K Thagunna,Bowler,,7.18,,,INSUFFICIENT_DATA,,3.0,,nan-nan,INSUFFICIENT_DATA,1.0,,17.0,,52.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+JN Loftie-Eaton,Bowler,6.98,,,,INSUFFICIENT_DATA,3.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Harmeet Singh,Bowler,4.48,,,,INSUFFICIENT_DATA,9.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Ismat Alam,Bowler,10.36,,,,INSUFFICIENT_DATA,2.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+H Mahara,Bowler,,10.2,,,INSUFFICIENT_DATA,,1.0,,nan-nan,INSUFFICIENT_DATA,0.5,,20.0,,17.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+H Dhami,Bowler,,7.96,,,INSUFFICIENT_DATA,,10.0,,nan-nan,INSUFFICIENT_DATA,1.4285714285714286,,10.7,,59.6,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+D Kandel,Bowler,5.44,,,,INSUFFICIENT_DATA,7.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+GLS Scrimshaw,Bowler,,9.23,,,INSUFFICIENT_DATA,,2.0,,nan-nan,INSUFFICIENT_DATA,2.0,,13.0,,63.1,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Deepak Bohara,Bowler,6.75,,,,INSUFFICIENT_DATA,1.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+DA Douthwaite,Bowler,6.95,,,,INSUFFICIENT_DATA,2.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+CB Sole,Bowler,7.03,,,,INSUFFICIENT_DATA,11.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+D Gupta,Bowler,10.0,,,,INSUFFICIENT_DATA,3.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Mohammad Mohsin,Bowler,6.0,,,,INSUFFICIENT_DATA,12.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+MA Leask,Bowler,7.13,,,,INSUFFICIENT_DATA,3.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+S Aryal,Bowler,8.77,,,,INSUFFICIENT_DATA,1.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Rupesh Singh,Bowler,,10.15,,,INSUFFICIENT_DATA,,5.0,,nan-nan,INSUFFICIENT_DATA,1.25,,11.0,,40.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Rohit Chand,Bowler,,7.5,,,INSUFFICIENT_DATA,,1.0,,nan-nan,INSUFFICIENT_DATA,1.0,,24.0,,45.2,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+RR Simmonds,Bowler,7.78,,,,INSUFFICIENT_DATA,9.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Pratis GC,Bowler,6.79,,,,INSUFFICIENT_DATA,11.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+MD Taylor,Bowler,,9.13,,,INSUFFICIENT_DATA,,4.0,,nan-nan,INSUFFICIENT_DATA,2.0,,12.0,,64.5,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+NA Sowter,Bowler,9.32,,,,INSUFFICIENT_DATA,1.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+P Mehra,Bowler,,6.9,,,INSUFFICIENT_DATA,,5.0,,nan-nan,INSUFFICIENT_DATA,2.5,,4.0,,93.2,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+SM Dhakal,Bowler,11.54,,,,INSUFFICIENT_DATA,1.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+SK Chettri,Bowler,,3.33,,,INSUFFICIENT_DATA,,1.0,,nan-nan,INSUFFICIENT_DATA,1.0,,9.0,,64.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+SC Kuggeleijn,Bowler,,5.96,,,INSUFFICIENT_DATA,,11.0,,nan-nan,INSUFFICIENT_DATA,1.375,,14.727272727272727,,71.3,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+S Vesawkar,Bowler,8.83,,,,INSUFFICIENT_DATA,1.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Sunny Patel,Bowler,,5.51,,,INSUFFICIENT_DATA,,5.0,,nan-nan,INSUFFICIENT_DATA,1.6666666666666667,,14.8,,78.2,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+UB Singh,Bowler,,10.0,,,INSUFFICIENT_DATA,,2.0,,nan-nan,INSUFFICIENT_DATA,1.0,,12.0,,34.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+UBS Thakuri,Bowler,7.11,,,,INSUFFICIENT_DATA,2.0,,,nan-nan,INSUFFICIENT_DATA,,,,,0.0,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk
+Y Khatri,Bowler,,8.64,,,INSUFFICIENT_DATA,,3.0,,nan-nan,INSUFFICIENT_DATA,0.75,,22.0,,31.9,0.0,0,Skip,Below minimum,❌ AVOID,Composite score 0.0/100 - high risk

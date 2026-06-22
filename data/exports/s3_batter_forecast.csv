@@ -1,0 +1,113 @@
+player_name,role,s1_runs,s2_runs,s3_runs_pred,s3_runs_range,runs_trend,runs_delta,s1_strike_rate,s2_strike_rate,s3_strike_rate_pred,s3_sr_range,sr_trend,recommendation,priority,max_bid,reason
+A Tripathi,Batter,19.0,118.0,147.7,103.39-192.01,IMPROVING,99.0,61.29,83.69,76.97,65.42-88.52,STABLE,✅ TARGET,8,₨15-20 lakh,Runs improving - high potential for S3
+Aarif Sheikh,Batter,69.0,186.0,221.1,154.77-287.43,IMPROVING,117.0,97.18,116.98,111.04,94.38-127.7,STABLE,✅ TARGET,8,₨15-20 lakh,Runs improving - high potential for S3
+D Nath,Batter,46.0,122.0,144.8,101.36-188.24,IMPROVING,76.0,88.46,98.39,95.41,81.1-109.72,STABLE,✅ TARGET,8,₨15-20 lakh,Runs improving - high potential for S3
+D Adhikari,Batter,14.0,47.0,56.9,39.83-73.97,IMPROVING,33.0,87.5,195.83,228.33,159.83-296.83,IMPROVING,✅ TARGET,8,₨15-20 lakh,Runs improving - high potential for S3
+Mayan Yadav,Batter,16.0,84.0,104.4,73.08-135.72,IMPROVING,68.0,76.19,89.36,85.41,72.6-98.22,STABLE,✅ TARGET,8,₨15-20 lakh,Runs improving - high potential for S3
+N Bhatta,Batter,11.0,49.0,60.4,42.28-78.52,IMPROVING,38.0,40.74,79.03,90.52,63.36-117.67,IMPROVING,✅ TARGET,8,₨15-20 lakh,Runs improving - high potential for S3
+AK Sah,Batter,132.0,,,,INSUFFICIENT_DATA,,112.82,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+AGS Gous,Batter,225.0,,,,INSUFFICIENT_DATA,,163.04,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Abhisekh Tiwari,Batter,,14.0,,,INSUFFICIENT_DATA,,,60.87,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+AR Ramjani,Batter,,33.0,,,INSUFFICIENT_DATA,,,150.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+AS Routela,Batter,85.0,,,,INSUFFICIENT_DATA,,149.12,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Aakarshit Gomel,Batter,8.0,,,,INSUFFICIENT_DATA,,53.33,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+B Aagri,Batter,,0.0,,,INSUFFICIENT_DATA,,,0.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Arjun Kumal,Batter,,43.0,,,INSUFFICIENT_DATA,,,81.13,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+A Shrestha,Batter,1.0,,,,INSUFFICIENT_DATA,,20.0,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+A Ghiraiya,Batter,44.0,,,,INSUFFICIENT_DATA,,61.97,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Gautam KC,Batter,,0.0,,,INSUFFICIENT_DATA,,,0.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Deepak Bohara,Batter,,57.0,,,INSUFFICIENT_DATA,,,96.61,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+B Khatri,Batter,4.0,,,,INSUFFICIENT_DATA,,100.0,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+B Bhandari,Batter,235.0,264.0,255.3,217.0-293.59,STABLE,29.0,105.38,108.64,107.66,91.51-123.81,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+B Sharki,Batter,78.0,90.0,86.4,73.44-99.36,STABLE,12.0,78.79,145.16,165.07,115.55-214.59,IMPROVING,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+B Yadav,Batter,100.0,,,,INSUFFICIENT_DATA,,133.33,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+BCJ Cutting,Batter,10.0,,,,INSUFFICIENT_DATA,,47.62,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+B Karki,Batter,0.0,,,,INSUFFICIENT_DATA,,0.0,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+BG Charlesworth,Batter,,201.0,,,INSUFFICIENT_DATA,,,120.36,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Babar Hayat,Batter,65.0,,,,INSUFFICIENT_DATA,,75.58,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+CA Lynn,Batter,,143.0,,,INSUFFICIENT_DATA,,,115.32,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Basir Ahamad,Batter,,191.0,,,INSUFFICIENT_DATA,,,115.06,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+D Kandel,Batter,,6.0,,,INSUFFICIENT_DATA,,,120.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+CAK Walton,Batter,183.0,,,,INSUFFICIENT_DATA,,116.56,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+D Khanal,Batter,116.0,127.0,123.7,105.14-142.25,STABLE,11.0,79.45,103.25,96.11,81.69-110.53,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+B Rawal,Batter,54.0,,,,INSUFFICIENT_DATA,,79.41,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+H Dhami,Batter,9.0,,,,INSUFFICIENT_DATA,,81.82,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Gulsan Jha,Batter,132.0,110.0,116.6,99.11-134.09,STABLE,-22.0,110.0,146.67,135.67,115.32-156.02,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+D Parashar,Batter,,0.0,,,INSUFFICIENT_DATA,,,0.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+D Rawat,Batter,,12.0,,,INSUFFICIENT_DATA,,,120.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+DJ Malan,Batter,,121.0,,,INSUFFICIENT_DATA,,,121.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+DA Douthwaite,Batter,,73.0,,,INSUFFICIENT_DATA,,,169.77,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+DJM Short,Batter,,256.0,,,INSUFFICIENT_DATA,,,117.97,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+DS Bajwa,Batter,12.0,,,,INSUFFICIENT_DATA,,75.0,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+HG Munsey,Batter,,60.0,,,INSUFFICIENT_DATA,,,150.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+F du Plessis,Batter,,101.0,,,INSUFFICIENT_DATA,,,162.9,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Deepak Dumre,Batter,,10.0,,,INSUFFICIENT_DATA,,,76.92,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+J Tromp,Batter,13.0,,,,INSUFFICIENT_DATA,,92.86,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+I Pandey,Batter,128.0,160.0,150.4,127.84-172.96,STABLE,32.0,106.67,99.38,101.57,86.33-116.8,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Hassan Eisakhil,Batter,125.0,,,,INSUFFICIENT_DATA,,125.0,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+AM Rossington,Batter,,323.0,,,INSUFFICIENT_DATA,,,144.84,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+A Saud,Batter,68.0,87.0,81.3,69.11-93.49,STABLE,19.0,93.15,124.29,114.95,97.71-132.19,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+UBT Chand,Batter,18.0,,,,INSUFFICIENT_DATA,,62.07,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Priyank Panchal,Batter,,197.0,,,INSUFFICIENT_DATA,,,139.72,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+R Vasconcelos,Batter,,3.0,,,INSUFFICIENT_DATA,,,75.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+RP Magar,Batter,78.0,,,,INSUFFICIENT_DATA,,101.3,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Rohan Mustafa,Batter,4.0,,,,INSUFFICIENT_DATA,,57.14,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+JA Simpson,Batter,,172.0,,,INSUFFICIENT_DATA,,,165.38,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Imran Sheikh,Batter,,33.0,,,INSUFFICIENT_DATA,,,103.13,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+J Brown,Batter,,101.0,,,INSUFFICIENT_DATA,,,138.36,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Kushal Malla,Batter,,135.0,,,INSUFFICIENT_DATA,,,118.42,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+JN Loftie-Eaton,Batter,,108.0,,,INSUFFICIENT_DATA,,,111.34,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+K Bhurtel,Batter,,156.0,,,INSUFFICIENT_DATA,,,138.05,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+K Thagunna,Batter,33.0,,,,INSUFFICIENT_DATA,,106.45,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Lokesh Bam,Batter,131.0,170.0,158.3,134.55-182.04,STABLE,39.0,124.76,104.29,110.43,93.87-127.0,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+LM Benkenstein,Batter,85.0,,,,INSUFFICIENT_DATA,,110.39,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+JJ Roy,Batter,,68.0,,,INSUFFICIENT_DATA,,,119.3,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+JK Mukhiya,Batter,0.0,,,,INSUFFICIENT_DATA,,0.0,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Mohammad Aadil Alam,Batter,,93.0,,,INSUFFICIENT_DATA,,,147.62,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+M Levitt,Batter,102.0,,,,INSUFFICIENT_DATA,,136.0,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+MJJ Critchley,Batter,52.0,,,,INSUFFICIENT_DATA,,91.23,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+M Subasingha,Batter,,0.0,,,INSUFFICIENT_DATA,,,0.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+MP O'Dowd,Batter,,20.0,,,INSUFFICIENT_DATA,,,66.67,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Maaz Sadaqat,Batter,,113.0,,,INSUFFICIENT_DATA,,,150.67,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Milan Bohara,Batter,,5.0,,,INSUFFICIENT_DATA,,,250.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+MJ Guptill,Batter,139.0,125.0,129.2,109.82-148.58,STABLE,-14.0,115.83,150.6,140.17,119.14-161.19,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+NB Budayair,Batter,28.0,,,,INSUFFICIENT_DATA,,121.74,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Mukhtar Ahmed,Batter,,10.0,,,INSUFFICIENT_DATA,,,90.91,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+N Dickwella,Batter,,137.0,,,INSUFFICIENT_DATA,,,117.09,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+N Joshi,Batter,38.0,48.0,45.0,38.25-51.75,STABLE,10.0,105.56,100.0,101.67,86.42-116.92,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Najibullah Zadran,Batter,,66.0,,,INSUFFICIENT_DATA,,,113.79,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+NR Kirton,Batter,95.0,,,,INSUFFICIENT_DATA,,88.79,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Nar Sarki,Batter,22.0,,,,INSUFFICIENT_DATA,,157.14,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+P Sarraf,Batter,,109.0,,,INSUFFICIENT_DATA,,,125.29,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+WG Bosisto,Batter,,96.0,,,INSUFFICIENT_DATA,,,106.67,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+TJ Draca,Batter,,6.0,,,INSUFFICIENT_DATA,,,150.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+TJ Moores,Batter,165.0,,,,INSUFFICIENT_DATA,,123.13,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+SS Eskinazi,Batter,133.0,,,,INSUFFICIENT_DATA,,114.66,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Sachin Bhatt,Batter,,0.0,,,INSUFFICIENT_DATA,,,0.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+RS Bopara,Batter,286.0,237.0,251.7,213.94-289.45,STABLE,-49.0,133.02,128.8,130.07,110.56-149.58,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+S Dhawan,Batter,136.0,,,,INSUFFICIENT_DATA,,115.25,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+S Jora,Batter,120.0,115.0,116.5,99.03-133.97,STABLE,-5.0,101.69,105.5,104.36,88.7-120.01,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+SA Zaib,Batter,,116.0,,,INSUFFICIENT_DATA,,,128.89,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+S Karki,Batter,108.0,,,,INSUFFICIENT_DATA,,93.1,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+SA Edwards,Batter,60.0,,,,INSUFFICIENT_DATA,,109.09,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+S Patel,Batter,,22.0,,,INSUFFICIENT_DATA,,,78.57,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+SD Heazlett,Batter,,150.0,,,INSUFFICIENT_DATA,,,147.06,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+SP Jackson,Batter,,21.0,,,INSUFFICIENT_DATA,,,140.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+SMLD Samarakoon,Batter,,22.0,,,INSUFFICIENT_DATA,,,104.76,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+SL Verma,Batter,,56.0,,,INSUFFICIENT_DATA,,,130.23,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Z Malik,Batter,14.0,,,,INSUFFICIENT_DATA,,56.0,,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+WD Parnell,Batter,,64.0,,,INSUFFICIENT_DATA,,,123.08,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+TR Das,Batter,,39.0,,,INSUFFICIENT_DATA,,,82.98,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+TB Thapa,Batter,0.0,0.0,0.0,,STABLE,0.0,0.0,0.0,0.0,,STABLE,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Saugat Dhakal,Batter,,0.0,,,INSUFFICIENT_DATA,,,0.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+Sameer Ali,Batter,,1.0,,,INSUFFICIENT_DATA,,,50.0,,,INSUFFICIENT_DATA,🟡 RETAIN/SIGN,5,₨10-15 lakh,Runs stable - reliable performer
+A Gharti,Batter,79.0,17.0,48.0,40.8-55.2,DECLINING,-62.0,105.33,62.96,75.67,64.32-87.02,STABLE,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option
+Aasif Sheikh,Batter,162.0,105.0,133.5,113.47-153.53,DECLINING,-57.0,103.18,110.53,108.32,92.08-124.57,STABLE,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option
+D Kharel,Batter,162.0,58.0,110.0,93.5-126.5,DECLINING,-104.0,109.46,89.23,95.3,81.0-109.59,STABLE,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option
+D Bohara,Batter,60.0,3.0,31.5,26.77-36.23,DECLINING,-57.0,105.26,75.0,84.08,71.47-96.69,STABLE,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option
+BKEL Milantha,Batter,293.0,30.0,161.5,137.28-185.72,DECLINING,-263.0,121.07,88.24,98.09,83.38-112.8,STABLE,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option
+JA Kolsawala,Batter,54.0,6.0,30.0,25.5-34.5,DECLINING,-48.0,125.58,60.0,92.79,78.87-106.71,DECLINING,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option
+S Kansakar,Batter,71.0,15.0,43.0,36.55-49.45,DECLINING,-56.0,88.75,83.33,84.96,72.21-97.7,STABLE,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option
+S Maharjan,Batter,87.0,32.0,59.5,50.58-68.42,DECLINING,-55.0,88.78,78.05,81.27,69.08-93.46,STABLE,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option
+P Shrestha,Batter,73.0,2.0,37.5,31.88-43.12,DECLINING,-71.0,110.61,25.0,67.81,57.63-77.98,DECLINING,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option
+Shankar Rana,Batter,41.0,7.0,24.0,20.4-27.6,DECLINING,-34.0,74.55,50.0,57.36,48.76-65.97,STABLE,⚠️ CAUTION,2,₨5-8 lakh,Runs declining - only if backup option

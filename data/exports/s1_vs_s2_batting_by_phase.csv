@@ -1,0 +1,7 @@
+season,phase,total_runs,total_balls,run_rate,strike_rate,dot_ball_pct,boundary_pct,fours,sixes,wickets_lost
+S1,powerplay,459,392,7.03,117.1,49.2,16.1,52,11,19
+S1,middle,645,536,7.22,120.3,38.1,13.2,38,33,27
+S1,death,194,155,7.51,125.2,38.1,12.9,11,9,17
+S2,powerplay,268,256,6.28,104.7,53.5,14.5,27,10,16
+S2,middle,433,385,6.75,112.5,34.5,10.6,25,16,17
+S2,death,268,201,8.0,133.3,32.3,14.4,18,11,16

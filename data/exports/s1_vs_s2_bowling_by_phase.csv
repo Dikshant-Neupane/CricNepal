@@ -1,0 +1,7 @@
+season,phase,runs_conceded,total_balls,economy,dot_ball_pct,boundary_conceded_pct,wickets_taken,wicket_rate
+S1,powerplay,402,381,6.33,51.4,12.6,11,2.89
+S1,middle,612,555,6.62,40.9,10.6,30,5.41
+S1,death,374,292,7.68,37.7,14.0,35,11.99
+S2,powerplay,281,255,6.61,50.6,15.3,6,2.35
+S2,middle,437,384,6.83,30.2,8.9,16,4.17
+S2,death,292,188,9.32,25.5,16.5,19,10.11

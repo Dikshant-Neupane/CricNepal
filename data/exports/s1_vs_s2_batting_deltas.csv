@@ -1,0 +1,4 @@
+phase,run_rate_s1,run_rate_s2,run_rate_delta,strike_rate_s1,strike_rate_s2,strike_rate_delta,dot_ball_pct_s1,dot_ball_pct_s2,dot_ball_pct_delta,boundary_pct_s1,boundary_pct_s2,boundary_pct_delta,wickets_lost_s1,wickets_lost_s2,wickets_lost_delta
+powerplay,7.03,6.28,-0.75,117.1,104.7,-12.399999999999991,49.2,53.5,4.299999999999997,16.1,14.5,-1.6000000000000014,19,16,-3
+middle,7.22,6.75,-0.46999999999999975,120.3,112.5,-7.799999999999997,38.1,34.5,-3.6000000000000014,13.2,10.6,-2.5999999999999996,27,17,-10
+death,7.51,8.0,0.4900000000000002,125.2,133.3,8.100000000000009,38.1,32.3,-5.800000000000004,12.9,14.4,1.5,17,16,-1

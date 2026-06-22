@@ -1,0 +1,67 @@
+{
+  "toss": {
+    "S1": {
+      "matches": 10,
+      "wins": 7,
+      "win_pct": 70.0,
+      "toss_wins": 5,
+      "toss_win_pct": 50.0,
+      "toss_decisions": {
+        "bat": 1,
+        "field": 4
+      },
+      "toss_conversion_pct": 60.0,
+      "batting_first": {
+        "matches": 2,
+        "wins": 1,
+        "win_pct": 50.0
+      },
+      "chasing": {
+        "matches": 8,
+        "wins": 6,
+        "win_pct": 75.0
+      }
+    },
+    "S2": {
+      "matches": 7,
+      "wins": 1,
+      "win_pct": 14.3,
+      "toss_wins": 4,
+      "toss_win_pct": 57.1,
+      "toss_decisions": {
+        "bat": 2,
+        "field": 2
+      },
+      "toss_conversion_pct": 0.0,
+      "batting_first": {
+        "matches": 3,
+        "wins": 0,
+        "win_pct": 0.0
+      },
+      "chasing": {
+        "matches": 4,
+        "wins": 1,
+        "win_pct": 25.0
+      }
+    },
+    "deltas": {
+      "win_pct": -55.7,
+      "toss_win_pct": 7.1,
+      "batting_first_pct": -50.0,
+      "chasing_pct": -50.0
+    },
+    "combined": {
+      "batting_first": {
+        "matches": 5,
+        "wins": 1,
+        "win_pct": 20.0
+      },
+      "chasing": {
+        "matches": 12,
+        "wins": 7,
+        "win_pct": 58.3
+      }
+    }
+  },
+  "captaincy": {}
+}

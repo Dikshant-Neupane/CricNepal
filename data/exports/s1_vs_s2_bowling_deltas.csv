@@ -1,0 +1,4 @@
+phase,economy_s1,economy_s2,economy_delta,dot_ball_pct_s1,dot_ball_pct_s2,dot_ball_pct_delta,boundary_conceded_pct_s1,boundary_conceded_pct_s2,boundary_conceded_pct_delta,wickets_taken_s1,wickets_taken_s2,wickets_taken_delta
+powerplay,6.33,6.61,0.28000000000000025,51.4,50.6,-0.7999999999999972,12.6,15.3,2.700000000000001,11,6,-5
+middle,6.62,6.83,0.20999999999999996,40.9,30.2,-10.7,10.6,8.9,-1.6999999999999993,30,16,-14
+death,7.68,9.32,1.6400000000000006,37.7,25.5,-12.200000000000003,14.0,16.5,2.5,35,19,-16
