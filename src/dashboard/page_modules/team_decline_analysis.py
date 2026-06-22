@@ -16,7 +16,11 @@ from src.dashboard.services.data_loaders import load_export_csv
 @st.cache_data
 def load_all_data():
     """Load all NPL data sources"""
-    data_dir = Path("D:/Cric_Data/data")
+    try:
+        from src.config.paths import CRIC_DATA_DIR
+        data_dir = CRIC_DATA_DIR
+    except ImportError:
+        data_dir = Path("D:/Cric_Data/data")
 
     try:
         # Load parquet files

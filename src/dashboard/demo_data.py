@@ -308,7 +308,7 @@ def get_bowling_phases() -> list[dict]:
                 {"label": "Dot %", "value": "48%", "style": "accent"},
                 {"label": "vs Lg", "value": "-0.5", "style": "accent"},
             ],
-            "econ": "7.2", "wkts": "12", "dot": "48%",
+            "econ": "7.2", "econ_c": "var(--on-surface)", "wkts": "12", "dot": "48%",
             "pressure": "High", "pressure_c": "var(--secondary)",
         },
         {
@@ -320,7 +320,7 @@ def get_bowling_phases() -> list[dict]:
                 {"label": "Dot %", "value": "32%", "style": "normal"},
                 {"label": "vs Lg", "value": "+0.1", "style": "normal"},
             ],
-            "econ": "7.8", "wkts": "24", "dot": "32%",
+            "econ": "7.8", "econ_c": "var(--on-surface)", "wkts": "24", "dot": "32%",
             "pressure": "Optimal", "pressure_c": "var(--primary)",
         },
         {
