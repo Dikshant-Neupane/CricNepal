@@ -58,93 +58,70 @@ def _render_win_drivers_tab() -> None:
     context  = load_export_csv("s1_vs_s2_match_context.csv")
     wpa      = load_export_csv("player_wpa_leaderboard.csv")
 
-    st.markdown("##  Win Drivers — Season 1 Success")
-    st.caption("What made the championship season work. Preserve these for S3.")
+    st.markdown("## Win Drivers — Season 1 Success")
+    st.caption("What made the championship season work. Use these as the S3 baseline.")
 
-    #  Match Context KPIs 
+    # Match context KPIs from s1_vs_s2_match_context.csv
     if context is not None:
         s1 = context[context["season"] == "S1"]
         if not s1.empty:
             r = s1.iloc[0]
             st.markdown("### Season 1 Match Context")
             c1, c2, c3, c4 = st.columns(4)
-            kpis = [
-                (c1, "Win Rate",         f"{r.get('win_rate', 0):.1f}%",    "7/10 matches"),
-                (c2, "Chase Win Rate",   f"{r.get('chasing_win_rate', 0):.1f}%", "Won chasing"),
-                (c3, "Bat-First Win %",  f"{r.get('batting_first_win_rate', 0):.1f}%", "Set totals"),
-                (c4, "Toss Conversion",  f"{r.get('toss_conversion_rate', 0):.1f}%", "Converted wins"),
-            ]
-            for col, label, val, sub in kpis:
-                with col:
-                    st.markdown(f"""
-                    <div class="metric-card">
-                        <div class="metric-card-label">{label}</div>
-                        <div class="metric-card-value" style="font-size:28px;">{val}</div>
-                        <div style="font-size:12px;color:#4a5a54;margin-top:4px;">{sub}</div>
-                    </div>""", unsafe_allow_html=True)
+            with c1:
+                st.metric("Win Rate", f"{r.get('win_rate', 0):.1f}%", "7/10 matches")
+            with c2:
+                st.metric("Chase Win Rate", f"{r.get('chasing_win_rate', 0):.1f}%", "Won chasing")
+            with c3:
+                st.metric("Bat-First Win %", f"{r.get('batting_first_win_rate', 0):.1f}%", "Set totals")
+            with c4:
+                st.metric("Toss Conversion", f"{r.get('toss_conversion_rate', 0):.1f}%", "Converted wins")
     else:
-        st.warning("Missing: s1_vs_s2_match_context.csv — skipping match context section.")
+        st.warning("Missing: s1_vs_s2_match_context.csv")
 
-    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+    st.markdown("---")
 
-    #  Batting Phase Cards 
+    # Batting phase cards
     if batting is not None:
         s1_bat = batting[batting["season"] == "S1"]
         if not s1_bat.empty:
             st.markdown("### S1 Batting by Phase")
             cols = st.columns(3)
-            for col, phase, label in zip(cols,
-                                          ["powerplay", "middle", "death"],
-                                          ["Powerplay (1–6)", "Middle (7–15)", "Death (16–20)"]):
+            phases = [("powerplay", "Powerplay (1-6)"), ("middle", "Middle (7-15)"), ("death", "Death (16-20)")]
+            for col, (phase, label) in zip(cols, phases):
                 row = s1_bat[s1_bat["phase"] == phase]
                 if row.empty:
                     continue
                 r = row.iloc[0]
                 with col:
-                    st.markdown(f"""
-                    <div class="metric-card">
-                        <div class="metric-card-label">{label}</div>
-                        <div style="margin-top:8px;font-size:13px;">
-                            <div>Run Rate: <strong>{r.get('run_rate',0):.2f}</strong></div>
-                            <div>Strike Rate: <strong>{r.get('strike_rate',0):.1f}</strong></div>
-                            <div>Dot Ball %: <strong>{r.get('dot_ball_pct',0):.1f}%</strong></div>
-                            <div>Boundary %: <strong>{r.get('boundary_pct',0):.1f}%</strong></div>
-                        </div>
-                    </div>""", unsafe_allow_html=True)
+                    st.markdown(f"**{label}**")
+                    st.metric("Run Rate", f"{r.get('run_rate', 0):.2f}")
+                    st.metric("Strike Rate", f"{r.get('strike_rate', 0):.1f}")
+                    st.metric("Dot Ball %", f"{r.get('dot_ball_pct', 0):.1f}%")
     else:
-        st.warning("Missing: s1_vs_s2_batting_by_phase.csv — skipping batting section.")
+        st.warning("Missing: s1_vs_s2_batting_by_phase.csv")
 
-    #  Bowling Phase Cards 
+    # Bowling phase cards
     if bowling is not None:
         s1_bowl = bowling[bowling["season"] == "S1"]
         if not s1_bowl.empty:
             st.markdown("### S1 Bowling by Phase")
             cols = st.columns(3)
-            for col, phase, label in zip(cols,
-                                          ["powerplay", "middle", "death"],
-                                          ["Powerplay (1–6)", "Middle (7–15)", "Death (16–20)"]):
+            phases = [("powerplay", "Powerplay (1-6)"), ("middle", "Middle (7-15)"), ("death", "Death (16-20)")]
+            for col, (phase, label) in zip(cols, phases):
                 row = s1_bowl[s1_bowl["phase"] == phase]
                 if row.empty:
                     continue
                 r = row.iloc[0]
                 with col:
-                    st.markdown(f"""
-                    <div class="metric-card">
-                        <div class="metric-card-label">{label}</div>
-                        <div style="margin-top:8px;font-size:13px;">
-                            <div>Economy: <strong>{r.get('economy',0):.2f}</strong></div>
-                            <div>Wickets: <strong>{int(r.get('wickets_taken',0))}</strong></div>
-                            <div>Dot Ball %: <strong>{r.get('dot_ball_pct',0):.1f}%</strong></div>
-                            <div>Wicket Rate: <strong>{r.get('wicket_rate',0):.2f}</strong></div>
-                        </div>
-                    </div>""", unsafe_allow_html=True)
+                    st.markdown(f"**{label}**")
+                    st.metric("Economy", f"{r.get('economy', 0):.2f}")
+                    st.metric("Wickets", str(int(r.get('wickets_taken', 0))))
+                    st.metric("Dot Ball %", f"{r.get('dot_ball_pct', 0):.1f}%")
     else:
-        st.warning("Missing: s1_vs_s2_bowling_by_phase.csv — skipping bowling section.")
+        st.warning("Missing: s1_vs_s2_bowling_by_phase.csv")
 
-    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
-
-    #  Top WPA Performers 
-    if wpa is not None and not wpa.empty:
+    st.markdown("---")
         st.markdown("### Top WPA Performers (S1)")
         top5 = wpa.sort_values("combined_wpa", ascending=False).head(5).reset_index(drop=True)
         top5.index += 1
@@ -179,15 +156,15 @@ def _render_win_drivers_tab() -> None:
 
 def _render_loss_drivers_tab() -> None:
     """S2 failure analysis: phase decline heatmap, leakage metrics, root causes."""
-    batting  = load_export_csv("s1_vs_s2_batting_by_phase.csv")
-    bowling  = load_export_csv("s1_vs_s2_bowling_by_phase.csv")
-    context  = load_export_csv("s1_vs_s2_match_context.csv")
-    deltas   = load_export_csv("s1_vs_s2_bowling_deltas.csv")
+    batting = load_export_csv("s1_vs_s2_batting_by_phase.csv")
+    bowling = load_export_csv("s1_vs_s2_bowling_by_phase.csv")
+    context = load_export_csv("s1_vs_s2_match_context.csv")
+    deltas  = load_export_csv("s1_vs_s2_bowling_deltas.csv")
 
-    st.markdown("##  Loss Drivers — Season 2 Failure Analysis")
+    st.markdown("## Loss Drivers — Season 2 Failure Analysis")
     st.caption("Where and why the performance collapsed. Fix these for S3.")
 
-    #  Top KPI cards: the three biggest regression signals 
+    # Three headline regression signals
     c1, c2, c3 = st.columns(3)
 
     # Death bowling leakage
@@ -199,17 +176,11 @@ def _render_loss_drivers_tab() -> None:
             death_delta = float(s2_death.iloc[0]["economy"]) - float(s1_death.iloc[0]["economy"])
 
     with c1:
-        delta_str = f"+{death_delta:.2f}" if death_delta is not None else "N/A"
-        color = "#b42318" if death_delta and death_delta > 0 else "#103b2f"
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="metric-card-label">Death Bowling Leakage</div>
-            <div class="metric-card-value" style="color:{color};font-size:32px;">{delta_str} rpo</div>
-            <div style="font-size:12px;color:#4a5a54;">S1: 7.68 → S2: 9.32 economy</div>
-        </div>""", unsafe_allow_html=True)
+        delta_str = f"+{death_delta:.2f} rpo" if death_delta is not None else "N/A"
+        st.metric("Death Bowling Leakage", delta_str, "S1: 7.68  →  S2: 9.32")
 
-    # Chase failure
-    chase_s1, chase_s2 = None, None
+    # Chase failure rate
+    chase_s1, chase_s2 = 75.0, 25.0
     if context is not None:
         s1_ctx = context[context["season"] == "S1"]
         s2_ctx = context[context["season"] == "S2"]
@@ -218,53 +189,41 @@ def _render_loss_drivers_tab() -> None:
             chase_s2 = float(s2_ctx.iloc[0].get("chasing_win_rate", 25.0))
 
     with c2:
-        chase_str = f"{chase_s2:.1f}%" if chase_s2 is not None else "25.0%"
-        delta_chase = f"{(chase_s2 or 25.0) - (chase_s1 or 75.0):+.1f}pp vs S1"
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="metric-card-label">Chase Win Rate (S2)</div>
-            <div class="metric-card-value" style="color:#b42318;font-size:32px;">{chase_str}</div>
-            <div style="font-size:12px;color:#b42318;">{delta_chase}</div>
-        </div>""", unsafe_allow_html=True)
+        delta_chase = f"{chase_s2 - chase_s1:+.1f}pp vs S1"
+        st.metric("Chase Win Rate (S2)", f"{chase_s2:.1f}%", delta_chase)
 
-    # Powerplay collapse flag
-    pp_s1_wkts_pg, pp_s2_wkts_pg = None, None
-    s1_matches, s2_matches = 10, 7  # known match counts
+    # Powerplay collapse
+    s1_matches, s2_matches = 10, 7
+    pp_s1_pg, pp_s2_pg = None, None
     if batting is not None:
         s1_pp = batting[(batting["season"] == "S1") & (batting["phase"] == "powerplay")]
         s2_pp = batting[(batting["season"] == "S2") & (batting["phase"] == "powerplay")]
         if not s1_pp.empty and not s2_pp.empty:
-            pp_s1_wkts_pg = float(s1_pp.iloc[0]["wickets_lost"]) / s1_matches
-            pp_s2_wkts_pg = float(s2_pp.iloc[0]["wickets_lost"]) / s2_matches
+            pp_s1_pg = float(s1_pp.iloc[0]["wickets_lost"]) / s1_matches
+            pp_s2_pg = float(s2_pp.iloc[0]["wickets_lost"]) / s2_matches
 
     with c3:
-        s1_str = f"{pp_s1_wkts_pg:.1f}" if pp_s1_wkts_pg is not None else "1.9"
-        s2_str = f"{pp_s2_wkts_pg:.1f}" if pp_s2_wkts_pg is not None else "2.3"
-        reg_text = "Regression" if pp_s2_wkts_pg and pp_s1_wkts_pg and pp_s2_wkts_pg > pp_s1_wkts_pg else "Stable"
-        reg_color = "#b42318" if reg_text == "Regression" else "#103b2f"
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="metric-card-label">PP Wickets Lost / Game</div>
-            <div class="metric-card-value" style="font-size:32px;">S2: {s2_str}</div>
-            <div style="font-size:12px;color:{reg_color};">S1: {s1_str} — {reg_text}</div>
-        </div>""", unsafe_allow_html=True)
+        s1_val = f"{pp_s1_pg:.1f}" if pp_s1_pg is not None else "1.9"
+        s2_val = f"{pp_s2_pg:.1f}" if pp_s2_pg is not None else "2.3"
+        label = "Regression" if (pp_s2_pg and pp_s1_pg and pp_s2_pg > pp_s1_pg) else "Stable"
+        st.metric("PP Wickets Lost / Game", f"S2: {s2_val}", f"S1: {s1_val} — {label}")
 
-    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+    st.markdown("---")
 
-    #  Phase Decline Heatmap 
+    # Phase decline heatmap
     if bowling is not None:
         s1_b = bowling[bowling["season"] == "S1"].set_index("phase")
         s2_b = bowling[bowling["season"] == "S2"].set_index("phase")
         shared = [p for p in ["powerplay", "middle", "death"] if p in s1_b.index and p in s2_b.index]
         if shared:
             delta_df = pd.DataFrame({
-                "Economy Δ":   [round(s2_b.loc[p, "economy"] - s1_b.loc[p, "economy"], 2) for p in shared],
-                "Wickets Δ":   [round(s2_b.loc[p, "wickets_taken"] - s1_b.loc[p, "wickets_taken"], 1) for p in shared],
+                "Economy Δ":    [round(s2_b.loc[p, "economy"] - s1_b.loc[p, "economy"], 2) for p in shared],
+                "Wickets Δ":    [round(s2_b.loc[p, "wickets_taken"] - s1_b.loc[p, "wickets_taken"], 1) for p in shared],
                 "Dot Ball % Δ": [round(s2_b.loc[p, "dot_ball_pct"] - s1_b.loc[p, "dot_ball_pct"], 1) for p in shared],
             }, index=[p.capitalize() for p in shared])
 
-            st.markdown("### Phase Decline Heatmap (S2 − S1)")
-            st.caption("Red = got worse, Green = improved. Economy Δ > 0 means more runs conceded.")
+            st.markdown("### Phase Decline Heatmap (S2 minus S1)")
+            st.caption("Red = got worse. Green = improved. Economy Δ > 0 means more runs conceded.")
             fig = px.imshow(
                 delta_df,
                 color_continuous_scale=[[0, "#1a6b51"], [0.5, "#f7f7f7"], [1, "#b42318"]],
@@ -272,14 +231,7 @@ def _render_loss_drivers_tab() -> None:
                 aspect="auto",
                 color_continuous_midpoint=0,
             )
-            fig.update_layout(
-                height=260,
-                margin=dict(l=10, r=10, t=20, b=10),
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                font=dict(color="#17231f"),
-                coloraxis_colorbar=dict(title="Delta"),
-            )
+            fig.update_layout(height=260, margin=dict(l=10, r=10, t=20, b=10))
             st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning("Missing: s1_vs_s2_bowling_by_phase.csv — skipping heatmap.")
@@ -322,56 +274,15 @@ def _render_loss_drivers_tab() -> None:
             st.markdown("### What Changed vs S1 — Bowling")
             st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
-    #  Root Cause Summary 
-    st.markdown("###  Root Cause Summary")
-    st.markdown("""
-    <div style="background:linear-gradient(135deg,rgba(180,35,24,0.08),rgba(180,35,24,0.03));
-                border-left:4px solid #b42318;padding:16px 20px;border-radius:8px;">
-        <ul style="margin:0;padding-left:18px;line-height:1.9;font-size:14px;">
-            <li><strong>Death bowling economy +1.64 rpo</strong> — single largest factor; ~11 extra runs/match conceded</li>
-            <li><strong>Powerplay wickets collapsed</strong> — 11 (S1) → 6 (S2); opponents score freely without early pressure</li>
-            <li><strong>Middle-overs dot ball % dropped 10.7pp</strong> — 40.9% → 30.2%; opponents rotated strike freely</li>
-            <li><strong>Chase win rate −50pp</strong> — 75% (S1) → 25% (S2); batting order unable to handle run-chase pressure</li>
-            <li><strong>Overall wickets −22%</strong> — 7.6 → 5.9 per game; team's win mechanism (taking wickets) broke down</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-    """Load all NPL data sources"""
-    data_dir = Path("D:/Cric_Data/data")
-    
-    try:
-        # Load parquet files
-        matches = pd.read_parquet(data_dir / "final/parquet/matches.parquet")
-        player_innings = pd.read_parquet(data_dir / "final/parquet/player_innings.parquet")
-        phase_summary = pd.read_parquet(data_dir / "final/parquet/phase_summary.parquet")
-        
-        # Load roster for season comparison
-        roster = pd.read_csv(data_dir / "player_rosters/npl_player_rosters_20260521.csv")
-        
-        # Load enriched player profiles
-        enriched = pd.read_csv(data_dir / "player_profiles/enriched_players_20260521.csv")
-        
-        # Fix team name inconsistency
-        for df in [matches, player_innings]:
-            if 'team_1_name' in df.columns:
-                df['team_1_name'] = df['team_1_name'].str.replace('Kathmandu Gurkhas', 'Kathmandu Gorkhas')
-            if 'team_2_name' in df.columns:
-                df['team_2_name'] = df['team_2_name'].str.replace('Kathmandu Gurkhas', 'Kathmandu Gorkhas')
-            if 'team_name' in df.columns:
-                df['team_name'] = df['team_name'].str.replace('Kathmandu Gurkhas', 'Kathmandu Gorkhas')
-        
-        return {
-            'matches': matches,
-            'player_innings': player_innings,
-            'phase_summary': phase_summary,
-            'roster': roster,
-            'enriched': enriched
-        }
-    except Exception as e:
-        st.error(f"Error loading data: {e}")
-        return None
+    # Root Cause Summary
+    st.markdown("### Root Cause Summary")
+    st.info(
+        "**Death bowling +1.64 rpo** — ~11 extra runs/match conceded in overs 16-20.  \n"
+        "**Powerplay wickets 11 → 6** — opponents score freely without early pressure.  \n"
+        "**Middle-overs dot ball % dropped 10.7pp** — 40.9% → 30.2%; opponents rotated freely.  \n"
+        "**Chase win rate −50pp** — 75% (S1) → 25% (S2); batting order under pressure.  \n"
+        "**Overall wickets −22%** — 7.6 → 5.9 per game; the main win mechanism broke down."
+    )
 
 def load_roster_data():
     """Load NPL roster data - kept for backward compatibility"""
