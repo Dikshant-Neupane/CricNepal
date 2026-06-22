@@ -30,7 +30,10 @@ DELIVERABLES_DIR = PROJECT_ROOT / "deliverables"
 # ── External data paths ─────────────────────────────────────
 _cric_data_default = str(PROJECT_ROOT.parent / "Cric_Data" / "data")
 CRIC_DATA_DIR = Path(os.environ.get("CRIC_DATA_DIR", _cric_data_default))
-if not CRIC_DATA_DIR.exists():
+
+# Bulletproof fallback: ONLY use external dir if it actually contains the final parquet data.
+# Otherwise, fall back to the internal data/ directory for Streamlit Cloud compatibility.
+if not (CRIC_DATA_DIR / "final" / "parquet").exists():
     CRIC_DATA_DIR = DATA_DIR
     
 PARQUET_DIR = CRIC_DATA_DIR / "final" / "parquet"

@@ -1,10 +1,9 @@
-﻿"""Bowling Intelligence — phase control, resource allocation, pressure plans."""
+"""Bowling Intelligence — phase control, resource allocation, pressure plans."""
 
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-from ..demo_data import get_bowling_vs_batter_hand, get_bowling_tactical_directives, get_bowling_phases
 from ..services.data_loaders import load_export_csv
 
 TEAM = "Janakpur Bolts"
@@ -25,7 +24,7 @@ def _render_live_heatmap() -> None:
 
     bbb = load_ball_by_ball_normalized()
     if bbb is None:
-        st.caption("Heatmap unavailable — ball-by-ball parquet not found.")
+        st.info("Heatmap unavailable — ball-by-ball parquet not found.")
         return
 
     matches = load_matches_normalized()
@@ -50,7 +49,7 @@ def _render_live_heatmap() -> None:
     wide.columns = [str(int(c)) if pd.notna(c) else str(c) for c in wide.columns]
 
     if wide.empty:
-        st.caption("Not enough data to build heatmap.")
+        st.info("Not enough data to build heatmap.")
         return
 
     fig = px.imshow(
@@ -68,16 +67,14 @@ def _render_live_heatmap() -> None:
 
 
 def _load_bowling_phases() -> list[dict]:
-    """Load S2 bowling phase metrics from CSV; fall back to demo data."""
+    """Load S2 bowling phase metrics from CSV."""
     df = load_export_csv("s1_vs_s2_bowling_by_phase.csv")
     if df is None or df.empty:
-        st.caption("ℹ Phase data estimated — export CSV not found.")
-        return get_bowling_phases()
+        return []
 
     s2 = df[df["season"] == "S2"].copy()
     if s2.empty:
-        st.caption("ℹ Phase data estimated — no S2 rows in CSV.")
-        return get_bowling_phases()
+        return []
 
     s2 = s2.set_index("phase")
     phases = []
@@ -99,10 +96,6 @@ def _load_bowling_phases() -> list[dict]:
             "pressure":   pressure,
             "pressure_c": pressure_color,
         })
-
-    if not phases:
-        st.caption("ℹ Phase data estimated — phases missing from CSV.")
-        return get_bowling_phases()
 
     return phases
 
@@ -133,24 +126,6 @@ def _phase_card(p: dict) -> str:
     </div>"""
 
 
-def _hand_card(h: dict) -> str:
-    """Build the HTML for a batter-hand split card."""
-    return f"""
-    <div style="background:{_SURFACE_LO};padding:16px;border-radius:8px;border:1px solid {_BORDER};margin-bottom:14px;">
-        <div style="font-size:12px;font-weight:600;color:{_TEXT_MUTED};margin-bottom:10px;">vs {h['hand']}</div>
-        <div style="display:flex;justify-content:space-between;">
-            <div>
-                <div style="font-size:12px;color:{_TEXT_MUTED};">Economy</div>
-                <div style="font-size:16px;font-weight:600;color:{_TEXT};margin-top:4px;">{h['economy']}</div>
-            </div>
-            <div style="text-align:right;">
-                <div style="font-size:12px;color:{_TEXT_MUTED};">Strike Rate</div>
-                <div style="font-size:16px;font-weight:600;color:{_TEXT};margin-top:4px;">{h['strike_rate']}</div>
-            </div>
-        </div>
-    </div>"""
-
-
 def render_bowling_intelligence():
     st.markdown("""
     <div style="margin-bottom:32px;">
@@ -171,10 +146,14 @@ def render_bowling_intelligence():
     """, unsafe_allow_html=True)
 
     phases = _load_bowling_phases()
-    cols = st.columns(3)
-    for col, p in zip(cols, phases):
-        with col:
-            st.markdown(_phase_card(p), unsafe_allow_html=True)
+    
+    if not phases:
+        st.info("Phase breakdown data is currently unavailable.")
+    else:
+        cols = st.columns(3)
+        for col, p in zip(cols, phases):
+            with col:
+                st.markdown(_phase_card(p), unsafe_allow_html=True)
 
     st.markdown("</div></div>", unsafe_allow_html=True)
 
@@ -202,8 +181,7 @@ def render_bowling_intelligence():
             </div>
             <div style="padding:16px;">
         """, unsafe_allow_html=True)
-        for h in get_bowling_vs_batter_hand():
-            st.markdown(_hand_card(h), unsafe_allow_html=True)
+        st.info("Batter hand split metrics require additional scouting data.")
         st.markdown("</div></div>", unsafe_allow_html=True)
 
     st.markdown("<div style='height:18px;'></div>", unsafe_allow_html=True)
@@ -217,15 +195,7 @@ def render_bowling_intelligence():
         </div>
     """, unsafe_allow_html=True)
 
-    for d in get_bowling_tactical_directives():
-        st.markdown(f"""
-        <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);
-                    padding:14px 16px;border-radius:10px;margin-bottom:10px;
-                    display:flex;align-items:flex-start;gap:12px;">
-            <span style="color:#f6e5c8;font-size:11px;font-weight:700;letter-spacing:0.06em;
-                         flex-shrink:0;padding-top:2px;">ITEM</span>
-            <span style="color:#ffffff;font-size:14px;line-height:1.5;">{d}</span>
-        </div>""", unsafe_allow_html=True)
+    st.info("Tactical directives require live tactical scouting integration.")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -241,15 +211,7 @@ def render_bowling_intelligence():
         <div style="padding:16px;display:flex;flex-direction:column;gap:8px;">
             <div style="background:#edf2ef;border-left:3px solid #7d8f88;border-radius:6px;
                         padding:10px 12px;font-size:13px;color:{_TEXT};line-height:1.5;">
-                <strong>Insight:</strong> Middle-over control remains your most stable wicket-taking phase.
-            </div>
-            <div style="background:rgba(245,158,11,0.07);border-left:3px solid #f59e0b;border-radius:6px;
-                        padding:10px 12px;font-size:13px;color:{_TEXT};line-height:1.5;">
-                <strong>Risk:</strong> Death overs leak value when slower-ball patterns are shown too early.
-            </div>
-            <div style="background:rgba(5,122,85,0.07);border-left:3px solid #057a55;border-radius:6px;
-                        padding:10px 12px;font-size:13px;color:{_TEXT};line-height:1.5;">
-                <strong>Recommended Action:</strong> Delay variation reveal and keep one specialist fresh for over 19.
+                <strong>Notice:</strong> Detailed risk/action tracking depends on full ball-by-ball telemetry integration.
             </div>
         </div>
     </div>
