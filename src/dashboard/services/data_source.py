@@ -6,6 +6,7 @@ import pandas as pd
 import os
 from typing import Tuple, Optional
 
+from src.dashboard.demo_data import get_season_match_records
 from src.utils.logging_config import get_logger
 
 # Initialize logger
@@ -274,17 +275,8 @@ def load_match_records() -> Tuple[pd.DataFrame, str]:
     except Exception as e:
         logger.error(f"Parquet load failed with error: {e}", exc_info=True)
 
-    # Fall back to empty data as last resort
-    logger.warning("⚠ Real data sources unavailable. Returning empty result.")
-    return _empty_result([
-        "season",
-        "competition_name",
-        "competition_tier",
-        "opposition_strength_bucket",
-        "match_context",
-        "result",
-        "runs_for",
-        "runs_against",
-        "overs_faced",
-        "overs_bowled",
-    ]), "unavailable"
+    # Fall back to demo data as last resort
+    logger.warning("⚠ Falling back to demo data (real data sources unavailable)")
+    demo_df = get_season_match_records()
+    logger.info(f"Loaded {len(demo_df)} demo records")
+    return demo_df, "demo"
