@@ -84,39 +84,48 @@ def render_insight_box(
     """, unsafe_allow_html=True)
 
 
-def render_insight_card(
-    title: str,
-    insights: List[Dict[str, str]]
-) -> None:
+def render_insight_card(title: str, insights: list[dict]) -> None:
+    """Render a titled card with colored insight rows.
+
+    Each insight dict needs: label (str), text (str), type (str).
+    Type maps to a border color: success=green, warning=amber, error=red, neutral=grey.
     """
-    Render a card containing multiple insight boxes.
-    
-    Args:
-        title: Card title
-        insights: List of dicts with keys: 'label', 'text', 'type' (optional)
-    """
-    insights_html = ""
-    for insight in insights:
-        label = insight.get("label", "Insight")
-        text = insight.get("text", "")
-        box_type = insight.get("type", "neutral")
-        box_class = f"insight-box-{box_type}" if box_type != "neutral" else "insight-box"
-        
-        insights_html += f"""
-        <div class="{box_class}">
-            <strong>{label}:</strong> {text}
-        </div>
-        <div style="height:8px;"></div>
-        """
-    
-    st.markdown(f"""
-    <div class="card">
-        <div class="card-header"><h3>{title}</h3></div>
-        <div class="card-body">
-            {insights_html}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    border_colors = {
+        "success": "#057a55",
+        "warning": "#f59e0b",
+        "error":   "#b42318",
+        "info":    "#3b82f6",
+    }
+    bg_colors = {
+        "success": "rgba(5,122,85,0.07)",
+        "warning": "rgba(245,158,11,0.07)",
+        "error":   "rgba(180,35,24,0.07)",
+        "info":    "rgba(59,130,246,0.07)",
+    }
+
+    rows_html = ""
+    for item in insights:
+        label    = item.get("label", "")
+        text     = item.get("text", "")
+        t        = item.get("type", "neutral")
+        border   = border_colors.get(t, "#7d8f88")
+        bg       = bg_colors.get(t, "rgba(0,0,0,0.03)")
+        rows_html += (
+            f'<div style="background:{bg};border-left:3px solid {border};'
+            f'border-radius:6px;padding:9px 12px;margin-bottom:8px;'
+            f'font-size:13px;color:#17231f;line-height:1.5;">'
+            f'<strong>{label}:</strong> {text}</div>'
+        )
+
+    st.markdown(
+        f'<div style="background:#fff;border:1px solid #cad4cf;border-radius:12px;'
+        f'overflow:hidden;box-shadow:0 2px 8px rgba(12,36,28,0.05);margin-bottom:12px;">'
+        f'<div style="padding:12px 16px;border-bottom:1px solid #cad4cf;'
+        f'background:linear-gradient(180deg,#fff,#f8fbf9);">'
+        f'<span style="font-size:15px;font-weight:700;color:#17231f;">{title}</span></div>'
+        f'<div style="padding:14px 16px;">{rows_html}</div></div>',
+        unsafe_allow_html=True,
+    )
 
 
 def render_section_header(

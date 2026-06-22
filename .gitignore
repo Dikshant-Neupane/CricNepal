@@ -1,24 +1,51 @@
-# Documentation (excluded from git)
-*.md
-
-# Environment
+# ── Environment & Secrets ────────────────────────────────────────────────────
 .env
 .env.local
+.env.*
+!.env.example
 
-# Data (never commit data files - use DVC or external storage)
+# ── Data files (never commit — use external storage or DVC) ──────────────────
 data/
 *.csv
 *.parquet
 *.zip
-*.json
+*.npy
+*.feather
+*.arrow
 
-# Database
+# ── Documentation & reports (internal, not for public repo) ──────────────────
+*.md
+*.txt
+*.pdf
+
+# ── Trained ML models (binary artifacts — store in model registry) ────────────
+models/
+*.joblib
+*.pkl
+*.h5
+*.pt
+*.pth
+
+# ── Deliverables (generated outputs — not source) ────────────────────────────
+deliverables/
+
+# ── Test coverage ─────────────────────────────────────────────────────────────
+.coverage
+coverage.xml
+htmlcov/
+
+# ── Internal planning & context ───────────────────────────────────────────────
+context/
+.instructions.md
+.kiro/
+
+# ── Database ──────────────────────────────────────────────────────────────────
 *.db
 *.sqlite
 postgres_data/
 redis_data/
 
-# Python
+# ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
@@ -28,17 +55,35 @@ env/
 venv/
 .venv/
 pip-log.txt
-pip-delete-this-directory.txt
 *.egg-info/
 dist/
 build/
 
-# Jupyter
+# ── Jupyter ───────────────────────────────────────────────────────────────────
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 notebooks/*.ipynb
 
-# IDE
+# ── Scratch & debug scripts ───────────────────────────────────────────────────
+scratch/
+debug_*.py
+validate_*.py
+verify_*.py
+
+# ── Visualizations (reproducible from code) ───────────────────────────────────
+*.png
+*.jpg
+*.jpeg
+docs/visualizations/
+
+# ── JSON data manifests ───────────────────────────────────────────────────────
+scripts/pre_data_baseline_manifest.json
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
 .vscode/
 .idea/
 *.code-workspace
@@ -46,36 +91,6 @@ notebooks/*.ipynb
 *.swo
 *~
 
-# Project context and internal planning (keep private)
-context/
-.instructions.md
-
-# Internal documentation (not for public repo)
-docs/dashboard_data_requirements.md
-docs/data_collection_checklist.md
-docs/data_quality_notes.md
-docs/ingestion_complete.md
-
-# Generated visualizations (reproducible from code)
-docs/visualizations/
-*.png
-*.jpg
-*.jpeg
-
-# Debug and validation scripts (temporary)
-debug_*.py
-validate_*.py
-verify_*.py
-
-# Public documentation (allowed)
-# docs/DATA_SOURCES.md
-# docs/INTEGRATION_GUIDE.md
-# docs/PIPELINE_FIXES.md
-
-# Logs
-*.log
-logs/
-
-# OS
+# ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db

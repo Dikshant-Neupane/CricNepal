@@ -62,19 +62,19 @@ def _calculate_phase_metrics(phase_df):
         
         # Generate tactical insight
         if phase_name == 'powerplay':
-            icon = '⚡'
+            icon = ''
             if sr_delta < -10:
                 text = f"SR declined {abs(sr_delta):.1f} pts. Dot balls up {dot_delta:.1f}%. Aggressive intent lost."
             else:
                 text = f"SR change: {sr_delta:+.1f} pts. Boundary rate at {s2_bnd:.1f}%."
         elif phase_name == 'middle':
-            icon = '🎯'
+            icon = ''
             if sr_delta < -5:
                 text = f"Consolidation phase weak. SR down {abs(sr_delta):.1f} pts, boundaries down {abs(bnd_delta):.1f}%."
             else:
                 text = f"Middle phase stable. SR: {s2_sr:.1f}, rotation effective."
         else:  # death
-            icon = '💥'
+            icon = ''
             if sr_delta > 5:
                 text = f"Death hitting improved! SR up {sr_delta:+.1f} pts. Boundary rate: {s2_bnd:.1f}%."
             else:
@@ -159,7 +159,7 @@ def render_batting_intelligence():
     s3_forecast = _load_s3_forecast()
     
     if phase_df is None:
-        st.error("⚠️ Unable to load batting phase data. Check data exports.")
+        st.error("Unable to load batting phase data. Check data exports.")
         return
     
     # Calculate metrics from real data
@@ -187,7 +187,7 @@ def render_batting_intelligence():
     st.markdown("</div></div>", unsafe_allow_html=True)
 
     st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
-    st.markdown("<h3 class='page-subtitle' style='font-size:18px; color: var(--on-surface); font-weight:700;'>Phase Metrics (S2 Current)</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 class='page-subtitle' style='font-size:18px; color: #17231f; font-weight:700;'>Phase Metrics (S2 Current)</h3>", unsafe_allow_html=True)
 
     # Phase Metrics Cards
     phase_cols = st.columns(3)
@@ -201,12 +201,12 @@ def render_batting_intelligence():
                 st.markdown(
                     f"""
                     <div class="card" style="padding: 18px;">
-                        <h3 style="margin:0 0 14px 0;">{phase_name} <span style="font-size:13px; color:var(--on-surface-variant);">Overs {1 if phase_name == 'Powerplay' else 7 if phase_name == 'Middle' else 16}-{6 if phase_name == 'Powerplay' else 15 if phase_name == 'Middle' else 20}</span></h3>
+                        <h3 style="margin:0 0 14px 0;">{phase_name} <span style="font-size:13px; color:#4a5a54;">Overs {1 if phase_name == 'Powerplay' else 7 if phase_name == 'Middle' else 16}-{6 if phase_name == 'Powerplay' else 15 if phase_name == 'Middle' else 20}</span></h3>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                            <div><div style="font-size:11px; color:var(--on-surface-variant);">Strike Rate</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{p['sr']}</div><div style="font-size:11px; color:{p['sr_c']};">{p['sr_delta']}</div></div>
-                            <div><div style="font-size:11px; color:var(--on-surface-variant);">Dot Ball %</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{p['dot']}</div><div style="font-size:11px; color:{p['dot_c']};">{p['dot_delta']}</div></div>
-                            <div><div style="font-size:11px; color:var(--on-surface-variant);">Boundary %</div><div style="font-size:26px; font-weight:800; color:var(--primary);">{p['bnd']}</div><div style="font-size:11px; color:{p['bnd_c']};">{p['bnd_delta']}</div></div>
-                            <div><div style="font-size:11px; color:var(--on-surface-variant);">vs S1</div><div style="font-size:16px; font-weight:700; color:{p['sr_c']};">{p['sr_delta']}</div><div style="font-size:11px; color:var(--on-surface-variant);">SR Change</div></div>
+                            <div><div style="font-size:11px; color:#4a5a54;">Strike Rate</div><div style="font-size:26px; font-weight:800; color:#103b2f;">{p['sr']}</div><div style="font-size:11px; color:{p['sr_c']};">{p['sr_delta']}</div></div>
+                            <div><div style="font-size:11px; color:#4a5a54;">Dot Ball %</div><div style="font-size:26px; font-weight:800; color:#103b2f;">{p['dot']}</div><div style="font-size:11px; color:{p['dot_c']};">{p['dot_delta']}</div></div>
+                            <div><div style="font-size:11px; color:#4a5a54;">Boundary %</div><div style="font-size:26px; font-weight:800; color:#103b2f;">{p['bnd']}</div><div style="font-size:11px; color:{p['bnd_c']};">{p['bnd_delta']}</div></div>
+                            <div><div style="font-size:11px; color:#4a5a54;">vs S1</div><div style="font-size:16px; font-weight:700; color:{p['sr_c']};">{p['sr_delta']}</div><div style="font-size:11px; color:#4a5a54;">SR Change</div></div>
                         </div>
                     </div>
                     """,
@@ -249,10 +249,10 @@ def render_batting_intelligence():
 
     with col2:
         st.markdown("### S3 Top Target Batters")
-        st.caption("🎯 Forecast")
+        st.caption("Forecast")
         
         if s3_forecast is not None and not s3_forecast.empty:
-            targets = s3_forecast[s3_forecast['recommendation'] == '✅ TARGET'].copy()
+            targets = s3_forecast[s3_forecast['recommendation'] == 'TARGET'].copy()
             targets = targets.nlargest(5, 's3_runs_pred')
             
             display_df = targets[['player_name', 's2_runs', 's3_runs_pred', 'sr_trend']].copy()
@@ -262,7 +262,7 @@ def render_batting_intelligence():
             
             # Add trend icons
             display_df['SR Trend'] = display_df['SR Trend'].apply(
-                lambda x: f"📈 {x}" if x == 'IMPROVING' else f"➡️ {x}" if x == 'STABLE' else f"📉 {x}"
+                lambda x: f"{x}" if x == 'IMPROVING' else f"{x}" if x == 'STABLE' else f"{x}"
             )
             
             st.dataframe(
@@ -281,11 +281,11 @@ def render_batting_intelligence():
         <div class="card">
             <div class="card-header"><h3>Data-Driven Insights</h3></div>
             <div class="card-body">
-                <div class="insight-box"><strong>💡 Key Finding:</strong> {insights.get('insight', 'Analysis in progress.')}</div>
+                <div class="insight-box"><strong> Key Finding:</strong> {insights.get('insight', 'Analysis in progress.')}</div>
                 <div style="height:8px;"></div>
-                <div class="insight-box"><strong>⚠️ Risk Factor:</strong> {insights.get('risk', 'Monitoring required.')}</div>
+                <div class="insight-box"><strong> Risk Factor:</strong> {insights.get('risk', 'Monitoring required.')}</div>
                 <div style="height:8px;"></div>
-                <div class="insight-box"><strong>🎯 Recommended Action:</strong> {insights.get('action', 'Continue current strategy.')}</div>
+                <div class="insight-box"><strong> Recommended Action:</strong> {insights.get('action', 'Continue current strategy.')}</div>
             </div>
         </div>
         """,

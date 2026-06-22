@@ -1,4 +1,0 @@
-Training report
-n_samples: 37
-CV MSE PP: 13.1514 (std 6.4807)
-CV MSE Death: 35.4096 (std 26.2206)

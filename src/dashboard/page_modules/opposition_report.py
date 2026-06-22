@@ -180,23 +180,23 @@ def render_opposition_report():
     
     # Create tabs for different analysis types
     tab1, tab2, tab3 = st.tabs([
+        "Team Analysis",
         "League Comparison",
-        "Team Analysis", 
-        "Tactical Report"
+        "Tactical Report",
     ])
-    
+
     with tab1:
-        render_league_comparison_tab()
-    
-    with tab2:
         render_team_analysis_tab()
-    
+
+    with tab2:
+        render_league_comparison_tab()
+
     with tab3:
         render_tactical_report_tab()
 
 def render_league_comparison_tab():
     """NPL league-wide team comparison"""
-    st.markdown("### 🏆 NPL Season 2 - All Teams Performance")
+    st.markdown("###  NPL Season 2 - All Teams Performance")
     
     df = load_npl_teams_data()
     
@@ -251,10 +251,14 @@ def render_league_comparison_tab():
         height=400,
         xaxis_title="Team",
         yaxis_title="Performance Change (%)",
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='white',
+        paper_bgcolor='white',
         showlegend=True,
-        hovermode='x unified'
+        hovermode='x unified',
+        font=dict(color="#17231f"),
+        xaxis=dict(tickangle=-30, tickfont=dict(color="#17231f")),
+        yaxis=dict(tickfont=dict(color="#17231f"), gridcolor="rgba(0,0,0,0.06)"),
+        margin=dict(l=20, r=20, t=40, b=100),
     )
     
     st.plotly_chart(fig, width='stretch')
@@ -284,7 +288,7 @@ def render_league_comparison_tab():
         height=350
     )
     
-    st.info("⭐ **Janakpur Bolts** is highlighted in gold. Use the Team Analysis tab for deep-dive into specific opponents.")
+    st.info(" **Janakpur Bolts** is highlighted in gold. Use the Team Analysis tab for deep-dive into specific opponents.")
 
 def render_team_analysis_tab():
     """Detailed analysis of a selected opposition team"""
@@ -297,10 +301,17 @@ def render_team_analysis_tab():
         return
     
     teams = sorted([t for t in df['team'].unique() if t != 'Janakpur Bolts'])
-    
+    # Default to Pokhara Avengers (key S3 rival) if present, else first team
+    default_idx = teams.index('Pokhara Avengers') if 'Pokhara Avengers' in teams else 0
+
     col1, col2 = st.columns([1, 3])
     with col1:
-        selected_team = st.selectbox("Select Opposition Team", teams)
+        selected_team = st.selectbox(
+            "Select Opposition Team",
+            teams,
+            index=default_idx,
+            key="opposition_team_selector",
+        )
     with col2:
         st.info(f"Analyzing **{selected_team}** roster and performance trends")
     
@@ -352,14 +363,14 @@ def render_team_analysis_tab():
     st.markdown("---")
     
     # Key changes
-    st.markdown("### 📋 Key Roster Changes")
+    st.markdown("###  Key Roster Changes")
     
     lost_players = set(s1['player_name']) - set(s2['player_name'])
     gained_players = set(s2['player_name']) - set(s1['player_name'])
     
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("#### ❌ Players Lost")
+        st.markdown("####  Players Lost")
         if lost_players:
             for player in sorted(list(lost_players))[:10]:
                 st.markdown(f"- {player}")
@@ -377,7 +388,7 @@ def render_team_analysis_tab():
 def render_tactical_report_tab():
     """Legacy tactical report interface — currently demo content."""
     st.warning(
-        "ℹ️ This tab is a tactical-planning mockup using demo content. "
+        "ℹ This tab is a tactical-planning mockup using demo content. "
         "Live opponent-specific plans require per-match scouting feeds that "
         "are not yet wired in. Use the **League Comparison** and **Team "
         "Analysis** tabs above for live data."
@@ -428,7 +439,7 @@ def render_tactical_report_tab():
             <div class="card" style="height: 100%;">
             <div class="card-header">
                 <h3 style="display: flex; align-items: center; gap: 8px;">
-                    <span style="color: var(--error);">Risk</span> Key Threats
+                    <span style="color: #b42318;">Risk</span> Key Threats
                 </h3>
             </div>
             <div class="card-body" style="display: flex; gap: 24px; padding: 24px;">
@@ -437,31 +448,31 @@ def render_tactical_report_tab():
         c1, c2 = st.columns(2)
         with c1:
             st.markdown("""
-            <div style="background: var(--surface-container-low); padding: 16px; border-radius: 8px; border: 1px solid var(--border-subtle); height: 100%;">
+            <div style="background: #edf2ef; padding: 16px; border-radius: 8px; border: 1px solid #d9e2dd; height: 100%;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
                     <div>
                         <div style="font-weight: 600; font-size: 14px;">Kushal Malla</div>
-                        <div style="font-size: 12px; color: var(--on-surface-variant);">LHB • Middle Order</div>
+                        <div style="font-size: 12px; color: #4a5a54;">LHB • Middle Order</div>
                     </div>
-                    <div style="background: rgba(186, 26, 26, 0.1); color: var(--error); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">SR: 185.4</div>
+                    <div style="background: rgba(186, 26, 26, 0.1); color: #b42318; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">SR: 185.4</div>
                 </div>
-                <p style="font-size: 13px; color: var(--on-surface); line-height: 20px; margin-bottom: 16px;">Highly destructive in overs 15-20. Prefers pace on the ball targeting cow corner.</p>
-                <div style="background: var(--surface-container); display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: var(--on-surface-variant);">Spin Weakness: Left-Arm Orthodox</div>
+                <p style="font-size: 13px; color: #17231f; line-height: 20px; margin-bottom: 16px;">Highly destructive in overs 15-20. Prefers pace on the ball targeting cow corner.</p>
+                <div style="background: #e3ebe6; display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #4a5a54;">Spin Weakness: Left-Arm Orthodox</div>
             </div>
             """, unsafe_allow_html=True)
             
         with c2:
             st.markdown("""
-            <div style="background: var(--surface-container-low); padding: 16px; border-radius: 8px; border: 1px solid var(--border-subtle); height: 100%;">
+            <div style="background: #edf2ef; padding: 16px; border-radius: 8px; border: 1px solid #d9e2dd; height: 100%;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
                     <div>
                         <div style="font-weight: 600; font-size: 14px;">Sompal Kami</div>
-                        <div style="font-size: 12px; color: var(--on-surface-variant);">RFM • Powerplay Bowler</div>
+                        <div style="font-size: 12px; color: #4a5a54;">RFM • Powerplay Bowler</div>
                     </div>
-                    <div style="background: var(--primary); color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">Econ: 6.2</div>
+                    <div style="background: #103b2f; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">Econ: 6.2</div>
                 </div>
-                <p style="font-size: 13px; color: var(--on-surface); line-height: 20px; margin-bottom: 16px;">Consistently hits hard lengths early. Swings it away from the right-hander.</p>
-                <div style="background: var(--surface-container); display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: var(--on-surface-variant);">Target Zone: Late Cut / Third Man</div>
+                <p style="font-size: 13px; color: #17231f; line-height: 20px; margin-bottom: 16px;">Consistently hits hard lengths early. Swings it away from the right-hander.</p>
+                <div style="background: #e3ebe6; display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #4a5a54;">Target Zone: Late Cut / Third Man</div>
             </div>
             """, unsafe_allow_html=True)
             
@@ -475,18 +486,18 @@ def render_tactical_report_tab():
                 <h3>Top Order Vulnerability</h3>
             </div>
             <div class="card-body" style="padding: 24px;">
-                <div style="background: var(--surface-container-low); border-radius: 8px; border: 1px solid var(--outline-variant); height: 200px; display: flex; justify-content: center; align-items: center; position: relative;">
-                    <div style="position: absolute; top: 16px; left: 0; right: 0; text-align: center; font-size: 12px; color: var(--on-surface-variant);">Pitch Map (Mockup)</div>
-                    <div style="width: 80px; height: 140px; border: 1px solid var(--outline-variant); position: relative;">
-                        <div style="position: absolute; bottom: 30px; left: 20px; width: 12px; height: 12px; background: var(--error); border-radius: 50%;"></div>
-                        <div style="position: absolute; bottom: 25px; left: 25px; width: 12px; height: 12px; background: var(--error); border-radius: 50%;"></div>
-                        <div style="position: absolute; bottom: 20px; left: 22px; width: 12px; height: 12px; background: var(--error); border-radius: 50%;"></div>
-                        <div style="position: absolute; top: 40px; right: 20px; width: 6px; height: 6px; background: var(--secondary); border-radius: 50%;"></div>
-                        <div style="position: absolute; top: 50px; right: 30px; width: 6px; height: 6px; background: var(--secondary); border-radius: 50%;"></div>
-                        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 20px; border-top: 1px solid var(--outline-variant);"></div>
+                <div style="background: #edf2ef; border-radius: 8px; border: 1px solid #cad4cf; height: 200px; display: flex; justify-content: center; align-items: center; position: relative;">
+                    <div style="position: absolute; top: 16px; left: 0; right: 0; text-align: center; font-size: 12px; color: #4a5a54;">Pitch Map (Mockup)</div>
+                    <div style="width: 80px; height: 140px; border: 1px solid #cad4cf; position: relative;">
+                        <div style="position: absolute; bottom: 30px; left: 20px; width: 12px; height: 12px; background: #b42318; border-radius: 50%;"></div>
+                        <div style="position: absolute; bottom: 25px; left: 25px; width: 12px; height: 12px; background: #b42318; border-radius: 50%;"></div>
+                        <div style="position: absolute; bottom: 20px; left: 22px; width: 12px; height: 12px; background: #b42318; border-radius: 50%;"></div>
+                        <div style="position: absolute; top: 40px; right: 20px; width: 6px; height: 6px; background: #b7802f; border-radius: 50%;"></div>
+                        <div style="position: absolute; top: 50px; right: 30px; width: 6px; height: 6px; background: #b7802f; border-radius: 50%;"></div>
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 20px; border-top: 1px solid #cad4cf;"></div>
                     </div>
-                    <div style="position: absolute; bottom: 8px; right: 16px; font-size: 10px; color: var(--on-surface-variant); display: flex; align-items: center; gap: 4px;">
-                        <span style="width: 6px; height: 6px; background: var(--error); border-radius: 50%; display: inline-block;"></span> Dismissals
+                    <div style="position: absolute; bottom: 8px; right: 16px; font-size: 10px; color: #4a5a54; display: flex; align-items: center; gap: 4px;">
+                        <span style="width: 6px; height: 6px; background: #b42318; border-radius: 50%; display: inline-block;"></span> Dismissals
                     </div>
                 </div>
             </div>
@@ -500,7 +511,7 @@ def render_tactical_report_tab():
     <div class="card">
         <div class="card-header">
             <h3>Suggested Bowling Plans</h3>
-            <a href="#" style="font-size: 14px; color: var(--secondary); font-weight: 600; text-decoration: none;">View Detailed Matchups</a>
+            <a href="#" style="font-size: 14px; color: #b7802f; font-weight: 600; text-decoration: none;">View Detailed Matchups</a>
         </div>
         <div class="card-body" style="padding: 0;">
     """, unsafe_allow_html=True)
@@ -523,7 +534,7 @@ def render_tactical_report_tab():
     for _, row in df.iterrows():
         # process key bowlers into tags
         bowlers = row['Key Bowler(s)'].split(", ")
-        bowler_tags = "".join([f"<span style='background: var(--surface-container); padding: 4px 8px; border-radius: 4px; font-size: 11px; margin-right: 4px;'>{b}</span>" for b in bowlers])
+        bowler_tags = "".join([f"<span style='background: #e3ebe6; padding: 4px 8px; border-radius: 4px; font-size: 11px; margin-right: 4px;'>{b}</span>" for b in bowlers])
         
         table_html += f"""
             <tr>

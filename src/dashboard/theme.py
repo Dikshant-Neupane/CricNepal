@@ -19,6 +19,165 @@ def get_theme_css() -> str:
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
 
+    /* ── HARDCODED CLASS STYLES ─────────────────────────────────────────────
+       CSS variables (var(--...)) don't always resolve in st.markdown HTML.
+       These rules use literal hex values so every component renders correctly
+       regardless of the Streamlit version or CSS sandboxing behaviour.
+    ── ──────────────────────────────────────────────────────────────────── */
+
+    .card {
+        background: #ffffff;
+        border: 1px solid #cad4cf;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(12,36,28,0.06);
+        overflow: hidden;
+        margin-bottom: 12px;
+    }
+    .card-header {
+        padding: 14px 18px;
+        border-bottom: 1px solid #cad4cf;
+        background: linear-gradient(180deg, #ffffff, #f8fbf9);
+    }
+    .card-header h3 { margin: 0; font-size: 16px; color: #17231f; font-weight: 700; }
+    .card-body { padding: 16px; color: #17231f; }
+
+    .metric-card {
+        background: #ffffff;
+        border: 1px solid #cad4cf;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(12,36,28,0.06);
+        padding: 20px;
+        min-height: 120px;
+        position: relative;
+        overflow: hidden;
+    }
+    .metric-card-label {
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #4a5a54;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .metric-card-value {
+        font-size: 36px;
+        line-height: 1;
+        font-weight: 800;
+        color: #103b2f;
+        font-variant-numeric: tabular-nums;
+    }
+    .metric-card-delta {
+        margin-top: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 8px;
+        border-radius: 8px;
+    }
+    .metric-card-delta-positive { color: #057a55; background: #d1f4e8; }
+    .metric-card-delta-negative { color: #b42318; background: #fde8e6; }
+    .metric-card-delta-neutral  { color: #4a5a54; background: #edf2ef; }
+
+    .insight-box {
+        background: #edf2ef;
+        border: 1px solid #cad4cf;
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: #4a5a54;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+    .insight-box-success {
+        background: rgba(5,122,85,0.08);
+        border: 1px solid rgba(5,122,85,0.30);
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: #17231f;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+    .insight-box-warning {
+        background: rgba(245,158,11,0.08);
+        border: 1px solid rgba(245,158,11,0.30);
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: #17231f;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+    .insight-box-error {
+        background: rgba(180,35,24,0.08);
+        border: 1px solid rgba(180,35,24,0.30);
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: #17231f;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+    .insight-box-info {
+        background: rgba(59,130,246,0.08);
+        border: 1px solid rgba(59,130,246,0.25);
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: #17231f;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .phase-box {
+        border-radius: 10px;
+        border: 1px solid #cad4cf;
+        background: #edf2ef;
+        padding: 10px;
+        text-align: center;
+    }
+    .phase-box-error { background: rgba(180,35,24,0.08); border-color: rgba(180,35,24,0.30); }
+    .phase-box-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #4a5a54; }
+    .phase-box-value { font-size: 22px; font-weight: 700; color: #103b2f; }
+    .phase-box-value-error, .phase-box-label-error { color: #b42318; }
+
+    .tactical-box {
+        background: #edf2ef;
+        border: 1px solid #cad4cf;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 12px;
+    }
+    .tactical-box-error  { background: rgba(180,35,24,0.06); border-color: rgba(180,35,24,0.25); }
+    .tactical-box-success{ background: rgba(16,59,47,0.06);  border-color: rgba(16,59,47,0.25); }
+    .tactical-box-title  {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 6px;
+        color: #4a5a54;
+    }
+    .tactical-box-title-error   { color: #b42318; }
+    .tactical-box-title-success { color: #103b2f; }
+    .tactical-box-body { font-size: 13px; color: #17231f; line-height: 1.5; }
+
+    .section-card { overflow: hidden; height: 100%; background: #ffffff; border: 1px solid #cad4cf; border-radius: 12px; }
+    .section-card-header { padding: 14px 16px; border-bottom: 1px solid #cad4cf; }
+    .section-card-header-primary { background: #103b2f; }
+    .section-card-title { font-size: 18px; margin: 0; color: #17231f; font-weight: 700; }
+    .section-card-title-white { color: #ffffff !important; }
+    .section-card-body { padding: 16px; }
+
+    /* Surface container classes used in inline HTML */
+    [style*="var(--surface-container-low)"]  { background: #edf2ef !important; }
+    [style*="var(--surface-container)"]      { background: #e3ebe6 !important; }
+    [style*="var(--on-surface-variant)"]     { color: #4a5a54 !important; }
+    [style*="var(--on-surface)"]             { color: #17231f !important; }
+    [style*="var(--outline-variant)"]        { border-color: #cad4cf !important; }
+    [style*="var(--primary)"]                { color: #103b2f !important; }
+    [style*="var(--secondary)"]              { color: #b7802f !important; }
+    [style*="var(--error)"]                  { color: #b42318 !important; }
+    [style*="var(--success)"]                { color: #057a55 !important; }
+
     :root {
         /* Color Palette */
         --surface: #f4f7f5;
@@ -938,6 +1097,21 @@ def get_theme_css() -> str:
     .stTabs [aria-selected="true"] {
         background: var(--primary) !important;
         color: white !important;
+    }
+
+    /* Fix expander header icon overlapping label text */
+    [data-testid="stExpander"] summary {
+        font-weight: 600;
+        color: #17231f;
+    }
+    [data-testid="stExpander"] summary svg {
+        flex-shrink: 0;
+        margin-right: 8px;
+    }
+    [data-testid="stExpander"] summary p {
+        display: inline;
+        font-size: 14px;
+        color: #17231f;
     }
 
     /* Improved selectbox/multiselect */

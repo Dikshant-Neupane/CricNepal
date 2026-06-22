@@ -1,206 +1,256 @@
-import os
+﻿"""Bowling Intelligence — phase control, resource allocation, pressure plans."""
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from ..demo_data import get_bowling_phases, get_bowling_vs_batter_hand, get_bowling_tactical_directives
+
+from ..demo_data import get_bowling_vs_batter_hand, get_bowling_tactical_directives, get_bowling_phases
+from ..services.data_loaders import load_export_csv
 
 TEAM = "Janakpur Bolts"
-BBB_PARQUET = "data/normalized/ball_by_ball_normalized.parquet"
+
+# Resolved hex values (CSS vars don't resolve inside st.markdown HTML)
+_TEXT       = "#17231f"
+_TEXT_MUTED = "#4a5a54"
+_SURFACE_LO = "#edf2ef"
+_BORDER     = "#cad4cf"
+_GREEN      = "#103b2f"
+_AMBER      = "#e89b3c"
+_RED        = "#c74b4b"
 
 
 def _render_live_heatmap() -> None:
-    """Render bowler runs-conceded heatmap."""
-    try:
-        bbb = pd.read_parquet(BBB_PARQUET)
-        # bbb has no season col — join with matches to get it
-        try:
-            matches = pd.read_parquet("data/normalized/matches_normalized.parquet")[
-                ["match_id", "season"]
-            ]
-            bbb = bbb.merge(matches, on="match_id", how="left")
-        except Exception:
-            pass  # proceed without season filter
+    """Bowler runs-conceded heatmap from ball-by-ball data."""
+    from ..services.data_loaders import load_ball_by_ball_normalized, load_matches_normalized
 
-        jab_bowl = bbb[bbb["bowling_team"] == TEAM].copy()
-        # Filter to S2 if available, else all
-        if "season" in jab_bowl.columns:
-            s2_data = jab_bowl[jab_bowl["season"] == "S2"]
-            season_label = "S2"
-            if s2_data.empty:
-                s2_data = jab_bowl
-                season_label = "All Seasons"
-        else:
-            s2_data = jab_bowl
-            season_label = "All Seasons"
+    bbb = load_ball_by_ball_normalized()
+    if bbb is None:
+        st.caption("Heatmap unavailable — ball-by-ball parquet not found.")
+        return
 
-        s2_data = s2_data.copy()
-        s2_data["over_n"] = pd.to_numeric(s2_data["over"], errors="coerce").astype("Int64")
-        pivot = (
-            s2_data.groupby(["bowler_name", "over_n"])["runs_total"]
-            .sum()
-            .reset_index()
-        )
-        pivot_wide = pivot.pivot_table(
-            index="bowler_name", columns="over_n", values="runs_total", aggfunc="sum"
-        ).fillna(0)
-        # Filter to bowlers with ≥12 balls
-        bowl_balls = s2_data.groupby("bowler_name").size()
-        top_bowlers = bowl_balls[bowl_balls >= 12].index
-        pivot_wide = pivot_wide.loc[pivot_wide.index.isin(top_bowlers)].sort_index()
-        pivot_wide.columns = [str(int(c)) if pd.notna(c) else str(c) for c in pivot_wide.columns]
-        pivot_wide = pivot_wide.reset_index().rename(columns={"bowler_name": "Bowler"})
-        pivot_wide = pivot_wide.set_index("Bowler")
+    matches = load_matches_normalized()
+    if matches is not None and "season" in matches.columns:
+        bbb = bbb.merge(matches[["match_id", "season"]], on="match_id", how="left")
 
-        fig = px.imshow(
-            pivot_wide,
-            labels=dict(x="Over", y="Bowler", color="Runs Conceded"),
-            title=f"Runs Conceded by Over — Janakpur Bowling ({season_label})",
-            color_continuous_scale="RdYlGn_r",
-            aspect="auto",
-            text_auto=True,
-        )
-        fig.update_layout(
-            height=350,
-            margin=dict(l=10, r=10, t=40, b=10),
-            paper_bgcolor="rgba(0,0,0,0)",
-        )
-        fig.update_coloraxes(colorbar_title="Runs")
-        st.plotly_chart(fig, width='stretch', config={"displayModeBar": False})
-        st.caption(f"Data: {season_label}. Bowlers with <12 balls excluded.")
-    except Exception as exc:
-        st.caption(f"Live heatmap unavailable: {exc}")
+    jab = bbb[bbb["bowling_team"] == TEAM].copy()
+
+    if "season" in jab.columns and not jab[jab["season"] == "S2"].empty:
+        data = jab[jab["season"] == "S2"].copy()
+        label = "S2"
+    else:
+        data = jab
+        label = "All Seasons"
+
+    data["over_n"] = pd.to_numeric(data["over"], errors="coerce").astype("Int64")
+    pivot = data.groupby(["bowler_name", "over_n"])["runs_total"].sum().reset_index()
+    wide = pivot.pivot_table(index="bowler_name", columns="over_n", values="runs_total", aggfunc="sum").fillna(0)
+
+    ball_counts = data.groupby("bowler_name").size()
+    wide = wide.loc[wide.index.isin(ball_counts[ball_counts >= 12].index)].sort_index()
+    wide.columns = [str(int(c)) if pd.notna(c) else str(c) for c in wide.columns]
+
+    if wide.empty:
+        st.caption("Not enough data to build heatmap.")
+        return
+
+    fig = px.imshow(
+        wide,
+        labels=dict(x="Over", y="Bowler", color="Runs"),
+        title=f"Runs Conceded per Over — JB Bowling ({label})",
+        color_continuous_scale="RdYlGn_r",
+        aspect="auto",
+        text_auto=True,
+    )
+    fig.update_layout(height=350, margin=dict(l=10, r=10, t=40, b=10))
+    fig.update_coloraxes(colorbar_title="Runs")
+    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    st.caption(f"Source: {label}. Bowlers with fewer than 12 balls excluded.")
+
+
+def _load_bowling_phases() -> list[dict]:
+    """Load S2 bowling phase metrics from CSV; fall back to demo data."""
+    df = load_export_csv("s1_vs_s2_bowling_by_phase.csv")
+    if df is None or df.empty:
+        st.caption("ℹ Phase data estimated — export CSV not found.")
+        return get_bowling_phases()
+
+    s2 = df[df["season"] == "S2"].copy()
+    if s2.empty:
+        st.caption("ℹ Phase data estimated — no S2 rows in CSV.")
+        return get_bowling_phases()
+
+    s2 = s2.set_index("phase")
+    phases = []
+
+    for key, name in [("powerplay", "POWERPLAY (1–6)"), ("middle", "MIDDLE (7–15)"), ("death", "DEATH (16–20)")]:
+        if key not in s2.index:
+            continue
+        row  = s2.loc[key]
+        econ = float(row.get("economy", 0))
+        econ_color     = _RED if econ > 8.5 else (_AMBER if econ > 7.5 else _GREEN)
+        pressure       = "Critical" if econ > 9.0 else ("High" if econ > 7.5 else "Optimal")
+        pressure_color = _RED if econ > 9.0 else (_AMBER if econ > 7.5 else _GREEN)
+        phases.append({
+            "name":       name,
+            "econ":       f"{econ:.2f}",
+            "econ_c":     econ_color,
+            "wkts":       str(int(row.get("wickets_taken", 0))),
+            "dot":        f"{float(row.get('dot_ball_pct', 0)):.1f}%",
+            "pressure":   pressure,
+            "pressure_c": pressure_color,
+        })
+
+    if not phases:
+        st.caption("ℹ Phase data estimated — phases missing from CSV.")
+        return get_bowling_phases()
+
+    return phases
+
+
+def _phase_card(p: dict) -> str:
+    """Build the HTML for a single bowling phase card using only literal hex values."""
+    return f"""
+    <div style="background:{_SURFACE_LO};padding:16px;border-radius:8px;border:1px solid {_BORDER};">
+        <div style="font-size:12px;font-weight:600;color:{_TEXT_MUTED};margin-bottom:14px;letter-spacing:0.04em;">
+            {p['name']}
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:13px;color:{_TEXT_MUTED};">Economy</span>
+            <span style="font-size:14px;font-weight:600;color:{p['econ_c']};">{p['econ']}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:13px;color:{_TEXT_MUTED};">Wickets</span>
+            <span style="font-size:14px;font-weight:500;color:{_TEXT};">{p['wkts']}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:13px;color:{_TEXT_MUTED};">Dot %</span>
+            <span style="font-size:14px;font-weight:500;color:{_TEXT};">{p['dot']}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid {_BORDER};">
+            <span style="font-size:13px;color:{_TEXT_MUTED};">Pressure Index</span>
+            <span style="font-size:14px;font-weight:600;color:{p['pressure_c']};">{p['pressure']}</span>
+        </div>
+    </div>"""
+
+
+def _hand_card(h: dict) -> str:
+    """Build the HTML for a batter-hand split card."""
+    return f"""
+    <div style="background:{_SURFACE_LO};padding:16px;border-radius:8px;border:1px solid {_BORDER};margin-bottom:14px;">
+        <div style="font-size:12px;font-weight:600;color:{_TEXT_MUTED};margin-bottom:10px;">vs {h['hand']}</div>
+        <div style="display:flex;justify-content:space-between;">
+            <div>
+                <div style="font-size:12px;color:{_TEXT_MUTED};">Economy</div>
+                <div style="font-size:16px;font-weight:600;color:{_TEXT};margin-top:4px;">{h['economy']}</div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size:12px;color:{_TEXT_MUTED};">Strike Rate</div>
+                <div style="font-size:16px;font-weight:600;color:{_TEXT};margin-top:4px;">{h['strike_rate']}</div>
+            </div>
+        </div>
+    </div>"""
+
 
 def render_bowling_intelligence():
-    st.markdown(
-        """
-        <div class="jb-page-head">
-            <h2 class="page-title">Bowling Intelligence</h2>
-            <p class="page-subtitle">Phase control, resource allocation, and pressure-over plans.</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    # Bowling Phase Breakdown
     st.markdown("""
-    <div class="card" style="margin-bottom: 32px;">
-        <div class="card-header">
-            <h3>Bowling Phase Breakdown</h3>
-        </div>
-        <div class="card-body" style="padding: 24px;">
+    <div style="margin-bottom:32px;">
+        <h2 style="font-size:28px;font-weight:800;color:#103b2f;margin:0 0 6px 0;">Bowling Intelligence</h2>
+        <p style="color:#4a5a54;font-size:15px;margin:0;">Phase control, resource allocation, and pressure-over plans.</p>
+    </div>
     """, unsafe_allow_html=True)
-    
-    phases = get_bowling_phases()
-    
+
+    #  Phase Breakdown 
+    st.markdown(f"""
+    <div style="background:#fff;border:1px solid {_BORDER};border-radius:12px;
+                margin-bottom:28px;box-shadow:0 2px 8px rgba(12,36,28,0.05);">
+        <div style="padding:14px 18px;border-bottom:1px solid {_BORDER};
+                    background:linear-gradient(180deg,#fff,#f8fbf9);border-radius:12px 12px 0 0;">
+            <span style="font-size:16px;font-weight:700;color:{_TEXT};">Bowling Phase Breakdown</span>
+        </div>
+        <div style="padding:20px;">
+    """, unsafe_allow_html=True)
+
+    phases = _load_bowling_phases()
     cols = st.columns(3)
-    for i, col in enumerate(cols):
+    for col, p in zip(cols, phases):
         with col:
-            p = phases[i]
-            econ_c = p.get('econ_c', 'var(--on-surface)')
-            st.markdown(f"""
-            <div style="background: var(--surface-container-low); padding: 16px; border-radius: 8px;">
-                <div style="font-size: 12px; font-weight: 600; color: var(--on-surface-variant); margin-bottom: 16px; letter-spacing: 0.02em;">{p['name']}</div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                    <span style="font-size: 14px; color: var(--on-surface-variant);">Economy</span>
-                    <span style="font-size: 14px; font-weight: 500; color: {econ_c};">{p['econ']}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                    <span style="font-size: 14px; color: var(--on-surface-variant);">Wickets</span>
-                    <span style="font-size: 14px; font-weight: 500; color: var(--on-surface);">{p['wkts']}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                    <span style="font-size: 14px; color: var(--on-surface-variant);">Dot %</span>
-                    <span style="font-size: 14px; font-weight: 500; color: var(--on-surface);">{p['dot']}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--outline-variant);">
-                    <span style="font-size: 14px; color: var(--on-surface-variant);">Pressure Index</span>
-                    <span style="font-size: 14px; font-weight: 600; color: {p['pressure_c']};">{p['pressure']}</span>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
+            st.markdown(_phase_card(p), unsafe_allow_html=True)
+
     st.markdown("</div></div>", unsafe_allow_html=True)
 
-    # Resource Allocation and vs Batter Hand
+    #  Heatmap + Hand Split 
     col1, col2 = st.columns([2, 1])
-    
+
     with col1:
-        st.markdown("""
-        <div class="card" style="height: 100%;">
-            <div class="card-header">
-                <h3>Resource Allocation by Over (S2)</h3>
+        st.markdown(f"""
+        <div style="background:#fff;border:1px solid {_BORDER};border-radius:12px;
+                    box-shadow:0 2px 8px rgba(12,36,28,0.05);">
+            <div style="padding:14px 18px;border-bottom:1px solid {_BORDER};">
+                <span style="font-size:15px;font-weight:700;color:{_TEXT};">Resource Allocation by Over (S2)</span>
             </div>
-            <div class="card-body" style="padding: 12px 24px 24px 24px;">
+            <div style="padding:12px 16px 16px;">
         """, unsafe_allow_html=True)
         _render_live_heatmap()
         st.markdown("</div></div>", unsafe_allow_html=True)
-        
+
     with col2:
-        st.markdown("""
-            <div class="card" style="height: 100%;">
-            <div class="card-header">
-                <h3>Split: vs Batter Hand</h3>
+        st.markdown(f"""
+        <div style="background:#fff;border:1px solid {_BORDER};border-radius:12px;
+                    box-shadow:0 2px 8px rgba(12,36,28,0.05);">
+            <div style="padding:14px 18px;border-bottom:1px solid {_BORDER};">
+                <span style="font-size:15px;font-weight:700;color:{_TEXT};">Split: vs Batter Hand</span>
             </div>
-            <div class="card-body" style="padding: 24px;">
+            <div style="padding:16px;">
         """, unsafe_allow_html=True)
-        
-        hands = get_bowling_vs_batter_hand()
-        for h in hands:
-            st.markdown(f"""
-            <div style="background: var(--surface-container-low); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
-                <div style="font-size: 12px; font-weight: 600; color: var(--on-surface-variant); margin-bottom: 12px;">vs {h['hand']}</div>
-                <div style="display: flex; justify-content: space-between;">
-                    <div>
-                        <div style="font-size: 12px; color: var(--on-surface-variant);">Economy</div>
-                        <div style="font-size: 14px; font-weight: 500; margin-top: 4px;">{h['economy']}</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 12px; color: var(--on-surface-variant);">Strike Rate</div>
-                        <div style="font-size: 14px; font-weight: 500; margin-top: 4px;">{h['strike_rate']}</div>
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
+        for h in get_bowling_vs_batter_hand():
+            st.markdown(_hand_card(h), unsafe_allow_html=True)
         st.markdown("</div></div>", unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:18px;'></div>", unsafe_allow_html=True)
 
-    # Tactical Directives
-    dirs = get_bowling_tactical_directives()
+    #  Tactical Directives
     st.markdown("""
-    <div style="background: linear-gradient(135deg, var(--primary), var(--primary-2)); padding: 20px; border-radius: 12px;">
-        <h3 style="color: #ffffff; margin: 0 0 18px 0; font-size: 18px; display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.85;">Plan</span> Tactical Directives
-        </h3>
+    <div style="background:linear-gradient(135deg,#103b2f,#18503f);padding:20px;border-radius:12px;">
+        <div style="color:#ffffff;font-size:17px;font-weight:700;margin-bottom:16px;
+                    font-family:Manrope,sans-serif;letter-spacing:-0.01em;">
+            Tactical Directives
+        </div>
     """, unsafe_allow_html=True)
-    
-    for d in dirs:
-        st.markdown(
-            f"""
-            <div style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255,255,255,0.25); padding: 14px; border-radius: 10px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px;">
-                <span style="color: #f6e5c8; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;">ITEM</span>
-                <span style="color: #ffffff; font-size: 14px;">{d}</span>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        
+
+    for d in get_bowling_tactical_directives():
+        st.markdown(f"""
+        <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);
+                    padding:14px 16px;border-radius:10px;margin-bottom:10px;
+                    display:flex;align-items:flex-start;gap:12px;">
+            <span style="color:#f6e5c8;font-size:11px;font-weight:700;letter-spacing:0.06em;
+                         flex-shrink:0;padding-top:2px;">ITEM</span>
+            <span style="color:#ffffff;font-size:14px;line-height:1.5;">{d}</span>
+        </div>""", unsafe_allow_html=True)
+
     st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        <div class="card">
-            <div class="card-header"><h3>Decision Summary</h3></div>
-            <div class="card-body">
-                <div class="insight-box"><strong>Insight:</strong> Middle-over control remains your most stable wicket-taking phase.</div>
-                <div style="height:8px;"></div>
-                <div class="insight-box"><strong>Risk:</strong> Death overs leak value when slower-ball patterns are shown too early.</div>
-                <div style="height:8px;"></div>
-                <div class="insight-box"><strong>Recommended Action:</strong> Delay variation reveal and keep one specialist fresh for over 19.</div>
+    st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+
+    #  Decision Summary 
+    st.markdown(f"""
+    <div style="background:#fff;border:1px solid {_BORDER};border-radius:12px;
+                box-shadow:0 2px 8px rgba(12,36,28,0.05);">
+        <div style="padding:14px 18px;border-bottom:1px solid {_BORDER};">
+            <span style="font-size:15px;font-weight:700;color:{_TEXT};">Decision Summary</span>
+        </div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:8px;">
+            <div style="background:#edf2ef;border-left:3px solid #7d8f88;border-radius:6px;
+                        padding:10px 12px;font-size:13px;color:{_TEXT};line-height:1.5;">
+                <strong>Insight:</strong> Middle-over control remains your most stable wicket-taking phase.
+            </div>
+            <div style="background:rgba(245,158,11,0.07);border-left:3px solid #f59e0b;border-radius:6px;
+                        padding:10px 12px;font-size:13px;color:{_TEXT};line-height:1.5;">
+                <strong>Risk:</strong> Death overs leak value when slower-ball patterns are shown too early.
+            </div>
+            <div style="background:rgba(5,122,85,0.07);border-left:3px solid #057a55;border-radius:6px;
+                        padding:10px 12px;font-size:13px;color:{_TEXT};line-height:1.5;">
+                <strong>Recommended Action:</strong> Delay variation reveal and keep one specialist fresh for over 19.
             </div>
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    </div>
+    """, unsafe_allow_html=True)

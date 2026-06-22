@@ -4,12 +4,14 @@ Maps to the Match Intelligence HTML mockup.
 """
 import streamlit as st
 import plotly.graph_objects as go
+import pandas as pd
 import sys
 import os
 
 # Ensure project root is on path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 
+from src.dashboard.services.data_loaders import load_matches_normalized
 from src.dashboard.demo_data import (
     get_match_summary,
     get_tactical_takeaways,
@@ -174,17 +176,90 @@ def _build_worm_chart() -> go.Figure:
     return fig
 
 
+_REVIEW_TEAM = "Janakpur Bolts"
+
+
+def _load_real_matches() -> pd.DataFrame | None:
+    """
+    Load Janakpur Bolts match data from the normalised parquet.
+    Returns a filtered, selector-labelled DataFrame or None if unavailable.
+    """
+    df = load_matches_normalized()
+    if df is None:
+        return None
+
+    team_df = df[
+        (df["team_1_name"] == _REVIEW_TEAM) | (df["team_2_name"] == _REVIEW_TEAM)
+    ].copy()
+
+    if team_df.empty:
+        return None
+
+    team_df["match_date"] = pd.to_datetime(team_df["match_date"], errors="coerce")
+    team_df = team_df.sort_values("match_date", ascending=False).reset_index(drop=True)
+
+    team_df["opposition"] = team_df.apply(
+        lambda r: r["team_2_name"] if r["team_1_name"] == _REVIEW_TEAM else r["team_1_name"],
+        axis=1,
+    )
+    team_df["result"] = team_df.apply(
+        lambda r: "Won" if r.get("winner_name") == _REVIEW_TEAM else "Lost",
+        axis=1,
+    )
+    team_df["selector_label"] = team_df.apply(
+        lambda r: (
+            f"{r['match_date'].strftime('%d %b %Y')} vs {r['opposition']} — {r['result']}"
+            if pd.notna(r["match_date"])
+            else f"Unknown date vs {r['opposition']} — {r['result']}"
+        ),
+        axis=1,
+    )
+    return team_df
+
+
 def render_match_review():
     """Render the full Match Review page."""
 
-    summary = get_match_summary()
+    real_matches = _load_real_matches()
+    using_demo = real_matches is None
+
+    if using_demo:
+        st.info("ℹ Demo data — real match parquet not available. Showing illustrative match.")
+        summary = get_match_summary()
+        page_subtitle = summary["match_title"]
+    else:
+        labels = real_matches["selector_label"].tolist()
+        selected_label = st.selectbox("Select match to review", labels, key="match_selector")
+        idx = labels.index(selected_label)
+        row = real_matches.iloc[idx]
+        summary = {
+            "match_title": selected_label,
+            "team1": {
+                "name": _REVIEW_TEAM,
+                "short": "JKB",
+                "score": str(row.get("team_1_total_runs", "—")),
+                "overs": "20.0 Overs",
+                "rr": "—",
+                "is_winner": row["result"] == "Won",
+            },
+            "team2": {
+                "name": row["opposition"],
+                "short": row["opposition"][:3].upper(),
+                "score": str(row.get("team_2_total_runs", "—")),
+                "overs": "20.0 Overs",
+                "rr": "—",
+                "is_winner": row["result"] == "Lost",
+            },
+            "potm": "—",
+        }
+        page_subtitle = selected_label
 
     render_page_header(
         title="Post-Match Tactical Review",
-        subtitle=summary['match_title'],
+        subtitle=page_subtitle,
         insight_label="Decision Lens",
         insight_text="Confirm repeatable win behaviors and isolate non-repeatable spikes before next match.",
-        alert_icon="Key"
+        alert_icon="Key",
     )
 
     col_summary, col_takeaways = st.columns([2, 1], gap="medium")
@@ -200,13 +275,15 @@ def render_match_review():
     col_manhattan, col_worm = st.columns(2, gap="medium")
 
     with col_manhattan:
-        render_card_start("Runs Per Over")
+        render_card_start("Runs Per Over (Illustrative)")
+        st.caption("Example — per-over delivery data not available in parquet.")
         fig_manhattan = _build_manhattan_chart()
         st.plotly_chart(fig_manhattan, width="stretch", config={"displayModeBar": False})
         render_card_end()
 
     with col_worm:
-        render_card_start("Cumulative Run Flow")
+        render_card_start("Cumulative Run Flow (Illustrative)")
+        st.caption("Example — per-over delivery data not available in parquet.")
         fig_worm = _build_worm_chart()
         st.plotly_chart(fig_worm, width="stretch", config={"displayModeBar": False})
         render_card_end()
@@ -222,24 +299,24 @@ def render_match_review():
         render_partnerships_table(get_partnerships())
 
     render_spacer(12)
-    
+
     render_insight_card(
         title="Next-Match Action Pack",
         insights=[
             {
                 "label": "Insight",
                 "text": "Overs 11-15 acceleration was highest leverage in this win profile.",
-                "type": "neutral"
+                "type": "neutral",
             },
             {
                 "label": "Risk",
                 "text": "Early dot-ball pressure remains elevated against left-arm pace angles.",
-                "type": "warning"
+                "type": "warning",
             },
             {
                 "label": "Recommended Action",
                 "text": "Promote one high-intent right-hander in PP if two dots in first over.",
-                "type": "neutral"
-            }
-        ]
+                "type": "neutral",
+            },
+        ],
     )

@@ -50,6 +50,17 @@ def _competition_weight(name: Any) -> float:
     return float(COMPETITION_WEIGHTS.get(str(name), 0.05))
 
 
+def _make_weight_fn(weights: dict[str, float]):
+    """Return a callable that maps competition name → normalised weight."""
+    total = sum(weights.values()) or 1.0
+    normalised = {k: v / total for k, v in weights.items()}
+    def fn(name: Any) -> float:
+        if pd.isna(name):
+            return 0.05
+        return float(normalised.get(str(name), 0.05))
+    return fn
+
+
 def _clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
     return max(low, min(high, value))
 
@@ -106,12 +117,16 @@ def _standardize_role(player_role: Any, batting_matches: int, bowling_matches: i
 
 
 def classify_form_band(score: float) -> str:
-    """Classify a player into a selection-ready form band."""
-    if score >= 70.0:
+    """Classify a player into a selection-ready form band.
+
+    Thresholds calibrated for NPL innings volume (8-17 innings per player).
+    With limited data, scores naturally cluster in the 40-65 range.
+    """
+    if score >= 60.0:
         return "In Form"
-    if score >= 55.0:
+    if score >= 48.0:
         return "Stable"
-    if score >= 40.0:
+    if score >= 35.0:
         return "Risky"
     return "Out of Form"
 
@@ -236,6 +251,7 @@ def build_player_form_table(
     team_name: str = DEFAULT_TEAM,
     n_recent: int = 8,
     min_matches: int = MIN_MATCHES_FOR_FORM,
+    competition_weights: dict[str, float] | None = None,
 ) -> pd.DataFrame:
     """Build raw and weighted player form rankings with role guidance."""
     if player_innings.empty or matches.empty:
@@ -254,7 +270,9 @@ def build_player_form_table(
     merged["match_date"] = pd.to_datetime(merged.get("match_date"), errors="coerce")
     merged["competition_name"] = merged.get("tournament_name").fillna("Unknown")
     merged["match_score"] = merged.apply(_overall_match_score, axis=1)
-    merged["competition_weight"] = merged["competition_name"].map(_competition_weight)
+    merged["competition_weight"] = merged["competition_name"].map(
+        _make_weight_fn(competition_weights if competition_weights is not None else COMPETITION_WEIGHTS)
+    )
 
     rows: list[dict[str, Any]] = []
     for player_name, group in merged.groupby("player_name"):
@@ -322,6 +340,7 @@ def load_player_form_table(
     team_name: str = DEFAULT_TEAM,
     n_recent: int = 8,
     min_matches: int = MIN_MATCHES_FOR_FORM,
+    competition_weights: dict[str, float] | None = None,
 ) -> pd.DataFrame:
     """Convenience loader for the S3 selection dashboard."""
     player_innings, matches = load_player_form_inputs()
@@ -331,6 +350,7 @@ def load_player_form_table(
         team_name=team_name,
         n_recent=n_recent,
         min_matches=min_matches,
+        competition_weights=competition_weights,
     )
 
 

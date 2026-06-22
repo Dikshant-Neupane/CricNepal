@@ -134,6 +134,7 @@ def render_win_probability():
                 plot_bgcolor='white',
                 paper_bgcolor='white',
                 margin=dict(l=40, r=40, t=50, b=40),
+                font=dict(color="#17231f"),
                 legend=dict(
                     orientation="h",
                     yanchor="bottom",
@@ -146,7 +147,7 @@ def render_win_probability():
             st.plotly_chart(fig, use_container_width=True)
             
             # Show "Pressure Moments"
-            st.markdown("### ⚡ Highest Impact Deliveries (Clutch/Pressure Moments)")
+            st.markdown("###  Highest Impact Deliveries (Clutch/Pressure Moments)")
             match_deliveries['abs_wpa'] = match_deliveries['wpa'].abs()
             top_moments = match_deliveries.sort_values('abs_wpa', ascending=False).head(5)
             
@@ -156,13 +157,13 @@ def render_win_probability():
                 st.markdown("#### Top 5 Momentum-Shifting Ball Deliveries")
                 for _, row in top_moments.iterrows():
                     sign = "+" if row['wpa'] >= 0 else ""
-                    color = "var(--success)" if row['wpa'] >= 0 else "var(--error)"
+                    color = "#057a55" if row['wpa'] >= 0 else "#b42318"
                     badge_style = f"background: {color}20; color: {color}; border: 1px solid {color}40;"
                     
                     st.markdown(
                         f"""
                         <div class="takeaway-item">
-                            <div class="takeaway-icon">⚡</div>
+                            <div class="takeaway-icon"></div>
                             <div style="flex: 1;">
                                 <div class="takeaway-title">
                                     Innings {row['innings']}, Over {row['over']}.{row['ball']} — {row['batter_name']} vs {row['bowler_name']}

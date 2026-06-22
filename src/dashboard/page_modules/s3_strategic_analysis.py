@@ -36,22 +36,22 @@ def _phase_delta_card(phase_name: str, s1_val: float, s2_val: float, metric_name
     # Determine if improvement or decline
     if better_lower:
         is_improvement = delta < 0
-        arrow = "▼" if delta < 0 else "▲"
+        arrow = "" if delta < 0 else ""
         color = "#1a6b51" if is_improvement else "#c44b4f"
     else:
         is_improvement = delta > 0
-        arrow = "▲" if delta > 0 else "▼"
+        arrow = "" if delta > 0 else ""
         color = "#1a6b51" if is_improvement else "#c44b4f"
     
-    status = "✅ Improved" if is_improvement else "🔻 Declined"
+    status = "Improved" if is_improvement else "Declined"
     
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-card-label">{phase_name} {metric_name}</div>
         <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px;">
             <div>
-                <div style="font-size:13px; color:var(--on-surface-variant);">S1: {s1_val:.2f}{unit}</div>
-                <div style="font-size:13px; color:var(--on-surface-variant);">S2: {s2_val:.2f}{unit}</div>
+                <div style="font-size:13px; color:#4a5a54;">S1: {s1_val:.2f}{unit}</div>
+                <div style="font-size:13px; color:#4a5a54;">S2: {s2_val:.2f}{unit}</div>
             </div>
             <div style="text-align:right;">
                 <div style="font-size:18px; font-weight:600; color:{color};">
@@ -72,7 +72,7 @@ def render_s3_strategic_analysis():
     
     st.markdown("""
     <div class="jb-page-head">
-        <h2 class="page-title">🎯 Season 3 Strategic Analysis</h2>
+        <h2 class="page-title"> Season 3 Strategic Analysis</h2>
         <p class="page-subtitle">Why we won S1, why we lost S2, and what to do for S3.
         Data-driven comparison and actionable recommendations.</p>
     </div>
@@ -83,7 +83,7 @@ def render_s3_strategic_analysis():
     bowler_forecast, batter_forecast = _load_s3_forecasts()
     
     if batting_df is None or bowling_df is None or match_context is None:
-        st.error("⚠️ S1 vs S2 comparison data not found. Run analysis scripts first.")
+        st.error("S1 vs S2 comparison data not found. Run analysis scripts first.")
         return
     
     # Get match counts for normalization
@@ -93,7 +93,7 @@ def render_s3_strategic_analysis():
     # ========================================================================
     # SECTION 1: EXECUTIVE SUMMARY
     # ========================================================================
-    st.markdown("## 📊 Executive Summary")
+    st.markdown("##  Executive Summary")
     
     # Show match counts first
     st.markdown(f"""
@@ -101,7 +101,7 @@ def render_s3_strategic_analysis():
                 padding:16px; border-radius:8px; margin-bottom:20px; text-align:center;">
         <strong>Season 1:</strong> {int(s1_matches)} matches (7 wins, 70% win rate) &nbsp;&nbsp;|&nbsp;&nbsp; 
         <strong>Season 2:</strong> {int(s2_matches)} matches (1 win, 14.3% win rate)
-        <br><span style="font-size:12px; color:var(--on-surface-variant);">
+        <br><span style="font-size:12px; color:#4a5a54;">
         All metrics below are normalized per game for fair comparison
         </span>
     </div>
@@ -186,7 +186,7 @@ def render_s3_strategic_analysis():
     st.markdown("<div style='height:24px;'></div>", unsafe_allow_html=True)
     
     # Wickets per game visualization
-    st.markdown("### 📉 Wickets Per Game - Phase Breakdown")
+    st.markdown("###  Wickets Per Game - Phase Breakdown")
     
     # Calculate per-game wickets for each phase
     phases_data = []
@@ -236,7 +236,7 @@ def render_s3_strategic_analysis():
         height=350,
         showlegend=True,
         template="plotly_white",
-        font=dict(family="IBM Plex Sans, sans-serif")
+        font=dict(family="IBM Plex Sans, sans-serif", color="#17231f"),
     )
     
     st.plotly_chart(fig, width='stretch')
@@ -253,7 +253,7 @@ def render_s3_strategic_analysis():
     st.markdown("<div style='height:24px;'></div>", unsafe_allow_html=True)
     
     # Key Findings
-    st.markdown("### 🔍 Key Findings")
+    st.markdown("###  Key Findings")
     
     findings_col1, findings_col2 = st.columns(2)
     
@@ -261,7 +261,7 @@ def render_s3_strategic_analysis():
         st.markdown(f"""
         <div style="background:linear-gradient(135deg, rgba(26,107,81,0.1), rgba(26,107,81,0.05)); 
                     padding:20px; border-radius:12px; border-left:4px solid #1a6b51;">
-            <h4 style="margin:0 0 12px 0; color:#1a6b51;">✅ Season 1 Success Factors ({int(s1_matches)} matches)</h4>
+            <h4 style="margin:0 0 12px 0; color:#1a6b51;"> Season 1 Success Factors ({int(s1_matches)} matches)</h4>
             <ul style="margin:8px 0; padding-left:20px; line-height:1.8;">
                 <li><strong>Powerplay Dominance:</strong> 7.03 RPO strike rate</li>
                 <li><strong>Middle Overs Control:</strong> 6.62 economy rate</li>
@@ -276,7 +276,7 @@ def render_s3_strategic_analysis():
         st.markdown(f"""
         <div style="background:linear-gradient(135deg, rgba(196,75,79,0.1), rgba(196,75,79,0.05)); 
                     padding:20px; border-radius:12px; border-left:4px solid #c44b4f;">
-            <h4 style="margin:0 0 12px 0; color:#c44b4f;">🔻 Season 2 Failure Points ({int(s2_matches)} matches)</h4>
+            <h4 style="margin:0 0 12px 0; color:#c44b4f;"> Season 2 Failure Points ({int(s2_matches)} matches)</h4>
             <ul style="margin:8px 0; padding-left:20px; line-height:1.8;">
                 <li><strong>Powerplay Collapse:</strong> Drop to 6.28 RPO (-10.7%)</li>
                 <li><strong>Death Bowling Leak:</strong> 9.32 economy (+21.4%)</li>
@@ -292,9 +292,9 @@ def render_s3_strategic_analysis():
     # ========================================================================
     # SECTION 2: PHASE-WISE BREAKDOWN
     # ========================================================================
-    st.markdown("## 📈 Phase-Wise Performance Analysis")
+    st.markdown("##  Phase-Wise Performance Analysis")
     
-    tabs = st.tabs(["⚡ Powerplay (1-6)", "🎯 Middle Overs (7-15)", "💥 Death Overs (16-20)"])
+    tabs = st.tabs(["Powerplay (1-6)", "Middle Overs (7-15)", "Death Overs (16-20)"])
     
     # Powerplay Tab
     with tabs[0]:
@@ -319,7 +319,7 @@ def render_s3_strategic_analysis():
             _phase_delta_card("Bowling", s1_pp_bowl["economy"], s2_pp_bowl["economy"], 
                             "Economy", better_lower=True, unit=" RPO")
         
-        st.markdown("#### 📊 Powerplay Batting Comparison")
+        st.markdown("####  Powerplay Batting Comparison")
         pp_bat_comparison = pd.DataFrame({
             "Metric": ["Run Rate", "Strike Rate", "Dot Ball %", "Boundary %", "Wickets Lost"],
             "Season 1": [
@@ -342,7 +342,7 @@ def render_s3_strategic_analysis():
         
         st.dataframe(pp_bat_comparison, width='stretch', hide_index=True)
         
-        st.markdown("#### 💡 Powerplay Recommendations for S3")
+        st.markdown("####  Powerplay Recommendations for S3")
         s1_pp_wickets_pg = s1_pp_bat["wickets_lost"] / s1_matches
         s2_pp_wickets_pg = s2_pp_bat["wickets_lost"] / s2_matches
         
@@ -376,7 +376,7 @@ def render_s3_strategic_analysis():
             _phase_delta_card("Bowling", s1_mid_bowl["wicket_rate"], s2_mid_bowl["wicket_rate"], 
                             "Wicket Rate", better_lower=False, unit="")
         
-        st.markdown("#### 🚨 Critical Issue: Middle Overs Bowling Collapse")
+        st.markdown("####  Critical Issue: Middle Overs Bowling Collapse")
         s1_mid_wickets_pg = s1_mid_bowl["wickets_taken"] / s1_matches
         s2_mid_wickets_pg = s2_mid_bowl["wickets_taken"] / s2_matches
         wicket_decline_pct = ((s2_mid_wickets_pg - s1_mid_wickets_pg) / s1_mid_wickets_pg * 100)
@@ -388,7 +388,7 @@ def render_s3_strategic_analysis():
         Middle overs is WHERE WE LOST SEASON 2. Opponents scored freely without pressure.
         """)
         
-        st.markdown("#### 💡 Middle Overs Recommendations for S3")
+        st.markdown("####  Middle Overs Recommendations for S3")
         st.markdown(f"""
         - **URGENT:** Restore middle overs wicket-taking (need 2.5-3.0 wickets/game, currently {s2_mid_wickets_pg:.1f})
         - **Dot Ball Pressure:** Target 38-40% dot ball rate (S2's 30.2% too low)
@@ -419,7 +419,7 @@ def render_s3_strategic_analysis():
             _phase_delta_card("Bowling", s1_death_bowl["wickets_taken"], s2_death_bowl["wickets_taken"], 
                             "Wickets", better_lower=False, unit="")
         
-        st.markdown("#### 🚨 Critical Issue: Death Bowling Leakage")
+        st.markdown("####  Critical Issue: Death Bowling Leakage")
         s1_death_wickets_pg = s1_death_bowl["wickets_taken"] / s1_matches
         s2_death_wickets_pg = s2_death_bowl["wickets_taken"] / s2_matches
         
@@ -431,7 +431,7 @@ def render_s3_strategic_analysis():
         Death bowling leaked runs in S2. Lost control in critical closing overs.
         """)
         
-        st.markdown("#### 💡 Death Overs Recommendations for S3")
+        st.markdown("####  Death Overs Recommendations for S3")
         st.markdown("""
         - **Death Specialists:** Identify bowlers with <8.0 economy in death (use S3 forecast data)
         - **Yorker Execution:** Focus on yorker % and wide yorker variations
@@ -450,9 +450,9 @@ def render_s3_strategic_analysis():
         missing_cols = [col for col in required_cols if col not in bowler_forecast.columns]
         
         if missing_cols:
-            st.warning(f"⚠️ Bowler forecast data missing columns: {', '.join(missing_cols)}. Skipping forecast section.")
+            st.warning(f"Bowler forecast data missing columns: {', '.join(missing_cols)}. Skipping forecast section.")
         else:
-            st.markdown("## 🎯 Season 3 Bowling Strategy")
+            st.markdown("##  Season 3 Bowling Strategy")
             
             st.markdown("""
             Using **Bayesian shrinkage forecasting**, here are our projected best bowlers by phase for S3.
@@ -460,7 +460,7 @@ def render_s3_strategic_analysis():
             """)
             
             # Death bowling specialists
-            st.markdown("### 💥 Death Overs Specialists (Target: <7.5 Economy)")
+            st.markdown("###  Death Overs Specialists (Target: <7.5 Economy)")
             
             death_specialists = bowler_forecast[
                 (bowler_forecast["phase"].str.lower() == "death") & 
@@ -483,7 +483,7 @@ def render_s3_strategic_analysis():
                 st.warning("No death specialists projected <7.5 economy. Need external recruitment.")
             
             # Middle overs workhorses
-            st.markdown("### 🎯 Middle Overs Workhorses (Target: <7.0 Economy)")
+            st.markdown("###  Middle Overs Workhorses (Target: <7.0 Economy)")
             
             middle_specialists = bowler_forecast[
                 (bowler_forecast["phase"].str.lower() == "middle") & 
@@ -500,7 +500,7 @@ def render_s3_strategic_analysis():
                 st.warning("Limited middle overs specialists. This is our S2 weakness area.")
             
             # Powerplay enforcers
-            st.markdown("### ⚡ Powerplay Attack (Target: <6.5 Economy)")
+            st.markdown("###  Powerplay Attack (Target: <6.5 Economy)")
             
             pp_specialists = bowler_forecast[
                 (bowler_forecast["phase"].str.lower() == "powerplay") & 
@@ -521,14 +521,14 @@ def render_s3_strategic_analysis():
     # ========================================================================
     # SECTION 4: STRATEGIC ACTION PLAN
     # ========================================================================
-    st.markdown("## 🎯 Season 3 Strategic Action Plan")
+    st.markdown("##  Season 3 Strategic Action Plan")
     
     st.markdown("""
     <div style="background:linear-gradient(135deg, rgba(16,59,47,0.1), rgba(16,59,47,0.05)); 
                 padding:24px; border-radius:12px; border-left:4px solid #103b2f;">
     """, unsafe_allow_html=True)
     
-    st.markdown("### 🔴 Priority 1: Fix Middle Overs Bowling (CRITICAL)")
+    st.markdown("###  Priority 1: Fix Middle Overs Bowling (CRITICAL)")
     s1_mid_wkts_pg = s1_mid_bowl["wickets_taken"] / s1_matches
     s2_mid_wkts_pg = s2_mid_bowl["wickets_taken"] / s2_matches
     st.markdown(f"""
@@ -541,7 +541,7 @@ def render_s3_strategic_analysis():
     4. Use S3 forecast to identify bowlers projected <7.0 economy in middle
     """)
     
-    st.markdown("### 🟠 Priority 2: Restore Death Bowling Control")
+    st.markdown("###  Priority 2: Restore Death Bowling Control")
     
     # Get top death bowler from forecast if available
     top_death_bowler_text = ""
@@ -567,7 +567,7 @@ def render_s3_strategic_analysis():
     {top_death_bowler_text}4. Have 3 backup death options (not just 1-2)
     """)
     
-    st.markdown("### 🟡 Priority 3: Restore Powerplay Batting Aggression")
+    st.markdown("###  Priority 3: Restore Powerplay Batting Aggression")
     s1_pp_wkts_pg = s1_pp_bat["wickets_lost"] / s1_matches
     s2_pp_wkts_pg = s2_pp_bat["wickets_lost"] / s2_matches
     st.markdown(f"""
@@ -580,7 +580,7 @@ def render_s3_strategic_analysis():
     4. Review S1 opening partnerships vs S2 opening pairs
     """)
     
-    st.markdown("### 🟢 Priority 4: Squad Continuity & Chemistry")
+    st.markdown("###  Priority 4: Squad Continuity & Chemistry")
     st.markdown("""
     **Problem:** Player departures and new squad integration in S2  
     **Target:** Retain core S1 winners, integrate new players carefully  
@@ -598,14 +598,14 @@ def render_s3_strategic_analysis():
     # ========================================================================
     # FINAL SUMMARY
     # ========================================================================
-    st.markdown("## 📝 Final Recommendations Summary")
+    st.markdown("##  Final Recommendations Summary")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown(f"""
         <div style="padding:20px; background:rgba(26,107,81,0.1); border-radius:12px;">
-            <h4 style="color:#1a6b51; margin-top:0;">✅ What to KEEP from S1 ({int(s1_matches)} games)</h4>
+            <h4 style="color:#1a6b51; margin-top:0;"> What to KEEP from S1 ({int(s1_matches)} games)</h4>
             <ul style="line-height:1.8;">
                 <li>Powerplay bowling discipline (6.33 economy)</li>
                 <li>Death bowling wicket-taking (3.5 wickets/game)</li>
@@ -619,7 +619,7 @@ def render_s3_strategic_analysis():
     with col2:
         st.markdown(f"""
         <div style="padding:20px; background:rgba(196,75,79,0.1); border-radius:12px;">
-            <h4 style="color:#c44b4f; margin-top:0;">🔧 What to FIX from S2 ({int(s2_matches)} games)</h4>
+            <h4 style="color:#c44b4f; margin-top:0;"> What to FIX from S2 ({int(s2_matches)} games)</h4>
             <ul style="line-height:1.8;">
                 <li>Middle overs wicket-taking (3.0 → 2.3 wickets/game)</li>
                 <li>Death bowling economy (7.68 → 9.32 RPO)</li>

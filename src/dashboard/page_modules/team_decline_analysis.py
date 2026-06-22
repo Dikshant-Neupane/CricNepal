@@ -10,8 +10,334 @@ from pathlib import Path
 import plotly.graph_objects as go
 import plotly.express as px
 
+from src.dashboard.services.data_loaders import load_export_csv
+
+
 @st.cache_data
 def load_all_data():
+    """Load all NPL data sources"""
+    data_dir = Path("D:/Cric_Data/data")
+
+    try:
+        # Load parquet files
+        matches = pd.read_parquet(data_dir / "final/parquet/matches.parquet")
+        player_innings = pd.read_parquet(data_dir / "final/parquet/player_innings.parquet")
+        phase_summary = pd.read_parquet(data_dir / "final/parquet/phase_summary.parquet")
+
+        # Load roster for season comparison
+        roster = pd.read_csv(data_dir / "player_rosters/npl_player_rosters_20260521.csv")
+
+        # Load enriched player profiles
+        enriched_path = data_dir / "player_profiles/enriched_players_20260521.csv"
+        enriched = pd.read_csv(enriched_path) if enriched_path.exists() else pd.DataFrame()
+
+        # Fix team name inconsistency
+        for df in [matches, player_innings]:
+            for col in ["team_1_name", "team_2_name", "team_name"]:
+                if col in df.columns:
+                    df[col] = df[col].str.replace("Kathmandu Gurkhas", "Kathmandu Gorkhas")
+
+        return {
+            "matches": matches,
+            "player_innings": player_innings,
+            "phase_summary": phase_summary,
+            "roster": roster,
+            "enriched": enriched,
+        }
+    except Exception as e:
+        st.error(f"Error loading data: {e}")
+        return None
+
+
+#  Win Drivers Tab 
+
+def _render_win_drivers_tab() -> None:
+    """S1 success factors: phase-wise strengths, WPA leaders, and match context."""
+    batting  = load_export_csv("s1_vs_s2_batting_by_phase.csv")
+    bowling  = load_export_csv("s1_vs_s2_bowling_by_phase.csv")
+    context  = load_export_csv("s1_vs_s2_match_context.csv")
+    wpa      = load_export_csv("player_wpa_leaderboard.csv")
+
+    st.markdown("##  Win Drivers — Season 1 Success")
+    st.caption("What made the championship season work. Preserve these for S3.")
+
+    #  Match Context KPIs 
+    if context is not None:
+        s1 = context[context["season"] == "S1"]
+        if not s1.empty:
+            r = s1.iloc[0]
+            st.markdown("### Season 1 Match Context")
+            c1, c2, c3, c4 = st.columns(4)
+            kpis = [
+                (c1, "Win Rate",         f"{r.get('win_rate', 0):.1f}%",    "7/10 matches"),
+                (c2, "Chase Win Rate",   f"{r.get('chasing_win_rate', 0):.1f}%", "Won chasing"),
+                (c3, "Bat-First Win %",  f"{r.get('batting_first_win_rate', 0):.1f}%", "Set totals"),
+                (c4, "Toss Conversion",  f"{r.get('toss_conversion_rate', 0):.1f}%", "Converted wins"),
+            ]
+            for col, label, val, sub in kpis:
+                with col:
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <div class="metric-card-label">{label}</div>
+                        <div class="metric-card-value" style="font-size:28px;">{val}</div>
+                        <div style="font-size:12px;color:#4a5a54;margin-top:4px;">{sub}</div>
+                    </div>""", unsafe_allow_html=True)
+    else:
+        st.warning("Missing: s1_vs_s2_match_context.csv — skipping match context section.")
+
+    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+
+    #  Batting Phase Cards 
+    if batting is not None:
+        s1_bat = batting[batting["season"] == "S1"]
+        if not s1_bat.empty:
+            st.markdown("### S1 Batting by Phase")
+            cols = st.columns(3)
+            for col, phase, label in zip(cols,
+                                          ["powerplay", "middle", "death"],
+                                          ["Powerplay (1–6)", "Middle (7–15)", "Death (16–20)"]):
+                row = s1_bat[s1_bat["phase"] == phase]
+                if row.empty:
+                    continue
+                r = row.iloc[0]
+                with col:
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <div class="metric-card-label">{label}</div>
+                        <div style="margin-top:8px;font-size:13px;">
+                            <div>Run Rate: <strong>{r.get('run_rate',0):.2f}</strong></div>
+                            <div>Strike Rate: <strong>{r.get('strike_rate',0):.1f}</strong></div>
+                            <div>Dot Ball %: <strong>{r.get('dot_ball_pct',0):.1f}%</strong></div>
+                            <div>Boundary %: <strong>{r.get('boundary_pct',0):.1f}%</strong></div>
+                        </div>
+                    </div>""", unsafe_allow_html=True)
+    else:
+        st.warning("Missing: s1_vs_s2_batting_by_phase.csv — skipping batting section.")
+
+    #  Bowling Phase Cards 
+    if bowling is not None:
+        s1_bowl = bowling[bowling["season"] == "S1"]
+        if not s1_bowl.empty:
+            st.markdown("### S1 Bowling by Phase")
+            cols = st.columns(3)
+            for col, phase, label in zip(cols,
+                                          ["powerplay", "middle", "death"],
+                                          ["Powerplay (1–6)", "Middle (7–15)", "Death (16–20)"]):
+                row = s1_bowl[s1_bowl["phase"] == phase]
+                if row.empty:
+                    continue
+                r = row.iloc[0]
+                with col:
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <div class="metric-card-label">{label}</div>
+                        <div style="margin-top:8px;font-size:13px;">
+                            <div>Economy: <strong>{r.get('economy',0):.2f}</strong></div>
+                            <div>Wickets: <strong>{int(r.get('wickets_taken',0))}</strong></div>
+                            <div>Dot Ball %: <strong>{r.get('dot_ball_pct',0):.1f}%</strong></div>
+                            <div>Wicket Rate: <strong>{r.get('wicket_rate',0):.2f}</strong></div>
+                        </div>
+                    </div>""", unsafe_allow_html=True)
+    else:
+        st.warning("Missing: s1_vs_s2_bowling_by_phase.csv — skipping bowling section.")
+
+    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+
+    #  Top WPA Performers 
+    if wpa is not None and not wpa.empty:
+        st.markdown("### Top WPA Performers (S1)")
+        top5 = wpa.sort_values("combined_wpa", ascending=False).head(5).reset_index(drop=True)
+        top5.index += 1
+        display_wpa = top5[["player_name", "combined_wpa", "batting_wpa", "bowling_wpa"]].rename(columns={
+            "player_name": "Player",
+            "combined_wpa": "Combined WPA",
+            "batting_wpa": "Batting WPA",
+            "bowling_wpa": "Bowling WPA",
+        })
+        display_wpa.index.name = "Rank"
+        st.dataframe(display_wpa, use_container_width=True)
+    else:
+        st.warning("Missing: player_wpa_leaderboard.csv — skipping WPA section.")
+
+    #  What to Preserve 
+    st.markdown("###  What to Preserve for Season 3")
+    st.markdown("""
+    <div style="background:linear-gradient(135deg,rgba(16,59,47,0.08),rgba(16,59,47,0.03));
+                border-left:4px solid #103b2f;padding:16px 20px;border-radius:8px;">
+        <ul style="margin:0;padding-left:18px;line-height:1.9;font-size:14px;">
+            <li><strong>Powerplay bowling discipline</strong> — 6.33 economy, 11 wickets total (best phase S1)</li>
+            <li><strong>Death bowling wicket-taking</strong> — 3.5 wickets/game, keeping economy ≤7.68</li>
+            <li><strong>Middle-overs dot-ball pressure</strong> — 40.9% dot rate; creates collapse windows</li>
+            <li><strong>Chase mentality</strong> — 75% chase win rate; build batting order around this strength</li>
+            <li><strong>Overall wicket-taking</strong> — 7.6 wickets/game; team wins when wickets fall</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+#  Loss Drivers Tab 
+
+def _render_loss_drivers_tab() -> None:
+    """S2 failure analysis: phase decline heatmap, leakage metrics, root causes."""
+    batting  = load_export_csv("s1_vs_s2_batting_by_phase.csv")
+    bowling  = load_export_csv("s1_vs_s2_bowling_by_phase.csv")
+    context  = load_export_csv("s1_vs_s2_match_context.csv")
+    deltas   = load_export_csv("s1_vs_s2_bowling_deltas.csv")
+
+    st.markdown("##  Loss Drivers — Season 2 Failure Analysis")
+    st.caption("Where and why the performance collapsed. Fix these for S3.")
+
+    #  Top KPI cards: the three biggest regression signals 
+    c1, c2, c3 = st.columns(3)
+
+    # Death bowling leakage
+    death_delta = None
+    if bowling is not None:
+        s1_death = bowling[(bowling["season"] == "S1") & (bowling["phase"] == "death")]
+        s2_death = bowling[(bowling["season"] == "S2") & (bowling["phase"] == "death")]
+        if not s1_death.empty and not s2_death.empty:
+            death_delta = float(s2_death.iloc[0]["economy"]) - float(s1_death.iloc[0]["economy"])
+
+    with c1:
+        delta_str = f"+{death_delta:.2f}" if death_delta is not None else "N/A"
+        color = "#b42318" if death_delta and death_delta > 0 else "#103b2f"
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-card-label">Death Bowling Leakage</div>
+            <div class="metric-card-value" style="color:{color};font-size:32px;">{delta_str} rpo</div>
+            <div style="font-size:12px;color:#4a5a54;">S1: 7.68 → S2: 9.32 economy</div>
+        </div>""", unsafe_allow_html=True)
+
+    # Chase failure
+    chase_s1, chase_s2 = None, None
+    if context is not None:
+        s1_ctx = context[context["season"] == "S1"]
+        s2_ctx = context[context["season"] == "S2"]
+        if not s1_ctx.empty and not s2_ctx.empty:
+            chase_s1 = float(s1_ctx.iloc[0].get("chasing_win_rate", 75.0))
+            chase_s2 = float(s2_ctx.iloc[0].get("chasing_win_rate", 25.0))
+
+    with c2:
+        chase_str = f"{chase_s2:.1f}%" if chase_s2 is not None else "25.0%"
+        delta_chase = f"{(chase_s2 or 25.0) - (chase_s1 or 75.0):+.1f}pp vs S1"
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-card-label">Chase Win Rate (S2)</div>
+            <div class="metric-card-value" style="color:#b42318;font-size:32px;">{chase_str}</div>
+            <div style="font-size:12px;color:#b42318;">{delta_chase}</div>
+        </div>""", unsafe_allow_html=True)
+
+    # Powerplay collapse flag
+    pp_s1_wkts_pg, pp_s2_wkts_pg = None, None
+    s1_matches, s2_matches = 10, 7  # known match counts
+    if batting is not None:
+        s1_pp = batting[(batting["season"] == "S1") & (batting["phase"] == "powerplay")]
+        s2_pp = batting[(batting["season"] == "S2") & (batting["phase"] == "powerplay")]
+        if not s1_pp.empty and not s2_pp.empty:
+            pp_s1_wkts_pg = float(s1_pp.iloc[0]["wickets_lost"]) / s1_matches
+            pp_s2_wkts_pg = float(s2_pp.iloc[0]["wickets_lost"]) / s2_matches
+
+    with c3:
+        s1_str = f"{pp_s1_wkts_pg:.1f}" if pp_s1_wkts_pg is not None else "1.9"
+        s2_str = f"{pp_s2_wkts_pg:.1f}" if pp_s2_wkts_pg is not None else "2.3"
+        reg_text = "Regression" if pp_s2_wkts_pg and pp_s1_wkts_pg and pp_s2_wkts_pg > pp_s1_wkts_pg else "Stable"
+        reg_color = "#b42318" if reg_text == "Regression" else "#103b2f"
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-card-label">PP Wickets Lost / Game</div>
+            <div class="metric-card-value" style="font-size:32px;">S2: {s2_str}</div>
+            <div style="font-size:12px;color:{reg_color};">S1: {s1_str} — {reg_text}</div>
+        </div>""", unsafe_allow_html=True)
+
+    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+
+    #  Phase Decline Heatmap 
+    if bowling is not None:
+        s1_b = bowling[bowling["season"] == "S1"].set_index("phase")
+        s2_b = bowling[bowling["season"] == "S2"].set_index("phase")
+        shared = [p for p in ["powerplay", "middle", "death"] if p in s1_b.index and p in s2_b.index]
+        if shared:
+            delta_df = pd.DataFrame({
+                "Economy Δ":   [round(s2_b.loc[p, "economy"] - s1_b.loc[p, "economy"], 2) for p in shared],
+                "Wickets Δ":   [round(s2_b.loc[p, "wickets_taken"] - s1_b.loc[p, "wickets_taken"], 1) for p in shared],
+                "Dot Ball % Δ": [round(s2_b.loc[p, "dot_ball_pct"] - s1_b.loc[p, "dot_ball_pct"], 1) for p in shared],
+            }, index=[p.capitalize() for p in shared])
+
+            st.markdown("### Phase Decline Heatmap (S2 − S1)")
+            st.caption("Red = got worse, Green = improved. Economy Δ > 0 means more runs conceded.")
+            fig = px.imshow(
+                delta_df,
+                color_continuous_scale=[[0, "#1a6b51"], [0.5, "#f7f7f7"], [1, "#b42318"]],
+                text_auto=".2f",
+                aspect="auto",
+                color_continuous_midpoint=0,
+            )
+            fig.update_layout(
+                height=260,
+                margin=dict(l=10, r=10, t=20, b=10),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(color="#17231f"),
+                coloraxis_colorbar=dict(title="Delta"),
+            )
+            st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.warning("Missing: s1_vs_s2_bowling_by_phase.csv — skipping heatmap.")
+
+    #  What Changed vs S1 table 
+    if deltas is not None and not deltas.empty:
+        st.markdown("### What Changed vs S1 — Bowling")
+        rename = {
+            "phase": "Phase",
+            "economy_s1": "S1 Econ",
+            "economy_s2": "S2 Econ",
+            "economy_delta": "Δ Econ",
+            "wickets_taken_s1": "S1 Wkts",
+            "wickets_taken_s2": "S2 Wkts",
+            "wickets_taken_delta": "Δ Wkts",
+        }
+        available = {k: v for k, v in rename.items() if k in deltas.columns}
+        if available:
+            st.dataframe(
+                deltas[list(available.keys())].rename(columns=available),
+                use_container_width=True, hide_index=True
+            )
+    elif bowling is not None:
+        # Build inline from phase CSVs if deltas file is missing
+        s1_b2 = bowling[bowling["season"] == "S1"].set_index("phase")
+        s2_b2 = bowling[bowling["season"] == "S2"].set_index("phase")
+        rows = []
+        for phase in ["powerplay", "middle", "death"]:
+            if phase in s1_b2.index and phase in s2_b2.index:
+                rows.append({
+                    "Phase": phase.capitalize(),
+                    "S1 Econ": round(s1_b2.loc[phase, "economy"], 2),
+                    "S2 Econ": round(s2_b2.loc[phase, "economy"], 2),
+                    "Δ Econ":  round(s2_b2.loc[phase, "economy"] - s1_b2.loc[phase, "economy"], 2),
+                    "S1 Wkts": int(s1_b2.loc[phase, "wickets_taken"]),
+                    "S2 Wkts": int(s2_b2.loc[phase, "wickets_taken"]),
+                    "Δ Wkts":  int(s2_b2.loc[phase, "wickets_taken"] - s1_b2.loc[phase, "wickets_taken"]),
+                })
+        if rows:
+            st.markdown("### What Changed vs S1 — Bowling")
+            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+    #  Root Cause Summary 
+    st.markdown("###  Root Cause Summary")
+    st.markdown("""
+    <div style="background:linear-gradient(135deg,rgba(180,35,24,0.08),rgba(180,35,24,0.03));
+                border-left:4px solid #b42318;padding:16px 20px;border-radius:8px;">
+        <ul style="margin:0;padding-left:18px;line-height:1.9;font-size:14px;">
+            <li><strong>Death bowling economy +1.64 rpo</strong> — single largest factor; ~11 extra runs/match conceded</li>
+            <li><strong>Powerplay wickets collapsed</strong> — 11 (S1) → 6 (S2); opponents score freely without early pressure</li>
+            <li><strong>Middle-overs dot ball % dropped 10.7pp</strong> — 40.9% → 30.2%; opponents rotated strike freely</li>
+            <li><strong>Chase win rate −50pp</strong> — 75% (S1) → 25% (S2); batting order unable to handle run-chase pressure</li>
+            <li><strong>Overall wickets −22%</strong> — 7.6 → 5.9 per game; team's win mechanism (taking wickets) broke down</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+
     """Load all NPL data sources"""
     data_dir = Path("D:/Cric_Data/data")
     
@@ -231,56 +557,63 @@ def render_team_decline_analysis():
         """
         <div class="jb-page-head">
             <h2 class="page-title">NPL Team Decline Analysis</h2>
-            <p class="page-subtitle">Statistical analysis of team performance changes across Season 1 & Season 2</p>
+            <p class="page-subtitle">Statistical analysis of team performance changes across Season 1 &amp; Season 2</p>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    
+
     # Load all data
     all_data = load_all_data()
-    
+
     if all_data is None:
-        st.error("⚠️ Could not load data. Please check data paths.")
+        st.error("Could not load data. Please check data paths.")
         return
-    
+
     df = all_data['roster']
-    
+
     # Team selector
     teams = sorted(df['team'].unique())
-    
+
     col1, col2 = st.columns([1, 3])
     with col1:
         selected_team = st.selectbox(
             "Select Team",
             teams,
-            index=teams.index('Janakpur Bolts') if 'Janakpur Bolts' in teams else 0
+            index=teams.index('Janakpur Bolts') if 'Janakpur Bolts' in teams else 0,
+            key="team_decline_team_selector",
         )
-    
+
     with col2:
-        st.info(f"**New Features:** Phase analysis, match results, and enriched player data now integrated!")
-    
-    # No championship banner for Janakpur Bolts (not in finals)
-    
+        st.info("**New tabs:** Win Drivers (S1) and Loss Drivers (S2) now available alongside Phase Analysis, Match Results, and Player Details.")
+
     # Create tabs for different views
-    tab1, tab2, tab3, tab4 = st.tabs([
-        "Overview", 
-        "Phase Analysis", 
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        "Overview",
+        "Phase Analysis",
         "Match Results",
-        "Player Details"
+        "Player Details",
+        "Win Drivers (S1)",
+        "Loss Drivers (S2)",
     ])
-    
+
     with tab1:
         render_overview_tab(all_data, df, selected_team, teams)
-    
+
     with tab2:
         render_phase_analysis_tab(all_data, selected_team)
-    
+
     with tab3:
         render_match_results_tab(all_data, selected_team)
-    
+
     with tab4:
         render_player_details_tab(all_data, df, selected_team)
+
+    with tab5:
+        _render_win_drivers_tab()
+
+    with tab6:
+        _render_loss_drivers_tab()
 
 def render_overview_tab(all_data, df, selected_team, teams):
     """Render the overview tab with season comparison"""
@@ -345,7 +678,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### 🔄 Roster Changes")
+        st.markdown("###  Roster Changes")
         
         roster_data = pd.DataFrame({
             'Category': ['Departed', 'Retained', 'New'],
@@ -365,22 +698,21 @@ def render_overview_tab(all_data, df, selected_team, teams):
         fig.update_layout(
             height=300,
             margin=dict(l=20, r=20, t=20, b=20),
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='white',
+            paper_bgcolor='white',
             xaxis_title="",
             yaxis_title="Players",
-            showlegend=False
+            showlegend=False,
+            font=dict(color="#17231f"),
         )
         st.plotly_chart(fig, width='stretch')
         
         st.markdown(f"""
-        <div class="card">
-            <div class="card-body">
-                <strong>Roster Impact:</strong><br/>
-                • Departed Impact: <strong>{analysis['departed_impact']:,}</strong><br/>
-                • New Players Impact: <strong>{analysis['new_impact']:,}</strong><br/>
-                • Net Roster Change: <strong>{analysis['net_roster_impact']:+,}</strong>
-            </div>
+        <div style="background:#fff;border:1px solid #cad4cf;border-radius:10px;padding:14px 16px;margin-top:8px;">
+            <strong style="color:#17231f;">Roster Impact:</strong><br/>
+            <span style="color:#17231f;">• Departed Impact: <strong>{analysis['departed_impact']:,}</strong><br/>
+            • New Players Impact: <strong>{analysis['new_impact']:,}</strong><br/>
+            • Net Roster Change: <strong>{analysis['net_roster_impact']:+,}</strong></span>
         </div>
         """, unsafe_allow_html=True)
     
@@ -407,17 +739,20 @@ def render_overview_tab(all_data, df, selected_team, teams):
             height=300,
             margin=dict(l=20, r=20, t=20, b=20),
             showlegend=False,
-            annotations=[dict(text='Decline<br>Attribution', x=0.5, y=0.5, font_size=14, showarrow=False)]
+            paper_bgcolor='white',
+            plot_bgcolor='white',
+            font=dict(color="#17231f"),
+            annotations=[dict(text='Decline<br>Attribution', x=0.5, y=0.5, font_size=14, showarrow=False, font=dict(color="#17231f"))],
         )
         st.plotly_chart(fig, width='stretch')
         
         st.markdown(f"""
-        <div class="card">
-            <div class="card-body">
-                <strong>Key Finding:</strong><br/>
-                Retained players account for <strong>{analysis['retained_attr']:.1f}%</strong> of performance change,
-                while roster turnover accounts for <strong>{analysis['departed_attr']:.1f}%</strong>.
-            </div>
+        <div style="background:#fff;border:1px solid #cad4cf;border-radius:10px;padding:14px 16px;margin-top:8px;">
+            <strong style="color:#17231f;">Key Finding:</strong><br/>
+            <span style="color:#17231f;">Retained players account for
+            <strong>{analysis['retained_attr']:.1f}%</strong> of performance change,
+            while roster turnover accounts for
+            <strong>{analysis['departed_attr']:.1f}%</strong>.</span>
         </div>
         """, unsafe_allow_html=True)
     
@@ -427,7 +762,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### 📤 Top Departed Players")
+        st.markdown("###  Top Departed Players")
         if len(analysis['departed_df']) > 0:
             departed_display = analysis['departed_df'][['player_name', 'runs_scored', 'wickets_taken', 'impact']].copy()
             departed_display.columns = ['Player', 'Runs', 'Wickets', 'Impact']
@@ -436,7 +771,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
             st.info("No departed players")
     
     with col2:
-        st.markdown("### 📥 Top New Players")
+        st.markdown("###  Top New Players")
         if len(analysis['new_df']) > 0:
             new_display = analysis['new_df'][['player_name', 'runs_scored', 'wickets_taken', 'impact']].copy()
             new_display.columns = ['Player', 'Runs', 'Wickets', 'Impact']
@@ -446,7 +781,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
     
     # League comparison
     st.markdown("---")
-    st.markdown("### 🏆 League-Wide Comparison")
+    st.markdown("###  League-Wide Comparison")
     
     league_data = []
     for team in teams:
@@ -490,10 +825,12 @@ def render_overview_tab(all_data, df, selected_team, teams):
         height=400,
         xaxis_title="",
         yaxis_title="Bowling Change (%)",
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
-        margin=dict(l=20, r=20, t=40, b=100),
-        xaxis={'tickangle': -45}
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        margin=dict(l=20, r=20, t=40, b=120),
+        xaxis=dict(tickangle=-45, tickfont=dict(color="#17231f"), title_font=dict(color="#17231f")),
+        yaxis=dict(tickfont=dict(color="#17231f"), title_font=dict(color="#17231f"), gridcolor="rgba(0,0,0,0.06)"),
+        font=dict(color="#17231f"),
     )
     
     st.plotly_chart(fig, width='stretch')
@@ -502,7 +839,8 @@ def render_overview_tab(all_data, df, selected_team, teams):
     st.markdown("---")
     st.markdown("### Statistical Summary")
     
-    rank = league_df.reset_index(drop=True)[league_df['Team'] == selected_team].index[0] + 1
+    reset_df = league_df.reset_index(drop=True)
+    rank = reset_df.loc[reset_df['Team'] == selected_team].index[0] + 1
     league_avg = league_df['Change %'].mean()
     
     st.subheader(f"{selected_team} Performance Summary")
@@ -521,7 +859,7 @@ def render_overview_tab(all_data, df, selected_team, teams):
     
     st.caption(f"**Sample Size:** {analysis['retained']} retained players (n < 30 = exploratory findings)")
     
-    st.info("📊 **Statistical Note:** This analysis uses correlation, not causation. Multiple factors (opponent strength, pitch conditions, coaching changes) may contribute to performance changes.")
+    st.info(" **Statistical Note:** This analysis uses correlation, not causation. Multiple factors (opponent strength, pitch conditions, coaching changes) may contribute to performance changes.")
 
 def render_phase_analysis_tab(all_data, team_name):
     """Render phase-level performance analysis"""
@@ -580,9 +918,10 @@ def render_phase_analysis_tab(all_data, team_name):
         height=400,
         xaxis_title="Phase",
         yaxis_title="Value",
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
-        margin=dict(l=20, r=20, t=40, b=20)
+        plot_bgcolor='white',
+        paper_bgcolor='white',
+        margin=dict(l=20, r=20, t=40, b=20),
+        font=dict(color="#17231f"),
     )
     
     st.plotly_chart(fig, width='stretch')
@@ -630,19 +969,19 @@ def render_match_results_tab(all_data, team_name):
                 'path': ['Eliminator vs Kathmandu Gorkhas (Won)', 
                         'Qualifier 2 vs Biratnagar Kings (Won)',
                         'Final vs Sudurpaschim Royals (Won by 6 wickets)'],
-                'result': '🏆 Champion',
+                'result': 'Champion',
                 'color': '#fbbf24'
             },
             'Sudurpaschim Royals': {
                 'path': ['Qualifier 1 vs Biratnagar Kings (Won)',
                         'Final vs Lumbini Lions (Lost by 6 wickets)'],
-                'result': '🥈 Runner-Up',
+                'result': 'Runner-Up',
                 'color': '#9ca3af'
             },
             'Biratnagar Kings': {
                 'path': ['Qualifier 1 vs Sudurpaschim Royals (Lost)',
                         'Qualifier 2 vs Lumbini Lions (Lost)'],
-                'result': '🥉 Playoff Finish',
+                'result': 'Playoff Finish',
                 'color': '#cd7f32'
             },
             'Kathmandu Gorkhas': {
@@ -654,7 +993,7 @@ def render_match_results_tab(all_data, team_name):
         
         if team_name in playoff_teams:
             st.markdown("---")
-            st.markdown("### 🏆 NPL Season 2 Playoff Path")
+            st.markdown("###  NPL Season 2 Playoff Path")
             playoff_info = playoff_teams[team_name]
             
             # Use native Streamlit components instead of HTML
@@ -665,7 +1004,7 @@ def render_match_results_tab(all_data, team_name):
     st.markdown("---")
     
     # Match results table
-    st.markdown("### 📏 Match History")
+    st.markdown("###  Match History")
     
     display_df = match_results[[
         'match_date', 'season', 'opposition', 'result', 'winner_name', 
@@ -713,10 +1052,11 @@ def render_match_results_tab(all_data, team_name):
         height=350,
         xaxis_title="Match Number",
         yaxis_title="Win % (5-match rolling)",
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='white',
+        paper_bgcolor='white',
         margin=dict(l=20, r=20, t=20, b=20),
-        yaxis=dict(range=[0, 100])
+        font=dict(color="#17231f"),
+        yaxis=dict(range=[0, 100]),
     )
     
     st.plotly_chart(fig, width='stretch')
@@ -790,7 +1130,9 @@ def render_player_details_tab(all_data, df, team_name):
                 height=300,
                 margin=dict(l=20, r=20, t=20, b=20),
                 showlegend=True,
-                annotations=[dict(text='Roles', x=0.5, y=0.5, font_size=14, showarrow=False)]
+                paper_bgcolor='white',
+                font=dict(color="#17231f"),
+                annotations=[dict(text='Roles', x=0.5, y=0.5, font_size=14, showarrow=False, font=dict(color="#17231f"))],
             )
             
             st.plotly_chart(fig, width='stretch')
@@ -811,9 +1153,10 @@ def render_player_details_tab(all_data, df, team_name):
                 height=300,
                 xaxis_title="Age",
                 yaxis_title="Players",
-                plot_bgcolor='rgba(0,0,0,0)',
-                paper_bgcolor='rgba(0,0,0,0)',
-                margin=dict(l=20, r=20, t=20, b=20)
+                plot_bgcolor='white',
+                paper_bgcolor='white',
+                margin=dict(l=20, r=20, t=20, b=20),
+                font=dict(color="#17231f"),
             )
             
             st.plotly_chart(fig, width='stretch')
@@ -822,7 +1165,7 @@ def render_player_details_tab(all_data, df, team_name):
     
     # Player selector for detailed view
     st.markdown("---")
-    st.markdown("### 🔌 Individual Player Analysis")
+    st.markdown("###  Individual Player Analysis")
     
     player_names = sorted(season_data['player_name'].unique())
     selected_player = st.selectbox("Select Player", player_names)
@@ -854,9 +1197,10 @@ def render_player_details_tab(all_data, df, team_name):
                     height=300,
                     xaxis_title="Innings",
                     yaxis_title="Runs",
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    margin=dict(l=20, r=20, t=40, b=20)
+                    plot_bgcolor='white',
+                    paper_bgcolor='white',
+                    margin=dict(l=20, r=20, t=40, b=20),
+                    font=dict(color="#17231f"),
                 )
                 st.plotly_chart(fig, width='stretch')
             
@@ -882,9 +1226,10 @@ def render_player_details_tab(all_data, df, team_name):
                         height=300,
                         xaxis_title="Innings",
                         yaxis_title="Wickets",
-                        plot_bgcolor='rgba(0,0,0,0)',
-                        paper_bgcolor='rgba(0,0,0,0)',
-                        margin=dict(l=20, r=20, t=40, b=20)
+                        plot_bgcolor='white',
+                        paper_bgcolor='white',
+                        margin=dict(l=20, r=20, t=40, b=20),
+                        font=dict(color="#17231f"),
                     )
                     st.plotly_chart(fig, width='stretch')
                 else:
@@ -892,44 +1237,50 @@ def render_player_details_tab(all_data, df, team_name):
         else:
             st.info("No match-by-match data available for this player")
     
-    # Day 6: Decision Intelligence - Add structured recommendations
+    # Season 3 Action Plan
     st.markdown("---")
-    st.markdown("## 🎯 Season 3 Action Plan")
-    
+    st.markdown("##  Season 3 Action Plan")
+
     col1, col2, col3 = st.columns(3)
-    
+
     with col1:
         st.markdown("""
-        <div class="card">
-            <div class="card-header"><h3>📊 Key Insight</h3></div>
-            <div class="card-body">
-                <div class="insight-box-success">
-                    <strong>Data Finding:</strong> 70-90% of S2 decline is retained-player underperformance, not roster turnover. Role execution, not personnel, is the primary driver.
+        <div style="background:#fff;border:1px solid #cad4cf;border-radius:10px;overflow:hidden;">
+            <div style="padding:12px 16px;border-bottom:1px solid #cad4cf;background:#f8fbf9;">
+                <span style="font-weight:700;color:#17231f;"> Key Insight</span>
+            </div>
+            <div style="padding:14px 16px;">
+                <div style="background:rgba(5,122,85,0.07);border-left:3px solid #057a55;border-radius:6px;padding:10px;font-size:13px;color:#17231f;line-height:1.5;">
+                    <strong>Data Finding:</strong> 70–90% of S2 decline is retained-player underperformance, not roster turnover. Role execution, not personnel, is the primary driver.
                 </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
-    
+
     with col2:
         st.markdown("""
-        <div class="card">
-            <div class="card-header"><h3>⚠️ Risk Factor</h3></div>
-            <div class="card-body">
-                <div class="insight-box-warning">
-                    <strong>Execution Risk:</strong> Death bowling (+1.64 rpo) and powerplay batting (-0.75 rpo) are highest leverage failure points. Combined impact: ~12-15 runs per match.
+        <div style="background:#fff;border:1px solid #cad4cf;border-radius:10px;overflow:hidden;">
+            <div style="padding:12px 16px;border-bottom:1px solid #cad4cf;background:#f8fbf9;">
+                <span style="font-weight:700;color:#17231f;"> Risk Factor</span>
+            </div>
+            <div style="padding:14px 16px;">
+                <div style="background:rgba(245,158,11,0.07);border-left:3px solid #f59e0b;border-radius:6px;padding:10px;font-size:13px;color:#17231f;line-height:1.5;">
+                    <strong>Execution Risk:</strong> Death bowling (+1.64 rpo) and powerplay batting (-0.75 rpo) are the highest-leverage failure points. Combined impact: ~12–15 runs per match.
                 </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
-    
+
     with col3:
         st.markdown("""
-        <div class="card">
-            <div class="card-header"><h3>✅ Recommended Action</h3></div>
-            <div class="card-body">
-                <div class="insight-box">
-                    <strong>Priority 1:</strong> Fix death bowling discipline (target -1.0 rpo recovery).<br><br>
-                    <strong>Priority 2:</strong> Increase powerplay intent (target +0.75 rpo, -3pp dot%).<br><br>
+        <div style="background:#fff;border:1px solid #cad4cf;border-radius:10px;overflow:hidden;">
+            <div style="padding:12px 16px;border-bottom:1px solid #cad4cf;background:#f8fbf9;">
+                <span style="font-weight:700;color:#17231f;"> Recommended Action</span>
+            </div>
+            <div style="padding:14px 16px;">
+                <div style="background:#edf2ef;border-left:3px solid #7d8f88;border-radius:6px;padding:10px;font-size:13px;color:#17231f;line-height:1.6;">
+                    <strong>Priority 1:</strong> Fix death bowling discipline (target −1.0 rpo).<br>
+                    <strong>Priority 2:</strong> Increase powerplay intent (+0.75 rpo, −3pp dot%).<br>
                     <strong>Priority 3:</strong> Maintain middle-overs rotation strength.
                 </div>
             </div>

@@ -23,7 +23,7 @@ from ..services.metrics import (
 from ..services.data_quality import validate_match_records
 from ..services.decision_intelligence import (
     generate_executive_recommendations,
-    format_recommendation_card
+    render_recommendation_card,
 )
 from ..components.ui_patterns import (
     render_page_header,
@@ -163,7 +163,7 @@ def render_executive_overview():
         subtitle="The story of a championship collapse — and the data-driven plan to recover.",
         insight_label="Core finding",
         insight_text="70-90% of the S2 decline (likely ~80%) is retained-player underperformance, not roster turnover. The two largest execution failures are death bowling (+1.64 rpo, ~+8 runs/match) and powerplay batting (-0.75 rpo, ~-4.5 runs/match). See LIMITATIONS.md for the full sensitivity analysis.",
-        alert_icon="⚠️"
+        alert_icon=""
     )
 
     s1_win_pct  = s1.get("win_pct", 0.0)
@@ -224,48 +224,48 @@ def render_executive_overview():
                 unsafe_allow_html=True,
             )
 
-    st.caption(f"📊 Data source: {'Parquet (Real)' if jab is not None else 'Demo'} — {s1_n} S1 matches, {s2_n} S2 matches")
+    st.caption(f"Data source: {'Parquet (Real)' if jab is not None else 'Demo'} — {s1_n} S1 matches, {s2_n} S2 matches")
 
     render_spacer(24)
-    st.markdown("### 📖 Season Story Arc")
+    st.markdown("###  Season Story Arc")
     st.markdown(f"""
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin: 16px 0;">
         <div style="background:linear-gradient(135deg, rgba(16,59,47,0.08), rgba(16,59,47,0.03)); 
-                    border-left:4px solid #103b2f; padding:18px 20px; border-radius:var(--radius-md);
-                    box-shadow:var(--shadow-sm); transition:all var(--transition-base);
+                    border-left:4px solid #103b2f; padding:18px 20px; border-radius:12px;
+                    box-shadow:0 1px 2px rgba(12,36,28,0.04); transition:all 250ms ease;
                     animation:slideIn 0.4s ease-out;">
             <div style="font-size:10px; font-weight:700; text-transform:uppercase;
                         letter-spacing:.08em; color:#103b2f; margin-bottom:6px; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:16px;">🏆</span> Act 1 — S1: The Glory
+                <span style="font-size:16px;"></span> Act 1 — S1: The Glory
             </div>
             <div style="font-size:28px; font-weight:800; color:#103b2f; margin:8px 0;">{s1_win_pct:.0f}% wins</div>
-            <div style="font-size:13px; color:var(--on-surface-variant); line-height:1.5;">
+            <div style="font-size:13px; color:#4a5a54; line-height:1.5;">
                 {s1.get('wins',0)}/{s1_n} matches • NPL Champions
             </div>
         </div>
         <div style="background:linear-gradient(135deg, rgba(180,35,24,0.08), rgba(180,35,24,0.03)); 
-                    border-left:4px solid #b42318; padding:18px 20px; border-radius:var(--radius-md);
-                    box-shadow:var(--shadow-sm); transition:all var(--transition-base);
+                    border-left:4px solid #b42318; padding:18px 20px; border-radius:12px;
+                    box-shadow:0 1px 2px rgba(12,36,28,0.04); transition:all 250ms ease;
                     animation:slideIn 0.4s ease-out 0.1s backwards;">
             <div style="font-size:10px; font-weight:700; text-transform:uppercase;
                         letter-spacing:.08em; color:#b42318; margin-bottom:6px; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:16px;">📉</span> Act 2 — S2: The Collapse
+                <span style="font-size:16px;"></span> Act 2 — S2: The Collapse
             </div>
             <div style="font-size:28px; font-weight:800; color:#b42318; margin:8px 0;">{s2_win_pct:.0f}% wins</div>
-            <div style="font-size:13px; color:var(--on-surface-variant); line-height:1.5;">
+            <div style="font-size:13px; color:#4a5a54; line-height:1.5;">
                 {s2.get('wins',0)}/{s2_n} matches • {win_delta:+.0f}pp ↓ from S1
             </div>
         </div>
         <div style="background:linear-gradient(135deg, rgba(183,128,47,0.08), rgba(183,128,47,0.03)); 
-                    border-left:4px solid #b7802f; padding:18px 20px; border-radius:var(--radius-md);
-                    box-shadow:var(--shadow-sm); transition:all var(--transition-base);
+                    border-left:4px solid #b7802f; padding:18px 20px; border-radius:12px;
+                    box-shadow:0 1px 2px rgba(12,36,28,0.04); transition:all 250ms ease;
                     animation:slideIn 0.4s ease-out 0.2s backwards;">
             <div style="font-size:10px; font-weight:700; text-transform:uppercase;
                         letter-spacing:.08em; color:#b7802f; margin-bottom:6px; display:flex; align-items:center; gap:8px;">
-                <span style="font-size:16px;">🎯</span> Act 3 — S3: The Recovery
+                <span style="font-size:16px;"></span> Act 3 — S3: The Recovery
             </div>
             <div style="font-size:28px; font-weight:800; color:#b7802f; margin:8px 0;">Rebuilding</div>
-            <div style="font-size:13px; color:var(--on-surface-variant); line-height:1.5;">
+            <div style="font-size:13px; color:#4a5a54; line-height:1.5;">
                 69 shortlisted targets • AI forecasts ready
             </div>
         </div>
@@ -273,7 +273,7 @@ def render_executive_overview():
     <style>
         div[style*="slideIn"]:hover {{
             transform: translateY(-4px);
-            box-shadow: var(--shadow-md) !important;
+            box-shadow: 0 4px 12px rgba(12,36,28,0.06) !important;
         }}
     </style>
     """, unsafe_allow_html=True)
@@ -282,7 +282,7 @@ def render_executive_overview():
     # Data Quality Panel
     if quality_report["findings"]:
         with st.expander(
-            f"🔍 Data Quality Report — {quality_report['status'].upper()} "
+            f"Data Quality Report — {quality_report['status'].upper()} "
             f"(Score: {quality_report['reliability_score']}/100, {quality_report['total_rows']} records)",
             expanded=(quality_report['status'] != 'healthy')
         ):
@@ -293,7 +293,7 @@ def render_executive_overview():
             if quality_report['warning_count'] > 0:
                 st.warning(f"**{quality_report['warning_count']} Warnings**")
             if quality_report['error_count'] == 0 and quality_report['warning_count'] == 0:
-                st.success("✅ All validation checks passed")
+                st.success("All validation checks passed")
             
             # Display findings
             for finding in quality_report['findings']:
@@ -308,7 +308,7 @@ def render_executive_overview():
                 elif level == 'info':
                     st.info(f"**{message}**\n\n{details}")
             
-            st.caption("💡 **Contract checks:** Validates required fields, data types, value ranges, and consistency rules to ensure reliable tactical analysis.")
+            st.caption("**Contract checks:** Validates required fields, data types, value ranges, and consistency rules to ensure reliable tactical analysis.")
 
     render_spacer(16)
 
@@ -347,7 +347,7 @@ def render_executive_overview():
             except Exception:
                 pass
         if not bat_rows:
-            bat_rows = "<tr><td colspan='3' style='text-align:center; color:var(--on-surface-variant);'>No data</td></tr>"
+            bat_rows = "<tr><td colspan='3' style='text-align:center; color:#4a5a54;'>No data</td></tr>"
 
         bowl_rows = ""
         pp_wkts, mid_wkts, death_wkts = "—", "—", "—"
@@ -364,7 +364,7 @@ def render_executive_overview():
             except Exception:
                 pass
         if not bowl_rows:
-            bowl_rows = "<tr><td colspan='3' style='text-align:center; color:var(--on-surface-variant);'>No data</td></tr>"
+            bowl_rows = "<tr><td colspan='3' style='text-align:center; color:#4a5a54;'>No data</td></tr>"
         if phase_path.exists():
             try:
                 pdf = pd.read_csv(phase_path)
@@ -478,11 +478,6 @@ def render_executive_overview():
             season_kpis=season_kpis,
             quality_score=quality_report["reliability_score"]
         )
-        
-        recommendations_html = format_recommendation_card(
-            exec_recommendations,
-            title="Season 3 Tactical Priorities"
-        )
-        
+
         st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
-        st.markdown(recommendations_html, unsafe_allow_html=True)
+        render_recommendation_card(exec_recommendations, title="Season 3 Tactical Priorities")

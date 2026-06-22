@@ -96,6 +96,7 @@ def _bar_compare(df: pd.DataFrame, value_col: str, title: str, y_label: str,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
         legend_title="Season",
+        font=dict(color="#17231f"),
     )
     if lower_is_better:
         fig.add_annotation(
@@ -216,7 +217,7 @@ def _render_strength_block() -> None:
             )
             if ci_excludes_zero:
                 st.caption(
-                    "ℹ️ At least one season's bootstrap CI excludes zero — the "
+                    "ℹ At least one season's bootstrap CI excludes zero — the "
                     "WAE for that season is not consistent with luck alone."
                 )
             else:
@@ -248,6 +249,7 @@ def _render_strength_block() -> None:
             title="Opponent pre-match Elo per JAB match",
             xaxis_title="Match date", yaxis_title="Opponent Elo",
             height=380, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#17231f"),
         )
         st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
 

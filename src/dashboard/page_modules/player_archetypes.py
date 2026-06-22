@@ -93,6 +93,7 @@ def render_player_archetypes():
             xaxis=dict(gridcolor="rgba(0,0,0,0.06)"),
             yaxis=dict(gridcolor="rgba(0,0,0,0.06)"),
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+            font=dict(color="#17231f"),
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -125,6 +126,7 @@ def render_player_archetypes():
             plot_bgcolor="rgba(0,0,0,0)",
             xaxis=dict(gridcolor="rgba(0,0,0,0.04)"),
             yaxis=dict(gridcolor="rgba(0,0,0,0.06)"),
+            font=dict(color="#17231f"),
         )
         st.plotly_chart(fig_bar, use_container_width=True)
 

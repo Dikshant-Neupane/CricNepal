@@ -6,9 +6,22 @@ import streamlit as st
 import sys
 import os
 from datetime import datetime
+import plotly.io as pio
 
 # Ensure project root is on path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+
+#  Global Plotly default template 
+# All charts get white bg + dark text by default — no per-chart patching needed.
+try:
+    _jb_tpl = pio.templates["plotly_white"].to_plotly_json()
+    _jb_tpl["layout"]["font"] = {"color": "#17231f", "family": "IBM Plex Sans, sans-serif"}
+    _jb_tpl["layout"]["paper_bgcolor"] = "white"
+    _jb_tpl["layout"]["plot_bgcolor"] = "white"
+    pio.templates["jb_default"] = _jb_tpl
+    pio.templates.default = "jb_default"
+except Exception:
+    pass  # non-critical; charts will still render
 
 from src.dashboard.theme import get_theme_css
 from src.dashboard.components.sidebar import render_sidebar
@@ -23,7 +36,7 @@ from src.dashboard.page_modules.s3_recruiting import render_s3_recruiting
 from src.dashboard.page_modules.s3_strategic_analysis import render_s3_strategic_analysis
 
 
-# ─── Page Configuration ──────────────────────────────────
+#  Page Configuration 
 st.set_page_config(
     page_title="Janakpur Bolts Analytics",
     page_icon="J",
@@ -31,10 +44,10 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ─── Inject Theme CSS ────────────────────────────────────
+#  Inject Theme CSS 
 st.markdown(get_theme_css(), unsafe_allow_html=True)
 
-# ─── Top Header ──────────────────────────────────────────
+#  Top Header 
 today = datetime.now().strftime("%d %b %Y")
 st.markdown(
     f"""
@@ -49,10 +62,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ─── Sidebar Navigation ─────────────────────────────────
+#  Sidebar Navigation 
 active_page = render_sidebar()
 
-# ─── Page Router ─────────────────────────────────────────
+#  Page Router 
 if active_page in ["dashboard", "team_overview", "executive_overview"]:
     render_executive_overview()
 
@@ -80,7 +93,7 @@ elif active_page == "s3_recruiting":
 elif active_page == "s3_strategic_analysis":
     render_s3_strategic_analysis()
 
-# ─── Coming Soon Stubs ───────────────────────────────────
+#  Coming Soon Stubs 
 else:
     LABELS = {
         "player_profiles": ("Player Profiles", "Individual player profiles with career stats, form curves, and shot maps."),
