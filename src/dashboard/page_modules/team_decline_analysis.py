@@ -122,6 +122,8 @@ def _render_win_drivers_tab() -> None:
         st.warning("Missing: s1_vs_s2_bowling_by_phase.csv")
 
     st.markdown("---")
+
+    if wpa is not None:
         st.markdown("### Top WPA Performers (S1)")
         top5 = wpa.sort_values("combined_wpa", ascending=False).head(5).reset_index(drop=True)
         top5.index += 1
