@@ -235,12 +235,17 @@ def render_win_probability():
             bowl_class = "delta-positive" if row['bowling_wpa'] >= 0 else "delta-negative"
             comb_class = "delta-positive" if row['combined_wpa'] >= 0 else "delta-negative"
             
+            balls_f = int(row['balls_x']) if pd.notna(row.get('balls_x')) else 0
+            balls_b = int(row['balls_y']) if pd.notna(row.get('balls_y')) else 0
+            runs = int(row['runs']) if pd.notna(row.get('runs')) else 0
+            wkts = int(row['wickets']) if pd.notna(row.get('wickets')) else 0
+            
             st.markdown(
                 f"""
                 <tr>
                     <td><strong>{row['player_name']}</strong></td>
-                    <td class="right">{int(row['balls'])}</td>
-                    <td class="right">{int(row['runs'])} runs / {int(row['wickets'])} wkts</td>
+                    <td class="right">{balls_f} / {balls_b}</td>
+                    <td class="right">{runs} runs / {wkts} wkts</td>
                     <td class="right {bat_class}">{bat_sign}{row['batting_wpa']:.3f}</td>
                     <td class="right {bowl_class}">{bowl_sign}{row['bowling_wpa']:.3f}</td>
                     <td class="right {comb_class}"><strong>{comb_sign}{row['combined_wpa']:.3f}</strong></td>
