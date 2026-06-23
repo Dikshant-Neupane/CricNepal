@@ -52,7 +52,12 @@ def render_win_probability():
         # Select Match
         match_options = {}
         for _, row in matches_df.iterrows():
-            label = f"{row['season']} - vs {row['opposition_name']} (Winner: {row['winner_name']})"
+            opp_name = row.get('opposition_name')
+            if not opp_name or pd.isna(opp_name):
+                # Compute opposition name if not pre-computed
+                opp_name = row['team_2_name'] if row.get('team_1_name') == 'Janakpur Bolts' else row.get('team_1_name', 'Unknown')
+                
+            label = f"{row['season']} - vs {opp_name} (Winner: {row['winner_name']})"
             match_options[row['match_id']] = label
             
         selected_match_id = st.selectbox(
