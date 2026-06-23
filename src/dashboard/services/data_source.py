@@ -11,8 +11,10 @@ from src.utils.logging_config import get_logger
 # Initialize logger
 logger = get_logger(__name__)
 
+from src.config.paths import PARQUET_DIR
+
 # Path to real parquet data
-PARQUET_DATA_PATH = "D:/Cric_Data/data/final/parquet"
+PARQUET_DATA_PATH = str(PARQUET_DIR)
 
 
 def _empty_result(columns: list[str]) -> pd.DataFrame:
@@ -187,8 +189,12 @@ def load_match_records() -> Tuple[pd.DataFrame, str]:
     except Exception as e:
         logger.error(f"Parquet load failed with error: {e}", exc_info=True)
 
-    # Fall back to demo data as last resort
-    logger.warning(" Falling back to demo data (real data sources unavailable)")
-    demo_df = get_season_match_records()
-    logger.info(f"Loaded {len(demo_df)} demo records")
+    # Fall back to empty result if everything fails
+    logger.warning(" Falling back to empty result (real data sources unavailable)")
+    # Return empty format instead of demo data
+    demo_df = _empty_result([
+        "season", "competition_name", "competition_tier", 
+        "opposition_strength_bucket", "match_context", "result", 
+        "runs_for", "runs_against", "overs_faced", "overs_bowled"
+    ])
     return demo_df, "demo"
