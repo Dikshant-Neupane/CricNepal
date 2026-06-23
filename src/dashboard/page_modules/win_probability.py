@@ -12,26 +12,18 @@ from pathlib import Path
 # Theme configuration
 from src.dashboard.theme import COLORS
 
-try:
-    from src.config.paths import EXPORT_DIR, NORMALIZED_DIR
-except ImportError:
-    EXPORT_DIR = Path(__file__).resolve().parent.parent.parent.parent / "data" / "exports"
-    NORMALIZED_DIR = Path(__file__).resolve().parent.parent.parent.parent / "data" / "normalized"
+from src.dashboard.services.data_loaders import load_export_csv, load_matches_normalized
 
 @st.cache_data(ttl=600, show_spinner=False)
 def load_wpa_data():
     """Load pre-computed WPA datasets."""
-    delivery_path = EXPORT_DIR / "win_probability_by_delivery.csv"
-    leaderboard_path = EXPORT_DIR / "player_wpa_leaderboard.csv"
-    matches_path = NORMALIZED_DIR / "matches_normalized.parquet"
+    delivery_df = load_export_csv("win_probability_by_delivery.csv")
+    leaderboard_df = load_export_csv("player_wpa_leaderboard.csv")
+    matches_df = load_matches_normalized()
     
-    if not (delivery_path.exists() and leaderboard_path.exists() and matches_path.exists()):
+    if delivery_df is None or leaderboard_df is None or matches_df is None:
         return None, None, None
         
-    delivery_df = pd.read_csv(delivery_path)
-    leaderboard_df = pd.read_csv(leaderboard_path)
-    matches_df = pd.read_parquet(matches_path)
-    
     return delivery_df, leaderboard_df, matches_df
 
 def render_win_probability():
