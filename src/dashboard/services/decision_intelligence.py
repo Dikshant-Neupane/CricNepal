@@ -231,13 +231,13 @@ def render_recommendation_card(
         f"margin-bottom:10px;'>{title}</div>",
         unsafe_allow_html=True,
     )
-    _icon_map = {"error": "🔴", "warning": "⚠️", "success": "✅", "info": "ℹ️"}
+    _icon_map = {"error": "", "warning": "", "success": "", "info": ""}
     for rec in recommendations:
         priority = rec.get("priority", "")
         label    = rec.get("label", "")
         text     = rec.get("text", "")
         rec_type = rec.get("type", "info")
-        icon     = _icon_map.get(rec_type, "💡")
+        icon     = _icon_map.get(rec_type, "")
         msg      = f"**{icon} #{priority} — {label}:** {text}"
         if rec_type == "error":
             st.error(msg)

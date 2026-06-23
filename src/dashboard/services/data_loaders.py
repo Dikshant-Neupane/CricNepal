@@ -232,3 +232,124 @@ def load_deliverable_csv(filename: str) -> Optional[pd.DataFrame]:
     if not _exists(p):
         return None
     return pd.read_csv(p)
+
+@st.cache_data(ttl=CACHE_TTL_SECONDS, show_spinner=False)
+def load_matchup_stats(batter_name: str, bowler_name: str, season_filter: str = "All", min_threshold: int = 0) -> Optional[dict]:
+    """Compute head-to-head metrics for a batter vs bowler from ball-by-ball data."""
+    bbb = load_bbb_with_season()
+    if bbb is None or bbb.empty:
+        return None
+        
+    matchup = bbb[(bbb['batter_name'] == batter_name) & (bbb['bowler_name'] == bowler_name)].copy()
+    
+    if not matchup.empty and season_filter != "All" and "season" in matchup.columns:
+        matchup = matchup[matchup['season'] == ("S2" if season_filter == "2024" else "S1")]
+
+    if matchup.empty or len(matchup) < min_threshold:
+        return {
+            "balls_faced": 0,
+            "runs_scored": 0,
+            "wickets": 0,
+            "dot_balls": 0,
+            "dismissal_prob": 0.0,
+            "expected_sr": 0.0,
+            "dot_pressure": 0.0,
+            "score": 50,
+            "confidence": "No Data (0 Balls)",
+            "ci_lower": 0.0,
+            "ci_upper": 0.0
+        }
+        
+    balls = len(matchup)
+    runs = int(matchup['runs_off_bat'].sum())
+    
+    wickets = len(matchup[matchup['dismissed_batter_name'] == batter_name])
+    dots = len(matchup[matchup['runs_total'] == 0])
+    
+    dismissal_prob = (wickets / balls) * 10
+    expected_sr = (runs / balls) * 100
+    dot_pressure = (dots / balls) * 100
+    
+    # Calculate Wilson confidence interval for dot percentage
+    # formula: (p + z^2/(2n) +/- z * sqrt((p(1-p)/n) + z^2/(4n^2))) / (1 + z^2/n)
+    # z = 1.96 for 95% CI
+    p = dots / balls
+    z = 1.96
+    denominator = 1 + z**2 / balls
+    center_adj = p + z**2 / (2 * balls)
+    uncertainty = z * ((p * (1 - p) / balls) + z**2 / (4 * balls**2))**0.5
+    
+    ci_lower = max(0.0, (center_adj - uncertainty) / denominator) * 100
+    ci_upper = min(1.0, (center_adj + uncertainty) / denominator) * 100
+    
+    # Calibrated Matchup Score (T20 Run Equivalency)
+    # 1 Wicket ~ 15 runs. 1 Dot ball ~ 1.3 runs (opportunity cost)
+    # Base is 50.
+    sr_factor = (expected_sr - 120) * 0.2
+    dot_factor = (35 - dot_pressure) * 1.3
+    wkt_factor = - (dismissal_prob * 15)
+    
+    score = 50 + sr_factor + dot_factor + wkt_factor
+    score = max(0, min(100, int(score))) # clamp 0-100
+    
+    confidence = "Strong" if balls > 20 else "Moderate" if balls > 10 else "Low"
+    
+    # Compute Phase Breakdown
+    phase_stats = []
+    for p in ['Powerplay', 'Middle', 'Death']:
+        p_df = matchup[matchup['phase'] == p]
+        if not p_df.empty:
+            p_balls = len(p_df)
+            p_runs = int(p_df['runs_off_bat'].sum())
+            p_wkts = len(p_df[p_df['dismissed_batter_name'] == batter_name])
+            phase_stats.append({
+                'phase': p,
+                'balls': p_balls,
+                'runs': p_runs,
+                'wickets': p_wkts,
+                'sr': (p_runs / p_balls) * 100 if p_balls > 0 else 0
+            })
+
+    return {
+        "balls_faced": balls,
+        "runs_scored": runs,
+        "wickets": wickets,
+        "dot_balls": dots,
+        "dismissal_prob": dismissal_prob,
+        "expected_sr": expected_sr,
+        "dot_pressure": dot_pressure,
+        "score": score,
+        "confidence": f"{confidence} ({balls} Balls)",
+        "ci_lower": ci_lower,
+        "ci_upper": ci_upper,
+        "phases": phase_stats
+    }
+
+
+# --------------------------------------------------------------------------- #
+# Canonical Name Resolution
+# --------------------------------------------------------------------------- #
+
+@st.cache_data(ttl=CACHE_TTL_SECONDS, show_spinner=False)
+def resolve_player_names(display_name: str) -> list[str]:
+    """
+    Resolve a standard display name to its variants in the ball-by-ball dataset.
+    Uses data/production_assets/player_name_mapping.csv if available.
+    """
+    mapping_path = Path("data/production_assets/player_name_mapping.csv")
+    if not mapping_path.exists():
+        return [display_name]
+    
+    try:
+        mapping_df = pd.read_csv(mapping_path)
+        row = mapping_df[mapping_df["display_name"] == display_name]
+        if not row.empty:
+            variants_str = row.iloc[0]["bbb_name_variants"]
+            if pd.notna(variants_str) and variants_str:
+                variants = str(variants_str).split('|')
+                # Always ensure the display name itself is included
+                return list(set(variants + [display_name]))
+    except Exception as e:
+        logger.error(f"Error resolving player name {display_name}: {e}")
+        
+    return [display_name]

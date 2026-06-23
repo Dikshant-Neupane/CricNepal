@@ -51,28 +51,12 @@ MARQUEE_THREATS: dict[str, dict] = {
 
 
 def _load_data() -> pd.DataFrame | None:
-    """Load and merge shortlist with model predictions."""
+    """Load and merge shortlist with model predictions.
+    
+    Works with just the shortlist CSV if the ridge predictions are absent.
+    """
     try:
         shortlist = pd.read_csv(_SHORTLIST_PATH)
-        ridge = pd.read_csv(_RIDGE_PATH)
-        merged = shortlist.merge(
-            ridge[[
-                "player_name",
-                "pred_s3_final",
-                "pred_s3_shrinkage",
-                "pred_s3_low",
-                "pred_s3_high",
-                "s2_balls",
-                "confidence_tier",
-                "perf_tier",
-                "model_rationale",
-            ]],
-            on="player_name",
-            how="left",
-        )
-        if "balls_bowled" not in merged.columns and "s2_balls" in merged.columns:
-            merged["balls_bowled"] = merged["s2_balls"]
-        return merged
     except FileNotFoundError:
         st.error(
             "**Shortlist CSV missing.**  \n"
@@ -84,6 +68,31 @@ def _load_data() -> pd.DataFrame | None:
     except Exception as e:
         st.error(f"Error loading shortlist: {e}")
         return None
+
+    # Try to enrich with ridge model predictions (optional)
+    try:
+        ridge = pd.read_csv(_RIDGE_PATH)
+        ridge_cols = [c for c in [
+            "player_name", "pred_s3_final", "pred_s3_shrinkage",
+            "pred_s3_low", "pred_s3_high", "s2_balls",
+            "confidence_tier", "perf_tier", "model_rationale",
+        ] if c in ridge.columns]
+        if "player_name" in ridge_cols:
+            shortlist = shortlist.merge(ridge[ridge_cols], on="player_name", how="left")
+    except FileNotFoundError:
+        st.caption("Ridge model predictions not found — showing shortlist scores only.")
+    except Exception:
+        pass
+
+    if "balls_bowled" not in shortlist.columns and "s2_balls" in shortlist.columns:
+        shortlist["balls_bowled"] = shortlist["s2_balls"]
+
+    # Ensure columns expected downstream exist (even if empty)
+    for col in ["pred_s3_final", "confidence_tier", "perf_tier", "model_rationale", "s2_balls"]:
+        if col not in shortlist.columns:
+            shortlist[col] = pd.NA
+
+    return shortlist
 
 
 def _tier_color(tier: str) -> str:
@@ -136,15 +145,17 @@ def _delta_arrow(val: float | None) -> str:
     return f" {val:.2f}" if val > 0 else f" {abs(val):.2f}"
 
 
+from src.dashboard.services.data_loaders import resolve_player_names
+
 def _lookup_player_stats(
     player_name: str,
-    batting_df: pd.DataFrame | None,
-    bowling_df: pd.DataFrame | None,
+    bbb_df: pd.DataFrame | None,
     wpa_df: pd.DataFrame | None,
     role: str,
 ) -> dict:
     """
     Look up a player's S2 stats across batting, bowling, and WPA DataFrames.
+    Uses canonical name alias resolution for ball-by-ball abbreviated names.
     Never raises KeyError, IndexError, or AttributeError.
     Returns 'N/A' sentinel for any field that cannot be found.
     """
@@ -159,29 +170,42 @@ def _lookup_player_stats(
         "s3_runs_pred": None,
         "recommendation": None,
     }
+
+    bbb_names = resolve_player_names(player_name)
+
     try:
-        if batting_df is not None and not batting_df.empty:
-            row = batting_df[batting_df["player_name"] == player_name]
-            if not row.empty:
-                r = row.iloc[0]
-                result["S2_sr"]  = f"{float(r.get('S2_strike_rate', 0)):.1f}" if pd.notna(r.get("S2_strike_rate")) else "N/A"
-                result["S2_avg"] = f"{float(r.get('S2_average', 0)):.1f}" if pd.notna(r.get("S2_average")) else "N/A"
-                result["available"] = True
-    except Exception:
-        pass
-    try:
-        if bowling_df is not None and not bowling_df.empty:
-            row = bowling_df[bowling_df["player_name"] == player_name]
-            if not row.empty:
-                r = row.iloc[0]
-                result["S2_econ"] = f"{float(r.get('S2_economy', 0)):.2f}" if pd.notna(r.get("S2_economy")) else "N/A"
-                result["S2_wkts"] = str(int(r.get("S2_wickets", 0))) if pd.notna(r.get("S2_wickets")) else "N/A"
-                result["available"] = True
+        if bbb_df is not None and not bbb_df.empty:
+            s2_bbb = bbb_df[bbb_df['season'] == 'S2']
+            
+            # Batting stats — check all name variants
+            bat_balls = s2_bbb[s2_bbb['batter_name'].isin(bbb_names)]
+            if not bat_balls.empty:
+                runs = bat_balls['runs_off_bat'].sum()
+                balls = len(bat_balls)
+                dismissals = len(s2_bbb[s2_bbb['dismissed_batter_name'].isin(bbb_names)])
+                
+                if balls > 0:
+                    result["S2_sr"] = f"{(runs / balls) * 100:.1f}"
+                    result["S2_avg"] = f"{runs / dismissals:.1f}" if dismissals > 0 else f"{runs:.1f}"
+                    result["available"] = True
+                    
+            # Bowling stats — check all name variants
+            bowl_balls = s2_bbb[s2_bbb['bowler_name'].isin(bbb_names)]
+            if not bowl_balls.empty:
+                runs = bowl_balls['runs_total'].sum()
+                balls = len(bowl_balls)
+                wickets = bowl_balls['is_wicket'].sum()
+                
+                if balls > 0:
+                    result["S2_econ"] = f"{(runs / balls) * 6:.2f}"
+                    result["S2_wkts"] = str(int(wickets))
+                    result["available"] = True
     except Exception:
         pass
     try:
         if wpa_df is not None and not wpa_df.empty:
-            row = wpa_df[wpa_df["player_name"] == player_name]
+            # WPA file also uses abbreviated names — check all variants
+            row = wpa_df[wpa_df["player_name"].isin(bbb_names)]
             if not row.empty:
                 result["combined_wpa"] = f"{float(row.iloc[0]['combined_wpa']):.3f}"
     except Exception:
@@ -192,9 +216,9 @@ def _lookup_player_stats(
 def _render_opposition_threats_tab() -> None:
     """Render NPL 2026 confirmed retention intelligence for rival teams."""
     from ..services.data_loaders import load_export_csv as _load_csv
+    from ..services.data_loaders import load_bbb_with_season
 
-    batting_df  = _load_csv("player_batting_stats.csv")
-    bowling_df  = _load_csv("player_bowling_stats.csv")
+    bbb_df      = load_bbb_with_season()
     wpa_df      = _load_csv("player_wpa_leaderboard.csv")
     forecast_df = _load_csv("s3_batter_forecast.csv")
 
@@ -216,7 +240,7 @@ def _render_opposition_threats_tab() -> None:
         st.markdown(f"### {team_name} — Retained Players")
         for player in players:
             stats = _lookup_player_stats(
-                player["name"], batting_df, bowling_df, wpa_df, player["role"]
+                player["name"], bbb_df, wpa_df, player["role"]
             )
             is_marquee = player["type"] == "Marquee"
             marquee_badge = (
@@ -531,7 +555,7 @@ def _render_form_ranking_tab() -> None:
 
 
 def _render_shortlist_tab() -> None:
-    with st.expander("**Model Methodology** — Click to expand", expanded=False):
+    with st.expander("Model Methodology - Click to expand", expanded=False):
         st.markdown("""
         **Bayesian Shrinkage Estimator** trained on n=33 paired seasons:
         - Ridge regression did **NOT** beat the shrinkage baseline (LOO-MSE 6.31 vs 3.51)

@@ -17,7 +17,7 @@ COLORS = {
 def get_theme_css() -> str:
     return """
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap');
 
     /* ── HARDCODED CLASS STYLES ─────────────────────────────────────────────
        CSS variables (var(--...)) don't always resolve in st.markdown HTML.
@@ -248,8 +248,12 @@ def get_theme_css() -> str:
         display: none !important;
     }
 
-    * {
+    *:not([data-testid="stIconMaterial"]) {
         font-family: "IBM Plex Sans", "Segoe UI", sans-serif !important;
+    }
+
+    [data-testid="stIconMaterial"] {
+        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined' !important;
     }
 
     h1, h2, h3, h4, .page-title, .jb-brand-title {
@@ -1607,6 +1611,22 @@ def get_theme_css() -> str:
     /* Smooth page transitions */
     [data-testid="stAppViewContainer"] > div {
         animation: fadeInUp 0.3s ease-out;
+    }
+
+    /* Mobile Layout Tweaks */
+    @media (max-width: 768px) {
+        .metric-card {
+            margin-bottom: 12px;
+        }
+        .jb-page-head {
+            margin-bottom: 24px;
+        }
+        .card {
+            margin-bottom: 16px;
+        }
+        div[data-testid="stHorizontalBlock"] {
+            gap: 12px !important;
+        }
     }
 </style>
 """

@@ -217,7 +217,7 @@ def _render_strength_block() -> None:
             )
             if ci_excludes_zero:
                 st.caption(
-                    "ℹ At least one season's bootstrap CI excludes zero — the "
+                    " At least one season's bootstrap CI excludes zero — the "
                     "WAE for that season is not consistent with luck alone."
                 )
             else:

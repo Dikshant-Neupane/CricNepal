@@ -139,7 +139,7 @@ def render_section_header(
     Args:
         title: Section title
         subtitle: Descriptive subtitle
-        icon: Optional emoji icon (e.g., "📖", "⚠️")
+        icon: Optional emoji icon (e.g., "", "")
     """
     icon_html = f"{icon} " if icon else ""
     
@@ -152,7 +152,7 @@ def render_page_header(
     subtitle: str,
     insight_label: str,
     insight_text: str,
-    alert_icon: str = "⚠️"
+    alert_icon: str = ""
 ) -> None:
     """
     Render a full page header with title, subtitle, and insight alert box.
@@ -162,7 +162,7 @@ def render_page_header(
         subtitle: Page subtitle
         insight_label: Alert box label (e.g., "Core finding", "Decision Lens")
         insight_text: Alert box message
-        alert_icon: Icon for alert box (default "⚠️")
+        alert_icon: Icon for alert box (default "")
     """
     st.markdown(f"""
     <div class="jb-page-head">

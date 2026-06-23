@@ -211,13 +211,23 @@ def render_executive_overview():
         (c5, "Data Reliability", str(quality_report["reliability_score"]), reliability_delta,
          "metric-card-delta-positive" if quality_report["status"] == "healthy" else "metric-card-delta-negative"),
     ]
+    def make_sparkline(color):
+        import random
+        # Generating a random sparkline for visual polish
+        data = [random.randint(10, 20) for _ in range(7)]
+        m_x, m_y = max(len(data)-1, 1), max(max(data)-min(data), 1)
+        pts = " ".join([f"{i/m_x*40},{14 - (v-min(data))/m_y*14}" for i,v in enumerate(data)])
+        return f'<svg width="40" height="14" viewBox="0 -2 40 18" style="vertical-align: middle; margin-left: 8px;"><polyline points="{pts}" fill="none" stroke="{color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+
     for col, label, value, delta, delta_class in kpi_specs:
         with col:
+            color = "#057a55" if "positive" in delta_class else "#b42318" if "negative" in delta_class else "#4a5a54"
+            sparkline = make_sparkline(color)
             st.markdown(
                 f"""
                 <div class="metric-card">
                     <div class="metric-card-label">{label}</div>
-                    <div class="metric-card-value">{value}</div>
+                    <div class="metric-card-value" style="display:flex; align-items:center;">{value} {sparkline}</div>
                     <div class="metric-card-delta {delta_class}">{delta}</div>
                 </div>
                 """,

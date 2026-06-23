@@ -30,8 +30,15 @@ DELIVERABLES_DIR = PROJECT_ROOT / "deliverables"
 # ── External data paths ─────────────────────────────────────
 _cric_data_default = str(PROJECT_ROOT.parent / "Cric_Data" / "data")
 CRIC_DATA_DIR = Path(os.environ.get("CRIC_DATA_DIR", _cric_data_default))
+
 if not CRIC_DATA_DIR.exists():
-    CRIC_DATA_DIR = DATA_DIR
+    # If external Cric_Data is missing (e.g. in Streamlit Cloud),
+    # fall back to the bundled production_assets directory first.
+    _production_assets = DATA_DIR / "production_assets"
+    if _production_assets.exists():
+        CRIC_DATA_DIR = _production_assets
+    else:
+        CRIC_DATA_DIR = DATA_DIR
     
 PARQUET_DIR = CRIC_DATA_DIR / "final" / "parquet"
 ROSTER_DIR = CRIC_DATA_DIR / "player_rosters"

@@ -1,11 +1,10 @@
-﻿"""Bowling Intelligence — phase control, resource allocation, pressure plans."""
+"""Bowling Intelligence — phase control, resource allocation, pressure plans."""
 
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-from ..demo_data import get_bowling_vs_batter_hand, get_bowling_tactical_directives, get_bowling_phases
-from ..services.data_loaders import load_export_csv
+from ..services.data_loaders import load_export_csv, load_ball_by_ball_normalized
 
 TEAM = "Janakpur Bolts"
 
@@ -68,41 +67,57 @@ def _render_live_heatmap() -> None:
 
 
 def _load_bowling_phases() -> list[dict]:
-    """Load S2 bowling phase metrics from CSV; fall back to demo data."""
-    df = load_export_csv("s1_vs_s2_bowling_by_phase.csv")
-    if df is None or df.empty:
-        st.caption("ℹ Phase data estimated — export CSV not found.")
-        return get_bowling_phases()
+    """Calculate bowling phase metrics directly from ball-by-ball data."""
+    from ..services.data_loaders import load_bbb_with_season
+    
+    bbb = load_bbb_with_season()
+    if bbb is None or bbb.empty:
+        st.caption(" Phase data unavailable — no ball-by-ball data.")
+        return []
+        
+    jb = bbb[(bbb['bowling_team'] == TEAM) & (bbb['season'] == 'S2')]
+    if jb.empty:
+        st.caption(" Phase data unavailable — no S2 data for Janakpur Bolts.")
+        return []
 
-    s2 = df[df["season"] == "S2"].copy()
-    if s2.empty:
-        st.caption("ℹ Phase data estimated — no S2 rows in CSV.")
-        return get_bowling_phases()
-
-    s2 = s2.set_index("phase")
     phases = []
-
-    for key, name in [("powerplay", "POWERPLAY (1–6)"), ("middle", "MIDDLE (7–15)"), ("death", "DEATH (16–20)")]:
-        if key not in s2.index:
+    
+    phase_map = [
+        ("Powerplay", "POWERPLAY (1–6)"),
+        ("Middle", "MIDDLE (7–15)"),
+        ("Death", "DEATH (16–20)")
+    ]
+    
+    for key, name in phase_map:
+        df = jb[jb['phase'] == key]
+        if df.empty:
             continue
-        row  = s2.loc[key]
-        econ = float(row.get("economy", 0))
+            
+        runs = df['runs_total'].sum()
+        balls = len(df)
+        overs = balls / 6.0
+        econ = runs / overs if overs > 0 else 0
+        wkts = len(df[df['is_wicket'] == True])
+        dots = len(df[df['runs_total'] == 0])
+        dot_pct = (dots / balls * 100) if balls > 0 else 0
+        
         econ_color     = _RED if econ > 8.5 else (_AMBER if econ > 7.5 else _GREEN)
         pressure       = "Critical" if econ > 9.0 else ("High" if econ > 7.5 else "Optimal")
         pressure_color = _RED if econ > 9.0 else (_AMBER if econ > 7.5 else _GREEN)
+        
         phases.append({
             "name":       name,
             "econ":       f"{econ:.2f}",
             "econ_c":     econ_color,
-            "wkts":       str(int(row.get("wickets_taken", 0))),
-            "dot":        f"{float(row.get('dot_ball_pct', 0)):.1f}%",
+            "wkts":       str(int(wkts)),
+            "dot":        f"{dot_pct:.1f}%",
             "pressure":   pressure,
             "pressure_c": pressure_color,
         })
 
     if not phases:
-        st.caption("ℹ Phase data estimated — phases missing from CSV.")
-        return get_bowling_phases()
+        st.caption(" Phase data estimated — could not compute phases from BBB.")
+        return []
 
     return phases
 
@@ -202,8 +217,7 @@ def render_bowling_intelligence():
             </div>
             <div style="padding:16px;">
         """, unsafe_allow_html=True)
-        for h in get_bowling_vs_batter_hand():
-            st.markdown(_hand_card(h), unsafe_allow_html=True)
+        st.caption("Detailed batter hand splits unavailable.")
         st.markdown("</div></div>", unsafe_allow_html=True)
 
     st.markdown("<div style='height:18px;'></div>", unsafe_allow_html=True)
@@ -217,15 +231,7 @@ def render_bowling_intelligence():
         </div>
     """, unsafe_allow_html=True)
 
-    for d in get_bowling_tactical_directives():
-        st.markdown(f"""
-        <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);
-                    padding:14px 16px;border-radius:10px;margin-bottom:10px;
-                    display:flex;align-items:flex-start;gap:12px;">
-            <span style="color:#f6e5c8;font-size:11px;font-weight:700;letter-spacing:0.06em;
-                         flex-shrink:0;padding-top:2px;">ITEM</span>
-            <span style="color:#ffffff;font-size:14px;line-height:1.5;">{d}</span>
-        </div>""", unsafe_allow_html=True)
+    st.caption("Tactical directives unavailable.")
 
     st.markdown("</div>", unsafe_allow_html=True)
 

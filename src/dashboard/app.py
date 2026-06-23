@@ -93,6 +93,10 @@ elif active_page == "s3_recruiting":
 elif active_page == "s3_strategic_analysis":
     render_s3_strategic_analysis()
 
+elif active_page == "win_probability":
+    from src.dashboard.page_modules.win_probability import render_win_probability
+    render_win_probability()
+
 #  Coming Soon Stubs 
 else:
     LABELS = {

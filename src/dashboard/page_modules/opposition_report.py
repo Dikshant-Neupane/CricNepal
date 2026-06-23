@@ -48,9 +48,14 @@ def get_opposition_bowling_plans() -> pd.DataFrame:
         # Powerplay (1-6)
         pp_bowlers = jb_phase[jb_phase['phase'] == 'Powerplay'].copy()
         if len(pp_bowlers) > 0:
-            pp_bowlers = pp_bowlers.sort_values('s3_economy_proj')
-            top_pp = pp_bowlers.head(2)['bowler_name'].tolist()
-            pp_eco = pp_bowlers.head(2)['s3_economy_proj'].mean()
+            specialists = pp_bowlers[pp_bowlers['specialist_flag'] == 'SPECIALIST']
+            if len(specialists) > 0:
+                top_pp = specialists.sort_values('s3_economy_proj').head(2)['bowler_name'].tolist()
+                pp_eco = specialists.sort_values('s3_economy_proj').head(2)['s3_economy_proj'].mean()
+            else:
+                pp_bowlers = pp_bowlers.sort_values('s3_economy_proj')
+                top_pp = pp_bowlers.head(2)['bowler_name'].tolist()
+                pp_eco = pp_bowlers.head(2)['s3_economy_proj'].mean()
             
             plans.append({
                 "Phase": "Powerplay (1-6)",
@@ -69,9 +74,14 @@ def get_opposition_bowling_plans() -> pd.DataFrame:
         # Middle overs (7-15)
         mid_bowlers = jb_phase[jb_phase['phase'] == 'Middle'].copy()
         if len(mid_bowlers) > 0:
-            mid_bowlers = mid_bowlers.sort_values('s3_economy_proj')
-            top_mid = mid_bowlers.head(2)['bowler_name'].tolist()
-            mid_eco = mid_bowlers.head(2)['s3_economy_proj'].mean()
+            specialists = mid_bowlers[mid_bowlers['specialist_flag'] == 'SPECIALIST']
+            if len(specialists) > 0:
+                top_mid = specialists.sort_values('s3_economy_proj').head(2)['bowler_name'].tolist()
+                mid_eco = specialists.sort_values('s3_economy_proj').head(2)['s3_economy_proj'].mean()
+            else:
+                mid_bowlers = mid_bowlers.sort_values('s3_economy_proj')
+                top_mid = mid_bowlers.head(2)['bowler_name'].tolist()
+                mid_eco = mid_bowlers.head(2)['s3_economy_proj'].mean()
             
             plans.append({
                 "Phase": "Middle (7-15)",
@@ -239,8 +249,8 @@ def render_league_comparison_tab():
     if len(janakpur_idx) > 0:
         idx = janakpur_idx[0]
         fig.add_trace(go.Scatter(
-            x=[team_analysis.iloc[idx]['team']],
-            y=[team_analysis.iloc[idx]['change_pct']],
+            x=[team_analysis.loc[idx]['team']],
+            y=[team_analysis.loc[idx]['change_pct']],
             mode='markers',
             marker=dict(size=15, color='#fbbf24', symbol='star', line=dict(width=2, color='#fff')),
             name='Janakpur Bolts',
@@ -386,14 +396,6 @@ def render_team_analysis_tab():
             st.info("No new additions")
 
 def render_tactical_report_tab():
-    """Legacy tactical report interface — currently demo content."""
-    st.warning(
-        "ℹ This tab is a tactical-planning mockup using demo content. "
-        "Live opponent-specific plans require per-match scouting feeds that "
-        "are not yet wired in. Use the **League Comparison** and **Team "
-        "Analysis** tabs above for live data."
-    )
-
     st.markdown(
         """
         <div class="jb-page-head">
@@ -420,7 +422,7 @@ def render_tactical_report_tab():
     with col1:
         # Use real NPL opponent names (excluding JAB itself)
         opponents = [t for t in NPL_TEAMS if t != "Janakpur Bolts"]
-        st.selectbox("Opponent", opponents)
+        selected_opp = st.selectbox("Opponent", opponents)
     with col2:
         st.selectbox("Venue", ["Tribhuvan University Cricket Ground"])
     with col3:
@@ -431,15 +433,165 @@ def render_tactical_report_tab():
 
     st.markdown("</div></div>", unsafe_allow_html=True)
 
+    from src.dashboard.services.data_loaders import load_ball_by_ball_normalized
+    bbb = load_ball_by_ball_normalized()
+    
+    if bbb is not None:
+        # Map selected team to possible string variants in the raw dataset
+        if selected_opp == "Kathmandu Gorkhas":
+            opp_variants = ["Kathmandu Gorkhas", "Kathmandu Gurkhas"]
+        elif selected_opp == "Sudurpaschim Royals":
+            opp_variants = ["Sudurpaschim Royals", "Sudur Paschim Royals"]
+        else:
+            opp_variants = [selected_opp]
+            
+        opp_bat = bbb[bbb['batting_team'].isin(opp_variants)]
+        opp_bowl = bbb[bbb['bowling_team'].isin(opp_variants)]
+        
+
+        # Compute league averages for radar charts
+        league_bat_sr = 120.0
+        league_bat_avg = 20.0
+        league_bat_bound = 15.0
+        
+        league_bowl_econ = 7.5
+        league_bowl_sr = 18.0
+        league_bowl_dot = 35.0
+        
+        if bbb is not None and not bbb.empty:
+            tot_runs = bbb['runs_off_bat'].sum()
+            tot_balls = len(bbb)
+            tot_wkts = bbb['is_wicket'].sum()
+            tot_bounds = len(bbb[bbb['runs_off_bat'].isin([4, 6])])
+            
+            league_bat_sr = (tot_runs / tot_balls) * 100 if tot_balls else 120.0
+            league_bat_avg = tot_runs / tot_wkts if tot_wkts else 20.0
+            league_bat_bound = (tot_bounds / tot_balls) * 100 if tot_balls else 15.0
+            
+            tot_bowl_runs = bbb['runs_total'].sum()
+            tot_dots = len(bbb[bbb['runs_total'] == 0])
+            league_bowl_econ = (tot_bowl_runs / tot_balls) * 6 if tot_balls else 7.5
+            league_bowl_sr = tot_balls / tot_wkts if tot_wkts else 18.0
+            league_bowl_dot = (tot_dots / tot_balls) * 100 if tot_balls else 35.0
+
+        # Threat 1: Top Batter
+        top_batter_name = "Unknown"
+        top_batter_sr = 0.0
+        bat_fig = None
+        if not opp_bat.empty:
+            bat_stats = opp_bat.groupby('batter_name').agg(
+                runs=('runs_off_bat', 'sum'), 
+                balls=('match_id', 'count'),
+                wkts=('is_wicket', 'sum'),
+                bounds=('runs_off_bat', lambda x: (x.isin([4, 6])).sum())
+            ).reset_index()
+            bat_stats = bat_stats[bat_stats['balls'] > 30].sort_values('runs', ascending=False)
+            if not bat_stats.empty:
+                top_batter = bat_stats.iloc[0]
+                top_batter_name = top_batter['batter_name']
+                top_batter_sr = (top_batter['runs'] / top_batter['balls']) * 100
+                avg = top_batter['runs'] / top_batter['wkts'] if top_batter['wkts'] > 0 else top_batter['runs']
+                bound_pct = (top_batter['bounds'] / top_batter['balls']) * 100
+                
+                bat_fig = go.Figure()
+                bat_fig.add_trace(go.Scatterpolar(
+                    r=[league_bat_sr, league_bat_avg, league_bat_bound, league_bat_sr],
+                    theta=['Strike Rate', 'Average', 'Boundary %', 'Strike Rate'],
+                    fill='toself',
+                    name='League Avg',
+                    line_color='rgba(125, 143, 136, 0.5)',
+                    fillcolor='rgba(125, 143, 136, 0.2)'
+                ))
+                bat_fig.add_trace(go.Scatterpolar(
+                    r=[top_batter_sr, avg, bound_pct, top_batter_sr],
+                    theta=['Strike Rate', 'Average', 'Boundary %', 'Strike Rate'],
+                    fill='toself',
+                    name=top_batter_name,
+                    line_color='#b42318',
+                    fillcolor='rgba(180, 35, 24, 0.4)'
+                ))
+                bat_fig.update_layout(
+                    polar=dict(radialaxis=dict(visible=False, range=[0, max(200, top_batter_sr)])),
+                    showlegend=False,
+                    margin=dict(l=20, r=20, t=20, b=20),
+                    height=180,
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    plot_bgcolor='rgba(0,0,0,0)'
+                )
+                
+        # Threat 2: Top Bowler
+        top_bowler_name = "Unknown"
+        top_bowler_econ = 0.0
+        bowl_fig = None
+        if not opp_bowl.empty:
+            bowl_stats = opp_bowl.groupby('bowler_name').agg(
+                runs=('runs_total', 'sum'), 
+                balls=('match_id', 'count'),
+                wkts=('is_wicket', 'sum'),
+                dots=('runs_total', lambda x: (x == 0).sum())
+            ).reset_index()
+            bowl_stats = bowl_stats[bowl_stats['balls'] > 30].sort_values('balls', ascending=False)
+            if not bowl_stats.empty:
+                top_bowler = bowl_stats.iloc[0]
+                top_bowler_name = top_bowler['bowler_name']
+                top_bowler_econ = (top_bowler['runs'] / top_bowler['balls']) * 6
+                sr = top_bowler['balls'] / top_bowler['wkts'] if top_bowler['wkts'] > 0 else top_bowler['balls']
+                dot_pct = (top_bowler['dots'] / top_bowler['balls']) * 100
+                
+                # For bowlers, lower Econ and lower SR is better. We invert them for radar or just show raw.
+                # Let's show raw but note that smaller is better for econ/sr.
+                bowl_fig = go.Figure()
+                bowl_fig.add_trace(go.Scatterpolar(
+                    r=[league_bowl_econ, league_bowl_sr, league_bowl_dot, league_bowl_econ],
+                    theta=['Economy', 'Strike Rate', 'Dot %', 'Economy'],
+                    fill='toself',
+                    name='League Avg',
+                    line_color='rgba(125, 143, 136, 0.5)',
+                    fillcolor='rgba(125, 143, 136, 0.2)'
+                ))
+                bowl_fig.add_trace(go.Scatterpolar(
+                    r=[top_bowler_econ, sr, dot_pct, top_bowler_econ],
+                    theta=['Economy', 'Strike Rate', 'Dot %', 'Economy'],
+                    fill='toself',
+                    name=top_bowler_name,
+                    line_color='#103b2f',
+                    fillcolor='rgba(16, 59, 47, 0.4)'
+                ))
+                bowl_fig.update_layout(
+                    polar=dict(radialaxis=dict(visible=False, range=[0, max(60, dot_pct)])),
+                    showlegend=False,
+                    margin=dict(l=20, r=20, t=20, b=20),
+                    height=180,
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    plot_bgcolor='rgba(0,0,0,0)'
+                )
+
+                
+        # Top Order vulnerability
+        vuln_msg = "Top order struggles against pace in the powerplay."
+        if not opp_bat.empty:
+            pp_bat = opp_bat[opp_bat['over'] < 6]
+            if not pp_bat.empty:
+                pp_wkts = pp_bat['is_wicket'].sum()
+                pp_matches = pp_bat['match_id'].nunique()
+                vuln_msg = f"Average {pp_wkts/pp_matches:.1f} wickets lost in Powerplay." if pp_matches else vuln_msg
+                
+    else:
+        top_batter_name = "No Data"
+        top_batter_sr = 0.0
+        top_bowler_name = "No Data"
+        top_bowler_econ = 0.0
+        vuln_msg = "Data unavailable."
+
     col_left, col_right = st.columns([2, 1])
     
     with col_left:
         # Key Threats
-        st.markdown("""
+        st.markdown(f"""
             <div class="card" style="height: 100%;">
             <div class="card-header">
                 <h3 style="display: flex; align-items: center; gap: 8px;">
-                    <span style="color: #b42318;">Risk</span> Key Threats
+                    <span style="color: #b42318;">Risk</span> Key Threats ({selected_opp})
                 </h3>
             </div>
             <div class="card-body" style="display: flex; gap: 24px; padding: 24px;">
@@ -447,32 +599,38 @@ def render_tactical_report_tab():
         
         c1, c2 = st.columns(2)
         with c1:
-            st.markdown("""
+            st.markdown(f"""
             <div style="background: #edf2ef; padding: 16px; border-radius: 8px; border: 1px solid #d9e2dd; height: 100%;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
                     <div>
-                        <div style="font-weight: 600; font-size: 14px;">Kushal Malla</div>
-                        <div style="font-size: 12px; color: #4a5a54;">LHB • Middle Order</div>
+                        <div style="font-weight: 600; font-size: 14px;">{top_batter_name}</div>
+                        <div style="font-size: 12px; color: #4a5a54;">Key Batter</div>
                     </div>
-                    <div style="background: rgba(186, 26, 26, 0.1); color: #b42318; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">SR: 185.4</div>
+                    <div style="background: rgba(186, 26, 26, 0.1); color: #b42318; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">SR: {top_batter_sr:.1f}</div>
                 </div>
-                <p style="font-size: 13px; color: #17231f; line-height: 20px; margin-bottom: 16px;">Highly destructive in overs 15-20. Prefers pace on the ball targeting cow corner.</p>
-                <div style="background: #e3ebe6; display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #4a5a54;">Spin Weakness: Left-Arm Orthodox</div>
+            """, unsafe_allow_html=True)
+            if bat_fig:
+                st.plotly_chart(bat_fig, use_container_width=True, config={'displayModeBar': False})
+            st.markdown("""
+                <div style="background: #e3ebe6; display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #4a5a54; margin-top: 8px;">Target with Matchup Engine</div>
             </div>
             """, unsafe_allow_html=True)
             
         with c2:
-            st.markdown("""
+            st.markdown(f"""
             <div style="background: #edf2ef; padding: 16px; border-radius: 8px; border: 1px solid #d9e2dd; height: 100%;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
                     <div>
-                        <div style="font-weight: 600; font-size: 14px;">Sompal Kami</div>
-                        <div style="font-size: 12px; color: #4a5a54;">RFM • Powerplay Bowler</div>
+                        <div style="font-weight: 600; font-size: 14px;">{top_bowler_name}</div>
+                        <div style="font-size: 12px; color: #4a5a54;">Key Bowler</div>
                     </div>
-                    <div style="background: #103b2f; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">Econ: 6.2</div>
+                    <div style="background: #103b2f; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">Econ: {top_bowler_econ:.1f}</div>
                 </div>
-                <p style="font-size: 13px; color: #17231f; line-height: 20px; margin-bottom: 16px;">Consistently hits hard lengths early. Swings it away from the right-hander.</p>
-                <div style="background: #e3ebe6; display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #4a5a54;">Target Zone: Late Cut / Third Man</div>
+            """, unsafe_allow_html=True)
+            if bowl_fig:
+                st.plotly_chart(bowl_fig, use_container_width=True, config={'displayModeBar': False})
+            st.markdown("""
+                <div style="background: #e3ebe6; display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #4a5a54; margin-top: 8px;">Respect in Middle Overs</div>
             </div>
             """, unsafe_allow_html=True)
             
@@ -480,25 +638,16 @@ def render_tactical_report_tab():
 
     with col_right:
         # Top Order Vulnerability
-        st.markdown("""
+        st.markdown(f"""
             <div class="card" style="height: 100%;">
             <div class="card-header">
-                <h3>Top Order Vulnerability</h3>
+                <h3>Vulnerability</h3>
             </div>
             <div class="card-body" style="padding: 24px;">
-                <div style="background: #edf2ef; border-radius: 8px; border: 1px solid #cad4cf; height: 200px; display: flex; justify-content: center; align-items: center; position: relative;">
-                    <div style="position: absolute; top: 16px; left: 0; right: 0; text-align: center; font-size: 12px; color: #4a5a54;">Pitch Map (Mockup)</div>
-                    <div style="width: 80px; height: 140px; border: 1px solid #cad4cf; position: relative;">
-                        <div style="position: absolute; bottom: 30px; left: 20px; width: 12px; height: 12px; background: #b42318; border-radius: 50%;"></div>
-                        <div style="position: absolute; bottom: 25px; left: 25px; width: 12px; height: 12px; background: #b42318; border-radius: 50%;"></div>
-                        <div style="position: absolute; bottom: 20px; left: 22px; width: 12px; height: 12px; background: #b42318; border-radius: 50%;"></div>
-                        <div style="position: absolute; top: 40px; right: 20px; width: 6px; height: 6px; background: #b7802f; border-radius: 50%;"></div>
-                        <div style="position: absolute; top: 50px; right: 30px; width: 6px; height: 6px; background: #b7802f; border-radius: 50%;"></div>
-                        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 20px; border-top: 1px solid #cad4cf;"></div>
-                    </div>
-                    <div style="position: absolute; bottom: 8px; right: 16px; font-size: 10px; color: #4a5a54; display: flex; align-items: center; gap: 4px;">
-                        <span style="width: 6px; height: 6px; background: #b42318; border-radius: 50%; display: inline-block;"></span> Dismissals
-                    </div>
+                <div style="background: #edf2ef; border-radius: 8px; border: 1px solid #cad4cf; height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 16px; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 16px;"></div>
+                    <div style="font-size: 14px; font-weight: 600; color: #17231f; margin-bottom: 8px;">{vuln_msg}</div>
+                    <div style="font-size: 12px; color: #4a5a54;">Data-driven insight based on ball-by-ball history.</div>
                 </div>
             </div>
         </div>
@@ -510,40 +659,34 @@ def render_tactical_report_tab():
     st.markdown("""
     <div class="card">
         <div class="card-header">
-            <h3>Suggested Bowling Plans</h3>
-            <a href="#" style="font-size: 14px; color: #b7802f; font-weight: 600; text-decoration: none;">View Detailed Matchups</a>
+            <h3>Janakpur Bolts Bowling Plans</h3>
         </div>
         <div class="card-body" style="padding: 0;">
     """, unsafe_allow_html=True)
     
     df = get_opposition_bowling_plans()
     
-    table_html = """
-    <table class="bolts-table">
-        <thead>
-            <tr>
-                <th>Phase</th>
-                <th>Primary Tactic</th>
-                <th>Key Bowler(s)</th>
-                <th>Field Setting Focus</th>
-            </tr>
-        </thead>
-        <tbody>
-    """
+    table_html = """<table class="bolts-table">
+    <thead>
+        <tr>
+            <th>Phase</th>
+            <th>Primary Tactic</th>
+            <th>Key Bowler(s)</th>
+            <th>Field Setting Focus</th>
+        </tr>
+    </thead>
+    <tbody>"""
     
     for _, row in df.iterrows():
-        # process key bowlers into tags
-        bowlers = row['Key Bowler(s)'].split(", ")
+        bowlers = str(row['Key Bowler(s)']).split(", ")
         bowler_tags = "".join([f"<span style='background: #e3ebe6; padding: 4px 8px; border-radius: 4px; font-size: 11px; margin-right: 4px;'>{b}</span>" for b in bowlers])
         
-        table_html += f"""
-            <tr>
-                <td style="white-space: nowrap;">{row['Phase']}</td>
-                <td>{row['Primary Tactic']}</td>
-                <td><div style="display: flex; gap: 4px; flex-wrap: wrap;">{bowler_tags}</div></td>
-                <td>{row['Field Setting Focus']}</td>
-            </tr>
-        """
+        table_html += f"""<tr>
+            <td style="white-space: nowrap;">{row['Phase']}</td>
+            <td>{row['Primary Tactic']}</td>
+            <td><div style="display: flex; gap: 4px; flex-wrap: wrap;">{bowler_tags}</div></td>
+            <td>{row['Field Setting Focus']}</td>
+        </tr>"""
         
     table_html += "</tbody></table>"
     st.markdown(table_html, unsafe_allow_html=True)
@@ -551,17 +694,18 @@ def render_tactical_report_tab():
 
     st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
     st.markdown(
-        """
+        f"""
         <div class="card">
             <div class="card-header"><h3>Decision Summary</h3></div>
             <div class="card-body">
-                <div class="insight-box"><strong>Insight:</strong> Middle-order threat profile is strongest in overs 14-18 under pace-on lengths.</div>
+                <div class="insight-box"><strong>Insight:</strong> {selected_opp}'s key threat is {top_batter_name} (SR: {top_batter_sr:.1f}).</div>
                 <div style="height:8px;"></div>
-                <div class="insight-box"><strong>Risk:</strong> Early width concessions allow low-risk boundary access and collapse your field plan.</div>
+                <div class="insight-box"><strong>Risk:</strong> {top_bowler_name} has historically restricted scoring to {top_bowler_econ:.1f} RPO.</div>
                 <div style="height:8px;"></div>
-                <div class="insight-box"><strong>Recommended Action:</strong> Start with hard-length squeeze and reserve death specialist for overs 17-20.</div>
+                <div class="insight-box"><strong>Recommended Action:</strong> Deploy Matchup Engine against {top_batter_name} to find favorable matchups.</div>
             </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
+

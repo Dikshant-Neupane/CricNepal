@@ -6,7 +6,6 @@
 
 # ── Data files (never commit — use external storage or DVC) ──────────────────
 data/
-*.csv
 *.parquet
 *.zip
 *.npy
@@ -14,8 +13,8 @@ data/
 *.arrow
 
 # ── Documentation & reports (internal, not for public repo) ──────────────────
-*.md
-*.txt
+context/*.md
+context/*.txt
 *.pdf
 
 # ── Trained ML models (binary artifacts — store in model registry) ────────────
@@ -94,3 +93,11 @@ logs/
 # ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+
+# ── Production Assets (Explicitly tracked for deployment) ─────────────────────
+!data/production_assets/
+!data/production_assets/**
+!data/production_assets/*.parquet
+!data/production_assets/**/*.parquet
+!data/production_assets/**/*.csv
+

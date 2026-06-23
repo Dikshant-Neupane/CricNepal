@@ -252,7 +252,7 @@ def render_batting_intelligence():
         st.caption("Forecast")
         
         if s3_forecast is not None and not s3_forecast.empty:
-            targets = s3_forecast[s3_forecast['recommendation'] == 'TARGET'].copy()
+            targets = s3_forecast[s3_forecast['recommendation'].str.contains('TARGET', na=False, case=False)].copy()
             targets = targets.nlargest(5, 's3_runs_pred')
             
             display_df = targets[['player_name', 's2_runs', 's3_runs_pred', 'sr_trend']].copy()
