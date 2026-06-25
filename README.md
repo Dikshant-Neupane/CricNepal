@@ -1,6 +1,6 @@
 # Janakpur Bolts Analytics Dashboard
 
-**Live Deployment:** [cricnepal-janakpurbolts.streamlit.app](https://cricnepal-janakpurbolts.streamlit.app/)
+**Live Deployment:** [cricnepal-janakpurbolts.streamlit.app]
 
 The Janakpur Bolts Analytics Dashboard is a comprehensive cricket tactical intelligence platform designed to empower coaching staff with deep, actionable insights. By leveraging advanced statistical modeling and phase-level analysis, this tool transforms raw match data into decision-ready strategies.
 
