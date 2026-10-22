@@ -54,4 +54,17 @@ S3 matches will flow into every existing S1/S2 analysis automatically.
 - `data/player_rosters/npl_player_rosters_20260521.csv` now carries 17
   `Season 3` rows for the confirmed Janakpur Bolts squad
   (5 retained, 8 auction, 4 overseas; Harmeet Singh (c)).
+- All 8 squads loaded 2026-10-22: 133 `Season 3` rows total
+  (Biratnagar 18, Chitwan 16, Karnali 16, Kathmandu 17, Lumbini 16,
+  Pokhara 17, Sudurpaschim 16). Researched from Wikipedia's 2026 NPL
+  squad table cross-checked vs Cricfacts/auction trackers/news.
+  Returning players use the file's existing name forms (initials-style,
+  e.g. `S Lamichhane`, `Gulsan Jha`) so cross-season joins hold.
+  NOT loaded (single-source/unconfirmed, watch for announcements):
+  Asif Ali + Usama Mir (Chitwan), Haider Ali (Sudurpaschim),
+  Shamim Hossain (Lumbini), Mohammad Rubel + Mohammad Saifuddin
+  (Pokhara). Judgment calls flagged to Dikshant: `Pratik Shrestha`
+  (Biratnagar) and `Sahil Patel` (Kathmandu) loaded under full names —
+  the file's `P Shrestha` (Kathmandu S1/S2) and `S Patel` (Biratnagar
+  S2) could not be confirmed as the same people.
 - Bolts open the season Oct 27 vs Karnali Yaks (Match 3).
