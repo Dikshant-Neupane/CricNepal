@@ -67,4 +67,11 @@ S3 matches will flow into every existing S1/S2 analysis automatically.
   (Biratnagar) and `Sahil Patel` (Kathmandu) loaded under full names —
   the file's `P Shrestha` (Kathmandu S1/S2) and `S Patel` (Biratnagar
   S2) could not be confirmed as the same people.
+  RESOLVED 2026-10-22 (see docs/DATA_QUALITY_REPORT.md): both
+  confirmed identical via match reports/squad lists/profiles, as were
+  `S Karki` = Santosh Karki and the probable merges `K Mahato`,
+  `TR Das`, `B Yadav`, `A Yadav`. All S3 rows now use dataset forms;
+  canonical identities live in
+  data/player_rosters/player_identity_registry.csv (built by
+  scripts/build_player_registry.py).
 - Bolts open the season Oct 27 vs Karnali Yaks (Match 3).

@@ -1,0 +1,392 @@
+season,team,player_name,batting_matches,bowling_matches,total_matches,runs_scored,balls_faced,fours,sixes,strike_rate,wickets_taken,balls_bowled,overs_bowled,runs_conceded,economy_rate,playing_role,player_key,canonical_name,identity_status
+Season 1,Biratnagar Kings,Basir Ahamad,7,6,7,181,152,0,0,119.08,6,115,19.2,126,6.57,All-rounder,player_basir_ahamad,Basir Ahamad,single-form
+Season 1,Biratnagar Kings,MJ Guptill,6,0,6,139,120,0,0,115.83,0,0,0.0,0,0.0,Batter,player_mj_guptill,Martin Guptill,confirmed
+Season 1,Biratnagar Kings,Lokesh Bam,7,1,7,131,105,0,0,124.76,1,6,1.0,8,8.0,Batter,player_lokesh_bam,Lokesh Bam,single-form
+Season 1,Biratnagar Kings,NR Kirton,7,3,7,95,107,0,0,88.79,0,21,3.5,29,8.29,Batter,player_nr_kirton,Nicholas Kirton,confirmed
+Season 1,Biratnagar Kings,RP Magar,5,1,5,78,77,0,0,101.3,1,14,2.3,22,9.43,Batter,player_rp_magar,Rajesh Pulami Magar,probable
+Season 1,Biratnagar Kings,SA Edwards,3,0,3,60,55,0,0,109.09,0,0,0.0,0,0.0,Batter,player_sa_edwards,Scott Edwards,confirmed
+Season 1,Biratnagar Kings,D Bohara,6,0,6,60,57,0,0,105.26,0,0,0.0,0,0.0,Batter,player_d_bohara,Dipak Bohara,confirmed
+Season 1,Biratnagar Kings,CB Sole,6,7,7,35,30,0,0,116.67,11,181,30.2,212,7.03,Bowler,player_cb_sole,Chris Sole,confirmed
+Season 1,Biratnagar Kings,Aqib Ilyas,2,2,2,23,32,0,0,71.88,1,42,7.0,50,7.14,Bowler,player_aqib_ilyas,Aqib Ilyas,single-form
+Season 1,Biratnagar Kings,S Lamichhane,5,7,7,22,22,0,0,100.0,8,175,29.2,214,7.34,Bowler,player_s_lamichhane,Sandeep Lamichhane,confirmed
+Season 1,Biratnagar Kings,Pratis GC,5,6,6,20,18,0,0,111.11,11,121,20.2,137,6.79,Bowler,player_pratis_gc,Pratish GC,confirmed
+Season 1,Biratnagar Kings,A Kharel,3,5,5,17,22,0,0,77.27,5,86,14.3,123,8.58,Bowler,player_a_kharel,Anil Kharel,confirmed
+Season 1,Biratnagar Kings,Ismat Alam,3,3,3,11,20,0,0,55.0,2,44,7.3,76,10.36,Bowler,player_ismat_alam,Ismat Alam,single-form
+Season 1,Biratnagar Kings,N Bhatta,2,0,2,11,27,0,0,40.74,0,0,0.0,0,0.0,Batter,player_n_bhatta,Naren Bhatta,confirmed
+Season 1,Biratnagar Kings,Subash Bhandari,1,2,2,6,10,0,0,60.0,1,25,4.2,31,7.44,Bowler,player_subash_bhandari,Subash Bhandari,single-form
+Season 1,Biratnagar Kings,JK Mukhiya,0,1,1,0,0,0,0,0.0,0,13,2.2,16,7.38,Batter,player_jk_mukhiya,Jitendra Mukhiya,confirmed
+Season 1,Chitwan Rhinos,RS Bopara,8,4,8,286,215,0,0,133.02,3,57,9.5,59,6.21,Batter,player_rs_bopara,Ravi Bopara,confirmed
+Season 1,Chitwan Rhinos,Kushal Malla,8,8,8,223,197,0,0,113.2,10,163,27.2,179,6.59,All-rounder,player_kushal_malla,Kushal Malla,single-form
+Season 1,Chitwan Rhinos,Hassan Eisakhil,6,0,6,125,100,0,0,125.0,0,0,0.0,0,0.0,Batter,player_hassan_eisakhil,Hassan Eisakhil,single-form
+Season 1,Chitwan Rhinos,S Karki,7,0,7,108,116,0,0,93.1,0,0,0.0,0,0.0,Batter,player_s_karki,Santosh Karki,confirmed
+Season 1,Chitwan Rhinos,LM Benkenstein,5,3,5,85,77,0,0,110.39,4,55,9.2,71,7.75,Batter,player_lm_benkenstein,Luc Benkenstein,confirmed
+Season 1,Chitwan Rhinos,AS Routela,6,5,6,85,57,0,0,149.12,4,58,9.7,71,7.34,Batter,player_as_routela,Amar Singh Rautela,confirmed
+Season 1,Chitwan Rhinos,B Rawal,5,0,5,54,68,0,0,79.41,0,0,0.0,0,0.0,Batter,player_b_rawal,Bipin Rawal,confirmed
+Season 1,Chitwan Rhinos,S Vesawkar,4,2,4,38,48,0,0,79.17,1,36,6.0,53,8.83,Bowler,player_s_vesawkar,Sharad Vesawkar,confirmed
+Season 1,Chitwan Rhinos,R Dhakal,2,8,8,22,18,0,0,122.22,16,179,29.8,246,8.25,Bowler,player_r_dhakal,Rijan Dhakal,confirmed
+Season 1,Chitwan Rhinos,Nar Sarki,1,1,1,22,14,0,0,157.14,0,12,2.0,19,9.5,Batter,player_nar_sarki,Nar Sarki,single-form
+Season 1,Chitwan Rhinos,Deepak Bohara,4,1,4,19,25,0,0,76.0,1,8,1.3,9,6.75,Bowler,player_deepak_bohara,Deepak Bohara,single-form
+Season 1,Chitwan Rhinos,JN Loftie-Eaton,3,3,3,17,23,0,0,73.91,3,49,8.2,57,6.98,Bowler,player_jn_loftie-eaton,Jan Nicol Loftie-Eaton,confirmed
+Season 1,Chitwan Rhinos,Sohail Tanvir,6,8,8,11,13,0,0,84.62,15,192,32.0,180,5.63,Bowler,player_sohail_tanvir,Sohail Tanvir,single-form
+Season 1,Chitwan Rhinos,Basil Hameed,2,2,2,3,6,0,0,50.0,1,36,6.0,54,9.0,Bowler,player_basil_hameed,Basil Hameed,single-form
+Season 1,Chitwan Rhinos,R Kumar,0,5,5,0,0,0,0,0.0,2,86,14.3,121,8.44,Bowler,player_r_kumar,Ranjeet Kumar,confirmed
+Season 1,Janakpur Bolts,BKEL Milantha,10,0,10,293,242,0,0,121.07,0,0,0.0,0,0.0,Batter,player_bkel_milantha,Lahiru Milantha,confirmed
+Season 1,Janakpur Bolts,JDS Neesham,9,9,9,247,127,0,0,194.49,9,164,27.3,234,8.56,All-rounder,player_jds_neesham,Jimmy Neesham,confirmed
+Season 1,Janakpur Bolts,Aasif Sheikh,10,0,10,162,157,0,0,103.18,0,0,0.0,0,0.0,Batter,player_aasif_sheikh,Aasif Sheikh,single-form
+Season 1,Janakpur Bolts,H Thaker,9,9,9,138,156,0,0,88.46,12,188,31.3,198,6.32,All-rounder,player_h_thaker,Harsh Thaker,confirmed
+Season 1,Janakpur Bolts,AK Sah,7,0,7,132,117,0,0,112.82,0,0,0.0,0,0.0,Batter,player_ak_sah,Anil Kumar Sah,confirmed
+Season 1,Janakpur Bolts,S Kansakar,6,0,6,71,80,0,0,88.75,0,0,0.0,0,0.0,Batter,player_s_kansakar,Shubh Kansakar,confirmed
+Season 1,Janakpur Bolts,Mohammad Mohsin,6,9,9,42,41,0,0,102.44,12,208,34.7,208,6.0,Bowler,player_mohammad_mohsin,Mohammad Mohsin,single-form
+Season 1,Janakpur Bolts,S Malla,5,7,7,24,27,0,0,88.89,7,119,19.8,132,6.66,Bowler,player_s_malla,Sher Malla,confirmed
+Season 1,Janakpur Bolts,A Tripathi,3,0,3,19,31,0,0,61.29,0,0,0.0,0,0.0,Batter,player_a_tripathi,Aakash Tripathi,confirmed
+Season 1,Janakpur Bolts,Mayan Yadav,2,0,2,16,21,0,0,76.19,0,0,0.0,0,0.0,Batter,player_mayan_yadav,Mayan Yadav,single-form
+Season 1,Janakpur Bolts,J Tromp,1,0,1,13,14,0,0,92.86,0,0,0.0,0,0.0,Batter,player_j_tromp,Joshua Tromp,confirmed
+Season 1,Janakpur Bolts,A Yadav,2,3,3,12,24,0,0,50.0,3,54,9.0,69,7.67,Bowler,player_a_yadav,Arniko Prasad Yadav,confirmed
+Season 1,Janakpur Bolts,H Dhami,1,0,1,9,11,0,0,81.82,0,0,0.0,0,0.0,Batter,player_h_dhami,Hemant Dhami,confirmed
+Season 1,Janakpur Bolts,K Mahato,3,10,10,6,21,0,0,28.57,15,217,36.2,275,7.6,Bowler,player_k_mahato,Kishore Mahato,confirmed
+Season 1,Janakpur Bolts,LN Rajbanshi,3,10,10,4,14,0,0,28.57,17,244,40.7,222,5.46,Bowler,player_ln_rajbanshi,Lalit Narayan Rajbanshi,confirmed
+Season 1,Janakpur Bolts,BWM Mike,0,1,1,0,0,0,0,0.0,1,22,3.7,31,8.45,Bowler,player_bwm_mike,BWM Mike,initials-unexpanded
+Season 1,Janakpur Bolts,TB Thapa,0,2,2,0,0,0,0,0.0,0,12,2.0,19,9.5,Batter,player_tb_thapa,Tul Bahadur Thapa,confirmed
+Season 1,Karnali Yaks,WG Bosisto,6,7,7,194,166,0,0,116.87,11,147,24.5,164,6.69,All-rounder,player_wg_bosisto,Will Bosisto,confirmed
+Season 1,Karnali Yaks,CAK Walton,9,0,9,183,157,0,0,116.56,0,0,0.0,0,0.0,Batter,player_cak_walton,Chadwick Walton,confirmed
+Season 1,Karnali Yaks,S Dhawan,4,0,4,136,118,0,0,115.25,0,0,0.0,0,0.0,Batter,player_s_dhawan,S Dhawan,initials-unexpanded
+Season 1,Karnali Yaks,Gulsan Jha,8,4,8,132,120,0,0,110.0,1,49,8.2,63,7.71,Batter,player_gulsan_jha,Gulshan Jha,confirmed
+Season 1,Karnali Yaks,D Khanal,9,1,9,116,146,0,0,79.45,0,13,2.2,22,10.15,Batter,player_d_khanal,Dev Khanal,confirmed
+Season 1,Karnali Yaks,Zeeshan Maqsood,8,9,9,85,94,0,0,90.43,10,203,33.8,180,5.32,All-rounder,player_zeeshan_maqsood,Zeeshan Maqsood,single-form
+Season 1,Karnali Yaks,A Gharti,7,0,7,79,75,0,0,105.33,0,0,0.0,0,0.0,Batter,player_a_gharti,Arjun Gharti,confirmed
+Season 1,Karnali Yaks,Babar Hayat,5,0,5,65,86,0,0,75.58,0,0,0.0,0,0.0,Batter,player_babar_hayat,Babar Hayat,single-form
+Season 1,Karnali Yaks,JA Kolsawala,2,0,2,54,43,0,0,125.58,0,0,0.0,0,0.0,Batter,player_ja_kolsawala,JA Kolsawala,initials-unexpanded
+Season 1,Karnali Yaks,Sompal Kami,5,9,9,52,37,0,0,140.54,11,189,31.5,243,7.71,All-rounder,player_sompal_kami,Sompal Kami,single-form
+Season 1,Karnali Yaks,UBS Thakuri,2,5,5,12,18,0,0,66.67,2,54,9.0,64,7.11,Bowler,player_ubs_thakuri,Unish Bikram Singh Thakuri,confirmed
+Season 1,Karnali Yaks,NK Yadav,4,8,8,4,16,0,0,25.0,13,148,24.7,183,7.42,Bowler,player_nk_yadav,Nandan Yadav,confirmed
+Season 1,Karnali Yaks,BP Sharma,0,8,8,0,0,0,0,0.0,13,177,29.5,172,5.83,Bowler,player_bp_sharma,Bipin Sharma,confirmed
+Season 1,Karnali Yaks,SM Dhakal,0,1,1,0,0,0,0,0.0,1,13,2.2,25,11.54,Bowler,player_sm_dhakal,SM Dhakal,initials-unexpanded
+Season 1,Karnali Yaks,B Karki,0,2,2,0,0,0,0,0.0,0,30,5.0,39,7.8,Batter,player_b_karki,B Karki,initials-unexpanded
+Season 1,Kathmandu Gorkhas,SS Eskinazi,7,0,7,133,116,0,0,114.66,0,0,0.0,0,0.0,Batter,player_ss_eskinazi,Stephen Eskinazi,confirmed
+Season 1,Kathmandu Gorkhas,MG Erasmus,7,7,7,110,83,0,0,132.53,11,162,27.0,141,5.22,All-rounder,player_mg_erasmus,Gerhard Erasmus,confirmed
+Season 1,Kathmandu Gorkhas,M Levitt,7,2,7,102,75,0,0,136.0,1,37,6.2,45,7.3,Batter,player_m_levitt,Michael Levitt,confirmed
+Season 1,Kathmandu Gorkhas,S Maharjan,5,0,5,87,98,0,0,88.78,0,0,0.0,0,0.0,Batter,player_s_maharjan,Sumit Maharjan,confirmed
+Season 1,Kathmandu Gorkhas,B Sharki,7,3,7,78,99,0,0,78.79,0,31,5.2,31,6.0,Batter,player_b_sharki,Bhim Sharki,confirmed
+Season 1,Kathmandu Gorkhas,P Shrestha,4,0,4,73,66,0,0,110.61,0,0,0.0,0,0.0,Batter,player_p_shrestha,Pratik Shrestha,confirmed
+Season 1,Kathmandu Gorkhas,Karan KC,7,7,7,51,40,0,0,127.5,14,150,25.0,162,6.48,All-rounder,player_karan_kc,Karan KC,single-form
+Season 1,Kathmandu Gorkhas,DA Douthwaite,4,3,4,42,54,0,0,77.78,2,44,7.3,51,6.95,Bowler,player_da_douthwaite,Daniel Douthwaite,confirmed
+Season 1,Kathmandu Gorkhas,Shankar Rana,4,0,4,41,55,0,0,74.55,0,0,0.0,0,0.0,Batter,player_shankar_rana,Shankar Rana,single-form
+Season 1,Kathmandu Gorkhas,Rashid Khan,6,6,6,29,53,0,0,54.72,7,108,18.0,144,8.0,Bowler,player_rashid_khan,Rashid Khan,single-form
+Season 1,Kathmandu Gorkhas,Shahab Alam,5,7,7,20,28,0,0,71.43,6,139,23.2,126,5.44,Bowler,player_shahab_alam,Shahab Alam,single-form
+Season 1,Kathmandu Gorkhas,D Kandel,3,5,5,12,9,0,0,133.33,7,96,16.0,87,5.44,Bowler,player_d_kandel,Dipesh Kandel,confirmed
+Season 1,Kathmandu Gorkhas,NA Sowter,1,3,3,1,1,0,0,100.0,1,56,9.3,87,9.32,Bowler,player_na_sowter,NA Sowter,initials-unexpanded
+Season 1,Lumbini Lions,RK Paudel,7,6,7,279,218,0,0,127.98,8,114,19.0,111,5.84,All-rounder,player_rk_paudel,Rohit Paudel,confirmed
+Season 1,Lumbini Lions,TJ Moores,7,0,7,165,134,0,0,123.13,0,0,0.0,0,0.0,Batter,player_tj_moores,Tom Moores,confirmed
+Season 1,Lumbini Lions,S Jora,7,2,7,120,118,0,0,101.69,1,18,3.0,22,7.33,Batter,player_s_jora,Sundeep Jora,confirmed
+Season 1,Lumbini Lions,B Yadav,5,6,6,100,75,0,0,133.33,3,103,17.2,172,10.02,Batter,player_b_yadav,Bibek Kumar Yadav,confirmed
+Season 1,Lumbini Lions,Saad Bin Zafar,6,7,7,83,63,0,0,131.75,10,154,25.7,174,6.78,All-rounder,player_saad_bin_zafar,Saad Bin Zafar,single-form
+Season 1,Lumbini Lions,A Saud,6,0,6,68,73,0,0,93.15,0,0,0.0,0,0.0,Batter,player_a_saud,Arjun Saud,confirmed
+Season 1,Lumbini Lions,A Ghiraiya,6,0,6,44,71,0,0,61.97,0,0,0.0,0,0.0,Batter,player_a_ghiraiya,A Ghiraiya,initials-unexpanded
+Season 1,Lumbini Lions,Surya Tamang,2,4,4,18,20,0,0,90.0,1,91,15.2,115,7.58,Bowler,player_surya_tamang,Surya Tamang,single-form
+Season 1,Lumbini Lions,UBT Chand,4,0,4,18,29,0,0,62.07,0,0,0.0,0,0.0,Batter,player_ubt_chand,UBT Chand,initials-unexpanded
+Season 1,Lumbini Lions,D Adhikari,1,2,2,14,16,0,0,87.5,0,12,2.0,31,15.5,Batter,player_d_adhikari,Dinesh Adhikari,confirmed
+Season 1,Lumbini Lions,BCJ Cutting,3,0,3,10,21,0,0,47.62,0,0,0.0,0,0.0,Batter,player_bcj_cutting,Ben Cutting,confirmed
+Season 1,Lumbini Lions,RR Simmonds,4,7,7,6,13,0,0,46.15,9,152,25.3,197,7.78,Bowler,player_rr_simmonds,RR Simmonds,initials-unexpanded
+Season 1,Lumbini Lions,D Gupta,2,4,4,5,4,0,0,125.0,3,66,11.0,110,10.0,Bowler,player_d_gupta,Durgesh Gupta,confirmed
+Season 1,Lumbini Lions,TR Bhandari,1,1,1,3,5,0,0,60.0,2,24,4.0,24,6.0,Bowler,player_tr_bhandari,Tilak Raj Bhandari,confirmed
+Season 1,Lumbini Lions,Abhishesh Gautam,0,4,4,0,0,0,0,0.0,7,97,16.2,87,5.38,Bowler,player_abhishesh_gautam,Abhishesh Gautam,single-form
+Season 1,Lumbini Lions,B Aagri,0,1,1,0,0,0,0,0.0,3,12,2.0,14,7.0,Bowler,player_b_aagri,Bikash Aagri,confirmed
+Season 1,Pokhara Avengers,AGS Gous,6,0,6,225,138,0,0,163.04,0,0,0.0,0,0.0,Batter,player_ags_gous,Andries Gous,confirmed
+Season 1,Pokhara Avengers,RA Reifer,6,7,7,163,146,0,0,111.64,8,140,23.3,177,7.59,All-rounder,player_ra_reifer,Raymon Reifer,confirmed
+Season 1,Pokhara Avengers,D Kharel,7,2,7,162,148,0,0,109.46,1,7,1.2,15,12.86,Batter,player_d_kharel,Dinesh Kharel,confirmed
+Season 1,Pokhara Avengers,K Bhurtel,6,6,6,54,67,0,0,80.6,5,86,14.3,114,7.95,All-rounder,player_k_bhurtel,Kushal Bhurtel,confirmed
+Season 1,Pokhara Avengers,MJJ Critchley,3,4,4,52,57,0,0,91.23,1,55,9.2,97,10.58,Batter,player_mjj_critchley,Matt Critchley,confirmed
+Season 1,Pokhara Avengers,D Nath,5,0,5,46,52,0,0,88.46,0,0,0.0,0,0.0,Batter,player_d_nath,Dilip Nath,confirmed
+Season 1,Pokhara Avengers,MA Leask,6,7,7,44,36,0,0,122.22,3,133,22.2,158,7.13,Bowler,player_ma_leask,Michael Leask,confirmed
+Season 1,Pokhara Avengers,N Joshi,5,2,5,38,36,0,0,105.56,0,15,2.5,31,12.4,Batter,player_n_joshi,Narayan Joshi,confirmed
+Season 1,Pokhara Avengers,K Thagunna,2,0,2,33,31,0,0,106.45,0,0,0.0,0,0.0,Batter,player_k_thagunna,Kiran Thagunna,confirmed
+Season 1,Pokhara Avengers,Bipin Khatri,5,7,7,24,28,0,0,85.71,9,110,18.3,135,7.36,Bowler,player_bipin_khatri,Bipin Khatri,single-form
+Season 1,Pokhara Avengers,Z Malik,2,0,2,14,25,0,0,56.0,0,0,0.0,0,0.0,Batter,player_z_malik,Z Malik,initials-unexpanded
+Season 1,Pokhara Avengers,Aakarshit Gomel,1,1,1,8,15,0,0,53.33,0,6,1.0,13,13.0,Batter,player_aakarshit_gomel,Aakarshit Gomel,single-form
+Season 1,Pokhara Avengers,S Dhakal,4,7,7,2,5,0,0,40.0,5,150,25.0,166,6.64,Bowler,player_s_dhakal,Sagar Dhakal,confirmed
+Season 1,Pokhara Avengers,Aakash Chand,1,3,3,1,3,0,0,33.33,1,46,7.7,74,9.65,Bowler,player_aakash_chand,Aakash Chand,single-form
+Season 1,Pokhara Avengers,BFW de Leede,0,1,1,0,0,0,0,0.0,2,25,4.2,20,4.8,Bowler,player_bfw_de_leede,Bas de Leede,confirmed
+Season 1,Pokhara Avengers,S Aryal,0,1,1,0,0,0,0,0.0,1,13,2.2,19,8.77,Bowler,player_s_aryal,Sudip Aryal,confirmed
+Season 1,Sudurpaschim Royals,SA Zaib,9,9,9,275,212,0,0,129.72,13,146,24.3,152,6.25,All-rounder,player_sa_zaib,Saif Ali Zaib,confirmed
+Season 1,Sudurpaschim Royals,B Bhandari,9,0,9,235,223,0,0,105.38,0,0,0.0,0,0.0,Batter,player_b_bhandari,Binod Bhandari,confirmed
+Season 1,Sudurpaschim Royals,DS Airee,9,7,9,227,148,0,0,153.38,11,152,25.3,176,6.95,All-rounder,player_ds_airee,Dipendra Singh Airee,confirmed
+Season 1,Sudurpaschim Royals,BJ McMullen,9,8,9,201,162,0,0,124.07,7,117,19.5,130,6.67,All-rounder,player_bj_mcmullen,Brandon McMullen,confirmed
+Season 1,Sudurpaschim Royals,I Pandey,7,5,7,128,120,0,0,106.67,4,46,7.7,52,6.78,Batter,player_i_pandey,Ishan Pandey,confirmed
+Season 1,Sudurpaschim Royals,Aarif Sheikh,8,0,8,69,71,0,0,97.18,0,0,0.0,0,0.0,Batter,player_aarif_sheikh,Aarif Sheikh,single-form
+Season 1,Sudurpaschim Royals,SC Kuggeleijn,7,9,9,66,45,0,0,146.67,19,191,31.8,210,6.6,All-rounder,player_sc_kuggeleijn,Scott Kuggeleijn,confirmed
+Season 1,Sudurpaschim Royals,Harmeet Singh,3,5,5,28,21,0,0,133.33,9,126,21.0,94,4.48,Bowler,player_harmeet_singh,Harmeet Singh,single-form
+Season 1,Sudurpaschim Royals,NB Budayair,4,0,4,28,23,0,0,121.74,0,0,0.0,0,0.0,Batter,player_nb_budayair,NB Budayair,initials-unexpanded
+Season 1,Sudurpaschim Royals,N Saud,3,7,7,14,13,0,0,107.69,7,88,14.7,98,6.68,Bowler,player_n_saud,Naren Saud,confirmed
+Season 1,Sudurpaschim Royals,DS Bajwa,1,0,1,12,16,0,0,75.0,0,0,0.0,0,0.0,Batter,player_ds_bajwa,DS Bajwa,initials-unexpanded
+Season 1,Sudurpaschim Royals,Rohan Mustafa,1,1,1,4,7,0,0,57.14,0,6,1.0,8,8.0,Batter,player_rohan_mustafa,Rohan Mustafa,single-form
+Season 1,Sudurpaschim Royals,B Khatri,1,1,1,4,4,0,0,100.0,0,6,1.0,12,12.0,Batter,player_b_khatri,B Khatri,initials-unexpanded
+Season 1,Sudurpaschim Royals,A Bohara,1,8,8,2,3,0,0,66.67,8,143,23.8,184,7.72,Bowler,player_a_bohara,Abinash Bohara,confirmed
+Season 1,Sudurpaschim Royals,A Shrestha,1,0,1,1,5,0,0,20.0,0,0,0.0,0,0.0,Batter,player_a_shrestha,A Shrestha,initials-unexpanded
+Season 2,Biratnagar Kings,Basir Ahamad,9,7,9,191,166,0,0,115.06,4,119,19.8,150,7.56,Batter,player_basir_ahamad,Basir Ahamad,single-form
+Season 2,Biratnagar Kings,Lokesh Bam,9,0,9,170,163,0,0,104.29,0,0,0.0,0,0.0,Batter,player_lokesh_bam,Lokesh Bam,single-form
+Season 2,Biratnagar Kings,SD Heazlett,6,4,6,150,102,0,0,147.06,1,49,8.2,69,8.45,Batter,player_sd_heazlett,Sam Heazlett,confirmed
+Season 2,Biratnagar Kings,MJ Guptill,6,0,6,125,83,0,0,150.6,0,0,0.0,0,0.0,Batter,player_mj_guptill,Martin Guptill,confirmed
+Season 2,Biratnagar Kings,F du Plessis,4,0,4,101,62,0,0,162.9,0,0,0.0,0,0.0,Batter,player_f_du_plessis,Faf du Plessis,confirmed
+Season 2,Biratnagar Kings,Shubham Ranjane,4,4,4,87,67,0,0,129.85,5,62,10.3,105,10.16,All-rounder,player_shubham_ranjane,Shubham Ranjane,single-form
+Season 2,Biratnagar Kings,M de Lange,6,9,9,83,65,0,0,127.69,11,210,35.0,283,8.09,All-rounder,player_m_de_lange,Marchant de Lange,confirmed
+Season 2,Biratnagar Kings,Pratis GC,8,9,9,67,41,0,0,163.41,11,160,26.7,222,8.33,All-rounder,player_pratis_gc,Pratish GC,confirmed
+Season 2,Biratnagar Kings,HG Munsey,6,1,6,60,40,0,0,150.0,0,6,1.0,9,9.0,Batter,player_hg_munsey,George Munsey,confirmed
+Season 2,Biratnagar Kings,N Bhatta,4,6,6,49,62,0,0,79.03,0,97,16.2,119,7.36,Batter,player_n_bhatta,Naren Bhatta,confirmed
+Season 2,Biratnagar Kings,N Joshi,6,4,6,48,48,0,0,100.0,0,31,5.2,51,9.87,Batter,player_n_joshi,Narayan Joshi,confirmed
+Season 2,Biratnagar Kings,S Lamichhane,7,9,9,31,21,0,0,147.62,17,220,36.7,179,4.88,Bowler,player_s_lamichhane,Sandeep Lamichhane,confirmed
+Season 2,Biratnagar Kings,S Patel,2,0,2,22,28,0,0,78.57,0,0,0.0,0,0.0,Batter,player_s_patel,Sahil Patel,confirmed
+Season 2,Biratnagar Kings,Shankar Rana,1,1,1,7,14,0,0,50.0,0,8,1.3,7,5.25,Batter,player_shankar_rana,Shankar Rana,single-form
+Season 2,Biratnagar Kings,Subash Bhandari,0,2,2,0,0,0,0,0.0,5,48,8.0,44,5.5,Bowler,player_subash_bhandari,Subash Bhandari,single-form
+Season 2,Biratnagar Kings,Surya Tamang,0,6,6,0,0,0,0,0.0,5,81,13.5,104,7.7,Bowler,player_surya_tamang,Surya Tamang,single-form
+Season 2,Chitwan Rhinos,RS Bopara,7,3,7,237,184,0,0,128.8,2,48,8.0,69,8.63,Batter,player_rs_bopara,Ravi Bopara,confirmed
+Season 2,Chitwan Rhinos,Kushal Malla,7,5,7,135,114,0,0,118.42,1,97,16.2,141,8.72,Batter,player_kushal_malla,Kushal Malla,single-form
+Season 2,Chitwan Rhinos,D Khanal,6,1,6,127,123,0,0,103.25,0,6,1.0,6,6.0,Batter,player_d_khanal,Dev Khanal,confirmed
+Season 2,Chitwan Rhinos,DJ Malan,7,0,7,121,100,0,0,121.0,0,0,0.0,0,0.0,Batter,player_dj_malan,Dawid Malan,confirmed
+Season 2,Chitwan Rhinos,SA Zaib,7,7,7,116,90,0,0,128.89,5,138,23.0,156,6.78,Batter,player_sa_zaib,Saif Ali Zaib,confirmed
+Season 2,Chitwan Rhinos,A Saud,6,0,6,87,70,0,0,124.29,0,0,0.0,0,0.0,Batter,player_a_saud,Arjun Saud,confirmed
+Season 2,Chitwan Rhinos,Deepak Bohara,4,0,4,57,59,0,0,96.61,0,0,0.0,0,0.0,Batter,player_deepak_bohara,Deepak Bohara,single-form
+Season 2,Chitwan Rhinos,AR Ramjani,1,1,1,33,22,0,0,150.0,0,24,4.0,21,5.25,Batter,player_ar_ramjani,Alpesh Ramjani,confirmed
+Season 2,Chitwan Rhinos,Sohail Tanvir,2,5,5,23,21,0,0,109.52,9,115,19.2,136,7.1,Bowler,player_sohail_tanvir,Sohail Tanvir,single-form
+Season 2,Chitwan Rhinos,KS Airee,3,6,6,17,16,0,0,106.25,6,101,16.8,170,10.1,Bowler,player_ks_airee,Kamal Singh Airee,confirmed
+Season 2,Chitwan Rhinos,AS Routela,3,1,3,13,11,0,0,118.18,1,12,2.0,19,9.5,Bowler,player_as_routela,Amar Singh Rautela,confirmed
+Season 2,Chitwan Rhinos,R Dhakal,2,5,5,3,3,0,0,100.0,4,101,16.8,127,7.54,Bowler,player_r_dhakal,Rijan Dhakal,confirmed
+Season 2,Chitwan Rhinos,R Kumar,2,5,5,1,2,0,0,50.0,8,120,20.0,118,5.9,Bowler,player_r_kumar,Ranjeet Kumar,confirmed
+Season 2,Chitwan Rhinos,GLS Scrimshaw,0,1,1,0,0,0,0,0.0,2,26,4.3,40,9.23,Bowler,player_gls_scrimshaw,George Scrimshaw,confirmed
+Season 2,Chitwan Rhinos,Gautam KC,0,1,1,0,0,0,0,0.0,0,12,2.0,28,14.0,Batter,player_gautam_kc,Gautam KC,single-form
+Season 2,Chitwan Rhinos,Saugat Dhakal,0,1,1,0,0,0,0,0.0,0,6,1.0,14,14.0,Batter,player_saugat_dhakal,Saugat Dhakal,single-form
+Season 2,Janakpur Bolts,SP Krishnamurthi,7,7,7,167,136,0,0,122.79,6,122,20.3,135,6.64,All-rounder,player_sp_krishnamurthi,Sanjay Krishnamurthi,confirmed
+Season 2,Janakpur Bolts,Maaz Sadaqat,5,5,5,113,75,0,0,150.67,5,122,20.3,134,6.59,Batter,player_maaz_sadaqat,Maaz Sadaqat,single-form
+Season 2,Janakpur Bolts,JN Loftie-Eaton,7,3,7,108,97,0,0,111.34,2,36,6.0,50,8.33,Batter,player_jn_loftie-eaton,Jan Nicol Loftie-Eaton,confirmed
+Season 2,Janakpur Bolts,Aasif Sheikh,7,0,7,105,95,0,0,110.53,0,0,0.0,0,0.0,Batter,player_aasif_sheikh,Aasif Sheikh,single-form
+Season 2,Janakpur Bolts,Mayan Yadav,6,3,6,84,94,0,0,89.36,2,18,3.0,19,6.33,Batter,player_mayan_yadav,Mayan Yadav,single-form
+Season 2,Janakpur Bolts,AK Sah,6,6,6,73,75,0,0,97.33,4,116,19.3,137,7.09,All-rounder,player_ak_sah,Anil Kumar Sah,confirmed
+Season 2,Janakpur Bolts,MMMS Cooray,3,3,3,70,72,0,0,97.22,7,73,12.2,64,5.26,All-rounder,player_mmms_cooray,MMMS Cooray,initials-unexpanded
+Season 2,Janakpur Bolts,WD Parnell,2,1,2,64,52,0,0,123.08,1,19,3.2,28,8.84,Batter,player_wd_parnell,Wayne Parnell,confirmed
+Season 2,Janakpur Bolts,A Mahata,4,5,5,35,26,0,0,134.62,4,50,8.3,73,8.76,Bowler,player_a_mahata,Aadity Mahata,confirmed
+Season 2,Janakpur Bolts,BKEL Milantha,2,0,2,30,34,0,0,88.24,0,0,0.0,0,0.0,Batter,player_bkel_milantha,Lahiru Milantha,confirmed
+Season 2,Janakpur Bolts,SMLD Samarakoon,1,1,1,22,21,0,0,104.76,0,6,1.0,6,6.0,Batter,player_smld_samarakoon,Lahiru Samarakoon,confirmed
+Season 2,Janakpur Bolts,Rupesh Singh,4,4,4,20,26,0,0,76.92,5,55,9.2,93,10.15,Bowler,player_rupesh_singh,Rupesh Kumar Singh,confirmed
+Season 2,Janakpur Bolts,LN Rajbanshi,2,5,5,15,15,0,0,100.0,4,116,19.3,136,7.03,Bowler,player_ln_rajbanshi,Lalit Narayan Rajbanshi,confirmed
+Season 2,Janakpur Bolts,S Kansakar,3,0,3,15,18,0,0,83.33,0,0,0.0,0,0.0,Batter,player_s_kansakar,Shubh Kansakar,confirmed
+Season 2,Janakpur Bolts,K Mahato,2,4,4,3,6,0,0,50.0,1,50,8.3,72,8.64,Bowler,player_k_mahato,Kishore Mahato,confirmed
+Season 2,Janakpur Bolts,B Aagri,0,1,1,0,0,0,0,0.0,0,6,1.0,5,5.0,Batter,player_b_aagri,Bikash Aagri,confirmed
+Season 2,Janakpur Bolts,Sachin Bhatt,0,2,2,0,0,0,0,0.0,0,26,4.3,43,9.92,Batter,player_sachin_bhatt,Sachin Bhatta,confirmed
+Season 2,Janakpur Bolts,TB Thapa,0,1,1,0,0,0,0,0.0,0,12,2.0,15,7.5,Batter,player_tb_thapa,Tul Bahadur Thapa,confirmed
+Season 2,Karnali Yaks,MRJ Watt,7,7,7,246,162,0,0,151.85,6,133,22.2,146,6.59,All-rounder,player_mrj_watt,Mark Watt,confirmed
+Season 2,Karnali Yaks,Priyank Panchal,7,0,7,197,141,0,0,139.72,0,0,0.0,0,0.0,Batter,player_priyank_panchal,Priyank Panchal,single-form
+Season 2,Karnali Yaks,Gulsan Jha,5,4,5,110,75,0,0,146.67,3,63,10.5,92,8.76,Batter,player_gulsan_jha,Gulshan Jha,confirmed
+Season 2,Karnali Yaks,P Sarraf,5,4,5,109,87,0,0,125.29,3,61,10.2,74,7.28,Batter,player_p_sarraf,Pawan Sarraf,confirmed
+Season 2,Karnali Yaks,WG Bosisto,5,5,5,96,90,0,0,106.67,4,80,13.3,84,6.3,Batter,player_wg_bosisto,Will Bosisto,confirmed
+Season 2,Karnali Yaks,Najibullah Zadran,6,0,6,66,58,0,0,113.79,0,0,0.0,0,0.0,Batter,player_najibullah_zadran,Najibullah Zadran,single-form
+Season 2,Karnali Yaks,Sompal Kami,4,7,7,51,47,0,0,108.51,9,152,25.3,222,8.76,All-rounder,player_sompal_kami,Sompal Kami,single-form
+Season 2,Karnali Yaks,Imran Sheikh,1,0,1,33,32,0,0,103.13,0,0,0.0,0,0.0,Batter,player_imran_sheikh,Imran Sheikh,single-form
+Season 2,Karnali Yaks,MP O'Dowd,1,0,1,20,30,0,0,66.67,0,0,0.0,0,0.0,Batter,player_mp_o'dowd,Max O'Dowd,confirmed
+Season 2,Karnali Yaks,A Gharti,2,0,2,17,27,0,0,62.96,0,0,0.0,0,0.0,Batter,player_a_gharti,Arjun Gharti,confirmed
+Season 2,Karnali Yaks,D Rawat,2,2,2,12,10,0,0,120.0,0,30,5.0,44,8.8,Batter,player_d_rawat,Dipendra Rawat,confirmed
+Season 2,Karnali Yaks,Deepak Dumre,1,0,1,10,13,0,0,76.92,0,0,0.0,0,0.0,Batter,player_deepak_dumre,Deepak Dumre,single-form
+Season 2,Karnali Yaks,JA Kolsawala,1,0,1,6,10,0,0,60.0,0,0,0.0,0,0.0,Batter,player_ja_kolsawala,JA Kolsawala,initials-unexpanded
+Season 2,Karnali Yaks,NK Yadav,3,7,7,5,11,0,0,45.45,11,159,26.5,225,8.49,Bowler,player_nk_yadav,Nandan Yadav,confirmed
+Season 2,Karnali Yaks,UB Singh,1,2,2,1,2,0,0,50.0,2,24,4.0,40,10.0,Bowler,player_ub_singh,UB Singh,initials-unexpanded
+Season 2,Karnali Yaks,BP Sharma,0,4,4,0,0,0,0,0.0,3,79,13.2,89,6.76,Bowler,player_bp_sharma,Bipin Sharma,confirmed
+Season 2,Karnali Yaks,Y Khatri,0,4,4,0,0,0,0,0.0,3,66,11.0,95,8.64,Bowler,player_y_khatri,Yuvraj Khatri,confirmed
+Season 2,Kathmandu Gorkhas,BG Charlesworth,8,0,8,201,167,0,0,120.36,0,0,0.0,0,0.0,Batter,player_bg_charlesworth,Ben Charlesworth,confirmed
+Season 2,Kathmandu Gorkhas,JA Simpson,8,0,8,172,104,0,0,165.38,0,0,0.0,0,0.0,Batter,player_ja_simpson,John Simpson,confirmed
+Season 2,Kathmandu Gorkhas,A Tripathi,8,0,8,118,141,0,0,83.69,0,0,0.0,0,0.0,Batter,player_a_tripathi,Aakash Tripathi,confirmed
+Season 2,Kathmandu Gorkhas,Milind Kumar,7,7,7,115,140,0,0,82.14,10,164,27.3,162,5.93,All-rounder,player_milind_kumar,Milind Kumar,single-form
+Season 2,Kathmandu Gorkhas,Mohammad Aadil Alam,7,1,7,93,63,0,0,147.62,0,6,1.0,11,11.0,Batter,player_mohammad_aadil_alam,Mohammad Aadil Alam,single-form
+Season 2,Kathmandu Gorkhas,B Sharki,5,1,5,90,62,0,0,145.16,0,6,1.0,9,9.0,Batter,player_b_sharki,Bhim Sharki,confirmed
+Season 2,Kathmandu Gorkhas,Santosh Yadav,5,8,8,76,66,0,0,115.15,8,106,17.7,114,6.45,All-rounder,player_santosh_yadav,Santosh Yadav,single-form
+Season 2,Kathmandu Gorkhas,MG Erasmus,5,5,5,71,71,0,0,100.0,4,85,14.2,100,7.06,All-rounder,player_mg_erasmus,Gerhard Erasmus,confirmed
+Season 2,Kathmandu Gorkhas,Karan KC,5,8,8,49,32,0,0,153.13,14,181,30.2,222,7.36,Bowler,player_karan_kc,Karan KC,single-form
+Season 2,Kathmandu Gorkhas,Rashid Khan,6,8,8,35,47,0,0,74.47,10,134,22.3,181,8.1,Bowler,player_rashid_khan,Rashid Khan,single-form
+Season 2,Kathmandu Gorkhas,Sunny Patel,3,3,3,19,15,0,0,126.67,5,74,12.3,68,5.51,Bowler,player_sunny_patel,Sunny Patel,single-form
+Season 2,Kathmandu Gorkhas,Shahab Alam,4,8,8,7,15,0,0,46.67,13,169,28.2,175,6.21,Bowler,player_shahab_alam,Shahab Alam,single-form
+Season 2,Kathmandu Gorkhas,D Kandel,1,1,1,6,5,0,0,120.0,0,6,1.0,7,7.0,Batter,player_d_kandel,Dipesh Kandel,confirmed
+Season 2,Kathmandu Gorkhas,R Vasconcelos,1,0,1,3,4,0,0,75.0,0,0,0.0,0,0.0,Batter,player_r_vasconcelos,Ricardo Vasconcelos,confirmed
+Season 2,Kathmandu Gorkhas,P Shrestha,1,0,1,2,8,0,0,25.0,0,0,0.0,0,0.0,Batter,player_p_shrestha,Pratik Shrestha,confirmed
+Season 2,Lumbini Lions,RK Paudel,10,5,10,276,283,0,0,97.53,10,79,13.2,100,7.59,All-rounder,player_rk_paudel,Rohit Paudel,confirmed
+Season 2,Lumbini Lions,DJM Short,10,6,10,256,217,0,0,117.97,0,82,13.7,122,8.93,Batter,player_djm_short,D'Arcy Short,confirmed
+Season 2,Lumbini Lions,N Dickwella,6,0,6,137,117,0,0,117.09,0,0,0.0,0,0.0,Batter,player_n_dickwella,Niroshan Dickwella,confirmed
+Season 2,Lumbini Lions,D Nath,10,0,10,122,124,0,0,98.39,0,0,0.0,0,0.0,Batter,player_d_nath,Dilip Nath,confirmed
+Season 2,Lumbini Lions,S Jora,10,0,10,115,109,0,0,105.5,0,0,0.0,0,0.0,Batter,player_s_jora,Sundeep Jora,confirmed
+Season 2,Lumbini Lions,Gulbadin Naib,5,5,5,90,60,0,0,150.0,5,97,16.2,128,7.92,All-rounder,player_gulbadin_naib,Gulbadin Naib,single-form
+Season 2,Lumbini Lions,R Trumpelmann,7,10,10,65,43,0,0,151.16,17,212,35.3,234,6.62,All-rounder,player_r_trumpelmann,Ruben Trumpelmann,confirmed
+Season 2,Lumbini Lions,JJ Smit,6,6,6,56,49,0,0,114.29,4,72,12.0,98,8.17,All-rounder,player_jj_smit,JJ Smit,initials-unexpanded
+Season 2,Lumbini Lions,D Adhikari,3,0,3,47,24,0,0,195.83,0,0,0.0,0,0.0,Batter,player_d_adhikari,Dinesh Adhikari,confirmed
+Season 2,Lumbini Lions,S Malla,5,10,10,46,30,0,0,153.33,17,217,36.2,236,6.53,Bowler,player_s_malla,Sher Malla,confirmed
+Season 2,Lumbini Lions,S Maharjan,6,0,6,32,41,0,0,78.05,0,0,0.0,0,0.0,Batter,player_s_maharjan,Sumit Maharjan,confirmed
+Season 2,Lumbini Lions,Abhishesh Gautam,3,10,10,12,12,0,0,100.0,7,194,32.3,217,6.71,Bowler,player_abhishesh_gautam,Abhishesh Gautam,single-form
+Season 2,Lumbini Lions,TR Bhandari,1,8,8,6,8,0,0,75.0,8,166,27.7,149,5.39,Bowler,player_tr_bhandari,Tilak Raj Bhandari,confirmed
+Season 2,Lumbini Lions,TJ Draca,1,1,1,6,4,0,0,150.0,0,20,3.3,27,8.1,Batter,player_tj_draca,Thomas Draca,confirmed
+Season 2,Lumbini Lions,Sameer Ali,1,0,1,1,2,0,0,50.0,0,0,0.0,0,0.0,Batter,player_sameer_ali,Sameer Ali,single-form
+Season 2,Lumbini Lions,M Subasingha,0,1,1,0,0,0,0,0.0,0,12,2.0,10,5.0,Batter,player_m_subasingha,M Subasingha,initials-unexpanded
+Season 2,Pokhara Avengers,AM Rossington,7,0,7,323,223,0,0,144.84,0,0,0.0,0,0.0,Batter,player_am_rossington,Adam Rossington,confirmed
+Season 2,Pokhara Avengers,K Bhurtel,7,7,7,156,113,0,0,138.05,5,143,23.8,178,7.47,Batter,player_k_bhurtel,Kushal Bhurtel,confirmed
+Season 2,Pokhara Avengers,JDS Neesham,4,4,4,99,62,0,0,159.68,5,65,10.8,108,9.97,All-rounder,player_jds_neesham,Jimmy Neesham,confirmed
+Season 2,Pokhara Avengers,DA Douthwaite,3,3,3,73,43,0,0,169.77,3,68,11.3,79,6.97,Batter,player_da_douthwaite,Daniel Douthwaite,confirmed
+Season 2,Pokhara Avengers,JJ Roy,3,0,3,68,57,0,0,119.3,0,0,0.0,0,0.0,Batter,player_jj_roy,Jason Roy,confirmed
+Season 2,Pokhara Avengers,D Kharel,4,0,4,58,65,0,0,89.23,0,0,0.0,0,0.0,Batter,player_d_kharel,Dinesh Kharel,confirmed
+Season 2,Pokhara Avengers,SL Verma,3,2,3,56,43,0,0,130.23,2,42,7.0,53,7.57,Batter,player_sl_verma,Sumeet Verma,confirmed
+Season 2,Pokhara Avengers,R Dhawan,1,3,3,54,33,0,0,163.64,4,61,10.2,82,8.07,All-rounder,player_r_dhawan,R Dhawan,initials-unexpanded
+Season 2,Pokhara Avengers,D Lakshan,2,3,3,53,38,0,0,139.47,10,73,12.2,69,5.67,All-rounder,player_d_lakshan,Dhananjaya Lakshan,confirmed
+Season 2,Pokhara Avengers,Arjun Kumal,1,0,1,43,53,0,0,81.13,0,0,0.0,0,0.0,Batter,player_arjun_kumal,Arjun Kumal,single-form
+Season 2,Pokhara Avengers,TR Das,4,0,4,39,47,0,0,82.98,0,0,0.0,0,0.0,Batter,player_tr_das,Trit Raj Das,confirmed
+Season 2,Pokhara Avengers,K Thagunna,5,3,5,24,31,0,0,77.42,3,51,8.5,61,7.18,Bowler,player_k_thagunna,Kiran Thagunna,confirmed
+Season 2,Pokhara Avengers,Abhisekh Tiwari,2,0,2,14,23,0,0,60.87,0,0,0.0,0,0.0,Batter,player_abhisekh_tiwari,Abhisekh Tiwari,single-form
+Season 2,Pokhara Avengers,Bipin Khatri,2,6,6,7,9,0,0,77.78,8,111,18.5,115,6.22,Bowler,player_bipin_khatri,Bipin Khatri,single-form
+Season 2,Pokhara Avengers,S Dhakal,2,5,5,7,4,0,0,175.0,3,89,14.8,135,9.1,Bowler,player_s_dhakal,Sagar Dhakal,confirmed
+Season 2,Pokhara Avengers,Aakash Chand,3,5,5,5,6,0,0,83.33,4,88,14.7,158,10.77,Bowler,player_aakash_chand,Aakash Chand,single-form
+Season 2,Pokhara Avengers,MD Taylor,1,2,2,4,6,0,0,66.67,4,48,8.0,73,9.13,Bowler,player_md_taylor,MD Taylor,initials-unexpanded
+Season 2,Pokhara Avengers,SK Chettri,1,1,1,2,4,0,0,50.0,1,9,1.5,5,3.33,Bowler,player_sk_chettri,Sandeep Chhetri,confirmed
+Season 2,Pokhara Avengers,Rohit Chand,0,1,1,0,0,0,0,0.0,1,24,4.0,30,7.5,Bowler,player_rohit_chand,Rohit Chand,single-form
+Season 2,Sudurpaschim Royals,B Bhandari,9,0,9,264,243,0,0,108.64,0,0,0.0,0,0.0,Batter,player_b_bhandari,Binod Bhandari,confirmed
+Season 2,Sudurpaschim Royals,Aarif Sheikh,8,0,8,186,159,0,0,116.98,0,0,0.0,0,0.0,Batter,player_aarif_sheikh,Aarif Sheikh,single-form
+Season 2,Sudurpaschim Royals,DS Airee,8,9,9,162,129,0,0,125.58,10,146,24.3,226,9.29,All-rounder,player_ds_airee,Dipendra Singh Airee,confirmed
+Season 2,Sudurpaschim Royals,I Pandey,8,5,8,160,161,0,0,99.38,2,43,7.2,59,8.23,Batter,player_i_pandey,Ishan Pandey,confirmed
+Season 2,Sudurpaschim Royals,CA Lynn,6,0,6,143,124,0,0,115.32,0,0,0.0,0,0.0,Batter,player_ca_lynn,Chris Lynn,confirmed
+Season 2,Sudurpaschim Royals,Harmeet Singh,9,9,9,133,82,0,0,162.2,14,200,33.3,203,6.09,All-rounder,player_harmeet_singh,Harmeet Singh,single-form
+Season 2,Sudurpaschim Royals,J Brown,6,0,6,101,73,0,0,138.36,0,0,0.0,0,0.0,Batter,player_j_brown,Josh Brown,confirmed
+Season 2,Sudurpaschim Royals,SC Kuggeleijn,5,8,8,30,28,0,0,107.14,11,162,27.0,161,5.96,Bowler,player_sc_kuggeleijn,Scott Kuggeleijn,confirmed
+Season 2,Sudurpaschim Royals,SP Jackson,2,0,2,21,15,0,0,140.0,0,0,0.0,0,0.0,Batter,player_sp_jackson,SP Jackson,initials-unexpanded
+Season 2,Sudurpaschim Royals,P Mehra,2,2,2,13,14,0,0,92.86,5,20,3.3,23,6.9,Bowler,player_p_mehra,P Mehra,initials-unexpanded
+Season 2,Sudurpaschim Royals,H Dhami,3,7,7,11,17,0,0,64.71,10,107,17.8,142,7.96,Bowler,player_h_dhami,Hemant Dhami,confirmed
+Season 2,Sudurpaschim Royals,N Saud,3,4,4,10,15,0,0,66.67,2,36,6.0,42,7.0,Bowler,player_n_saud,Naren Saud,confirmed
+Season 2,Sudurpaschim Royals,Mukhtar Ahmed,1,0,1,10,11,0,0,90.91,0,0,0.0,0,0.0,Batter,player_mukhtar_ahmed,Mukhtar Ahmed,single-form
+Season 2,Sudurpaschim Royals,Milan Bohara,1,1,1,5,2,0,0,250.0,0,6,1.0,6,6.0,Batter,player_milan_bohara,Milan Bohara,single-form
+Season 2,Sudurpaschim Royals,A Bohara,3,9,9,3,9,0,0,33.33,19,159,26.5,196,7.4,Bowler,player_a_bohara,Abinash Bohara,confirmed
+Season 2,Sudurpaschim Royals,D Bohara,2,0,2,3,4,0,0,75.0,0,0,0.0,0,0.0,Batter,player_d_bohara,Dipak Bohara,confirmed
+Season 2,Sudurpaschim Royals,H Mahara,0,2,2,0,0,0,0,0.0,1,20,3.3,34,10.2,Bowler,player_h_mahara,Hikmat Mahara,confirmed
+Season 2,Sudurpaschim Royals,D Parashar,0,1,1,0,0,0,0,0.0,0,12,2.0,17,8.5,Batter,player_d_parashar,D Parashar,initials-unexpanded
+Season 3,Janakpur Bolts,Harmeet Singh,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_harmeet_singh,Harmeet Singh,single-form
+Season 3,Janakpur Bolts,AK Sah,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_ak_sah,Anil Kumar Sah,confirmed
+Season 3,Janakpur Bolts,LN Rajbanshi,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_ln_rajbanshi,Lalit Narayan Rajbanshi,confirmed
+Season 3,Janakpur Bolts,Mayan Yadav,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_mayan_yadav,Mayan Yadav,single-form
+Season 3,Janakpur Bolts,A Mahata,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_a_mahata,Aadity Mahata,confirmed
+Season 3,Janakpur Bolts,B Aagri,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_b_aagri,Bikash Aagri,confirmed
+Season 3,Janakpur Bolts,Aashutosh Pandey,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_aashutosh_pandey,Aashutosh Pandey,single-form
+Season 3,Janakpur Bolts,Abhisekh Tiwari,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_abhisekh_tiwari,Abhisekh Tiwari,single-form
+Season 3,Janakpur Bolts,Amar Singh Rautela,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_as_routela,Amar Singh Rautela,confirmed
+Season 3,Janakpur Bolts,Bishal Kumar Patel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_bishal_kumar_patel,Bishal Kumar Patel,single-form
+Season 3,Janakpur Bolts,Bishal Susling,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_bishal_susling,Bishal Susling,single-form
+Season 3,Janakpur Bolts,Rit Gautam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_rit_gautam,Rit Gautam,single-form
+Season 3,Janakpur Bolts,S Karki,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_s_karki,Santosh Karki,confirmed
+Season 3,Janakpur Bolts,TR Das,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_tr_das,Trit Raj Das,confirmed
+Season 3,Janakpur Bolts,Iftikhar Ahmed,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_iftikhar_ahmed,Iftikhar Ahmed,single-form
+Season 3,Janakpur Bolts,Moeen Ali,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_moeen_ali,Moeen Ali,single-form
+Season 3,Janakpur Bolts,JDS Neesham,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_jds_neesham,Jimmy Neesham,confirmed
+Season 3,Biratnagar Kings,S Lamichhane,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_s_lamichhane,Sandeep Lamichhane,confirmed
+Season 3,Biratnagar Kings,Basir Ahamad,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_basir_ahamad,Basir Ahamad,single-form
+Season 3,Biratnagar Kings,Dilsad Ali,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_dilsad_ali,Dilsad Ali,single-form
+Season 3,Biratnagar Kings,Lokesh Bam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_lokesh_bam,Lokesh Bam,single-form
+Season 3,Biratnagar Kings,Subash Bhandari,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_subash_bhandari,Subash Bhandari,single-form
+Season 3,Biratnagar Kings,Pratis GC,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_pratis_gc,Pratish GC,confirmed
+Season 3,Biratnagar Kings,N Joshi,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_n_joshi,Narayan Joshi,confirmed
+Season 3,Biratnagar Kings,Aprajit Poudel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_aprajit_poudel,Aprajit Poudel,single-form
+Season 3,Biratnagar Kings,N Saud,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_n_saud,Naren Saud,confirmed
+Season 3,Biratnagar Kings,Imran Sheikh,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_imran_sheikh,Imran Sheikh,single-form
+Season 3,Biratnagar Kings,Rupesh Singh,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_rupesh_singh,Rupesh Kumar Singh,confirmed
+Season 3,Biratnagar Kings,P Shrestha,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_p_shrestha,Pratik Shrestha,confirmed
+Season 3,Biratnagar Kings,Sujan Thapaliya,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_sujan_thapaliya,Sujan Thapaliya,single-form
+Season 3,Biratnagar Kings,Prajwal Thapa,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_prajwal_thapa,Prajwal Thapa,single-form
+Season 3,Biratnagar Kings,Charith Asalanka,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_charith_asalanka,Charith Asalanka,single-form
+Season 3,Biratnagar Kings,Jishan Alam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_jishan_alam,Jishan Alam,single-form
+Season 3,Biratnagar Kings,Shubham Ranjane,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_shubham_ranjane,Shubham Ranjane,single-form
+Season 3,Biratnagar Kings,Andre Russell,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_andre_russell,Andre Russell,single-form
+Season 3,Chitwan Rhinos,Kushal Malla,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_kushal_malla,Kushal Malla,single-form
+Season 3,Chitwan Rhinos,KS Airee,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_ks_airee,Kamal Singh Airee,confirmed
+Season 3,Chitwan Rhinos,Deepak Bohara,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_deepak_bohara,Deepak Bohara,single-form
+Season 3,Chitwan Rhinos,Mousom Dhakal,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_mousom_dhakal,Mousom Dhakal,single-form
+Season 3,Chitwan Rhinos,R Dhakal,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_r_dhakal,Rijan Dhakal,confirmed
+Season 3,Chitwan Rhinos,Ashok Dhami,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_ashok_dhami,Ashok Dhami,single-form
+Season 3,Chitwan Rhinos,Gautam KC,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_gautam_kc,Gautam KC,single-form
+Season 3,Chitwan Rhinos,D Khanal,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_d_khanal,Dev Khanal,confirmed
+Season 3,Chitwan Rhinos,Salahuddin Khan,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_salahuddin_khan,Salahuddin Khan,single-form
+Season 3,Chitwan Rhinos,R Kumar,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_r_kumar,Ranjeet Kumar,confirmed
+Season 3,Chitwan Rhinos,B Rawal,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_b_rawal,Bipin Rawal,confirmed
+Season 3,Chitwan Rhinos,A Saud,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_a_saud,Arjun Saud,confirmed
+Season 3,Chitwan Rhinos,B Yadav,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_b_yadav,Bibek Kumar Yadav,confirmed
+Season 3,Chitwan Rhinos,RS Bopara,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_rs_bopara,Ravi Bopara,confirmed
+Season 3,Chitwan Rhinos,Sikandar Raza,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_sikandar_raza,Sikandar Raza,single-form
+Season 3,Chitwan Rhinos,Kaleem Sana,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_kaleem_sana,Kaleem Sana,single-form
+Season 3,Karnali Yaks,Sompal Kami,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_sompal_kami,Sompal Kami,single-form
+Season 3,Karnali Yaks,Gulsan Jha,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_gulsan_jha,Gulshan Jha,confirmed
+Season 3,Karnali Yaks,S Kansakar,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_s_kansakar,Shubh Kansakar,confirmed
+Season 3,Karnali Yaks,Y Khatri,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_y_khatri,Yuvraj Khatri,confirmed
+Season 3,Karnali Yaks,Diwan Pun,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_diwan_pun,Diwan Pun,single-form
+Season 3,Karnali Yaks,D Rawat,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_d_rawat,Dipendra Rawat,confirmed
+Season 3,Karnali Yaks,P Sarraf,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_p_sarraf,Pawan Sarraf,confirmed
+Season 3,Karnali Yaks,BP Sharma,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_bp_sharma,Bipin Sharma,confirmed
+Season 3,Karnali Yaks,Sachin Sharma,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_sachin_sharma,Sachin Sharma,single-form
+Season 3,Karnali Yaks,UBS Thakuri,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_ubs_thakuri,Unish Bikram Singh Thakuri,confirmed
+Season 3,Karnali Yaks,Surya Tamang,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_surya_tamang,Surya Tamang,single-form
+Season 3,Karnali Yaks,NK Yadav,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_nk_yadav,Nandan Yadav,confirmed
+Season 3,Karnali Yaks,Deepak Dumre,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_deepak_dumre,Deepak Dumre,single-form
+Season 3,Karnali Yaks,Akbar Ali,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_akbar_ali,Akbar Ali,single-form
+Season 3,Karnali Yaks,Ariful Islam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_ariful_islam,Ariful Islam,single-form
+Season 3,Karnali Yaks,MRJ Watt,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_mrj_watt,Mark Watt,confirmed
+Season 3,Kathmandu Gorkhas,Karan KC,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_karan_kc,Karan KC,single-form
+Season 3,Kathmandu Gorkhas,Mohammad Aadil Alam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_mohammad_aadil_alam,Mohammad Aadil Alam,single-form
+Season 3,Kathmandu Gorkhas,Shahab Alam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_shahab_alam,Shahab Alam,single-form
+Season 3,Kathmandu Gorkhas,Sonu Devkota,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_sonu_devkota,Sonu Devkota,single-form
+Season 3,Kathmandu Gorkhas,Prashiddha Jaisi,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_prashiddha_jaisi,Prashiddha Jaisi,single-form
+Season 3,Kathmandu Gorkhas,Rashid Khan,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_rashid_khan,Rashid Khan,single-form
+Season 3,Kathmandu Gorkhas,Suryanshu Koirala,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_suryanshu_koirala,Suryanshu Koirala,single-form
+Season 3,Kathmandu Gorkhas,Dayanand Mandal,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_dayanand_mandal,Dayanand Mandal,single-form
+Season 3,Kathmandu Gorkhas,S Patel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_s_patel,Sahil Patel,confirmed
+Season 3,Kathmandu Gorkhas,Krishna Paudel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_krishna_paudel,Krishna Paudel,single-form
+Season 3,Kathmandu Gorkhas,Dev Shah,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_dev_shah,Dev Shah,single-form
+Season 3,Kathmandu Gorkhas,B Sharki,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_b_sharki,Bhim Sharki,confirmed
+Season 3,Kathmandu Gorkhas,Santosh Yadav,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_santosh_yadav,Santosh Yadav,single-form
+Season 3,Kathmandu Gorkhas,Sahan Arachchige,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_sahan_arachchige,Sahan Arachchige,single-form
+Season 3,Kathmandu Gorkhas,K. S. Bharat,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_k_s_bharat,K. S. Bharat,single-form
+Season 3,Kathmandu Gorkhas,WG Bosisto,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_wg_bosisto,Will Bosisto,confirmed
+Season 3,Kathmandu Gorkhas,David Warner,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_david_warner,David Warner,single-form
+Season 3,Lumbini Lions,RK Paudel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_rk_paudel,Rohit Paudel,confirmed
+Season 3,Lumbini Lions,D Adhikari,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_d_adhikari,Dinesh Adhikari,confirmed
+Season 3,Lumbini Lions,TR Bhandari,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_tr_bhandari,Tilak Raj Bhandari,confirmed
+Season 3,Lumbini Lions,Ajay Chauhan,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_ajay_chauhan,Ajay Chauhan,single-form
+Season 3,Lumbini Lions,Abhishesh Gautam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_abhishesh_gautam,Abhishesh Gautam,single-form
+Season 3,Lumbini Lions,D Gupta,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_d_gupta,Durgesh Gupta,confirmed
+Season 3,Lumbini Lions,S Jora,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_s_jora,Sundeep Jora,confirmed
+Season 3,Lumbini Lions,K Mahato,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_k_mahato,Kishore Mahato,confirmed
+Season 3,Lumbini Lions,S Malla,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_s_malla,Sher Malla,confirmed
+Season 3,Lumbini Lions,D Nath,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_d_nath,Dilip Nath,confirmed
+Season 3,Lumbini Lions,Aasif Sheikh,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_aasif_sheikh,Aasif Sheikh,single-form
+Season 3,Lumbini Lions,A Tripathi,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_a_tripathi,Aakash Tripathi,confirmed
+Season 3,Lumbini Lions,A Yadav,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_a_yadav,Arniko Prasad Yadav,confirmed
+Season 3,Lumbini Lions,N Dickwella,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_n_dickwella,Niroshan Dickwella,confirmed
+Season 3,Lumbini Lions,DJM Short,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_djm_short,D'Arcy Short,confirmed
+Season 3,Lumbini Lions,R Trumpelmann,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_r_trumpelmann,Ruben Trumpelmann,confirmed
+Season 3,Pokhara Avengers,K Bhurtel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_k_bhurtel,Kushal Bhurtel,confirmed
+Season 3,Pokhara Avengers,S Aryal,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_s_aryal,Sudip Aryal,confirmed
+Season 3,Pokhara Avengers,Sunny BK,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_sunny_bk,Sunny BK,single-form
+Season 3,Pokhara Avengers,Aakash Chand,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_aakash_chand,Aakash Chand,single-form
+Season 3,Pokhara Avengers,S Dhakal,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_s_dhakal,Sagar Dhakal,confirmed
+Season 3,Pokhara Avengers,A Gharti,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_a_gharti,Arjun Gharti,confirmed
+Season 3,Pokhara Avengers,D Kharel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_d_kharel,Dinesh Kharel,confirmed
+Season 3,Pokhara Avengers,Arjun Kumal,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_arjun_kumal,Arjun Kumal,single-form
+Season 3,Pokhara Avengers,Bipin Khatri,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_bipin_khatri,Bipin Khatri,single-form
+Season 3,Pokhara Avengers,Bibek Kumar Rana Magar,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_bibek_kumar_rana_magar,Bibek Kumar Rana Magar,single-form
+Season 3,Pokhara Avengers,Bipin Acharya,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_bipin_acharya,Bipin Acharya,single-form
+Season 3,Pokhara Avengers,Pratik Pokharel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_pratik_pokharel,Pratik Pokharel,single-form
+Season 3,Pokhara Avengers,K Thagunna,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_k_thagunna,Kiran Thagunna,confirmed
+Season 3,Pokhara Avengers,Shakib Al Hasan,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_shakib_al_hasan,Shakib Al Hasan,single-form
+Season 3,Pokhara Avengers,Chamika Karunaratne,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_chamika_karunaratne,Chamika Karunaratne,single-form
+Season 3,Pokhara Avengers,D Lakshan,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_d_lakshan,Dhananjaya Lakshan,confirmed
+Season 3,Pokhara Avengers,Mahedi Hasan,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_mahedi_hasan,Mahedi Hasan,single-form
+Season 3,Sudurpaschim Royals,DS Airee,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_ds_airee,Dipendra Singh Airee,confirmed
+Season 3,Sudurpaschim Royals,B Bhandari,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_b_bhandari,Binod Bhandari,confirmed
+Season 3,Sudurpaschim Royals,A Bohara,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_a_bohara,Abinash Bohara,confirmed
+Season 3,Sudurpaschim Royals,D Bohara,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_d_bohara,Dipak Bohara,confirmed
+Season 3,Sudurpaschim Royals,Milan Bohara,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_milan_bohara,Milan Bohara,single-form
+Season 3,Sudurpaschim Royals,Sachin Bhatt,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_sachin_bhatt,Sachin Bhatta,confirmed
+Season 3,Sudurpaschim Royals,Ayub Chand,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_ayub_chand,Ayub Chand,single-form
+Season 3,Sudurpaschim Royals,H Dhami,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_h_dhami,Hemant Dhami,confirmed
+Season 3,Sudurpaschim Royals,A Kharel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_a_kharel,Anil Kharel,confirmed
+Season 3,Sudurpaschim Royals,H Mahara,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_h_mahara,Hikmat Mahara,confirmed
+Season 3,Sudurpaschim Royals,I Pandey,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_i_pandey,Ishan Pandey,confirmed
+Season 3,Sudurpaschim Royals,Tek Rawat,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_tek_rawat,Tek Rawat,single-form
+Season 3,Sudurpaschim Royals,Aarif Sheikh,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_aarif_sheikh,Aarif Sheikh,single-form
+Season 3,Sudurpaschim Royals,SC Kuggeleijn,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_sc_kuggeleijn,Scott Kuggeleijn,confirmed
+Season 3,Sudurpaschim Royals,BJ McMullen,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_bj_mcmullen,Brandon McMullen,confirmed
+Season 3,Sudurpaschim Royals,SA Zaib,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_sa_zaib,Saif Ali Zaib,confirmed
