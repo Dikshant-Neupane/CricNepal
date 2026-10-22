@@ -15,8 +15,7 @@ Must run BEFORE any comparative analysis.
 
 import pandas as pd
 from pathlib import Path
-import numpy as np
-from typing import Dict, Tuple, Any
+from typing import Dict, Any
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -203,13 +202,16 @@ def backfill_scorecard_from_bbb(matches_df: pd.DataFrame, ball_by_ball_df: pd.Da
     - innings_X_team is derived from ball_by_ball_df.batting_team for that innings.
     - innings_X_runs is sum(ball_by_ball_df.runs_total) for that match+innings.
     - innings_X_wickets is sum(ball_by_ball_df.is_wicket), capped at 10.
-    - innings_X_overs is computed as balls/6 rounded to 1 decimal.
+    - innings_X_overs is computed as legal balls/6 rounded to 1 decimal,
+      where a legal ball is a delivery that is neither a wide nor a
+      no-ball (byes and leg-byes are legal deliveries). Counting raw
+      delivery rows instead overstates overs in proportion to extras.
     - If ball_by_ball_df is empty, return matches_df unchanged.
     """
     if ball_by_ball_df is None or ball_by_ball_df.empty:
         return matches_df
 
-    required_bbb_cols = {"match_id", "innings", "over", "batting_team", "runs_total", "runs_extras", "is_wicket"}
+    required_bbb_cols = {"match_id", "innings", "over", "batting_team", "runs_total", "runs_extras", "is_wicket", "extras_type"}
     missing = required_bbb_cols - set(ball_by_ball_df.columns)
     if missing:
         raise ValueError(f"ball_by_ball_df missing required columns: {sorted(missing)}")
@@ -228,6 +230,8 @@ def backfill_scorecard_from_bbb(matches_df: pd.DataFrame, ball_by_ball_df: pd.Da
     bbb = ball_by_ball_df.copy()
     # wickets are stored as boolean in some datasets; normalize to int for summation
     bbb["is_wicket"] = bbb["is_wicket"].astype(int)
+    # legal deliveries only: wides and no-balls do not count as balls bowled
+    bbb["is_legal_ball"] = ~bbb["extras_type"].isin(["wides", "noballs"])
 
     aggs = (
         bbb.groupby(["match_id", "innings"])
@@ -235,7 +239,7 @@ def backfill_scorecard_from_bbb(matches_df: pd.DataFrame, ball_by_ball_df: pd.Da
             team=("batting_team", lambda x: x.dropna().iloc[0] if len(x.dropna()) else None),
             runs=("runs_total", "sum"),
             wickets=("is_wicket", "sum"),
-            balls=("over", "size"),
+            balls=("is_legal_ball", "sum"),
         )
         .reset_index()
     )

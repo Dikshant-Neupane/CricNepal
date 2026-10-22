@@ -17,7 +17,7 @@ from src.preprocessing.normalize_data import backfill_scorecard_from_bbb
 
 
 def _bbb(rows):
-    return pd.DataFrame(
+    df = pd.DataFrame(
         rows,
         columns=[
             "match_id",
@@ -29,6 +29,8 @@ def _bbb(rows):
             "is_wicket",
         ],
     )
+    df["extras_type"] = None
+    return df
 
 
 @pytest.fixture
@@ -130,6 +132,28 @@ def test_backfill_does_not_overwrite_existing_values():
     assert out.iloc[0]["innings_1_team"] == "A_existing"
     assert out.iloc[0]["innings_1_runs"] == 999.0
     assert out.iloc[0]["innings_1_wickets"] == 7
+
+
+def test_backfill_overs_count_legal_balls_only():
+    """Wides and no-balls are not balls bowled; byes/leg-byes are.
+
+    14 delivery rows: 11 ordinary + 1 bye (legal) + 1 wide + 1 no-ball
+    gives 12 legal balls, so overs must be 12/6 = 2.0, not 14/6 = 2.3.
+    """
+    match = pd.DataFrame([{"match_id": "m1",
+                           "innings_1_team": None, "innings_1_runs": None,
+                           "innings_1_wickets": None, "innings_1_overs": None,
+                           "innings_1_extras": None,
+                           "innings_2_team": None, "innings_2_runs": None,
+                           "innings_2_wickets": None, "innings_2_overs": None,
+                           "innings_2_extras": None}])
+    rows = [("m1", 1, 0, "A", 1, 0, 0) for _ in range(14)]
+    bbb = _bbb(rows)
+    bbb.loc[11, "extras_type"] = "byes"
+    bbb.loc[12, "extras_type"] = "wides"
+    bbb.loc[13, "extras_type"] = "noballs"
+    out = backfill_scorecard_from_bbb(match, bbb)
+    assert out.iloc[0]["innings_1_overs"] == 2.0
 
 
 def test_backfill_handles_empty_bbb():
