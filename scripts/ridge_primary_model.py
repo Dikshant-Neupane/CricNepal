@@ -21,7 +21,7 @@ import warnings
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import Ridge, RidgeCV
+from sklearn.linear_model import RidgeCV
 from sklearn.model_selection import LeaveOneOut, cross_val_score
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler
@@ -41,7 +41,7 @@ SHRINKAGE_K      = 30   # balls constant for James-Stein shrinkage (tune if need
 
 
 # ─── Unified target: SOS-adjusted economy ────────────────────────────────────
-def build_unified_target(phase_df: pd.DataFrame, elo_path: str) -> pd.DataFrame:
+def build_unified_target(phase_df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute SOS-adjusted economy for each bowler-season pair.
 
@@ -112,9 +112,6 @@ def _norm_season(x) -> int:
 
 
 def _season_agg(g: pd.DataFrame) -> pd.Series:
-    pp   = g[g["powerplay_balls"] > 0]
-    dth  = g[g["death_balls"] > 0]
-
     pp_balls   = g["powerplay_balls"].sum()
     dth_balls  = g["death_balls"].sum()
     total_balls = pp_balls + dth_balls
@@ -266,10 +263,10 @@ def explain_prediction(
 # ─── Main ─────────────────────────────────────────────────────────────────────
 def main():
     phase_path = os.path.join(DATA_DIR, "per_bowler_season_features.csv")
-    enrich_path = r"D:/cric_data/data/player_profiles/enriched_players_20260521.csv"
+    enrich_path = os.path.join(DATA_DIR, "player_profiles", "enriched_players_20260521.csv")
 
     phase_df  = pd.read_csv(phase_path)
-    agg       = build_unified_target(phase_df, os.path.join(DATA_DIR, "team_elo.csv"))
+    agg       = build_unified_target(phase_df)
 
     # merge age / bowling_type if available
     if os.path.exists(enrich_path):
@@ -328,7 +325,6 @@ def main():
     # ── S3 Predictions: apply to S2 data ──
     s2_data = agg[agg["season_norm"] == 2].set_index("player_name")
     coef    = pipe.named_steps["ridge"].coef_
-    intercept = pipe.named_steps["ridge"].intercept_
 
     predictions = []
     for player, row in s2_data.iterrows():
@@ -404,10 +400,38 @@ def main():
         ))
     pred_df["model_rationale"] = explanations
 
+    # ── Prediction intervals ──
+    # Bayesian shrinkage interval around the shrinkage estimate: the
+    # half-width scales with the LOO residual RMSE and narrows as the
+    # bowler's volume grows (less prior dependence, tighter interval).
+    loo_rmse = float(np.sqrt(ridge_mse))
+    _half = 1.96 * loo_rmse * np.sqrt(
+        float(SHRINKAGE_K) / (float(SHRINKAGE_K) + pred_df["s2_balls"].astype(float))
+    )
+    pred_df["pred_s3_low"]  = pred_df["pred_s3_shrinkage"] - _half
+    pred_df["pred_s3_high"] = pred_df["pred_s3_shrinkage"] + _half
+
     # ── Save outputs ──
     csv_out = os.path.join(DELIV, "s3_predictions_ridge_ranked.csv")
     pred_df.to_csv(csv_out, index=False)
     print(f"\nPredictions CSV → {csv_out}")
+
+    # Model comparison table (consumed by the dashboard tests): the three
+    # baselines are out-of-sample MSEs predicting S2 from S1; the Ridge row
+    # is its Leave-One-Out CV MSE. league_prior is the S2 league average.
+    comp_df = pd.DataFrame([
+        {"model": "Naive (carry S1 forward)", "loo_mse": bl["naive_mse"],
+         "league_prior": league_avg},
+        {"model": "Regression-to-mean",       "loo_mse": bl["rtm_mse"],
+         "league_prior": league_avg},
+        {"model": "Shrinkage estimator",      "loo_mse": bl["shrinkage_mse"],
+         "league_prior": league_avg},
+        {"model": "Ridge (LOO-CV)",           "loo_mse": ridge_mse,
+         "league_prior": league_avg},
+    ])
+    comp_out = os.path.join(DELIV, "s3_model_comparison.csv")
+    comp_df.to_csv(comp_out, index=False)
+    print(f"Model comparison CSV → {comp_out}")
 
     # ── Markdown report ──
     _write_report(pred_df, bl, ridge_mse, best_alpha, n, league_avg)

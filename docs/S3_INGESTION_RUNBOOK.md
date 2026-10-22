@@ -1,6 +1,19 @@
 # Season 3 ingestion runbook (NPL 2026, Oct 26 – Nov 21)
 
-## After each match day
+## Automated (in-season)
+
+A daily job (07:30 Asia/Kathmandu, Oct 26 – Nov 25, 2026) runs the whole
+flow below via `scripts/inseason_update.py`: download the bundle, append
+new matches, rebuild derived data, and report what changed. The script is
+idempotent, aborts cleanly if the download fails, and logs each run to
+`logs/inseason/`. To run the same flow manually at any time:
+
+```bash
+cd ~/workspace/cricnepal
+~/workspace/.scratch/cric-audit-venv/bin/python scripts/inseason_update.py
+```
+
+## After each match day (manual equivalent)
 
 Cricsheet publishes NPL ball-by-ball JSONs with a delay (usually days).
 Grab the latest bundle and ingest:

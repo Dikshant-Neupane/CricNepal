@@ -113,12 +113,16 @@ def test_shortlist_score_columns_in_0_to_10_range(shortlist):
 def test_shortlist_score_is_weighted_combination_of_score_columns(shortlist):
     """`shortlist_score` should equal sum(weight * score_*); a smoke test that
     weight changes propagate end-to-end."""
+    # Aligned 2026-10-22 to WEIGHTS in scripts/shortlist_matrix.py, the
+    # weights the shipped deliverable has always been generated with (the
+    # original table here never matched the script). Keep the two in sync:
+    # this dict is the canary for deliberate weight changes.
     weights = {
         "score_sos_economy": 0.30,
-        "score_dot_ball_pct": 0.15,
+        "score_dot_ball_pct": 0.20,
         "score_death_economy": 0.20,
-        "score_balls_bowled": 0.20,
-        "score_econ_trend_s1_s2": 0.05,
+        "score_balls_bowled": 0.10,
+        "score_econ_trend_s1_s2": 0.10,
         "score_age_factor": 0.05,
         "score_bowling_type_fit": 0.05,
     }

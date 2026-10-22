@@ -44,7 +44,7 @@ WEIGHTS = {
 }
 assert abs(sum(WEIGHTS.values()) - 1.0) < 1e-9, "Weights must sum to 1.0"
 
-ENRICH_PATH = r"D:/cric_data/data/player_profiles/enriched_players_20260521.csv"
+ENRICH_PATH = os.path.join(DATA_DIR, "player_profiles", "enriched_players_20260521.csv")
 
 
 # ─── Normalisation helpers ────────────────────────────────────────────────────
@@ -195,10 +195,13 @@ def build_matrix() -> pd.DataFrame:
     s2["age_factor_raw"]       = s2["age"].apply(age_score)
     s2["bowling_type_fit_raw"] = s2["bowling_type"].apply(bowling_type_fit)
     s2["balls_bowled"]         = s2["total_balls"]
+    # Source phase dot columns are already in percent units (0-100), so the
+    # balls-weighted mean is a percent as-is; multiplying by 100 again was
+    # the unit bug the recruiting tests guard against (values in the 1000s).
     s2["dot_ball_pct"]         = (
         (s2["powerplay_dot_pct"].fillna(0) * s2["powerplay_balls"].fillna(0) +
          s2["death_dot_pct"].fillna(0) * s2["death_balls"].fillna(0)) /
-        s2["total_balls"].replace(0, np.nan) * 100
+        s2["total_balls"].replace(0, np.nan)
     )
 
     # Fill missing death econ with overall econ (worst-case fallback)
