@@ -90,10 +90,10 @@ uniformly across both seasons:
 
 ## 4. Defects and notes in supporting data
 
-- **Enriched profiles DOB conflict:** `K Mahato` profile DOB
-  2001-10-30 conflicts with Cricinfo/Wikipedia (Kishore Mahato,
-  2000-04-02). Unresolved — Cricinfo is the usual authority, but the
-  profile value was not overwritten without a primary source.
+- **Enriched profiles DOB conflict (RESOLVED 2026-10-22):** `K Mahato` profile DOB
+  was 2001-10-30, corrected to 2000-04-02 (age 24.0 -> 26.0 at file vintage)
+  per Cricinfo — Wikipedia infobox sourced to Cricinfo, 21 April 2024;
+  corroborated by ask-oracle.com and jankarinepal.com. Registry note updated.
 - Profiles lack DOB for most domestic players (enrichment gap, not
   an error).
 - **Role correction from a primary source:** the official CAN 2026

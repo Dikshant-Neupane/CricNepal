@@ -102,7 +102,7 @@ ALIASES = {
     "P Shrestha": ("Pratik Shrestha", "confirmed", "S1 report: Pratik Shrestha top-scored 39 for Kathmandu; S2 Kathmandu squad lists; Biratnagar bought him at 2026 auction (NPR 2 lakh)"),
     "S Patel": ("Sahil Patel", "confirmed", "TOI profile: Sahil Patel, WK, b.2007, teams incl. Biratnagar Kings; S2 Biratnagar scorecards (19 off 24 vs Karnali)"),
     "S Karki": ("Santosh Karki", "confirmed", "S1 reports (Dec 2 2024): Santosh Karki 28* top-scored for Chitwan vs Kathmandu; Bolts bought Santosh Karki at 2026 auction"),
-    "K Mahato": ("Kishore Mahato", "confirmed", "Wikipedia/Cricinfo: Kishore Mahato, RAMF, Janakpur Bolts 2024-; S1 final 4 wickets for Janakpur; Lumbini S3 buy (NPR 10 lakh). NOTE: enriched profile DOB 2001-10-30 conflicts with Cricinfo 2000-04-02"),
+    "K Mahato": ("Kishore Mahato", "confirmed", "Wikipedia/Cricinfo: Kishore Mahato, RAMF, Janakpur Bolts 2024-; S1 final 4 wickets for Janakpur; Lumbini S3 buy (NPR 10 lakh). NOTE (resolved 2026-10-22): enriched profile DOB corrected 2001-10-30 -> 2000-04-02 per Cricinfo (Wikipedia infobox, sourced to Cricinfo 2024-04-21; corroborated by ask-oracle.com and jankarinepal.com)"),
     "TR Das": ("Trit Raj Das", "confirmed", "Pokhara S2 squad lists + 29 off 28 vs Janakpur (Nov 2025); Bolts S3 auction buy (spelled Tirtha Raj Das in one preview)"),
     "AK Sah": ("Anil Kumar Sah", "confirmed", "Janakpur captain S1/S2; retained lists: Anil Kumar Sah"),
     "LN Rajbanshi": ("Lalit Narayan Rajbanshi", "confirmed", "Janakpur squad lists: Lalit Rajbanshi"),
