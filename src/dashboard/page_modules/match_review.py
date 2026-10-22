@@ -193,28 +193,58 @@ def _build_worm_chart(match_id: str, team1: str, team2: str) -> go.Figure:
 
     return fig
 
+_PHASE_BOUNDS = ((0, 6), (6, 15), (15, 20))
+_PHASE_NAMES = ["Powerplay (1-6)", "Middle (7-15)", "Death (16-20)"]
+
+
+def _phase_run_rate(phase_df: pd.DataFrame) -> float:
+    """Runs per over: total runs (extras included) over legal balls only."""
+    if phase_df.empty:
+        return 0.0
+    legal = int((~phase_df["extras_type"].isin(["wides", "noballs"])).sum())
+    if legal == 0:
+        return 0.0
+    return round(phase_df["runs_total"].sum() / legal * 6, 2)
+
+
+def _season_phase_averages(season: str) -> list[float]:
+    """League-wide run rate per phase for one season, from real data."""
+    bbb = load_ball_by_ball_normalized()
+    matches = load_matches_normalized()
+    season_ids = set(matches.loc[matches["season"] == season, "match_id"])
+    df = bbb[bbb["match_id"].isin(season_ids)]
+    return [
+        _phase_run_rate(df[(df["over"] >= lo) & (df["over"] < hi)])
+        for lo, hi in _PHASE_BOUNDS
+    ]
+
+
 def get_real_phase_execution(match_id: str, team: str) -> pd.DataFrame:
     bbb = load_ball_by_ball_normalized()
     df = bbb[(bbb['match_id'] == match_id) & (bbb['batting_team'] == team)]
-    
+
+    matches = load_matches_normalized()
+    season_row = matches.loc[matches["match_id"] == match_id, "season"]
+    season = season_row.iloc[0] if not season_row.empty else None
+    season_avg = _season_phase_averages(season) if season else [0.0, 0.0, 0.0]
+
     if df.empty:
-        return pd.DataFrame({"Phase": ["Powerplay (1-6)", "Middle (7-15)", "Death (16-20)"], "Match RR": [0.0, 0.0, 0.0], "Season Avg": [8.1, 8.25, 10.5], "Delta": [0.0, 0.0, 0.0]})
-        
-    def rr(phase_df):
-        balls = len(phase_df)
-        if balls == 0: return 0.0
-        return (phase_df['runs_total'].sum() / balls) * 6
-        
-    pp = df[df['over'] < 6]
-    mid = df[(df['over'] >= 6) & (df['over'] < 15)]
-    death = df[df['over'] >= 15]
-    
-    # Just mock season averages to avoid full aggregation over all matches here.
+        return pd.DataFrame({
+            "Phase": _PHASE_NAMES,
+            "Match RR": [0.0, 0.0, 0.0],
+            "Season Avg": season_avg,
+            "Delta": [round(0.0 - avg, 2) for avg in season_avg],
+        })
+
+    match_rr = [
+        _phase_run_rate(df[(df["over"] >= lo) & (df["over"] < hi)])
+        for lo, hi in _PHASE_BOUNDS
+    ]
     return pd.DataFrame({
-        "Phase": ["Powerplay (1-6)", "Middle (7-15)", "Death (16-20)"],
-        "Match RR": [round(rr(pp), 2), round(rr(mid), 2), round(rr(death), 2)],
-        "Season Avg": [8.10, 8.25, 10.50],
-        "Delta": [round(rr(pp)-8.1, 2), round(rr(mid)-8.25, 2), round(rr(death)-10.5, 2)]
+        "Phase": _PHASE_NAMES,
+        "Match RR": match_rr,
+        "Season Avg": season_avg,
+        "Delta": [round(m - a, 2) for m, a in zip(match_rr, season_avg)],
     })
 
 def get_real_partnerships(match_id: str, team: str) -> pd.DataFrame:
@@ -248,6 +278,56 @@ def get_real_partnerships(match_id: str, team: str) -> pd.DataFrame:
         "Balls": pdf['balls'],
         "SR": pdf['sr'].round(1)
     })
+
+def get_real_tactical_takeaways(match_id: str, row) -> list[dict]:
+    """Tactical takeaways for the sidebar, derived from the selected match.
+
+    Replaces the demo_data producer that was removed with the demo-data
+    purge (its call site survived, leaving the page with a NameError).
+    Every takeaway comes from this match's real numbers: the result, the
+    phase run rates, and the top partnership. Phase strength is judged
+    relative to the match's own phases (the phase table's season-average
+    column is a placeholder, so it is not cited here).
+    """
+    takeaways = []
+
+    result = row.get("result")
+    opposition = row.get("opposition", "the opposition")
+    if result == "Won":
+        takeaways.append({
+            "type": "success", "title": "Result: Won",
+            "desc": f"Janakpur Bolts beat {opposition}. Confirm the repeatable behaviours below before the next match.",
+        })
+    elif result == "Lost":
+        takeaways.append({
+            "type": "warning", "title": "Result: Lost",
+            "desc": f"Janakpur Bolts lost to {opposition}. Isolate the non-repeatable spikes below before the next match.",
+        })
+
+    phases = get_real_phase_execution(match_id, _REVIEW_TEAM)
+    if not phases.empty:
+        best = phases.loc[phases["Match RR"].idxmax()]
+        worst = phases.loc[phases["Match RR"].idxmin()]
+        takeaways.append({
+            "type": "success", "title": f"Strongest phase: {best['Phase']}",
+            "desc": f"Batting run rate {best['Match RR']} in this phase, the best of the innings.",
+        })
+        if worst["Phase"] != best["Phase"]:
+            takeaways.append({
+                "type": "warning", "title": f"Weakest phase: {worst['Phase']}",
+                "desc": f"Batting run rate {worst['Match RR']} in this phase, the slowest of the innings.",
+            })
+
+    partnerships = get_real_partnerships(match_id, _REVIEW_TEAM)
+    if not partnerships.empty:
+        top = partnerships.iloc[0]
+        takeaways.append({
+            "type": "success", "title": "Top partnership",
+            "desc": f"{top['Batters']}: {top['Runs']} runs off {top['Balls']} balls (SR {top['SR']}).",
+        })
+
+    return takeaways
+
 
 def _load_real_matches() -> pd.DataFrame | None:
     df = load_matches_normalized()
@@ -331,7 +411,7 @@ def render_match_review():
         render_match_summary(summary)
 
     with col_takeaways:
-        render_tactical_takeaways(get_tactical_takeaways())
+        render_tactical_takeaways(get_real_tactical_takeaways(row["match_id"], row))
 
     render_spacer(32)
 

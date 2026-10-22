@@ -253,6 +253,8 @@ def test_player_form_service():
     """Test Season 3 player form service."""
     print("\n=== Testing Player Form Service ===")
     try:
+        import pandas as pd
+
         from src.dashboard.services.player_form import (
             build_player_form_table,
             classify_form_band,
