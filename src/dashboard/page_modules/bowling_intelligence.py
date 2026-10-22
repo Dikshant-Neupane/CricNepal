@@ -4,7 +4,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-from ..services.data_loaders import load_export_csv, load_ball_by_ball_normalized
 
 TEAM = "Janakpur Bolts"
 

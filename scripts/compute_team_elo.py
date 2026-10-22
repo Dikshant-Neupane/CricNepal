@@ -1,6 +1,4 @@
 import pandas as pd
-import numpy as np
-from pathlib import Path
 
 
 def compute_elo(matches_path, out_csv):
@@ -133,7 +131,6 @@ def compute_bowler_sos(bbb_df, rolling_elo_path: str, league_avg_elo: float = 15
 
 
 if __name__ == '__main__':
-    import sys
     matches_path = 'data/normalized/matches_normalized.parquet'
     out_csv = 'data/team_elo.csv'
     compute_elo(matches_path, out_csv)

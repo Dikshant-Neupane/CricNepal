@@ -3,7 +3,7 @@ Shared UI patterns and layout components for dashboard consistency.
 Centralizes card, spacing, insight box, and section header patterns.
 """
 import streamlit as st
-from typing import Optional, List, Dict
+from typing import Optional, List
 
 
 def render_card_header(title: str, subtitle: Optional[str] = None) -> None:

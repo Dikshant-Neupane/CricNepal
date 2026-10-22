@@ -14,10 +14,8 @@ Methodology:
 """
 
 import pandas as pd
-import numpy as np
 from pathlib import Path
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Initialize
 from src.utils.logging_config import get_logger
@@ -294,10 +292,8 @@ Mirror of `middle_overs_analysis.py` but for overs 1-6:
 """
 
 import pandas as pd
-import numpy as np
 from pathlib import Path
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Initialize
 from src.utils.logging_config import get_logger

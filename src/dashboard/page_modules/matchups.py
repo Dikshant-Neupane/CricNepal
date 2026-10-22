@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 from ..services.data_loaders import load_ball_by_ball_normalized, load_matchup_stats
 

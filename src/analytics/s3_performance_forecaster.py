@@ -18,7 +18,7 @@ Methodology Note:
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 import warnings
 warnings.filterwarnings('ignore')
 

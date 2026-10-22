@@ -1,23 +1,16 @@
 """Executive overview module with stronger hierarchy and clearer strategic narrative."""
 
-import os
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime, timedelta
 
 from ..services.data_source import load_match_records
 from ..services.data_loaders import (
-    load_ball_by_ball_normalized,
-    load_team_matches_for,
     export_path,
 )
 from ..services.metrics import (
-    build_executive_cards,
     compute_season_kpis,
-    compute_season_delta,
     compute_form_index
 )
 from ..services.data_quality import validate_match_records

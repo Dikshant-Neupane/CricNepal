@@ -21,7 +21,6 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from ..services.data_loaders import (
-    load_bbb_with_season,
     load_export_csv,
 )
 

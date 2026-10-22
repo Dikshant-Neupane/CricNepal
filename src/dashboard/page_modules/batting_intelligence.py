@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 from ..services.data_loaders import load_export_csv
 
 def _load_phase_data():

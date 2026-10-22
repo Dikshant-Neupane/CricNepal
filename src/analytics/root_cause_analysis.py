@@ -32,14 +32,13 @@ ASKING: "Which performance dimensions changed most significantly?"
 
 import pandas as pd
 from pathlib import Path
-import numpy as np
 
 # Import logging
 from src.utils.logging_config import get_logger
 
 # Initialize logger for this module
 logger = get_logger(__name__)
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 import warnings
 warnings.filterwarnings('ignore')
 

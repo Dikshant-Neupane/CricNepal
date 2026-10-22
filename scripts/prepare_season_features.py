@@ -1,5 +1,4 @@
 import pandas as pd
-import argparse
 
 def prepare(ball_parquet='data/normalized/ball_by_ball_normalized.parquet', matches_parquet='data/normalized/matches_normalized.parquet', out_csv='data/per_bowler_season_features.csv'):
     balls = pd.read_parquet(ball_parquet)

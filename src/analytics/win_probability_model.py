@@ -4,8 +4,6 @@ Predicts the probability of the batting team winning at any delivery state.
 Calculates Win Probability Added (WPA) per player.
 """
 
-import os
-import sys
 import pandas as pd
 import numpy as np
 from pathlib import Path

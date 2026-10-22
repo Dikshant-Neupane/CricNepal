@@ -5,12 +5,9 @@ Visualizes live win probability charts and identifies clutch performers using WP
 
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.graph_objects as go
-from pathlib import Path
 
 # Theme configuration
-from src.dashboard.theme import COLORS
 
 from src.dashboard.services.data_loaders import load_export_csv, load_matches_normalized
 

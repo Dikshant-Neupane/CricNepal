@@ -8,7 +8,6 @@ import pandas as pd
 import plotly.express as px
 from pathlib import Path
 
-from ..theme import COLORS
 
 try:
     from ...config.paths import EXPORT_DIR

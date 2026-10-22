@@ -3,8 +3,7 @@ Decision Intelligence Service - Day 6: Decision Intelligence Pass
 Generates coach-usable recommendations based on data evidence.
 """
 import streamlit as st
-from typing import Dict, List, Optional
-import pandas as pd
+from typing import Dict, List
 
 
 def generate_executive_recommendations(

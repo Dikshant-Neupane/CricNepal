@@ -7,9 +7,8 @@ with data-driven recommendations for Season 3.
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from pathlib import Path
 
-from src.dashboard.services.data_loaders import export_path, load_export_csv
+from src.dashboard.services.data_loaders import load_export_csv
 
 
 def _load_s1_s2_comparison():

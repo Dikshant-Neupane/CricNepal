@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pandas as pd
 import os
-from typing import Tuple, Optional
+from typing import Tuple
 
 from src.utils.logging_config import get_logger
 
