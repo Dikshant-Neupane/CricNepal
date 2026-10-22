@@ -44,6 +44,31 @@ Powerplay(0-5)/Middle(6-14)/Death(15-19), `is_dot_ball = (runs_total==0)`,
 team_1/team_2 alphabetical, `Sudur Paschim Royals → Sudurpaschim Royals`
 in the matches table (delivery rows keep raw cricsheet names, as before).
 
+## Dry-run findings (2026-10-22) — read before the first real S3 ingest
+
+A full rehearsal (synthetic S3 Bolts vs Karnali fixture built from a
+real cricsheet file, run against a copy of the project) found and
+fixed two defects that would have bitten on the first match day:
+
+1. `--append` crashed against the production parquets: the ingest
+   script emitted types the old pipeline's files do not use
+   (match_date as string vs stored date objects, string timestamps,
+   all-null columns with degenerate dtypes). The script now aligns
+   fresh rows to the existing schema before merging
+   (`align_to_existing`), and preview output uses production types too.
+2. `player_innings.parquet` and `phase_summary.parquet` were built by
+   the original (pre-repo) pipeline and nothing updated them — they
+   would have silently stayed at S1/S2 while the dashboard kept
+   reading them. `--append` now derives rows for each new match; the
+   derivation was verified to reproduce all 1,917 + 378 production
+   rows exactly before being trusted.
+
+Also verified in the rehearsal: re-running `--append` is a no-op,
+`ball_sequence` continues without collisions, every S3 delivery name
+joins the player registry, and `refresh_all.py` completes 20/20 with
+an S3 match present. Regression tests:
+`tests/test_ingest_cricsheet_append.py`.
+
 ## Season mapping
 
 Match-date year → season: 2024 → S1, 2025 → S2, 2026 → S3.

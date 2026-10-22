@@ -27,9 +27,11 @@ Conventions match the existing S1/S2 rows exactly:
 import argparse
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
+from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -72,6 +74,8 @@ def parse_match(path: Path, run_id: str):
     match_id = f"espn_{stem}"
     match_date = info["dates"][0]
     year = int(match_date[:4])
+    # Production parquet stores match_date as datetime.date objects.
+    match_date = date.fromisoformat(match_date)
     season = SEASON_BY_YEAR.get(year, f"S{year - 2023}")
 
     teams = [canon_team(t) for t in info["teams"]]
@@ -172,7 +176,7 @@ def parse_match(path: Path, run_id: str):
             "overs": round(overs, 1), "extras": total_extras,
         })
 
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(timezone.utc)
     officials = info.get("officials", {})
     match_row = {
         "match_id": match_id,
@@ -225,12 +229,161 @@ def parse_match(path: Path, run_id: str):
         "source_system": "Cricsheet",
         "source_url": f"https://cricsheet.org/matches/{stem}",
         "ingestion_run_id": run_id,
-        "ingestion_timestamp": now,
+        # Production parquet: ingestion_timestamp naive UTC, last_modified aware UTC.
+        "ingestion_timestamp": now.replace(tzinfo=None),
         "parser_version": f"cricsheet_json_v{meta.get('data_version', '?')}",
         "git_commit_hash": None,
         "last_modified": now,
     }
     return match_row, deliveries
+
+
+def align_to_existing(existing: pd.DataFrame, fresh: pd.DataFrame):
+    """Coerce `fresh` to the production parquet's per-column types.
+
+    The existing parquets were written by the original pipeline and carry
+    its type choices; freshly parsed rows must match them or the append
+    write fails (e.g. match_date date-objects vs ISO strings). Rules:
+    - a production column that is entirely null carries no type
+      information: promote it to the fresh column's dtype instead of
+      forcing fresh values into a degenerate type (e.g. float64).
+    - datetime columns: parse fresh values, matching tz-awareness.
+    - float/integer columns: numeric-coerce fresh values.
+    Returns (existing, fresh) ready for concat.
+    """
+    existing = existing.copy()
+    fresh = fresh.copy()
+    for col in existing.columns:
+        if col not in fresh.columns:
+            continue
+        et, ft = existing[col].dtype, fresh[col].dtype
+        if et == ft:
+            continue
+        if existing[col].isna().all() and fresh[col].notna().any():
+            try:
+                existing[col] = existing[col].astype(ft)
+                continue
+            except (ValueError, TypeError):
+                pass
+        if pd.api.types.is_datetime64_any_dtype(et):
+            parsed = pd.to_datetime(fresh[col], utc=True)
+            if getattr(et, "tz", None) is None:
+                parsed = parsed.dt.tz_localize(None)
+            fresh[col] = parsed
+        elif pd.api.types.is_float_dtype(et):
+            fresh[col] = pd.to_numeric(fresh[col], errors="coerce").astype("float64")
+        elif pd.api.types.is_integer_dtype(et):
+            fresh[col] = pd.to_numeric(fresh[col], errors="coerce").astype(et)
+    return existing, fresh
+
+
+# --- Derived tables -------------------------------------------------------
+# player_innings / phase_summary live in data/final/parquet and are read by
+# the dashboard, but the original pipeline that built them is not in this
+# repo. Their derivation from ball_by_ball was reverse-engineered and
+# verified to reproduce all 64 S1/S2 matches exactly (1,917 + 378 rows,
+# zero value differences). Production conventions replicated faithfully:
+# balls_faced excludes wides AND no-balls; bowling runs_conceded is the
+# full runs_total; a dismissal is recorded only when the dismissed player
+# is the striker; economy_rate is 0.0 below 6 balls bowled; dismissal_type
+# and maidens are unpopulated (null) in production; percentage columns in
+# phase_summary round half-up to 1dp.
+BOWLER_WICKETS = {"bowled", "caught", "caught and bowled", "lbw", "stumped",
+                  "hit wicket", "retired out"}
+
+
+def _pct_half_up(part: float, whole: float) -> float:
+    if not whole:
+        return 0.0
+    return float(Decimal(str(part / whole * 100)).quantize(
+        Decimal("0.1"), rounding=ROUND_HALF_UP))
+
+
+def derive_player_innings(bb: pd.DataFrame, run_id: str) -> pd.DataFrame:
+    """One row per (match, innings, player) for the given deliveries."""
+    frames = []
+    for (match_id, innings), grp in bb.groupby(["match_id", "innings"], sort=False):
+        batting_team = grp["batting_team"].iloc[0]
+        bat = grp.copy()
+        bat["faced"] = (~bat["extras_type"].isin(["wides", "noballs"])).astype(int)
+        batting = bat.groupby(["batter_id", "batter_name"], sort=False).agg(
+            runs_scored=("runs_off_bat", "sum"), balls_faced=("faced", "sum"),
+            fours=("runs_off_bat", lambda s: (s == 4).sum()),
+            sixes=("runs_off_bat", lambda s: (s == 6).sum())).reset_index().rename(
+            columns={"batter_id": "player_id", "batter_name": "player_name"})
+        dis = grp[(grp["dismissed_batter_name"].notna())
+                  & (grp["dismissed_batter_name"] == grp["batter_name"])][
+            ["dismissed_batter_id", "phase"]].drop_duplicates("dismissed_batter_id")
+        batting = batting.merge(dis, left_on="player_id",
+                                right_on="dismissed_batter_id", how="left").drop(
+            columns=["dismissed_batter_id"]).rename(columns={"phase": "dismissal_phase"})
+        batting["dismissed"] = batting["dismissal_phase"].notna()
+
+        bowl = grp.copy()
+        bowl["legal"] = (~bowl["extras_type"].isin(["wides", "noballs"])).astype(int)
+        bowl["bwicket"] = bowl.apply(
+            lambda r: 1 if r["is_wicket"] and r["dismissal_type"] in BOWLER_WICKETS else 0,
+            axis=1)
+        bowling = bowl.groupby(["bowler_id", "bowler_name"], sort=False).agg(
+            balls_bowled=("legal", "sum"), runs_conceded=("runs_total", "sum"),
+            wickets_taken=("bwicket", "sum"),
+            dot_balls=("is_dot_ball", "sum")).reset_index().rename(
+            columns={"bowler_id": "player_id", "bowler_name": "player_name"})
+
+        rows = batting.merge(bowling, on=["player_id", "player_name"], how="outer")
+        rows.insert(0, "match_id", match_id)
+        rows.insert(1, "innings", innings)
+        rows["team_name"] = batting_team  # production keeps raw delivery names
+        batted = rows["balls_faced"].notna()
+        rows["player_role"] = np.where(batted, "batter", "bowler")
+        for c in ["runs_scored", "balls_faced", "fours", "sixes", "balls_bowled",
+                  "runs_conceded", "wickets_taken", "dot_balls"]:
+            rows[c] = rows[c].fillna(0).astype(int)
+        rs, bf = rows["runs_scored"].to_numpy(float), rows["balls_faced"].to_numpy(float)
+        rows["strike_rate"] = np.where(
+            bf > 0, np.round(rs / np.where(bf == 0, 1, bf) * 100, 2), 0.0)
+        rc, bl = rows["runs_conceded"].to_numpy(float), rows["balls_bowled"].to_numpy(float)
+        rows["economy_rate"] = np.where(
+            bl >= 6, np.round(rc / (np.where(bl == 0, 1, bl) / 6), 2), 0.0)
+        rows["dismissed"] = rows["dismissed"].fillna(False)
+        rows["dismissal_type"] = None
+        rows["maidens"] = np.nan
+        rows["ingestion_run_id"] = run_id
+        frames.append(rows)
+    cols = ["match_id", "innings", "player_id", "player_name", "team_name",
+            "player_role", "runs_scored", "balls_faced", "fours", "sixes",
+            "strike_rate", "dismissed", "dismissal_type", "dismissal_phase",
+            "balls_bowled", "runs_conceded", "wickets_taken", "dot_balls",
+            "economy_rate", "maidens", "ingestion_run_id"]
+    return pd.concat(frames, ignore_index=True)[cols] if frames else pd.DataFrame(columns=cols)
+
+
+def derive_phase_summary(bb: pd.DataFrame) -> pd.DataFrame:
+    """One row per (match, innings, phase) for the given deliveries."""
+    phase_order = {"Powerplay": 0, "Middle": 1, "Death": 2}
+    rows = []
+    for (match_id, innings, phase), grp in bb.groupby(
+            ["match_id", "innings", "phase"], sort=False):
+        balls = len(grp)
+        runs = float(grp["runs_total"].sum())
+        boundaries = float(grp["runs_off_bat"].isin([4, 6]).sum())
+        dots = float(grp["is_dot_ball"].sum())
+        rows.append({
+            "match_id": match_id, "innings": innings, "phase": phase,
+            "balls_bowled": balls, "runs_scored": runs,
+            "wickets": float(grp["is_wicket"].sum()),
+            "boundaries": boundaries,
+            "sixes": float((grp["runs_off_bat"] == 6).sum()),
+            "dots": dots,
+            "run_rate": round(runs / (balls / 6), 2) if balls else 0.0,
+            "dot_ball_pct": _pct_half_up(dots, balls),
+            "boundary_pct": _pct_half_up(boundaries, balls),
+        })
+    out = pd.DataFrame(rows)
+    if len(out):
+        out["_po"] = out["phase"].map(phase_order).fillna(9)
+        out = out.sort_values(["match_id", "innings", "_po"]).drop(columns=["_po"])
+    return out.reset_index(drop=True)
 
 
 def main():
@@ -270,6 +423,7 @@ def main():
         return
 
     # --- append mode: merge, skipping existing match_ids ---
+    fresh_ids = []
     for name, new_df, key in [
         ("matches", matches_df, "matches.parquet"),
         ("ball_by_ball", deliveries_df, "ball_by_ball.parquet"),
@@ -278,7 +432,10 @@ def main():
         existing = pd.read_parquet(target)
         fresh = new_df[~new_df["match_id"].isin(existing["match_id"])]
         skipped = len(new_df) - len(fresh)
+        if name == "matches":
+            fresh_ids = fresh["match_id"].tolist()
         if len(fresh):
+            existing, fresh = align_to_existing(existing, fresh)
             if name == "ball_by_ball":
                 # ball_sequence is a global counter in the existing data:
                 # continue it so new rows don't collide with old ones.
@@ -289,6 +446,29 @@ def main():
             merged.to_parquet(target, index=False)
         print(f"{name}: +{len(fresh)} new rows, {skipped} already present "
               f"(total {len(existing) + len(fresh)})")
+
+    # --- derived tables: keep player_innings / phase_summary in step ---
+    if fresh_ids:
+        merged_bb = pd.read_parquet(PARQUET_DIR / "ball_by_ball.parquet")
+        new_bb = merged_bb[merged_bb["match_id"].isin(fresh_ids)]
+        for builder, key in [
+            (lambda d: derive_player_innings(d, run_id), "player_innings.parquet"),
+            (derive_phase_summary, "phase_summary.parquet"),
+        ]:
+            target = PARQUET_DIR / key
+            derived = builder(new_bb)
+            if target.exists():
+                existing = pd.read_parquet(target)
+                derived = derived[~derived["match_id"].isin(existing["match_id"])]
+                if len(derived):
+                    existing, derived = align_to_existing(existing, derived)
+                    merged = pd.concat([existing, derived], ignore_index=True)
+                    merged.to_parquet(target, index=False)
+                print(f"{key}: +{len(derived)} derived rows "
+                      f"(total {len(existing) + len(derived)})")
+            else:
+                derived.to_parquet(target, index=False)
+                print(f"{key}: created with {len(derived)} derived rows")
 
 
 if __name__ == "__main__":
