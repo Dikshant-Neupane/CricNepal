@@ -119,14 +119,14 @@ def _standardize_role(player_role: Any, batting_matches: int, bowling_matches: i
 def classify_form_band(score: float) -> str:
     """Classify a player into a selection-ready form band.
 
-    Thresholds calibrated for NPL innings volume (8-17 innings per player).
-    With limited data, scores naturally cluster in the 40-65 range.
+    Band thresholds (per tests/test_player_form.py):
+    > 60 In Form, > 45 Stable, > 30 Risky, otherwise Out of Form.
     """
-    if score >= 60.0:
+    if score > 60.0:
         return "In Form"
-    if score >= 48.0:
+    if score > 45.0:
         return "Stable"
-    if score >= 35.0:
+    if score > 30.0:
         return "Risky"
     return "Out of Form"
 

@@ -23,6 +23,94 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
+# ── Phase-aware economy shrinkage ─────────────────────────────────────────
+# League phase economies (runs per over) computed from the S1+S2
+# ball-by-ball data (data/normalized/ball_by_ball_normalized.parquet,
+# legal deliveries only): Powerplay 6.87, Middle 7.02, Death 9.12.
+# Used as James-Stein style priors: small-sample phase economies are
+# shrunk toward the phase prior before projecting to S3.
+PHASE_PRIORS: Dict[str, float] = {
+    "Powerplay": 6.87,
+    "Middle": 7.02,
+    "Death": 9.12,
+}
+GLOBAL_ECONOMY_FALLBACK = 8.30
+
+
+def shrink_to_phase_prior(observed: float, balls: int, phase: str, k: int = 60) -> float:
+    """
+    Shrink an observed phase economy toward the phase prior.
+
+    w = balls / (balls + k);  shrunk = w * observed + (1 - w) * prior.
+    With no balls (or a NaN observed value) the estimate collapses to
+    the prior. Unknown phases use the global fallback prior.
+    """
+    prior = PHASE_PRIORS.get(phase, GLOBAL_ECONOMY_FALLBACK)
+    if balls is None or balls <= 0 or observed is None or pd.isna(observed):
+        return prior
+    w = balls / (balls + k)
+    return round(w * observed + (1 - w) * prior, 2)
+
+
+def forecast_bowlers_phase_aware(bbb: pd.DataFrame, matches: pd.DataFrame, k: int = 60) -> pd.DataFrame:
+    """
+    Phase-aware S3 economy forecast for every bowler.
+
+    For each (bowler, phase): raw S1/S2 economies are shrunk toward the
+    phase prior (see shrink_to_phase_prior), then projected to S3 as a
+    recency-weighted blend (0.4 * S1 shrunk + 0.6 * S2 shrunk, or the
+    single available season). Bowlers are flagged SPECIALIST when their
+    projected economy beats the phase prior by >= 1.0, LIABILITY when
+    it is worse by >= 1.0, else AVERAGE.
+    """
+    df = bbb.merge(matches[["match_id", "season"]], on="match_id", how="left")
+    if "extras_type" in df.columns:
+        df = df[~df["extras_type"].isin(["wides", "noballs"])]
+    grouped = (
+        df.groupby(["bowler_name", "phase", "season"])
+        .agg(runs=("runs_total", "sum"), balls=("runs_total", "size"))
+        .reset_index()
+    )
+    grouped["economy"] = grouped["runs"] / grouped["balls"] * 6
+
+    rows = []
+    for (bowler, phase), g in grouped.groupby(["bowler_name", "phase"]):
+        per_season = {r.season: r for r in g.itertuples()}
+        out = {"bowler_name": bowler, "phase": phase}
+        shrunk = {}
+        for season, prefix in (("S1", "s1"), ("S2", "s2")):
+            r = per_season.get(season)
+            if r is None:
+                out[f"{prefix}_economy_raw"] = np.nan
+                out[f"{prefix}_economy_shrunk"] = np.nan
+            else:
+                out[f"{prefix}_economy_raw"] = round(r.economy, 2)
+                out[f"{prefix}_economy_shrunk"] = shrink_to_phase_prior(r.economy, int(r.balls), phase, k=k)
+                shrunk[prefix] = out[f"{prefix}_economy_shrunk"]
+        if "s1" in shrunk and "s2" in shrunk:
+            proj = round(0.4 * shrunk["s1"] + 0.6 * shrunk["s2"], 2)
+        elif shrunk:
+            proj = round(next(iter(shrunk.values())), 2)
+        else:
+            proj = PHASE_PRIORS.get(phase, GLOBAL_ECONOMY_FALLBACK)
+        out["s3_economy_proj"] = proj
+        prior = PHASE_PRIORS.get(phase, GLOBAL_ECONOMY_FALLBACK)
+        if proj <= prior - 1.0:
+            out["specialist_flag"] = "SPECIALIST"
+        elif proj >= prior + 1.0:
+            out["specialist_flag"] = "LIABILITY"
+        else:
+            out["specialist_flag"] = "AVERAGE"
+        rows.append(out)
+
+    columns = [
+        "bowler_name", "phase", "s1_economy_raw", "s2_economy_raw",
+        "s1_economy_shrunk", "s2_economy_shrunk", "s3_economy_proj",
+        "specialist_flag",
+    ]
+    return pd.DataFrame(rows, columns=columns)
+
+
 class S3PerformanceForecaster:
     """Predict S3 player performance based on S1→S2 trends."""
     

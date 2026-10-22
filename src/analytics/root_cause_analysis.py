@@ -39,7 +39,7 @@ from src.utils.logging_config import get_logger
 
 # Initialize logger for this module
 logger = get_logger(__name__)
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 import warnings
 warnings.filterwarnings('ignore')
 

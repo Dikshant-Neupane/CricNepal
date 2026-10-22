@@ -34,5 +34,12 @@ def test_load_match_records_falls_back_to_demo_on_db_error(monkeypatch) -> None:
     monkeypatch.setattr(data_source, "_load_from_parquet", lambda: pd.DataFrame())
 
     out_df, source = data_source.load_match_records()
+    # Since da7f49f ("enforce real data strictness") the demo fallback is
+    # an EMPTY frame carrying the demo schema — no fabricated demo rows.
     assert source == "demo"
-    assert not out_df.empty
+    assert out_df.empty
+    assert list(out_df.columns) == [
+        "season", "competition_name", "competition_tier",
+        "opposition_strength_bucket", "match_context", "result",
+        "runs_for", "runs_against", "overs_faced", "overs_bowled",
+    ]

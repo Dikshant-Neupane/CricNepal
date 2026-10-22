@@ -22,6 +22,31 @@ def _empty_result(columns: list[str]) -> pd.DataFrame:
     return pd.DataFrame(columns=columns)
 
 
+def _load_from_database() -> pd.DataFrame:
+    """
+    Load match records from the PostgreSQL database (if configured).
+
+    Raises ImportError when sqlalchemy is not installed and propagates
+    connection/query errors; load_match_records treats any failure here
+    as 'fall through to parquet'.
+    """
+    from sqlalchemy import create_engine, text  # ImportError -> caller falls back
+    from src.config.settings import get_settings
+
+    engine = create_engine(
+        get_settings().database_url,
+        connect_args={"connect_timeout": 3},
+    )
+    query = text(
+        "SELECT season, competition_name, competition_tier, "
+        "opposition_strength_bucket, match_context, result, "
+        "runs_for, runs_against, overs_faced, overs_bowled "
+        "FROM match_records"
+    )
+    with engine.connect() as conn:
+        return pd.read_sql(query, conn)
+
+
 def _load_from_parquet(team_name: str = "Janakpur Bolts") -> pd.DataFrame:
     """
     Load match records from parquet files for a specific team.

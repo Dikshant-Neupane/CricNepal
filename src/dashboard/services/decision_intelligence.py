@@ -205,19 +205,23 @@ def format_recommendation_card(
     st.markdown(..., unsafe_allow_html=True) will still work because
     we render inline via render_recommendation_card if called as a function.
     """
-    # Build a plain HTML fallback string — callers that use st.markdown
-    # get the styled version; callers using render_recommendation_card get
-    # native Streamlit components.
+    # Build an HTML card — callers pass the result to
+    # st.markdown(..., unsafe_allow_html=True). render_recommendation_card
+    # offers the same content via native Streamlit components.
+    parts = ['<div class="card">', f"<h4>{title}</h4>"]
     if not recommendations:
-        return f"<p><strong>{title}</strong>: No recommendations available.</p>"
-
-    lines = [f"**{title}**"]
+        parts.append("<p>No recommendations available.</p>")
     for rec in recommendations:
         priority = rec.get("priority", "")
+        rec_type = rec.get("type", "info")
         label    = rec.get("label", "")
         text     = rec.get("text", "")
-        lines.append(f"**#{priority} — {label}:** {text}")
-    return "\n\n".join(lines)
+        parts.append(
+            f'<div class="insight-box insight-box-{rec_type}">'
+            f"<strong>#{priority} — {label}:</strong> {text}</div>"
+        )
+    parts.append("</div>")
+    return "\n".join(parts)
 
 
 def render_recommendation_card(

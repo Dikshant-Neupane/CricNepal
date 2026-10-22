@@ -20,14 +20,6 @@ from typing import Dict, Tuple, Any
 import warnings
 warnings.filterwarnings('ignore')
 
-# ══════════════════════════════════════════════════════════════════════════
-import pandas as pd
-from pathlib import Path
-import numpy as np
-from typing import Dict, Tuple, Any
-import warnings
-warnings.filterwarnings('ignore')
-
 try:
     from src.config.paths import PARQUET_DIR, NORMALIZED_DIR
     EXPORT_DIR = NORMALIZED_DIR
@@ -224,6 +216,14 @@ def backfill_scorecard_from_bbb(matches_df: pd.DataFrame, ball_by_ball_df: pd.Da
 
     out = matches_df.copy()
 
+    # All-null innings columns land as float64 after a parquet round-trip;
+    # cast them to object so string team names can be filled in.
+    for inn in (1, 2):
+        for suffix in ("team", "runs", "wickets", "overs"):
+            col = f"innings_{inn}_{suffix}"
+            if col in out.columns:
+                out[col] = out[col].astype(object)
+
     # Aggregate bbb at match+innings
     bbb = ball_by_ball_df.copy()
     # wickets are stored as boolean in some datasets; normalize to int for summation
@@ -300,6 +300,11 @@ def main():
     print("\n[3/5] Normalizing team names...")
     matches_normalized = normalize_team_names(matches)
     ball_by_ball_normalized = normalize_team_names(ball_by_ball)
+
+    # Backfill innings scorecard fields (innings_1_*/innings_2_*) from
+    # ball-by-ball data — the raw matches parquet leaves them null.
+    print("\n[3b/5] Backfilling scorecard fields from ball-by-ball...")
+    matches_normalized = backfill_scorecard_from_bbb(matches_normalized, ball_by_ball_normalized)
     
     # Validate AFTER normalization
     post_validation = validate_team_normalization(matches_normalized)
