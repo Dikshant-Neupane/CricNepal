@@ -1,0 +1,17 @@
+{
+ "simulator": {
+  "n": 32,
+  "accuracy": 0.6875,
+  "log_loss": 0.6553244242822598,
+  "brier": 0.23095799218750002
+ },
+ "champion_blend_same_matches": {
+  "n": 32,
+  "accuracy": 0.46875,
+  "log_loss": 0.6890876690301574,
+  "brier": 0.24800260919806774
+ },
+ "n": 32,
+ "n_sims_per_match": 2000,
+ "notes": "Simulator distributions from S1 only; XI actual; production sims use all available history + 10k sims."
+}

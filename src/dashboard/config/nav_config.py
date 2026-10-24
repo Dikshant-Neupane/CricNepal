@@ -19,6 +19,7 @@ NAV_ITEMS = [
     {"icon": "", "label": "Phase & Strength", "key": "phase_analysis"},
     {"icon": "", "label": "Player Profiles", "key": "player_profiles"},
     {"icon": "", "label": "Win Probability Model", "key": "win_probability"},
+    {"icon": "", "label": "Match Predictions", "key": "match_predictions"},
     {"icon": "", "label": "Player Archetypes", "key": "player_archetypes"},
 ]
 
