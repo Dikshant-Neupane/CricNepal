@@ -1,0 +1,22 @@
+{
+ "version": "v1.1",
+ "base_model": "v1 champion blend (elo_xi_blend, k=2.0, w_elo=0.5)",
+ "calibration": {
+  "method": "temperature scaling on the logit: p_cal = sigmoid(logit(p_raw) / T)",
+  "temperature_T": 0.7496,
+  "fitted_on": "Season 2 walk-forward out-of-sample predictions (data/predictions/backtest_s2.csv, p_blend vs y)",
+  "n_oos": 32,
+  "fitted_date": "2026-10-24"
+ },
+ "oos_metrics_same_predictions": {
+  "before": {
+   "log_loss": 0.6890876690301574,
+   "brier": 0.24800260919806774
+  },
+  "after": {
+   "log_loss": 0.6888186359395869,
+   "brier": 0.2479053973657829
+  }
+ },
+ "applies_to": "future locks only (P1_post_XI and later stages); locked v1 rows are never rewritten"
+}

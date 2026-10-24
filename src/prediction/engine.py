@@ -21,6 +21,7 @@ import pandas as pd
 
 from . import elo as E
 from . import model as M
+from . import provisional as PV
 
 MODEL_VERSION = "v1"
 FROZEN_FIELDS = ["match_id", "season", "stage", "timestamp_locked",
@@ -51,6 +52,17 @@ STAGE_INPUTS = {
         "system": "toss_adjusted",
         "allowed": list(_P1_INPUTS) + ["toss_winner_name", "toss_decision"],
         "forbidden": [], "requires": ["toss_winner_name", "toss_decision"]},
+    "P2_post_toss": {
+        "system": "toss_adjusted",
+        "allowed": list(_P1_INPUTS) + ["toss_winner_name", "toss_decision"],
+        "forbidden": [], "requires": ["toss_winner_name", "toss_decision"]},
+    "P1_post_XI": {
+        "system": "pre_match", "allowed": list(_P1_INPUTS) + ["announced_xi"],
+        "forbidden": list(TOSS_FIELDS), "requires": ["announced_xi"]},
+    "SIM_shadow_preseason": {
+        "system": "shadow_simulator",
+        "allowed": ["expected_xi", "player_priors", "ball_by_ball_distributions"],
+        "forbidden": list(TOSS_FIELDS), "requires": []},
 }
 
 
@@ -75,7 +87,7 @@ def validate_stage_inputs(stage: str, inputs) -> None:
     for req in spec["requires"]:
         if req not in keys:
             raise ValueError(f"stage {stage} requires input {req!r}")
-    if stage == "P2":
+    if spec["system"] == "toss_adjusted":
         vals = dict(inputs) if hasattr(inputs, "keys") else {}
         if vals.get("toss_decision") not in ("bat", "field"):
             raise ValueError(
@@ -212,6 +224,16 @@ def load_context(root: Path):
     latest_season = sorted(matches["season"].unique())[-1]
     if len(fixtures) and fixtures["season"].iloc[0] != latest_season:
         ratings = E.regress(ratings, E.DEFAULT_SEASON_REGRESSION)
+    # Provisional results (Amendment #6): winner-only manual captures
+    # bridge the cricsheet publication lag. When provisional rows
+    # exist for already-played, not-yet-ingested fixtures, ratings
+    # advance provisionally (MOV = 1.0, neutral); once a match is
+    # ingested, canonical data wins and the row is superseded. With
+    # no applicable provisional rows the ratings are exactly the
+    # canonical ones and provisional_info records basis "canonical".
+    prov = PV.load_provisional(root)
+    ratings, provisional_info = PV.ratings_with_provisional(
+        matches, fixtures, prov, base=ratings)
     form, last_played = team_form_state(matches)
     xi_by_team = {}
     for team, squad in priors.groupby("team"):
@@ -220,7 +242,8 @@ def load_context(root: Path):
     mj = root / "data/predictions/model_v1.json"
     if mj.exists():
         model_json = json.loads(mj.read_text())
-    return {"matches": matches, "ratings": ratings, "priors": priors,
+    return {"matches": matches, "ratings": ratings,
+            "provisional_info": provisional_info, "priors": priors,
             "priors_by_key": priors_by_key, "xi_by_team": xi_by_team,
             "form": form, "last_played": last_played, "model": model_json,
             "fixtures": fixtures}
@@ -243,9 +266,12 @@ def generate_predictions(root: Path) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def lock_predictions(root: Path, preds: pd.DataFrame, stage: str) -> int:
+def lock_predictions(root: Path, preds: pd.DataFrame, stage: str,
+                     model_version: str | None = None) -> int:
     """Append predictions to the frozen log. Refuses duplicates of
-    (match_id, stage) -- a locked prediction is never rewritten."""
+    (match_id, stage) -- a locked prediction is never rewritten.
+    `model_version` overrides the engine MODEL_VERSION for this lock
+    (e.g. the simulator's shadow locks, or calibrated v1.1 locks)."""
     if stage not in STAGE_INPUTS:
         raise ValueError(f"unknown prediction stage: {stage!r}")
     root = Path(root)
@@ -260,7 +286,8 @@ def lock_predictions(root: Path, preds: pd.DataFrame, stage: str) -> int:
             continue
         new_rows.append({
             "match_id": p["match_id"], "season": "S3", "stage": stage,
-            "timestamp_locked": now, "model_version": MODEL_VERSION,
+            "timestamp_locked": now,
+            "model_version": model_version or MODEL_VERSION,
             "team_1_name": p["team_1_name"], "team_2_name": p["team_2_name"],
             "p_team_1_win": p["p_team_1_win"], "p_elo": p["p_elo"],
             "p_logistic_challenger": p.get("p_logistic_challenger"),

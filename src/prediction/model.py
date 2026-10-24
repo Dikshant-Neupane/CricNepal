@@ -186,3 +186,28 @@ def blend_probability(p_elo: float, xi_batting_diff: float,
                       xi_bowling_diff: float) -> float:
     p_xi = xi_probability(xi_batting_diff, xi_bowling_diff)
     return float(np.clip(BLEND_W_ELO * p_elo + (1 - BLEND_W_ELO) * p_xi, *CLIP))
+
+
+# --- Temperature calibration, model v1.1 (Phase 2, Task A2) ---------------
+# TEMPERATURE_V1_1 is fitted by scripts/fit_temperature.py on the Season 2
+# walk-forward OUT-OF-SAMPLE blend predictions ONLY (backtest_s2.csv,
+# n=32): T minimises log-loss of sigmoid(logit(p)/T). Provenance and the
+# before/after OOS metrics are recorded in data/predictions/model_v1_1.json
+# and docs/PREREGISTRATION_S3.md; the drift test asserts code == record.
+# v1.1 applies to FUTURE locks (P1_post_XI and later). Locked v1 rows are
+# never rewritten.
+# Fitted 2026-10-24: T = 0.7496 (scripts/fit_temperature.py). HONEST
+# READING: on the same OOS predictions log-loss moved 0.68909 -> 0.68882
+# and Brier 0.24800 -> 0.24791 -- a negligible gain; at n=32, T is within
+# noise of 1.0. The fitted value is frozen anyway (it worsens nothing on
+# the fitting set and the fit procedure was pre-committed), but v1.1
+# calibration must not be described as a demonstrated improvement.
+TEMPERATURE_V1_1 = 0.7496
+
+
+def apply_temperature(p, T: float = TEMPERATURE_V1_1):
+    """Temperature scaling on the logit: p_cal = sigmoid(logit(p)/T),
+    clipped to CLIP. T=1 is the identity."""
+    p = np.clip(np.asarray(p, float), 1e-6, 1 - 1e-6)
+    z = np.log(p / (1 - p)) / float(T)
+    return np.clip(1.0 / (1.0 + np.exp(-z)), *CLIP)
