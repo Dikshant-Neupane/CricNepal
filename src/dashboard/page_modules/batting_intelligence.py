@@ -175,7 +175,6 @@ def render_batting_intelligence():
                 st.markdown(
                     f"""
                     <div class='insight-box' style='height: 100%;'>
-                        <div style='font-size:24px; margin-bottom: 8px;'>{item['icon']}</div>
                         <div style='font-weight:700; margin-bottom: 6px; font-size:14px;'>{item['phase']}</div>
                         <div style='font-size:13px; line-height:1.5;'>{item['text']}</div>
                     </div>
