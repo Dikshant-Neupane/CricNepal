@@ -1,0 +1,19 @@
+split,innings,phase,runs,balls,run_rate,wickets,dot_pct,boundary_pct
+All matches,1,Death,2943,1961,9.0,196,29.6,16.6
+All matches,1,Middle,4003,3535,6.79,152,35.4,10.1
+All matches,1,Powerplay,2496,2373,6.31,115,52.9,14.7
+All matches,2,Death,1692,1214,8.36,128,34.4,16.6
+All matches,2,Middle,3977,3437,6.94,171,36.8,11.6
+All matches,2,Powerplay,2776,2404,6.93,134,51.1,16.6
+Day slot,1,Death,1829,1245,8.81,137,31.6,16.4
+Day slot,1,Middle,2543,2269,6.72,97,36.1,10.0
+Day slot,1,Powerplay,1645,1527,6.46,70,54.1,15.7
+Day slot,2,Death,1052,754,8.37,78,33.3,16.2
+Day slot,2,Middle,2626,2205,7.15,103,36.7,12.6
+Day slot,2,Powerplay,1759,1551,6.8,85,52.2,16.5
+Day-Night slot,1,Death,472,290,9.77,20,22.1,17.2
+Day-Night slot,1,Middle,637,498,7.67,16,30.5,12.7
+Day-Night slot,1,Powerplay,334,332,6.04,15,49.4,12.3
+Day-Night slot,2,Death,282,209,8.1,22,35.4,16.7
+Day-Night slot,2,Middle,540,502,6.45,26,37.1,9.6
+Day-Night slot,2,Powerplay,423,332,7.64,19,49.7,19.6

@@ -1,0 +1,6 @@
+split,matches,inn1_mean,inn1_median,inn1_q1,inn1_q3,inn1_min,inn1_max,inn2_mean,bat_first_wins,chase_wins,chase_win_pct
+All matches,64,147.5,144.5,131.5,166.25,85,220,132.0,30,33,52.4
+S1 (day era),32,144.9,139.0,126.0,167.75,101,191,128.5,15,16,51.6
+S2 (floodlight era),32,150.2,147.0,134.75,161.25,85,220,135.4,15,17,53.1
+Day slot,41,146.8,143.0,130.0,167.0,101,191,132.6,18,22,55.0
+Day-Night slot,9,160.3,155.0,139.0,169.0,120,220,138.3,5,4,44.4
