@@ -23,6 +23,11 @@ below 30 balls without its sample size next to it.*
 - TU par for this slot (data/venue/tu_par_summary.csv): 
 - If we win the toss, we: <bat/chase> because: 
 
+## Form watch — last 10 T20s (sourced at the T-48h sweep; blank where unverified)
+- Our key players (runs / wickets + economy, source + date checked): 
+- Their threats (same): 
+- Anyone clearly in or out of form vs their career prior: 
+
 ## Availability & watch items (from availability_log + events_log)
 - Their injuries / arrivals / departures: 
 - Role changes spotted last match (new opener, bowler moved to death): 

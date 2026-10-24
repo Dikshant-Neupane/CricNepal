@@ -125,6 +125,10 @@ elif active_page == "match_predictions":
     from src.dashboard.page_modules.match_predictions import render_match_predictions
     render_match_predictions()
 
+elif active_page == "game_plan":
+    from src.dashboard.page_modules.game_plan import render_game_plan
+    render_game_plan()
+
 elif active_page == "win_probability":
     _ensure_plotly_theme()
     from src.dashboard.page_modules.win_probability import render_win_probability

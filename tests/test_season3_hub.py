@@ -94,7 +94,8 @@ def test_showcase_nav_freezes_analytics_pages():
     from src.dashboard.config.nav_config import FROZEN_NAV_ITEMS, NAV_ITEMS
 
     live = {i["key"] for i in NAV_ITEMS}
-    assert live == {"season3_hub", "match_predictions", "player_profiles"}
+    assert live == {"season3_hub", "match_predictions", "game_plan",
+                    "player_profiles"}
     frozen = {i["key"] for i in FROZEN_NAV_ITEMS}
     assert {"dashboard", "review", "batting_analysis", "win_probability"} <= frozen
     assert not (live & frozen)
