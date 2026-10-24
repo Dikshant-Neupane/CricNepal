@@ -69,6 +69,170 @@ def expected_xi_unresolved(master: pd.DataFrame, priors: pd.DataFrame) -> dict:
     return out
 
 
+def load_match_analysis(root: Path = ROOT) -> list:
+    """Per-fixture analysis for the match picker: every Season 3
+    fixture (all 32), with the four locked series oriented to the
+    fixture's Team 1, the latest champion lock stage, expected-XI
+    names and the XI-strength drivers. Playoff fixtures carry no
+    probabilities until their teams are known. Pure — unit-tested."""
+    import json as _json
+
+    fx = pd.read_csv(root / "data" / "fixtures" / "s3_fixtures.csv",
+                     parse_dates=["match_date"])
+    fx = fx.sort_values(["match_date", "match_number"])
+
+    def _by_id(name):
+        p = root / "data" / "predictions" / name
+        if not p.exists():
+            return {}
+        df = pd.read_csv(p)
+        return {r.match_id: r for r in df.itertuples()}
+
+    up = _by_id("upcoming_predictions.csv")
+    sim = _by_id("simulator_preseason.csv")
+    coach = _by_id("coach_shadow.csv")
+
+    frozen_path = root / "data" / "predictions" / "frozen_log.csv"
+    lock_stage = {}
+    if frozen_path.exists():
+        frozen = pd.read_csv(frozen_path)
+        priority = {"P2_post_toss": 3, "P1_post_XI": 2,
+                    "P1_preseason_expected_xi": 1}
+        for r in frozen.itertuples():
+            if r.stage in priority:
+                cur = lock_stage.get(r.match_id)
+                if cur is None or priority[r.stage] > priority[cur]:
+                    lock_stage[r.match_id] = r.stage
+
+    master_path = root / "data" / "predictions" / "player_master.csv"
+    names, overseas = {}, {}
+    if master_path.exists():
+        master = pd.read_csv(master_path)
+        names = dict(zip(master.player_key, master.canonical_name))
+        overseas = dict(zip(master.player_key, master.is_overseas))
+
+    def _orient(row, fixture_t1):
+        if row is None:
+            return None
+        return (float(row.p_team_1_win) if row.team_1_name == fixture_t1
+                else 1.0 - float(row.p_team_1_win))
+
+    def _xi(keys):
+        if not isinstance(keys, str):
+            return []
+        return [(names.get(k, k), bool(overseas.get(k, False)))
+                for k in keys.split(";") if k]
+
+    out = []
+    for r in fx.itertuples():
+        u = up.get(r.match_id)
+        item = {
+            "match_id": r.match_id,
+            "match_number": int(r.match_number),
+            "match_date": r.match_date,
+            "stage": r.stage,
+            "start_time_local": r.start_time_local,
+            "team_1_name": r.team_1_name if isinstance(r.team_1_name, str)
+                           else None,
+            "team_2_name": r.team_2_name if isinstance(r.team_2_name, str)
+                           else None,
+            "lock_stage": lock_stage.get(r.match_id),
+            "champion": None, "elo": None, "simulator": None,
+            "coach": None, "rating_1": None, "rating_2": None,
+            "xi_1": [], "xi_2": [], "drivers": {},
+        }
+        if u is not None and item["team_1_name"]:
+            item["champion"] = _orient(u, item["team_1_name"])
+            item["elo"] = _orient(
+                type("R", (), {"team_1_name": u.team_1_name,
+                               "p_team_1_win": u.p_elo})(),
+                item["team_1_name"])
+            item["rating_1"] = float(u.rating_1)
+            item["rating_2"] = float(u.rating_2)
+            item["xi_1"] = _xi(u.xi_1_keys)
+            item["xi_2"] = _xi(u.xi_2_keys)
+            item["drivers"] = _json.loads(u.features_json)
+            item["simulator"] = _orient(sim.get(r.match_id),
+                                        item["team_1_name"])
+            item["coach"] = _orient(coach.get(r.match_id),
+                                    item["team_1_name"])
+        out.append(item)
+    return out
+
+
+def _render_match_analysis():
+    """The match picker: choose any fixture, get its full analysis in
+    one place — all four locked series, expected XIs, drivers."""
+    st.markdown("### Match Analysis — pick a match")
+    try:
+        analysis = load_match_analysis()
+    except Exception:
+        st.info("Match analysis is unavailable in this deployment.")
+        return
+
+    def _label(m):
+        date = pd.Timestamp(m["match_date"]).strftime("%a %d %b")
+        if m["team_1_name"]:
+            return (f"Match {m['match_number']} · {date} · "
+                    f"{m['team_1_name']} v {m['team_2_name']}")
+        return f"Match {m['match_number']} · {date} · {m['stage']} · teams TBD"
+
+    labels = [_label(m) for m in analysis]
+    default = next((i for i, m in enumerate(analysis)
+                    if m["champion"] is not None), 0)
+    picked = st.selectbox("Choose a match", labels, index=default,
+                          key="predictions_match")
+    m = analysis[labels.index(picked)]
+
+    if m["champion"] is None:
+        st.info("Playoff fixture — teams, probabilities and locks land "
+                "when the league stage settles. The pre-registered "
+                "pipeline prices it from the confirmed XIs.")
+        return
+
+    t1, t2 = m["team_1_name"], m["team_2_name"]
+    series = [("Champion (locked)", m["champion"]), ("Elo baseline", m["elo"]),
+              ("Simulator shadow", m["simulator"]),
+              ("Coach shadow", m["coach"])]
+    cols = st.columns(4)
+    for col, (name, p) in zip(cols, series):
+        if p is None:
+            col.metric(name, "—")
+        else:
+            fav = t1 if p >= 0.5 else t2
+            col.metric(name, f"{fav} {max(p, 1 - p):.0%}")
+    lock_labels = {"P1_preseason_expected_xi": "Pre-season lock",
+                   "P1_post_XI": "Post-XI lock",
+                   "P2_post_toss": "Post-toss lock"}
+    st.caption(
+        f"Elo: {t1} {m['rating_1']:.0f} · {t2} {m['rating_2']:.0f}. "
+        f"Latest champion lock: "
+        f"{lock_labels.get(m['lock_stage'], 'none yet')}. "
+        "Percentages are the favourite's win probability per series; "
+        "series are scored separately, never pooled.")
+
+    x1, x2 = st.columns(2)
+    for col, team, xi in ((x1, t1, m["xi_1"]), (x2, t2, m["xi_2"])):
+        with col:
+            st.markdown(f"**{team} — expected XI**")
+            if xi:
+                st.dataframe(
+                    pd.DataFrame(
+                        [{"Player": n, "OS": "OS" if o else ""}
+                         for n, o in xi]),
+                    hide_index=True, width="stretch")
+            else:
+                st.caption("Expected XI not available.")
+    if m["drivers"]:
+        st.markdown("**Why — XI-strength drivers** (positive favours "
+                    f"{t1})")
+        drv = pd.DataFrame([
+            {"Driver": k, "Value": round(float(v), 3),
+             "Favours": t1 if v > 0 else (t2 if v < 0 else "—")}
+            for k, v in m["drivers"].items()])
+        st.dataframe(drv, hide_index=True, width="stretch")
+
+
 def render_match_predictions():
     st.markdown(
         """
@@ -116,6 +280,8 @@ def render_match_predictions():
                        "scripts/refresh_predictions.py).")
         st.dataframe(ratings.rename(columns={"team": "Team", "rating_s3_start": "Elo"}),
                      hide_index=True, width="stretch")
+
+    _render_match_analysis()
 
     st.markdown("### Upcoming Fixtures — P1 Probabilities")
     show = preds.copy()

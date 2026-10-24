@@ -1,26 +1,31 @@
-"""Bolts Game Plan page: next-match card + standing blueprint.
+"""Bolts Game Plan page: match selector, next-match card, blueprint.
 
 The page reads only files the matchday process already produces. These
-tests pin: the loader finds Janakpur's next fixture and its filed card,
-degrades to a "pending" state when no card exists (never crashes, never
-invents content), the static files it reads are git-tracked (the
-2026-10-24 hub outage lesson), and the page renders under AppTest.
+tests pin: the loader lists every Janakpur fixture with its opponent
+and filed cards keyed by match number, degrades when no card exists
+(never crashes, never invents content), the visual data (venue tiles,
+phase tables) comes from the project's own files, the static files it
+reads are git-tracked (the 2026-10-24 hub outage lesson), and the page
+renders under AppTest with the selector defaulting to the next match.
 """
 from pathlib import Path
 
 
-def test_gameplan_loader_finds_next_match_card_and_blueprint():
+def test_gameplan_loader_fixtures_cards_blueprint():
     import src.dashboard.page_modules.game_plan as gp
 
     data = gp.load_game_plan(Path(gp.ROOT))
-    nxt = data["next_fixture"]
-    assert nxt is not None
-    assert nxt["match_id"] == "s3_2026_03"  # Janakpur opener, Tue 27 Oct
-    assert data["next_card"] is not None
-    assert "Karnali" in data["next_card"]
-    assert data["next_card_name"] == "opponent_card_m03_karnali.md"
+    assert len(data["fixtures"]) == 7  # Janakpur's league fixtures
+    assert data["next_match_number"] == 3  # the opener, Tue 27 Oct
+    first = data["fixtures"][0]
+    assert first["match_id"] == "s3_2026_03"
+    assert first["opponent"] == "Karnali Yaks"
+    assert first["slot_label"] == "Day-Night"  # 17:00 start
+    assert "Karnali" in data["cards"][3]
     assert data["blueprint"] is not None
     assert "Harmeet owns the powerplay" in data["blueprint"]
+    opponents = {f["opponent"] for f in data["fixtures"]}
+    assert opponents <= set(data["tables"])  # a table per opponent
 
 
 def test_gameplan_loader_visual_data():
@@ -29,11 +34,10 @@ def test_gameplan_loader_visual_data():
     import src.dashboard.page_modules.game_plan as gp
 
     data = gp.load_game_plan(Path(gp.ROOT))
-    assert data["opponent"] == "Karnali Yaks"
-    assert data["slot_label"] == "Day-Night"  # 17:00 start
     venue = data["venue"]
     assert venue["par_mean"] == 147.5
-    assert venue["slot_mean"] == 160.3 and venue["slot_matches"] == 9
+    dn = venue["by_slot"]["Day-Night"]
+    assert dn["mean"] == 160.3 and dn["matches"] == 9
     assert 55.0 < venue["spin_share"] < 58.0
 
     jb = data["tables"]["Janakpur Bolts"]
@@ -46,39 +50,23 @@ def test_gameplan_loader_visual_data():
     assert 6.0 < battle["bowl_powerplay"] < 7.5
 
 
-def test_app_header_has_no_date_pill():
-    app_src = (Path(__file__).parent.parent / "src" / "dashboard"
-               / "app.py").read_text()
-    assert "jb-date-pill" not in app_src
-    assert "datetime" not in app_src
-
-
 def test_gameplan_loader_degrades_without_card(tmp_path):
-    """No card filed yet -> next_card is None and the fixture is still
+    """No card filed yet -> cards is empty and the fixtures are still
     identified, so the page shows 'pending' instead of failing."""
     import shutil
 
     import src.dashboard.page_modules.game_plan as gp
 
     root = Path(gp.ROOT)
-    for rel in ["docs/BOLTS_BLUEPRINT.md", "data/fixtures/s3_fixtures.csv",
-                "data/normalized/matches_normalized.parquet"]:
+    for rel in gp.GAMEPLAN_DATA_FILES:
         dest = tmp_path / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(root / rel, dest)
     (tmp_path / "data" / "capture").mkdir(parents=True, exist_ok=True)
 
-    for rel in ["data/predictions/player_master.csv",
-                "data/predictions/player_priors.csv",
-                "data/venue/tu_par_summary.csv",
-                "data/venue/tu_wickets_by_type.csv"]:
-        dest = tmp_path / rel
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy(root / rel, dest)
-
     data = gp.load_game_plan(tmp_path)
-    assert data["next_fixture"]["match_id"] == "s3_2026_03"
-    assert data["next_card"] is None
+    assert data["cards"] == {}
+    assert data["next_match_number"] == 3
     assert data["blueprint"] is not None
 
 
@@ -94,6 +82,13 @@ def test_gameplan_data_files_are_git_tracked():
         assert out.returncode == 0, f"{rel} is not tracked in git"
 
 
+def test_app_header_has_no_date_pill():
+    app_src = (Path(__file__).parent.parent / "src" / "dashboard"
+               / "app.py").read_text()
+    assert "jb-date-pill" not in app_src
+    assert "datetime" not in app_src
+
+
 def test_game_plan_page_renders():
     from streamlit.testing.v1 import AppTest
 
@@ -105,5 +100,6 @@ def test_game_plan_page_renders():
     text = "\n".join(m.value for m in at.markdown)
     assert "Bolts Game Plan" in text
     assert "Phase battle" in text
-    assert "Karnali" in text  # the filed Match 3 card is on the page
+    assert "Karnali" in text  # default selection: the next match (M3)
     assert len(at.dataframe) >= 5  # battle + 2x2 squad phase tables
+    assert len(at.selectbox) >= 1  # the match selector

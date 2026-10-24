@@ -1,14 +1,16 @@
 """Bolts Game Plan — the decision layer of the Season 3 showcase.
 
-Visual first: match banner, TU venue tiles, a phase-battle table and
+Visual first, and every Janakpur match is reachable from the match
+selector at the top: banner, TU venue tiles, a phase-battle table and
 both squads' phase-prior tables, all computed from the project's own
-files (fixtures, player priors, venue tables). Below the visuals sit
-the two source documents the matchday process produces — the next-match
-opponent card (data/capture/opponent_card_m<NN>_*.md, filed at the
-T-48h sweep) and the standing season blueprint (docs/BOLTS_BLUEPRINT.md,
-revised only at the pre-registered checkpoints). No probabilities here —
-numbers live on Match Predictions; this page is decisions only. Nothing
-is generated: missing files degrade to notices, never filler.
+files (fixtures, player priors, venue tables) for the selected match.
+The default selection is the next unplayed match. Below the visuals
+sit the source documents the matchday process produces — the selected
+match's opponent card (data/capture/opponent_card_m<NN>_*.md, filed at
+the T-48h sweep; a "pending" notice until then) and the standing
+season blueprint (docs/BOLTS_BLUEPRINT.md, revised only at the
+pre-registered checkpoints). No probabilities here — numbers live on
+Match Predictions; this page is decisions only.
 """
 import re
 from pathlib import Path
@@ -39,14 +41,14 @@ _PHASES = [("powerplay", "Powerplay"), ("middle", "Middle"), ("death", "Death")]
 
 
 def _card_files(root: Path) -> dict:
-    """match_number -> card path, from the capture directory."""
+    """match_number -> card text, from the capture directory."""
     out = {}
     cap = root / "data" / "capture"
     if cap.exists():
         for p in sorted(cap.glob("opponent_card_m*.md")):
             m = _CARD_RE.match(p.name)
             if m:
-                out[int(m.group(1))] = p
+                out[int(m.group(1))] = p.read_text(encoding="utf-8")
     return out
 
 
@@ -101,61 +103,62 @@ def load_game_plan(root: Path = ROOT) -> dict:
     except Exception:
         matches_available = False
 
-    upcoming = jb[~jb.match_id.astype(str).isin(played_ids)]
-    nxt = upcoming.iloc[0] if len(upcoming) else None
+    fixtures = []
+    next_match_number = None
+    for r in jb.itertuples():
+        played = str(r.match_id) in played_ids
+        if not played and next_match_number is None:
+            next_match_number = int(r.match_number)
+        fixtures.append({
+            "match_id": r.match_id,
+            "match_number": int(r.match_number),
+            "match_date": r.match_date,
+            "start_time_local": r.start_time_local,
+            "team_1_name": r.team_1_name,
+            "team_2_name": r.team_2_name,
+            "opponent": (r.team_2_name if r.team_1_name == TEAM
+                         else r.team_1_name),
+            "slot_label": ("Day-Night" if str(r.start_time_local) >= "16:00"
+                           else "Day"),
+            "played": played,
+        })
 
     cards = _card_files(root)
-    next_card = None
-    next_card_name = None
-    past_cards = []
-    opponent = None
-    slot_label = None
-    if nxt is not None:
-        opponent = (nxt.team_2_name if nxt.team_1_name == TEAM
-                    else nxt.team_1_name)
-        slot_label = ("Day-Night" if str(nxt.start_time_local) >= "16:00"
-                      else "Day")
-        p = cards.get(int(nxt.match_number))
-        if p is not None:
-            next_card = p.read_text(encoding="utf-8")
-            next_card_name = p.name
-        past_cards = [p.name for num, p in sorted(cards.items())
-                      if num < int(nxt.match_number)]
 
-    # Venue tiles from the TU tables.
-    venue = {}
+    # Venue tiles from the TU tables (overall + per slot).
     par = pd.read_csv(root / "data" / "venue" / "tu_par_summary.csv")
     allrow = par[par.split == "All matches"].iloc[0]
-    venue["par_mean"] = float(allrow.inn1_mean)
-    venue["par_median"] = float(allrow.inn1_median)
-    venue["chase_win_pct"] = float(allrow.chase_win_pct)
-    if slot_label:
-        slot_row = par[par.split == f"{slot_label} slot"]
-        if len(slot_row):
-            venue["slot_mean"] = float(slot_row.iloc[0].inn1_mean)
-            venue["slot_matches"] = int(slot_row.iloc[0].matches)
-            venue["slot_chase_pct"] = float(slot_row.iloc[0].chase_win_pct)
+    venue = {"par_mean": float(allrow.inn1_mean),
+             "par_median": float(allrow.inn1_median),
+             "chase_win_pct": float(allrow.chase_win_pct),
+             "by_slot": {}}
+    for slot in ("Day", "Day-Night"):
+        srow = par[par.split == f"{slot} slot"]
+        if len(srow):
+            venue["by_slot"][slot] = {
+                "mean": float(srow.iloc[0].inn1_mean),
+                "matches": int(srow.iloc[0].matches),
+                "chase_pct": float(srow.iloc[0].chase_win_pct),
+            }
     wk = pd.read_csv(root / "data" / "venue" / "tu_wickets_by_type.csv")
     known = wk.spin_wkts.sum() + wk.pace_wkts.sum()
     venue["spin_share"] = float(100 * wk.spin_wkts.sum() / known)
 
-    # Phase-prior tables for both squads.
+    # Phase-prior tables for Janakpur and every opponent it faces.
     master = pd.read_csv(root / "data" / "predictions" / "player_master.csv")
     priors = pd.read_csv(root / "data" / "predictions" / "player_priors.csv")
     merged = master.merge(priors, on="player_key", how="left",
                           suffixes=("", "_p"))
     tables = {TEAM: _team_tables(merged, TEAM)}
-    if opponent:
-        tables[opponent] = _team_tables(merged, opponent)
+    for f in fixtures:
+        if f["opponent"] not in tables:
+            tables[f["opponent"]] = _team_tables(merged, f["opponent"])
 
     return {
         "blueprint": blueprint,
-        "next_fixture": (nxt.to_dict() if nxt is not None else None),
-        "opponent": opponent,
-        "slot_label": slot_label,
-        "next_card": next_card,
-        "next_card_name": next_card_name,
-        "past_cards": past_cards,
+        "fixtures": fixtures,
+        "next_match_number": next_match_number,
+        "cards": cards,
         "matches_available": matches_available,
         "venue": venue,
         "tables": tables,
@@ -199,18 +202,23 @@ def _blueprint_sections(md: str):
     return intro.strip(), sections
 
 
+def _fixture_label(f: dict) -> str:
+    date = pd.Timestamp(f["match_date"]).strftime("%a %d %b")
+    state = "played" if f["played"] else "upcoming"
+    return (f"Match {f['match_number']} · {date} · {f['start_time_local']} · "
+            f"v {f['opponent']} ({state})")
+
+
 def render_game_plan() -> None:
     data = _load_game_plan_cached(str(ROOT), _cache_key(ROOT))
-    nxt = data["next_fixture"]
     venue = data["venue"]
-    opp = data["opponent"]
 
     st.markdown(
         """
         <div class="jb-page-head">
             <h2 class="page-title">Bolts Game Plan</h2>
             <p class="page-subtitle">What the analysis says Janakpur should do —
-            next match first, then the standing season blueprint.</p>
+            pick any match, then the standing season blueprint.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -221,78 +229,84 @@ def render_game_plan() -> None:
         "Predictions; this page is decisions only."
     )
     if not data["matches_available"]:
-        st.warning("Results data is unavailable in this deployment, so the "
-                   "next-match card is chosen from the fixture list alone.")
+        st.warning("Results data is unavailable in this deployment, so "
+                   "played/upcoming status comes from the fixture list alone.")
 
-    # ---- Next match banner + venue tiles ----
-    st.subheader("Next match plan")
-    if nxt is None:
-        st.info("No unplayed Janakpur fixture remains in the loaded schedule.")
+    fixtures = data["fixtures"]
+    if not fixtures:
+        st.info("No Janakpur fixtures are loaded.")
+        return
+    labels = [_fixture_label(f) for f in fixtures]
+    default = next((i for i, f in enumerate(fixtures)
+                    if f["match_number"] == data["next_match_number"]), 0)
+    picked = st.selectbox("Choose a match", labels, index=default,
+                          key="game_plan_match")
+    sel = fixtures[labels.index(picked)]
+    opp = sel["opponent"]
+    slot = venue["by_slot"].get(sel["slot_label"], {})
+
+    st.subheader(f"Match {sel['match_number']} plan — v {opp}")
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Match", f"{sel['match_number']} of 32")
+    c2.metric("Fixture", f"{sel['team_1_name']} v {sel['team_2_name']}")
+    c3.metric("When", f"{pd.Timestamp(sel['match_date']).strftime('%a %d %b')} · "
+                        f"{sel['start_time_local']}")
+    c4.metric("Slot / venue", f"{sel['slot_label']} · TU Kirtipur")
+    v1, v2, v3, v4 = st.columns(4)
+    v1.metric("TU par (1st inn mean)", f"{venue['par_mean']:.1f}")
+    if slot:
+        v2.metric(f"{sel['slot_label']} slot par", f"{slot['mean']:.1f}")
+    v3.metric("Chases won at TU", f"{venue['chase_win_pct']:.0f}%")
+    v4.metric("Wickets to spin", f"{venue['spin_share']:.0f}%")
+    st.caption(f"Par median {venue['par_median']:.1f} across our 64 matches; "
+               f"slot split is indicative only ({slot.get('matches', 0)} "
+               "matches). Spin share = bowler wickets with known type, S1+S2.")
+
+    st.markdown("#### Phase battle — squad priors (top-11 means)")
+    jb_b = data["tables"][TEAM]["battle"]
+    op_b = data["tables"][opp]["battle"]
+    battle = pd.DataFrame([
+        {"Phase": label,
+         "Janakpur bat (runs/ball)": round(jb_b[f"bat_{k}"], 2),
+         f"{opp} bat (runs/ball)": round(op_b[f"bat_{k}"], 2),
+         "Janakpur bowl (econ)": round(jb_b[f"bowl_{k}"], 2),
+         f"{opp} bowl (econ)": round(op_b[f"bowl_{k}"], 2)}
+        for k, label in _PHASES
+    ])
+    st.dataframe(battle, hide_index=True, width="stretch")
+    st.caption("Batting: higher is better. Bowling economy: lower is better. "
+               "Priors = S1/S2 ball-by-ball + career T20 history, shrunk "
+               "toward league average.")
+
+    for team_name in (TEAM, opp):
+        t = data["tables"][team_name]
+        st.markdown(f"#### {team_name} — phase priors")
+        b1, b2 = st.columns(2)
+        with b1:
+            st.markdown("**Batting** (runs per ball by phase)")
+            st.dataframe(_fmt_table(t["bat"]), hide_index=True,
+                         width="stretch")
+        with b2:
+            st.markdown("**Bowling** (economy by phase)")
+            st.dataframe(_fmt_table(t["bowl"]), hide_index=True,
+                         width="stretch")
+
+    card = data["cards"].get(sel["match_number"])
+    if card is not None:
+        with st.expander("Full opponent card (as filed)", expanded=True):
+            st.markdown(card)
     else:
-        c1, c2, c3, c4 = st.columns(4)
-        c1.metric("Match", f"{int(nxt['match_number'])} of 32")
-        c2.metric("Fixture", f"{nxt['team_1_name']} v {nxt['team_2_name']}")
-        c3.metric("When", f"{pd.Timestamp(nxt['match_date']).strftime('%a %d %b')} · "
-                            f"{nxt['start_time_local']}")
-        c4.metric("Slot / venue", f"{data['slot_label']} · TU Kirtipur")
-        v1, v2, v3, v4 = st.columns(4)
-        v1.metric("TU par (1st inn mean)", f"{venue['par_mean']:.1f}")
-        if "slot_mean" in venue:
-            v2.metric(f"{data['slot_label']} slot par",
-                      f"{venue['slot_mean']:.1f}")
-        v3.metric("Chases won at TU", f"{venue['chase_win_pct']:.0f}%")
-        v4.metric("Wickets to spin", f"{venue['spin_share']:.0f}%")
-        st.caption(f"Par median {venue['par_median']:.1f} across our 64 "
-                   "matches; slot split is indicative only "
-                   f"({venue.get('slot_matches', 0)} matches). Spin share = "
-                   "bowler wickets with known type, S1+S2.")
+        st.info(f"Opponent card for Match {sel['match_number']} vs {opp} is "
+                "pending — it is filed at the T-48h sweep before the match. "
+                "The phase tables above are live from the priors in the "
+                "meantime.")
+    other_cards = [n for n in sorted(data["cards"])
+                   if n != sel["match_number"]]
+    if other_cards:
+        st.caption("Cards also filed for match(es): "
+                   + ", ".join(str(n) for n in other_cards)
+                   + " — pick the match above to read them.")
 
-        # ---- Phase battle ----
-        st.markdown(f"#### Phase battle — squad priors (top-11 means)")
-        jb_b = data["tables"][TEAM]["battle"]
-        op_b = data["tables"][opp]["battle"]
-        battle = pd.DataFrame([
-            {"Phase": label,
-             "Janakpur bat (runs/ball)": round(jb_b[f"bat_{k}"], 2),
-             f"{opp} bat (runs/ball)": round(op_b[f"bat_{k}"], 2),
-             "Janakpur bowl (econ)": round(jb_b[f"bowl_{k}"], 2),
-             f"{opp} bowl (econ)": round(op_b[f"bowl_{k}"], 2)}
-            for k, label in _PHASES
-        ])
-        st.dataframe(battle, hide_index=True, width="stretch")
-        st.caption("Batting: higher is better. Bowling economy: lower is "
-                   "better. Priors = S1/S2 ball-by-ball + career T20 history, "
-                   "shrunk toward league average.")
-
-        # ---- Squad phase tables ----
-        for team_name in (TEAM, opp):
-            t = data["tables"][team_name]
-            st.markdown(f"#### {team_name} — phase priors")
-            b1, b2 = st.columns(2)
-            with b1:
-                st.markdown("**Batting** (runs per ball by phase)")
-                st.dataframe(_fmt_table(t["bat"]), hide_index=True,
-                             width="stretch")
-            with b2:
-                st.markdown("**Bowling** (economy by phase)")
-                st.dataframe(_fmt_table(t["bowl"]), hide_index=True,
-                             width="stretch")
-
-        # ---- The filed card ----
-        if data["next_card"] is not None:
-            with st.expander("Full opponent card (as filed)", expanded=True):
-                st.markdown(data["next_card"])
-        else:
-            st.info(
-                f"Opponent card for Match {int(nxt['match_number'])} vs {opp} "
-                f"is pending — it is filed at the T-48h sweep before the match."
-            )
-    if data["past_cards"]:
-        st.caption("Filed cards for earlier matches: "
-                   + ", ".join(data["past_cards"])
-                   + " (in the project repo, data/capture/).")
-
-    # ---- Blueprint, sectioned ----
     st.divider()
     if data["blueprint"]:
         intro, sections = _blueprint_sections(data["blueprint"])
