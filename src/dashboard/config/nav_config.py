@@ -6,6 +6,7 @@ Defines the sidebar menu structure.
 # Main navigation items
 NAV_ITEMS = [
     # Live / Implemented Modules
+    {"icon": "", "label": "Season 3 Hub", "key": "season3_hub"},
     {"icon": "", "label": "Dashboard", "key": "dashboard"},
     {"icon": "", "label": "Season Analysis", "key": "team_decline_analysis"},
     {"icon": "", "label": "Batting Analysis", "key": "batting_analysis"},

@@ -69,6 +69,10 @@ active_page = render_sidebar()
 if active_page in ["dashboard", "team_overview", "executive_overview"]:
     render_executive_overview()
 
+elif active_page == "season3_hub":
+    from src.dashboard.page_modules.season3_hub import render_season3_hub
+    render_season3_hub()
+
 elif active_page == "batting_analysis":
     render_batting_intelligence()
 
