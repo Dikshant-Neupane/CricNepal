@@ -290,11 +290,32 @@ def build_player_form_table(
         form_band = classify_form_band(weighted_form_score)
 
         avg_runs = round(float(recent["runs_scored"].fillna(0).mean()), 1)
-        avg_strike_rate = round(float(recent["strike_rate"].fillna(0).mean()), 1)
+        # Strike rate and economy are AGGREGATE rates (totals over the
+        # window), not means of per-match rates — a mean of rates weights
+        # a 1-over spell the same as a 4-over spell and produced values
+        # that contradicted the same page's role guidance (e.g. a bowler
+        # shown at 9.44 in the table whose actual aggregate economy, and
+        # the guidance text, were both ~6.0).
+        total_balls_faced = float(recent["balls_faced"].fillna(0).sum())
+        total_runs_scored = float(recent["runs_scored"].fillna(0).sum())
+        avg_strike_rate = (
+            round(total_runs_scored / total_balls_faced * 100, 1)
+            if total_balls_faced
+            else 0.0
+        )
         avg_balls_faced = round(float(recent["balls_faced"].fillna(0).mean()), 1)
         avg_wickets = round(float(recent["wickets_taken"].fillna(0).mean()), 2)
-        avg_economy = recent["economy_rate"].replace(0, pd.NA).dropna()
-        avg_economy_value = round(float(avg_economy.mean()), 2) if not avg_economy.empty else 0.0
+        if "balls_bowled" in recent.columns and "runs_conceded" in recent.columns:
+            total_bowled = float(recent["balls_bowled"].fillna(0).sum())
+            total_conceded = float(recent["runs_conceded"].fillna(0).sum())
+            avg_economy_value = (
+                round(total_conceded / (total_bowled / 6), 2) if total_bowled else 0.0
+            )
+        else:
+            # Older/synthetic inputs without ball-by-ball bowling columns:
+            # fall back to the per-match rate mean.
+            _rates = recent["economy_rate"].replace(0, pd.NA).dropna()
+            avg_economy_value = round(float(_rates.mean()), 2) if not _rates.empty else 0.0
 
         season_ref = _season_reference(
             primary_role,
