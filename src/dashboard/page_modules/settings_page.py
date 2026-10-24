@@ -44,7 +44,8 @@ def render_settings():
     status_path = PREDICTIONS_DIR / "predictions_status.json"
     if status_path.exists():
         status = json.loads(status_path.read_text())
-        st.write(f"- **Ratings as of:** {status.get('ratings_as_of', '—')} "
+        st.write(f"- **Ratings as of:** "
+                 f"{status.get('data_as_of') or status.get('ratings_as_of', '—')} "
                  f"({status.get('n_matches_ingested', '—')} matches ingested)")
         prov = status.get("provisional", {})
         st.write(f"- **Provisional results recorded:** {prov.get('n_provisional_results', 0)} "

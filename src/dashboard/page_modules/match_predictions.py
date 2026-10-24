@@ -200,7 +200,8 @@ def _render_match_analysis():
             col.metric(name, "—")
         else:
             fav = t1 if p >= 0.5 else t2
-            col.metric(name, f"{fav} {max(p, 1 - p):.0%}")
+            col.metric(name, f"{max(p, 1 - p):.0%}", delta=fav,
+                       delta_color="off")
     lock_labels = {"P1_preseason_expected_xi": "Pre-season lock",
                    "P1_post_XI": "Post-XI lock",
                    "P2_post_toss": "Post-toss lock"}
@@ -226,8 +227,11 @@ def _render_match_analysis():
     if m["drivers"]:
         st.markdown("**Why — XI-strength drivers** (positive favours "
                     f"{t1})")
+        labels = {"elo_diff": "Elo diff", "xi_batting_diff": "XI batting diff",
+                  "xi_bowling_diff": "XI bowling diff",
+                  "form_nrr_diff": "Form/NRR diff", "rest_diff": "Rest diff"}
         drv = pd.DataFrame([
-            {"Driver": k, "Value": round(float(v), 3),
+            {"Driver": labels.get(k, k), "Value": round(float(v), 3),
              "Favours": t1 if v > 0 else (t2 if v < 0 else "—")}
             for k, v in m["drivers"].items()])
         st.dataframe(drv, hide_index=True, width="stretch")
@@ -289,6 +293,8 @@ def render_match_predictions():
         lambda r: r.team_1_name if r.p_team_1_win >= 0.5 else r.team_2_name, axis=1)
     show["Win probability"] = show.apply(
         lambda r: max(r.p_team_1_win, 1 - r.p_team_1_win), axis=1)
+    show["p_team_1_win"] = show["p_team_1_win"].round(4)
+    show["Win probability"] = show["Win probability"].round(4)
     # XI data-quality flag: players in the two expected XIs whose
     # cricsheet registry ID is unresolved in the player master
     # (computed live from player_master.csv + player_priors.csv).
@@ -305,18 +311,25 @@ def render_match_predictions():
         show[cols].rename(columns={
             "match_date": "Date", "team_1_name": "Team 1", "team_2_name": "Team 2",
             "rating_1": "Elo 1", "rating_2": "Elo 2",
-            "p_team_1_win": "P(Team 1 win)"}),
+            "p_team_1_win": "P(Team 1 win)",
+            "Win probability": "Favourite win prob"}),
         hide_index=True, width="stretch")
     st.caption("XI data quality = players in the fixture's two expected XIs "
                "whose identity is not yet resolved to a cricsheet registry ID "
                "in the player master; their priors carry wider uncertainty.")
 
-    st.markdown("### Why — XI-strength drivers")
+    st.markdown("### XI-strength drivers — all fixtures")
     st.caption("Feature snapshot per fixture: a positive value favours Team 1. "
-               "elo_diff is per 100 Elo points; xi diffs are mean prior-index differences of the expected XIs.")
+               "Elo diff is per 100 Elo points; XI diffs are mean prior-index differences of the expected XIs.")
     feats = pd.json_normalize(show["features_json"].apply(lambda s: __import__("json").loads(s)))
     drv = pd.concat([show[["match_date", "team_1_name", "team_2_name"]].reset_index(drop=True),
                      feats], axis=1)
+    drv = drv.rename(columns={
+        "match_date": "Date", "team_1_name": "Team 1",
+        "team_2_name": "Team 2", "elo_diff": "Elo diff",
+        "xi_batting_diff": "XI batting diff",
+        "xi_bowling_diff": "XI bowling diff",
+        "form_nrr_diff": "Form/NRR diff", "rest_diff": "Rest diff"})
     # Round feature values for display: raw floats rendered with full
     # binary precision (e.g. elo_diff -0.32497301929533023) in the table.
     for _col in drv.select_dtypes(include="float").columns:

@@ -92,8 +92,11 @@ def render_player_profiles():
     c5.metric("Economy", f"{conceded / (bowled / 6):.2f}" if bowled else "—")
 
     st.markdown("### Per-Season Breakdown")
-    st.dataframe(career, width="stretch", hide_index=True)
+    st.dataframe(career.fillna("—"), width="stretch", hide_index=True)
     st.caption(
-        "Batting average is blank when the player was never dismissed in a "
-        "season. Wickets are bowler-credited dismissals (run outs excluded)."
+        "Batting average shows — when the player was never dismissed in a "
+        "season; economy shows — when they did not bowl. Wickets are "
+        "bowler-credited dismissals (run outs excluded). Player names "
+        "follow Cricsheet registry style (e.g. LN Rajbanshi); Season 3 "
+        "signings appear here once their first matches are published."
     )

@@ -257,12 +257,18 @@ def render_season3_hub():
     sq["Player"] = sq.canonical_name
     sq["Overseas"] = np.where(sq.is_overseas == True, "Yes", "")  # noqa: E712
     sq = sq.sort_values(["role", "Player"])
-    st.dataframe(
-        sq[["Player", "role", "Overseas", "prior_group", "bat_index", "bowl_index"]]
-        .rename(columns={"role": "Role", "prior_group": "Prior basis",
-                         "bat_index": "Bat index", "bowl_index": "Bowl index"})
-        .round({"bat_index": 3, "bowl_index": 3}),
-        width="stretch", hide_index=True)
+    disp = (sq[["Player", "role", "Overseas", "prior_group", "bat_index",
+                "bowl_index"]]
+            .rename(columns={"role": "Role", "prior_group": "Prior basis",
+                             "bat_index": "Bat index",
+                             "bowl_index": "Bowl index"}))
+    disp["Prior basis"] = disp["Prior basis"].map(
+        {"npl_experienced": "NPL experience", "external_pro": "External pro",
+         "debutant": "Debutant"}.get, na_action="ignore").fillna(
+             disp["Prior basis"])
+    disp["Bat index"] = disp["Bat index"].map(lambda v: f"{v:.3f}")
+    disp["Bowl index"] = disp["Bowl index"].map(lambda v: f"{v:.3f}")
+    st.dataframe(disp, width="stretch", hide_index=True)
     st.caption("Squad and coaching data: verified pre-season research (October 2026), "
                "cross-checked against published sources. Bat/bowl indices are relative to the "
                "league average of 1.000; 'debutant' priors are league-average by construction.")
