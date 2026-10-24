@@ -5,7 +5,6 @@ Main Streamlit Application — Entry Point
 import streamlit as st
 import sys
 import os
-from datetime import datetime
 
 # Ensure project root is on path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
@@ -53,15 +52,13 @@ st.set_page_config(
 st.markdown(get_theme_css(), unsafe_allow_html=True)
 
 #  Top Header 
-today = datetime.now().strftime("%d %b %Y")
 st.markdown(
-    f"""
+    """
     <div class="jb-topbar">
         <div>
             <div class="jb-brand-kicker">Janakpur Bolts Performance Lab</div>
             <div class="jb-brand-title">Season Intelligence Dashboard</div>
         </div>
-        <div class="jb-date-pill">{today}</div>
     </div>
     """,
     unsafe_allow_html=True,
