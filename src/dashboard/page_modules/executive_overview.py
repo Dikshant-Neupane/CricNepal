@@ -271,32 +271,36 @@ def render_executive_overview():
         (c5, "Data Reliability", str(quality_report["reliability_score"]), reliability_delta,
          "metric-card-delta-positive" if quality_report["status"] == "healthy" else "metric-card-delta-negative"),
     ]
-    def make_sparkline(color):
-        import random
-        # Generating a random sparkline for visual polish
-        data = [random.randint(10, 20) for _ in range(7)]
-        m_x, m_y = max(len(data)-1, 1), max(max(data)-min(data), 1)
-        pts = " ".join([f"{i/m_x*40},{14 - (v-min(data))/m_y*14}" for i,v in enumerate(data)])
-        return f'<svg width="40" height="14" viewBox="0 -2 40 18" style="vertical-align: middle; margin-left: 8px;"><polyline points="{pts}" fill="none" stroke="{color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-
+    # (The KPI cards previously carried a sparkline drawn from random
+    # numbers — decorative noise presented as data. Removed: every visual
+    # on this page must come from real data.)
     for col, label, value, delta, delta_class in kpi_specs:
         with col:
-            color = "#057a55" if "positive" in delta_class else "#b42318" if "negative" in delta_class else "#4a5a54"
-            sparkline = make_sparkline(color)
             st.markdown(
                 f"""
                 <div class="metric-card">
                     <div class="metric-card-label">{label}</div>
-                    <div class="metric-card-value" style="display:flex; align-items:center;">{value} {sparkline}</div>
+                    <div class="metric-card-value" style="display:flex; align-items:center;">{value}</div>
                     <div class="metric-card-delta {delta_class}">{delta}</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
 
-    st.caption(f"Data source: {'Parquet (Real)' if jab is not None else 'Demo'} — {s1_n} S1 matches, {s2_n} S2 matches")
+    st.caption(f"Data source: {'Parquet (Real)' if jab is not None else 'Demo'} — {s1_n} S1 + {s2_n} S2 Janakpur Bolts matches (64 matches league-wide)")
 
     render_spacer(24)
+    # Shortlist size is computed from the actual shortlist file — it was
+    # previously hardcoded into the banner text.
+    try:
+        from src.config.paths import DELIVERABLES_DIR
+
+        _shortlist_n = len(
+            pd.read_csv(DELIVERABLES_DIR / "janakpur_s3_shortlist_matrix.csv")
+        )
+        shortlist_line = f"{_shortlist_n} players on the S3 recruiting shortlist"
+    except Exception:
+        shortlist_line = "S3 recruiting shortlist — see S3 Recruiting page"
     st.markdown("###  Season Story Arc")
     st.markdown(f"""
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin: 16px 0;">
@@ -336,7 +340,7 @@ def render_executive_overview():
             </div>
             <div style="font-size:28px; font-weight:800; color:#b7802f; margin:8px 0;">Rebuilding</div>
             <div style="font-size:13px; color:#4a5a54; line-height:1.5;">
-                69 shortlisted targets • AI forecasts ready
+                {shortlist_line}
             </div>
         </div>
     </div>
