@@ -240,12 +240,19 @@ def render_s3_strategic_analysis():
     
     st.plotly_chart(fig, width='stretch')
     
-    # Show the data table
+    # Show the data table. Change and Change % are recomputed from the
+    # ROUNDED per-game values so the displayed arithmetic checks out
+    # (previously Change % came from unrounded values: the table showed
+    # -0.2 on 1.1 beside -22%, which does not recompute).
     phases_display = phases_df.copy()
     phases_display["S1 Wickets/Game"] = phases_display["S1 Wickets/Game"].round(1)
     phases_display["S2 Wickets/Game"] = phases_display["S2 Wickets/Game"].round(1)
-    phases_display["Change"] = phases_display["Change"].round(1)
-    phases_display["Change %"] = phases_display["Change %"].round(0).astype(int)
+    phases_display["Change"] = (
+        phases_display["S2 Wickets/Game"] - phases_display["S1 Wickets/Game"]
+    ).round(1)
+    phases_display["Change %"] = (
+        phases_display["Change"] / phases_display["S1 Wickets/Game"] * 100
+    ).round(0).astype(int)
     
     st.dataframe(phases_display, width='stretch', hide_index=True)
     
@@ -262,7 +269,7 @@ def render_s3_strategic_analysis():
                     padding:20px; border-radius:12px; border-left:4px solid #1a6b51;">
             <h4 style="margin:0 0 12px 0; color:#1a6b51;"> Season 1 Success Factors ({int(s1_matches)} matches)</h4>
             <ul style="margin:8px 0; padding-left:20px; line-height:1.8;">
-                <li><strong>Powerplay Dominance:</strong> 7.03 RPO strike rate</li>
+                <li><strong>Powerplay Dominance:</strong> 7.03 run rate (RPO)</li>
                 <li><strong>Middle Overs Control:</strong> 6.62 economy rate</li>
                 <li><strong>Death Bowling:</strong> 3.5 wickets/game in death overs</li>
                 <li><strong>Wicket-Taking:</strong> 7.6 wickets/game overall</li>
@@ -338,6 +345,10 @@ def render_s3_strategic_analysis():
         })
         pp_bat_comparison["Change"] = pp_bat_comparison["Season 2"] - pp_bat_comparison["Season 1"]
         pp_bat_comparison["Change %"] = (pp_bat_comparison["Change"] / pp_bat_comparison["Season 1"] * 100).round(1)
+        # Round for display: the raw float differences rendered as e.g.
+        # -12.399999999999991 in the public table.
+        for _col in ["Season 1", "Season 2", "Change"]:
+            pp_bat_comparison[_col] = pp_bat_comparison[_col].round(1)
         
         st.dataframe(pp_bat_comparison, width='stretch', hide_index=True)
         
