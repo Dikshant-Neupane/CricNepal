@@ -52,7 +52,7 @@ player_bishal_susling,Bishal Susling,single-form,Bishal Susling,,S3: Janakpur Bo
 player_bj_mcmullen,Brandon McMullen,confirmed,BJ McMullen,player_bj_mcmullen,S1: Sudurpaschim Royals; S3: Sudurpaschim Royals,Sudurpaschim squad lists: Brandon McMullen
 player_cak_walton,Chadwick Walton,confirmed,CAK Walton,player_cak_walton,S1: Karnali Yaks,Public player profile (West Indies)
 player_chamika_karunaratne,Chamika Karunaratne,single-form,Chamika Karunaratne,,S3: Pokhara Avengers,One surface form across all datasets
-player_charith_asalanka,Charith Asalanka,single-form,Charith Asalanka,,S3: Biratnagar Kings,One surface form across all datasets
+player_charith_asalanka,Charith Asalanka,confirmed,"Charith Asalanka, KIC Asalanka",player_charith_asalanka,S3: Biratnagar Kings,"Resolution log 2026-10-24: KIC Asalanka (full name Kariyawasam Indipalage Charith Asalanka), surname unique in cricsheet registry"
 player_ca_lynn,Chris Lynn,confirmed,CA Lynn,player_ca_lynn,S2: Sudurpaschim Royals,Sudurpaschim S2 squad lists
 player_cb_sole,Chris Sole,confirmed,CB Sole,player_cb_sole,S1: Biratnagar Kings,S1 match reports: Chris Sole (Biratnagar)
 player_d_parashar,D Parashar,initials-unexpanded,D Parashar,player_d_parashar,S2: Sudurpaschim Royals,Initials form only; full name not found in any source
@@ -150,7 +150,7 @@ player_n_dickwella,Niroshan Dickwella,confirmed,N Dickwella,player_n_dickwella,S
 player_p_mehra,P Mehra,initials-unexpanded,P Mehra,player_p_mehra,S2: Sudurpaschim Royals,Initials form only; full name not found in any source
 player_p_sarraf,Pawan Sarraf,confirmed,P Sarraf,player_p_sarraf,S2: Karnali Yaks; S3: Karnali Yaks,Karnali squad lists
 player_prajwal_thapa,Prajwal Thapa,single-form,Prajwal Thapa,,S3: Biratnagar Kings,One surface form across all datasets
-player_prashiddha_jaisi,Prashiddha Jaisi,single-form,Prashiddha Jaisi,,S3: Kathmandu Gorkhas,One surface form across all datasets
+player_prashiddha_jaisi,Prashiddha Jaisi,single-form,"Prashiddha Jaisi, Prashiddha Jaishi",,S3: Kathmandu Gorkhas,One surface form across all datasets
 player_pratik_pokharel,Pratik Pokharel,single-form,Pratik Pokharel,,S3: Pokhara Avengers,One surface form across all datasets
 player_p_shrestha,Pratik Shrestha,confirmed,P Shrestha,player_p_shrestha,S1: Kathmandu Gorkhas; S2: Kathmandu Gorkhas; S3: Biratnagar Kings,S1 report: Pratik Shrestha top-scored 39 for Kathmandu; S2 Kathmandu squad lists; Biratnagar bought him at 2026 auction (NPR 2 lakh)
 player_pratis_gc,Pratish GC,confirmed,Pratis GC,player_pratis_gc,S1: Biratnagar Kings; S2: Biratnagar Kings; S3: Biratnagar Kings,Biratnagar retained list (Wikipedia)
@@ -177,7 +177,7 @@ player_saad_bin_zafar,Saad Bin Zafar,single-form,Saad Bin Zafar,player_saad_bin_
 player_sachin_bhatt,Sachin Bhatta,confirmed,Sachin Bhatt,player_sachin_bhatt,S2: Janakpur Bolts; S3: Sudurpaschim Royals,"Official 2026 auction pool: Sachin Bhatta, leg spin"
 player_sachin_sharma,Sachin Sharma,single-form,Sachin Sharma,,S3: Karnali Yaks,One surface form across all datasets
 player_s_dhakal,Sagar Dhakal,confirmed,S Dhakal,player_s_dhakal,S1: Pokhara Avengers; S2: Pokhara Avengers; S3: Pokhara Avengers,Pokhara squad lists
-player_sahan_arachchige,Sahan Arachchige,single-form,Sahan Arachchige,,S3: Kathmandu Gorkhas,One surface form across all datasets
+player_sahan_arachchige,Sahan Arachchige,confirmed,"Sahan Arachchige, SSD Arachchige",player_sahan_arachchige,S3: Kathmandu Gorkhas,"Resolution log 2026-10-24: SSD Arachchige (full name Sahan Shashintha Diyamantha Arachchige); rival S Arachchige is a different person (Italy 2019)"
 player_s_patel,Sahil Patel,confirmed,S Patel,player_s_patel,S2: Biratnagar Kings; S3: Kathmandu Gorkhas,"TOI profile: Sahil Patel, WK, b.2007, teams incl. Biratnagar Kings; S2 Biratnagar scorecards (19 off 24 vs Karnali)"
 player_sa_zaib,Saif Ali Zaib,confirmed,SA Zaib,player_sa_zaib,S1: Sudurpaschim Royals; S2: Chitwan Rhinos; S3: Sudurpaschim Royals,Sudurpaschim/Chitwan squad lists: Saif Zaib
 player_salahuddin_khan,Salahuddin Khan,single-form,Salahuddin Khan,,S3: Chitwan Rhinos,One surface form across all datasets
@@ -223,7 +223,16 @@ player_ub_singh,UB Singh,initials-unexpanded,UB Singh,player_ub_singh,S2: Karnal
 player_ubt_chand,UBT Chand,initials-unexpanded,UBT Chand,player_ubt_chand,S1: Lumbini Lions,Initials form only; full name not found in any source
 player_ubs_thakuri,Unish Bikram Singh Thakuri,confirmed,UBS Thakuri,player_ubs_thakuri,S1: Karnali Yaks; S3: Karnali Yaks,Karnali squad lists: Unish Thakuri
 player_wd_parnell,Wayne Parnell,confirmed,WD Parnell,player_wd_parnell,S2: Janakpur Bolts,Janakpur S2 match reports
-player_wg_bosisto,Will Bosisto,confirmed,WG Bosisto,player_wg_bosisto,S1: Karnali Yaks; S2: Karnali Yaks; S3: Kathmandu Gorkhas,Karnali/Janakpur squad lists
+player_wg_bosisto,Will Bosisto,confirmed,WG Bosisto,player_wg_bosisto,S1: Karnali Yaks; S2: Karnali Yaks,Karnali/Janakpur squad lists
 player_y_khatri,Yuvraj Khatri,confirmed,Y Khatri,player_y_khatri,S2: Karnali Yaks; S3: Karnali Yaks,Karnali squad lists
 player_z_malik,Z Malik,initials-unexpanded,Z Malik,player_z_malik,S1: Pokhara Avengers,Initials form only; full name not found in any source
 player_zeeshan_maqsood,Zeeshan Maqsood,single-form,Zeeshan Maqsood,player_zeeshan_maqsood,S1: Karnali Yaks,One surface form across all datasets
+player_ad_mathews,Angelo Mathews,confirmed,"AD Mathews, Angelo Mathews",player_ad_mathews,S3: Biratnagar Kings,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
+player_usama_mir,Usama Mir,confirmed,"Usama Mir",player_usama_mir,S3: Chitwan Rhinos,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
+player_hussain_talat,Hussain Talat,confirmed,"Hussain Talat",player_hussain_talat,S3: Karnali Yaks,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
+player_sahibzada_farhan,Sahibzada Farhan,confirmed,"Sahibzada Farhan",player_sahibzada_farhan,S3: Karnali Yaks,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
+player_da_miller,David Miller,confirmed,"DA Miller, David Miller",player_da_miller,S3: Karnali Yaks,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
+player_sc_van_schalkwyk,Shadley van Schalkwyk,confirmed,"SC van Schalkwyk, Shadley van Schalkwyk",player_sc_van_schalkwyk,S3: Lumbini Lions,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
+player_shamim_hossain,Shamim Hossain,confirmed,"Shamim Hossain",player_shamim_hossain,S3: Lumbini Lions,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
+player_mohammad_saifuddin,Mohammad Saifuddin,confirmed,"Mohammad Saifuddin",player_mohammad_saifuddin,S3: Pokhara Avengers,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
+player_se_rutherford,Sherfane Rutherford,confirmed,"SE Rutherford, Sherfane Rutherford",player_se_rutherford,S3: Sudurpaschim Royals,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
