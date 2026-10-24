@@ -377,3 +377,51 @@ data — their ratings basis is canonical, by construction and by the
 calendar (the season had not started). Scoring of the frozen log is
 unchanged: it uses cricsheet outcomes only, under the frozen
 outcome rules.
+
+### Amendment #7 — 2026-10-24 — Coach shadow series (COACH_SHADOW)
+
+**Question.** Does head-coach track record carry predictive signal in
+this league? The dossiers compiled 2026-10-24 (goal workspace,
+`s3-auction-squads/coach_dossiers.md`) show the evidence is thin:
+three of eight S3 head coaches (Prasad, Tanvir, Mendis) begin with
+zero attributable head-coach matches; the countable samples that
+exist are 8–28 matches. A coach term therefore CANNOT enter the
+headline model honestly. It enters as a third shadow series, on the
+same terms as SIM_SHADOW: pre-registered, separately scored, never
+headlined, promoted only on frozen-log evidence.
+
+**Rule (frozen).** For each team, from the coach's COUNTABLE sample
+(complete T20 head-coach stints whose win–loss record is sourced;
+unofficial aggregates, assistant/specialist stints, and
+partial-tenure numbers are excluded):
+
+    adj_elo = 25 * (win_pct - 0.50) * n / (n + 20), capped at +/-15
+
+    p_shadow = clip(0.5 * Elo_adj + 0.5 * p_xi, 0.05, 0.95)
+
+with Elo_adj the Elo expectation at (rating diff + adj_1 - adj_2)
+and p_xi the champion's XI component. No countable sample =>
+adj = 0, recorded as "no measurement", never as "average coach".
+
+**Countable samples at registration** (sourcing in the dossiers):
+Yohannan (Lumbini) 7–3, NPL S2 · Desai (Kathmandu) 5–3, NPL S2 ·
+Malla (Karnali) 7–9, NPL S1+S2 · Chanderpaul (Janakpur) 12–16
+(CPL 2022 league+playoffs, CPL 2023 league, NPL S2; no-results
+excluded) · Misbah (Sudurpaschim), Prasad (Biratnagar),
+Tanvir (Chitwan), Mendis (Pokhara): no countable sample
+(Misbah's published splits are partial-tenure or format-mixed;
+the others have no head-coach record).
+
+**Resulting adjustments:** Lumbini +1.67, Kathmandu +0.89,
+Karnali −0.69, Janakpur −1.04, all others 0.00 Elo. Largest
+probability shift on any fixture: 0.0019. This smallness is the
+honest content of the amendment: on current evidence the coach
+factor is negligible, and the series exists to accumulate the
+evidence that could one day say otherwise.
+
+**Locks.** `data/predictions/coach_shadow.csv` (28 rows, stage
+COACH_shadow_preseason, model coach-shadow-v1), produced by
+`scripts/coach_shadow.py`. The frozen log is NOT modified
+(md5 064693d2e7be3e8341204829bbeabfb8 before and after). Scoring
+at season end alongside P0 and SIM_SHADOW, same metrics, same
+paired-bootstrap standard for any promotion claim.
