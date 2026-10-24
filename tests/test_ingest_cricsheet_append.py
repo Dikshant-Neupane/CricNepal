@@ -120,3 +120,17 @@ def test_append_derives_player_innings_and_phase_summary(project):
     ps = pd.read_parquet(project / "phase_summary.parquet")
     pp = ps[(ps.match_id == "espn_9990002") & (ps.phase == "Powerplay")].iloc[0]
     assert pp.balls_bowled == 12 and pp.runs_scored == 14.0 and pp.wickets == 1.0
+
+
+def test_append_captures_match_lineups(project):
+    ingest.main()
+    ln = pd.read_parquet(project / "match_lineups.parquet")
+    fx = ln[ln.match_id == "espn_9990002"]
+    assert len(fx) == 5  # Team A XI of 3 + Team B XI of 2 in the mini match
+    a = fx[fx.team_name == "Team A"].sort_values("xi_position")
+    assert list(a.player_name) == ["A One", "A Two", "A Three"]
+    assert list(a.xi_position) == [1, 2, 3]
+    # second run is idempotent for lineups too
+    ingest.main()
+    ln2 = pd.read_parquet(project / "match_lineups.parquet")
+    assert len(ln2) == len(ln)

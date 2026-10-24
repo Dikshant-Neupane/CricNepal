@@ -72,6 +72,22 @@ def parse_match(path: Path, run_id: str):
     meta = data.get("meta", {})
 
     match_id = f"espn_{stem}"
+    # --- playing XIs + registry IDs (info.players / info.registry.people).
+    # Previously discarded; the prediction system needs actual XIs.
+    registry_people = info.get("registry", {}).get("people", {})
+    lineup_rows = []
+    for team_name, players in (info.get("players") or {}).items():
+        for pos, pname in enumerate(players, start=1):
+            lineup_rows.append({
+                "match_id": match_id,
+                "team_name": canon_team(team_name),
+                "player_name": pname,
+                "player_id": slug(pname),
+                "cricsheet_registry_id": registry_people.get(pname),
+                "xi_position": pos,
+                "ingestion_run_id": run_id,
+            })
+
     match_date = info["dates"][0]
     year = int(match_date[:4])
     # Production parquet stores match_date as datetime.date objects.
@@ -235,7 +251,7 @@ def parse_match(path: Path, run_id: str):
         "git_commit_hash": None,
         "last_modified": now,
     }
-    return match_row, deliveries
+    return match_row, deliveries, lineup_rows
 
 
 def align_to_existing(existing: pd.DataFrame, fresh: pd.DataFrame):
@@ -400,17 +416,19 @@ def main():
         sys.exit(1)
 
     run_id = f"cricsheet_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
-    match_rows, all_deliveries = [], []
+    match_rows, all_deliveries, all_lineups = [], [], []
     for f in files:
         try:
-            mr, dlvs = parse_match(f, run_id)
+            mr, dlvs, lns = parse_match(f, run_id)
             match_rows.append(mr)
             all_deliveries.extend(dlvs)
+            all_lineups.extend(lns)
         except Exception as e:  # noqa: BLE001 - report file, keep going
             print(f"SKIP {f.name}: {e}")
 
     matches_df = pd.DataFrame(match_rows)
     deliveries_df = pd.DataFrame(all_deliveries)
+    lineups_df = pd.DataFrame(all_lineups)
     print(f"Parsed {len(matches_df)} matches, {len(deliveries_df)} deliveries "
           f"(seasons: {dict(matches_df['season'].value_counts())})")
 
@@ -419,7 +437,9 @@ def main():
         out_d = PARQUET_DIR / "_preview_ball_by_ball.parquet"
         matches_df.to_parquet(out_m, index=False)
         deliveries_df.to_parquet(out_d, index=False)
-        print(f"Preview written (nothing merged): {out_m}, {out_d}")
+        out_l = PARQUET_DIR / "_preview_match_lineups.parquet"
+        lineups_df.to_parquet(out_l, index=False)
+        print(f"Preview written (nothing merged): {out_m}, {out_d}, {out_l}")
         return
 
     # --- append mode: merge, skipping existing match_ids ---
@@ -446,6 +466,26 @@ def main():
             merged.to_parquet(target, index=False)
         print(f"{name}: +{len(fresh)} new rows, {skipped} already present "
               f"(total {len(existing) + len(fresh)})")
+
+    # --- match lineups: append XI rows for fresh matches; if the table
+    # does not exist yet, backfill from every parsed match (S1/S2 XIs were
+    # discarded by older versions of this script).
+    target = PARQUET_DIR / "match_lineups.parquet"
+    if fresh_ids or not target.exists():
+        fresh_ln = lineups_df if not target.exists() else \
+            lineups_df[lineups_df["match_id"].isin(fresh_ids)]
+        if target.exists():
+            existing = pd.read_parquet(target)
+            fresh_ln = fresh_ln[~fresh_ln["match_id"].isin(existing["match_id"])]
+            if len(fresh_ln):
+                existing, fresh_ln = align_to_existing(existing, fresh_ln)
+                merged = pd.concat([existing, fresh_ln], ignore_index=True)
+                merged.to_parquet(target, index=False)
+            print(f"match_lineups: +{len(fresh_ln)} new rows "
+                  f"(total {len(existing) + len(fresh_ln)})")
+        else:
+            fresh_ln.to_parquet(target, index=False)
+            print(f"match_lineups: created with {len(fresh_ln)} rows")
 
     # --- derived tables: keep player_innings / phase_summary in step ---
     if fresh_ids:
