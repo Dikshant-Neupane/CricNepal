@@ -1,0 +1,134 @@
+player_key,canonical_name,team,role,cricsheet_registry_id,history_competitions,bat_balls_eff,bowl_balls_eff,prior_bat_rpb,prior_bowl_econ,bat_index,bowl_index,prior_bat_rpb_powerplay,prior_bowl_econ_powerplay,bat_balls_eff_powerplay,bowl_balls_eff_powerplay,prior_bat_rpb_middle,prior_bowl_econ_middle,bat_balls_eff_middle,bowl_balls_eff_middle,prior_bat_rpb_death,prior_bowl_econ_death,bat_balls_eff_death,bowl_balls_eff_death,prior_group,uncertainty
+player_andre_russell,Andre Russell,Biratnagar Kings,All-rounder,bbd41817,BPL;CPL;ILT20;IPL;MLC;SA20;T20I,656.2,1096.8,1.3321,7.892,1.1356,0.892,1.0713,7.051,22.6,286.5,1.1597,7.334,289.1,440.1,1.5719,9.173,344.5,370.2,external_pro,0.4211
+player_aprajit_poudel,Aprajit Poudel,Biratnagar Kings,Bowler,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_basir_ahamad,Basir Ahamad,Biratnagar Kings,All-rounder,218c7eab,NPL;T20I,221.6,125.7,1.2234,7.087,1.0429,0.9933,1.059,6.153,19.2,44.3,1.1101,6.759,148.1,49.2,1.5378,8.927,54.4,32.2,npl_experienced,0.5492
+player_charith_asalanka,Charith Asalanka,Biratnagar Kings,Batter,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_dilsad_ali,Dilsad Ali,Biratnagar Kings,Wicketkeeper,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_imran_sheikh,Imran Sheikh,Biratnagar Kings,Batter,97fd166d,NPL,21.3,0.0,1.1555,7.04,0.985,0.9999,1.0496,6.452,7.3,0.0,1.1355,6.726,14.0,0.0,1.4373,8.628,0.0,0.0,npl_experienced,0.9359
+player_jishan_alam,Jishan Alam,Biratnagar Kings,Batter,86e22dd4,BPL,45.2,68.5,1.1716,7.131,0.9987,0.9872,1.0777,6.57,32.9,39.5,1.1343,6.709,12.2,23.7,1.4373,8.775,0.0,5.4,external_pro,1.1313
+player_lokesh_bam,Lokesh Bam,Biratnagar Kings,Wicketkeeper,75c8a26b,NPL;T20I,247.5,2.5,1.34,7.059,1.1423,0.9972,1.1343,6.452,104.0,0.0,1.2575,6.726,100.3,0.0,1.5623,8.615,43.2,2.5,npl_experienced,0.6124
+player_n_joshi,Narayan Joshi,Biratnagar Kings,All-rounder,58c71b70,NPL,44.7,24.7,1.147,7.521,0.9778,0.936,1.0741,6.635,0.0,6.4,1.0613,6.958,31.2,14.3,1.4613,8.767,13.4,3.9,npl_experienced,0.8269
+player_n_saud,Naren Saud,Biratnagar Kings,Bowler,010df582,NPL,15.2,59.2,1.14,6.896,0.9718,1.0208,1.0741,6.444,0.0,7.6,1.0908,6.744,7.8,48.7,1.4234,8.524,7.4,2.9,npl_experienced,0.8175
+player_prajwal_thapa,Prajwal Thapa,Biratnagar Kings,Wicketkeeper,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_p_shrestha,Pratik Shrestha,Biratnagar Kings,All-rounder,534c4b03,NPL,31.3,0.0,1.1474,7.04,0.9781,0.9999,1.0516,6.452,6.9,0.0,1.1157,6.726,18.6,0.0,1.437,8.628,5.9,0.0,npl_experienced,0.9095
+player_pratis_gc,Pratish GC,Biratnagar Kings,Bowler,c1077ba3,NPL;T20I,36.7,199.8,1.2376,7.591,1.055,0.9273,1.0741,7.15,0.0,87.4,1.1575,6.714,15.1,59.2,1.4466,8.704,21.6,53.2,npl_experienced,0.6229
+player_rupesh_singh,Rupesh Kumar Singh,Biratnagar Kings,All-rounder,30b93df1,NPL;T20I,41.6,67.6,1.1799,7.867,1.0058,0.8948,1.0645,7.015,1.6,19.9,1.1125,6.777,14.8,18.3,1.4391,8.899,25.2,29.3,npl_experienced,0.7607
+player_s_lamichhane,Sandeep Lamichhane,Biratnagar Kings,Bowler,b410bd3d,BPL;NPL;T20I,42.5,669.9,1.1628,6.461,0.9912,1.0895,1.0741,6.68,0.0,24.5,1.1077,6.598,8.8,512.2,1.4044,6.985,33.8,133.2,npl_experienced,0.4171
+player_shubham_ranjane,Shubham Ranjane,Biratnagar Kings,All-rounder,6c7a68d0,BPL;ILT20;MLC;NPL;SA20;T20I,468.1,95.4,1.1784,8.047,1.0045,0.8748,1.0286,6.894,49.1,15.6,1.0101,7.232,266.0,53.3,1.5952,9.003,153.1,26.5,npl_experienced,0.4585
+player_subash_bhandari,Subash Bhandari,Biratnagar Kings,Bowler,1519bdeb,NPL,6.2,42.5,1.1425,6.761,0.9739,1.0412,1.0741,6.169,0.0,12.0,1.1216,6.679,0.0,27.5,1.3962,8.709,6.2,3.0,npl_experienced,0.8689
+player_sujan_thapaliya,Sujan Thapaliya,Biratnagar Kings,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_a_saud,Arjun Saud,Chitwan Rhinos,Wicketkeeper,94b8d7dd,NPL;T20I,84.6,0.0,1.1639,7.04,0.9922,0.9999,1.0737,6.452,50.3,0.0,1.1231,6.726,28.4,0.0,1.45,8.628,5.8,0.0,npl_experienced,0.7996
+player_ashok_dhami,Ashok Dhami,Chitwan Rhinos,Bowler,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_b_yadav,Bibek Kumar Yadav,Chitwan Rhinos,All-rounder,ef07f354,NPL;T20I,45.5,46.0,1.2251,7.874,1.0443,0.894,1.0729,6.647,2.5,2.5,1.0726,6.956,22.6,29.5,1.529,9.146,20.5,14.0,npl_experienced,0.7881
+player_b_rawal,Bipin Rawal,Chitwan Rhinos,Wicketkeeper,6527fb51,NPL,26.9,0.0,1.1232,7.04,0.9575,0.9999,1.0356,6.452,21.5,0.0,1.1227,6.726,5.5,0.0,1.4373,8.628,0.0,0.0,npl_experienced,0.9208
+player_deepak_bohara,Deepak Bohara,Chitwan Rhinos,Batter,9b1276f1,NPL,48.2,3.3,1.1148,7.032,0.9503,1.0011,1.0338,6.452,37.9,0.0,1.1361,6.726,7.8,3.3,1.419,8.628,2.5,0.0,npl_experienced,0.8628
+player_d_khanal,Dev Khanal,Chitwan Rhinos,Batter,c4bc3b59,NPL;T20I,152.0,9.0,1.0672,7.144,0.9097,0.9854,0.972,6.452,87.3,0.0,1.136,6.852,61.0,9.0,1.4327,8.628,3.7,0.0,npl_experienced,0.6944
+player_gautam_kc,Gautam KC,Chitwan Rhinos,Bowler,a2ff9c85,NPL,0.0,8.0,1.1731,7.473,1.0,0.942,1.0741,6.452,0.0,0.0,1.1216,7.178,0.0,8.0,1.4373,8.628,0.0,0.0,npl_experienced,0.9745
+player_kaleem_sana,Kaleem Sana,Chitwan Rhinos,Bowler,14810ee7,T20I,18.7,242.5,1.1831,6.811,1.0085,1.0335,1.0741,6.211,0.0,153.0,1.1216,6.772,6.2,12.3,1.4384,8.349,12.5,77.3,external_pro,0.906
+player_ks_airee,Kamal Singh Airee,Chitwan Rhinos,Bowler,548d4188,NPL,10.6,65.5,1.1658,8.026,0.9938,0.8771,1.0741,7.262,0.0,35.5,1.1167,7.135,0.7,11.7,1.4184,8.617,9.9,18.3,npl_experienced,0.8146
+player_kushal_malla,Kushal Malla,Chitwan Rhinos,All-rounder,7e9f1cde,NPL;T20I,404.9,210.3,1.2309,7.185,1.0493,0.9797,1.0455,6.622,75.2,48.0,1.1631,6.852,254.2,128.4,1.5311,8.685,75.5,33.9,npl_experienced,0.4427
+player_mousom_dhakal,Mousom Dhakal,Chitwan Rhinos,Bowler,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_r_kumar,Ranjeet Kumar,Chitwan Rhinos,Bowler,aba0f4a9,NPL,1.3,114.5,1.1672,6.831,0.995,1.0305,1.0741,6.449,0.0,24.8,1.1216,6.546,0.0,70.2,1.4291,8.566,1.3,19.5,npl_experienced,0.7511
+player_rs_bopara,Ravi Bopara,Chitwan Rhinos,All-rounder,7ca5e05d,ILT20;NPL,210.6,64.3,1.2554,7.115,1.0702,0.9894,1.0682,6.452,23.3,0.0,1.1576,6.815,132.4,49.8,1.5116,8.567,54.8,14.5,npl_experienced,0.5942
+player_r_dhakal,Rijan Dhakal,Chitwan Rhinos,Bowler,8399a7af,NPL;T20I,12.6,199.0,1.1726,7.478,0.9996,0.9414,1.0741,6.78,0.0,120.0,1.1216,6.881,0.0,21.4,1.4186,8.695,12.6,57.6,npl_experienced,0.644
+player_salahuddin_khan,Salahuddin Khan,Chitwan Rhinos,All-rounder,f088b960,IPL,73.9,0.0,1.2154,7.04,1.0361,0.9999,1.1271,6.452,34.1,0.0,1.0898,6.726,32.0,0.0,1.4784,8.628,7.7,0.0,external_pro,1.2278
+player_sikandar_raza,Sikandar Raza,Chitwan Rhinos,All-rounder,26d041c4,ILT20;IPL;LPL;MLC;PSL;SA20;T20I,1183.4,1522.6,1.2941,7.159,1.1032,0.9833,1.1376,6.472,149.1,172.5,1.1913,7.088,754.6,1172.5,1.6051,8.361,279.7,177.6,external_pro,0.3438
+player_a_mahata,Aadity Mahata,Janakpur Bolts,Batter,83fddc3f,NPL,15.8,31.6,1.2004,7.264,1.0233,0.9691,1.0741,6.452,0.0,0.0,1.1184,6.962,3.9,19.7,1.4502,8.54,11.9,11.9,npl_experienced,0.8716
+player_aashutosh_pandey,Aashutosh Pandey,Janakpur Bolts,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_abhisekh_tiwari,Abhisekh Tiwari,Janakpur Bolts,All-rounder,12d57ebd,NPL,14.3,0.0,1.1263,7.04,0.9601,0.9999,1.0741,6.452,0.0,0.0,1.0926,6.726,11.7,0.0,1.417,8.628,2.6,0.0,npl_experienced,0.9555
+player_as_routela,Amar Singh Rautela,Janakpur Bolts,All-rounder,3d74eacf,NPL,31.3,30.7,1.2155,7.079,1.0362,0.9944,1.0741,6.452,0.0,0.0,1.1237,6.792,10.1,28.2,1.4505,8.635,21.2,2.5,npl_experienced,0.8413
+player_ak_sah,Anil Kumar Sah,Janakpur Bolts,Wicketkeeper,5b1d6583,NPL;T20I,163.8,74.9,1.1731,6.946,1.0,1.0135,1.1076,6.448,100.4,35.5,1.1352,6.473,61.0,31.5,1.4217,8.931,2.4,7.9,npl_experienced,0.6212
+player_b_aagri,Bikash Aagri,Janakpur Bolts,Bowler,179f9589,NPL,0.0,9.0,1.1731,6.976,1.0,1.0091,1.0741,6.546,0.0,2.5,1.1216,6.671,0.0,3.9,1.4373,8.511,0.0,2.5,npl_experienced,0.9714
+player_bishal_kumar_patel,Bishal Kumar Patel,Janakpur Bolts,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_bishal_susling,Bishal Susling,Janakpur Bolts,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_harmeet_singh,Harmeet Singh,Janakpur Bolts,All-rounder,0bf15e52,ILT20;MLC;NPL;T20I,235.6,769.5,1.218,6.634,1.0383,1.0611,1.0741,5.887,0.0,156.4,1.0657,6.662,118.2,499.9,1.5,8.272,117.4,113.2,npl_experienced,0.3604
+player_iftikhar_ahmed,Iftikhar Ahmed,Janakpur Bolts,All-rounder,29e253dd,BPL;CPL;LPL;PSL;T20I,360.5,276.3,1.1706,6.889,0.9979,1.0218,1.0433,6.353,35.1,117.5,1.083,6.743,180.8,128.1,1.4453,8.52,144.6,30.7,external_pro,0.655
+player_jds_neesham,Jimmy Neesham,Janakpur Bolts,All-rounder,9219eff0,BPL;ILT20;LPL;NPL;PSL;SA20;T20I,510.4,664.9,1.302,7.958,1.1099,0.8846,1.0099,7.834,22.9,88.0,1.2735,6.91,310.4,390.5,1.4652,9.531,177.2,186.4,npl_experienced,0.3364
+player_ln_rajbanshi,Lalit Narayan Rajbanshi,Janakpur Bolts,Bowler,6ad2d5f7,NPL;T20I,19.9,396.7,1.1194,6.789,0.9542,1.0369,1.0741,6.445,0.0,163.7,1.0988,6.497,4.6,175.9,1.3841,8.508,15.3,57.1,npl_experienced,0.5145
+player_mayan_yadav,Mayan Yadav,Janakpur Bolts,Batter,c6355538,NPL,70.7,11.9,1.078,6.976,0.919,1.0091,1.0311,6.452,15.9,0.0,1.0435,6.69,28.9,11.9,1.4165,8.628,25.9,0.0,npl_experienced,0.8031
+player_moeen_ali,Moeen Ali,Janakpur Bolts,All-rounder,bb351c23,BPL;CPL;ILT20;IPL;LPL;PSL;SA20;T20I,714.6,796.2,1.1443,6.815,0.9755,1.0329,0.907,7.132,103.6,231.5,1.0668,6.471,414.9,508.9,1.5529,8.081,196.1,55.8,external_pro,0.4508
+player_rit_gautam,Rit Gautam,Janakpur Bolts,Batter,f1471db3,NPL,1.7,0.0,1.16,7.04,0.9889,0.9999,1.0621,6.452,1.7,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,npl_experienced,0.9944
+player_s_karki,Santosh Karki,Janakpur Bolts,Wicketkeeper,4898e6fb,NPL,46.6,0.0,1.1256,7.04,0.9595,0.9999,1.0891,6.452,17.3,0.0,1.0715,6.726,22.7,0.0,1.4239,8.628,6.7,0.0,npl_experienced,0.8735
+player_tr_das,Trit Raj Das,Janakpur Bolts,Batter,40f1a776,NPL,30.7,0.0,1.1159,7.04,0.9513,0.9999,1.0713,6.452,6.0,0.0,1.0714,6.726,16.8,0.0,1.4238,8.628,7.9,0.0,npl_experienced,0.9112
+player_akbar_ali,Akbar Ali,Karnali Yaks,Wicketkeeper,abae26ad,BPL,108.7,0.0,1.1027,7.04,0.94,0.9999,1.0648,6.452,14.7,0.0,1.0924,6.726,65.5,0.0,1.3694,8.628,28.6,0.0,external_pro,1.1423
+player_ariful_islam,Ariful Islam,Karnali Yaks,Batter,bd9b6cc3,BPL,55.0,0.0,1.1102,7.04,0.9464,0.9999,1.041,6.452,16.2,0.0,1.0872,6.726,35.4,0.0,1.4457,8.628,3.5,0.0,external_pro,1.283
+player_bp_sharma,Bipin Sharma,Karnali Yaks,Bowler,947ceca5,NPL,3.2,124.5,1.1483,6.578,0.9789,1.0702,1.0741,6.485,0.0,41.1,1.1216,6.325,0.0,70.7,1.4069,8.512,3.2,12.6,npl_experienced,0.7349
+player_deepak_dumre,Deepak Dumre,Karnali Yaks,Wicketkeeper,e2acb37d,NPL,7.9,0.0,1.1561,7.04,0.9855,0.9999,1.0741,6.452,0.0,0.0,1.1108,6.726,2.6,0.0,1.4224,8.628,5.3,0.0,npl_experienced,0.9746
+player_d_rawat,Dipendra Rawat,Karnali Yaks,All-rounder,c6ff5ac2,NPL,6.6,19.9,1.1742,7.29,1.001,0.9656,1.0741,6.452,0.0,0.0,1.1216,7.021,0.0,19.9,1.4273,8.628,6.6,0.0,npl_experienced,0.9219
+player_diwan_pun,Diwan Pun,Karnali Yaks,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_gulsan_jha,Gulshan Jha,Karnali Yaks,All-rounder,9811e35e,NPL;T20I,287.1,218.5,1.319,7.675,1.1244,0.9172,1.0604,6.648,20.8,22.4,1.1709,7.343,164.0,176.0,1.6028,8.861,102.4,20.1,npl_experienced,0.4783
+player_mrj_watt,Mark Watt,Karnali Yaks,Bowler,1252f71a,ILT20;NPL;T20I,171.7,368.1,1.3136,7.542,1.1198,0.9334,1.1803,6.282,72.3,107.1,1.2231,7.397,53.8,182.7,1.451,8.991,45.7,78.3,npl_experienced,0.4663
+player_nk_yadav,Nandan Yadav,Karnali Yaks,Bowler,737e595d,NPL;T20I,34.9,361.1,1.2325,7.571,1.0507,0.9298,1.0741,6.56,0.0,141.1,1.1125,6.989,4.6,81.9,1.4764,8.909,30.3,138.1,npl_experienced,0.5241
+player_p_sarraf,Pawan Sarraf,Karnali Yaks,All-rounder,82294960,NPL,57.1,39.6,1.1948,6.98,1.0185,1.0085,1.0802,6.37,13.2,15.9,1.1327,6.853,32.2,23.7,1.4456,8.628,11.7,0.0,npl_experienced,0.7798
+player_sachin_sharma,Sachin Sharma,Karnali Yaks,Batter,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_s_kansakar,Shubh Kansakar,Karnali Yaks,Batter,fd0e5582,NPL,44.0,0.0,1.1127,7.04,0.9485,0.9999,1.0642,6.452,13.7,0.0,1.0862,6.726,23.8,0.0,1.4175,8.628,6.5,0.0,npl_experienced,0.8793
+player_sompal_kami,Sompal Kami,Karnali Yaks,All-rounder,1adb8ee8,NPL;T20I,97.2,536.7,1.2291,7.675,1.0478,0.9172,1.086,6.661,7.1,294.0,1.0738,7.191,25.3,97.3,1.4839,9.275,64.9,145.3,npl_experienced,0.4374
+player_surya_tamang,Surya Tamang,Karnali Yaks,Bowler,579f2447,NPL,11.3,88.5,1.1377,7.19,0.9698,0.9791,1.0741,6.44,0.0,22.3,1.0984,7.016,5.8,59.1,1.4165,8.638,5.5,7.1,npl_experienced,0.775
+player_ubs_thakuri,Unish Bikram Singh Thakuri,Karnali Yaks,All-rounder,fd0aef78,NPL,7.6,22.7,1.1485,7.051,0.979,0.9984,1.0741,6.422,0.0,2.5,1.1216,6.819,0.0,20.2,1.3999,8.628,7.6,0.0,npl_experienced,0.912
+player_y_khatri,Yuvraj Khatri,Karnali Yaks,Bowler,0d705d2d,NPL,2.6,43.1,1.153,7.462,0.9829,0.9434,1.0741,6.452,0.0,0.0,1.1216,7.089,0.0,39.2,1.4127,8.766,2.6,3.9,npl_experienced,0.8755
+player_b_sharki,Bhim Sharki,Kathmandu Gorkhas,Batter,fbdc8309,NPL;T20I,93.4,16.6,1.1926,6.983,1.0166,1.0081,1.0699,6.452,40.5,0.0,1.1008,6.701,38.2,14.1,1.5031,8.594,14.7,2.5,npl_experienced,0.7596
+player_david_warner,David Warner,Kathmandu Gorkhas,Batter,dcce6f09,BBL;ILT20;IPL;MLC;PSL;T20I,812.5,0.0,1.2504,7.04,1.0659,0.9999,1.1308,6.452,422.0,0.0,1.2082,6.726,315.7,0.0,1.5259,8.628,74.9,0.0,external_pro,0.5921
+player_dayanand_mandal,Dayanand Mandal,Kathmandu Gorkhas,Bowler,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_dev_shah,Dev Shah,Kathmandu Gorkhas,Batter,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_k_s_bharat,K. S. Bharat,Kathmandu Gorkhas,Wicketkeeper,44a89551,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_karan_kc,Karan KC,Kathmandu Gorkhas,All-rounder,f53b3e1d,NPL;T20I,85.8,521.3,1.2946,7.818,1.1036,0.9004,1.0741,6.819,0.0,322.3,1.0636,7.451,13.4,50.8,1.5506,9.178,72.4,148.3,npl_experienced,0.4451
+player_krishna_paudel,Krishna Paudel,Kathmandu Gorkhas,Bowler,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_mohammad_aadil_alam,Mohammad Aadil Alam,Kathmandu Gorkhas,All-rounder,70ced7f2,NPL;T20I,57.9,33.3,1.246,7.464,1.0622,0.9431,1.0741,6.452,0.0,0.0,1.123,7.278,25.9,29.7,1.4866,8.516,32.0,3.7,npl_experienced,0.7885
+player_prashiddha_jaisi,Prashiddha Jaisi,Kathmandu Gorkhas,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_rashid_khan,Rashid Khan,Kathmandu Gorkhas,Bowler,5f547c8b,ILT20;IPL;MLC;SA20,128.0,846.5,1.1761,6.629,1.0026,1.0619,1.0741,5.9,0.0,65.5,1.0919,6.432,46.3,650.2,1.4212,8.902,81.7,130.8,external_pro,0.5479
+player_sahan_arachchige,Sahan Arachchige,Kathmandu Gorkhas,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_s_patel,Sahil Patel,Kathmandu Gorkhas,Wicketkeeper,c4ee6c06,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_santosh_yadav,Santosh Yadav,Kathmandu Gorkhas,All-rounder,ef342bdb,NPL;T20I,43.9,71.6,1.1728,6.926,0.9998,1.0164,1.0646,6.437,1.9,4.0,1.123,6.455,26.8,55.8,1.4291,8.841,15.2,11.9,npl_experienced,0.7517
+player_shahab_alam,Shahab Alam,Kathmandu Gorkhas,Bowler,cdd9fa95,NPL;T20I,21.7,228.0,1.102,6.513,0.9394,1.0808,1.0741,6.151,0.0,63.1,1.1118,6.51,1.7,128.2,1.3441,8.263,20.0,36.7,npl_experienced,0.6126
+player_sonu_devkota,Sonu Devkota,Kathmandu Gorkhas,Bowler,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_suryanshu_koirala,Suryanshu Koirala,Kathmandu Gorkhas,Batter,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_wg_bosisto,Will Bosisto,Kathmandu Gorkhas,All-rounder,04ef663a,BPL;NPL,229.5,130.8,1.1674,6.648,0.9952,1.0589,1.0281,6.309,44.2,31.3,1.1526,6.508,139.4,94.4,1.4257,8.712,45.9,5.1,npl_experienced,0.5422
+player_a_tripathi,Aakash Tripathi,Lumbini Lions,Batter,cbba9e4e,NPL,102.8,0.0,1.0322,7.04,0.8799,0.9999,1.025,6.452,56.1,0.0,1.0491,6.726,41.1,0.0,1.4024,8.628,5.6,0.0,npl_experienced,0.7703
+player_aasif_sheikh,Aasif Sheikh,Lumbini Lions,Wicketkeeper,dcbea954,NPL;T20I,552.8,0.0,1.2998,7.04,1.108,0.9999,1.2588,6.452,355.0,0.0,1.172,6.726,186.2,0.0,1.4494,8.628,11.6,0.0,npl_experienced,0.462
+player_abhishesh_gautam,Abhishesh Gautam,Lumbini Lions,Bowler,0baa5518,NPL,8.3,163.4,1.1615,6.562,0.9901,1.0728,1.0741,5.893,0.0,74.5,1.1216,6.566,0.0,63.9,1.4118,8.814,8.3,25.0,npl_experienced,0.6829
+player_ajay_chauhan,Ajay Chauhan,Lumbini Lions,Bowler,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_a_yadav,Arniko Prasad Yadav,Lumbini Lions,All-rounder,b564b5e6,NPL,10.2,20.2,1.1303,7.017,0.9635,1.0032,1.0741,6.452,0.0,0.0,1.0852,6.615,9.3,17.7,1.432,8.739,0.8,2.5,npl_experienced,0.9118
+player_djm_short,D'Arcy Short,Lumbini Lions,Batter,1a156c88,BBL;NPL,255.6,82.8,1.1684,7.516,0.996,0.9366,1.1265,6.452,161.9,0.0,1.1109,6.909,86.6,71.5,1.4376,9.112,7.1,11.3,npl_experienced,0.5542
+player_d_nath,Dilip Nath,Lumbini Lions,Wicketkeeper,d019608b,NPL,99.0,0.0,1.1068,7.04,0.9435,0.9999,1.0332,6.452,9.0,0.0,1.0846,6.726,66.0,0.0,1.414,8.628,24.0,0.0,npl_experienced,0.7762
+player_d_adhikari,Dinesh Adhikari,Lumbini Lions,Bowler,bd4fb3ba,NPL,22.1,5.0,1.2395,7.379,1.0566,0.954,1.1645,6.815,15.4,5.0,1.1143,6.726,5.9,0.0,1.4321,8.628,0.8,0.0,npl_experienced,0.9203
+player_d_gupta,Durgesh Gupta,Lumbini Lions,Bowler,762ea5b1,NPL,1.7,27.6,1.1739,7.492,1.0007,0.9396,1.0741,6.848,0.0,15.1,1.1216,6.757,0.0,5.0,1.4352,8.689,1.7,7.5,npl_experienced,0.9147
+player_k_mahato,Kishore Mahato,Lumbini Lions,Bowler,d913103d,NPL,12.1,114.6,1.1131,7.315,0.9489,0.9623,1.0741,6.439,0.0,53.4,1.088,6.905,4.6,19.3,1.3974,8.706,7.5,42.0,npl_experienced,0.7362
+player_n_dickwella,Niroshan Dickwella,Lumbini Lions,Wicketkeeper,45963d9e,ILT20;LPL;NPL,215.5,0.0,1.1893,7.04,1.0138,0.9999,1.1287,6.452,110.8,0.0,1.1312,6.726,87.5,0.0,1.4031,8.628,17.2,0.0,npl_experienced,0.6406
+player_rk_paudel,Rohit Paudel,Lumbini Lions,All-rounder,1a3cc554,NPL;T20I,731.6,198.1,1.2434,6.912,1.0599,1.0184,1.0472,6.469,234.5,20.5,1.2014,6.702,416.4,155.6,1.6349,8.512,80.8,22.0,npl_experienced,0.3727
+player_r_trumpelmann,Ruben Trumpelmann,Lumbini Lions,Bowler,ff6a7ab5,NPL;T20I,153.3,607.8,1.3077,8.333,1.1148,0.8448,1.0741,7.359,0.0,309.1,1.1228,7.289,32.6,114.4,1.5185,9.773,120.6,184.3,npl_experienced,0.4058
+player_s_malla,Sher Malla,Lumbini Lions,Bowler,1daa8927,NPL;T20I,32.7,254.6,1.186,6.817,1.011,1.0326,1.0741,6.714,0.0,104.2,1.0788,6.677,10.2,118.4,1.4603,8.024,22.5,32.0,npl_experienced,0.5856
+player_s_jora,Sundeep Jora,Lumbini Lions,Batter,156378d8,NPL;T20I,274.5,7.6,1.2375,7.057,1.0549,0.9975,1.1281,6.452,62.1,0.0,1.1586,6.762,152.7,7.6,1.4536,8.628,59.7,0.0,npl_experienced,0.5892
+player_tr_bhandari,Tilak Raj Bhandari,Lumbini Lions,Bowler,2593c302,NPL,7.3,117.5,1.1513,6.196,0.9814,1.1361,1.0741,6.452,0.0,0.0,1.1216,5.911,0.0,89.7,1.4032,8.318,7.3,27.9,npl_experienced,0.7387
+player_aakash_chand,Aakash Chand,Pokhara Avengers,Bowler,279c51f0,NPL;T20I,6.3,90.4,1.1553,8.331,0.9848,0.845,1.0741,7.411,0.0,36.5,1.1216,6.897,0.0,24.0,1.4103,9.16,6.3,29.9,npl_experienced,0.7797
+player_a_gharti,Arjun Gharti,Pokhara Avengers,Wicketkeeper,0b62d391,NPL,47.9,0.0,1.1128,7.04,0.9486,0.9999,1.0741,6.452,0.0,0.0,1.0962,6.726,13.3,0.0,1.3493,8.628,34.6,0.0,npl_experienced,0.8706
+player_arjun_kumal,Arjun Kumal,Pokhara Avengers,Batter,2f7a41f8,NPL,35.2,0.0,1.1044,7.04,0.9415,0.9999,1.0448,6.452,9.3,0.0,1.105,6.726,17.3,0.0,1.4009,8.628,8.6,0.0,npl_experienced,0.9
+player_bibek_kumar_rana_magar,Bibek Kumar Rana Magar,Pokhara Avengers,Batter,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_bipin_acharya,Bipin Acharya,Pokhara Avengers,All-rounder,f5faec97,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_bipin_khatri,Bipin Khatri,Pokhara Avengers,Bowler,6e21867e,NPL,16.1,113.8,1.1471,6.773,0.9779,1.0393,1.0741,6.443,0.0,83.8,1.1119,6.355,5.4,24.8,1.404,8.961,10.7,5.3,npl_experienced,0.732
+player_chamika_karunaratne,Chamika Karunaratne,Pokhara Avengers,All-rounder,fb3e0d39,LPL;T20I,181.1,87.8,1.2096,7.89,1.0311,0.8922,1.0469,7.084,15.4,36.1,1.1417,7.338,108.2,51.7,1.4826,8.628,57.5,0.0,external_pro,0.8976
+player_d_lakshan,Dhananjaya Lakshan,Pokhara Avengers,All-rounder,0a2184d9,LPL;NPL,32.2,56.9,1.1859,6.814,1.0109,1.0331,1.0741,6.271,0.0,37.1,1.1098,6.993,23.6,5.3,1.4594,8.284,8.6,14.6,npl_experienced,0.792
+player_d_kharel,Dinesh Kharel,Pokhara Avengers,Batter,0e3bfa00,NPL,101.5,3.0,1.1212,7.179,0.9558,0.9806,1.0596,6.452,81.5,0.0,1.1102,6.873,17.1,3.0,1.4399,8.628,2.9,0.0,npl_experienced,0.7677
+player_k_thagunna,Kiran Thagunna,Pokhara Avengers,Batter,97d86e77,NPL;T20I,54.1,31.8,1.091,7.057,0.93,0.9975,1.0728,6.452,6.0,0.0,1.0583,6.66,30.2,23.8,1.3965,8.682,17.9,8.0,npl_experienced,0.7974
+player_k_bhurtel,Kushal Bhurtel,Pokhara Avengers,Batter,e3386c8a,NPL;T20I,717.0,339.1,1.4606,7.569,1.2451,0.93,1.2817,6.452,400.5,0.0,1.4344,7.138,264.6,260.1,1.5537,8.97,51.9,79.0,npl_experienced,0.3527
+player_mahedi_hasan,Mahedi Hasan,Pokhara Avengers,All-rounder,9dad0f2e,BPL;T20I,276.4,855.0,1.2215,7.228,1.0413,0.9739,1.016,6.847,34.8,382.9,1.1137,6.937,149.9,394.9,1.5429,8.627,91.7,77.2,external_pro,0.5132
+player_pratik_pokharel,Pratik Pokharel,Pokhara Avengers,Batter,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_s_dhakal,Sagar Dhakal,Pokhara Avengers,Bowler,8955b928,NPL;T20I,6.4,149.7,1.1628,7.485,0.9912,0.9405,1.0741,6.43,0.0,40.7,1.1184,7.164,0.4,87.6,1.4213,9.004,5.9,21.4,npl_experienced,0.7001
+player_shakib_al_hasan,Shakib Al Hasan,Pokhara Avengers,All-rounder,7dc35884,BPL;CPL;ILT20;LPL;MLC;PSL;T20I,318.7,579.1,1.1634,6.754,0.9918,1.0423,1.0922,6.352,48.1,165.2,1.1138,6.713,206.2,365.6,1.427,8.388,64.4,48.4,external_pro,0.5675
+player_s_aryal,Sudip Aryal,Pokhara Avengers,Bowler,c1974b74,NPL,0.0,5.1,1.1731,7.099,1.0,0.9916,1.0741,6.452,0.0,0.0,1.1216,6.752,0.0,2.5,1.4373,8.635,0.0,2.5,npl_experienced,0.9835
+player_sunny_bk,Sunny BK,Pokhara Avengers,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_aarif_sheikh,Aarif Sheikh,Sudurpaschim Royals,Batter,cd4d7695,NPL;T20I,205.1,7.7,1.1919,7.43,1.016,0.9474,1.0291,6.476,29.6,3.6,1.1587,7.116,119.6,4.1,1.4344,8.628,56.0,0.0,npl_experienced,0.643
+player_a_bohara,Abinash Bohara,Sudurpaschim Royals,Bowler,64fb6b15,NPL;T20I,9.8,269.4,1.1256,7.669,0.9595,0.9179,1.0741,6.804,0.0,17.2,1.1216,7.117,0.0,148.4,1.3756,8.697,9.8,103.8,npl_experienced,0.5912
+player_a_kharel,Anil Kharel,Sudurpaschim Royals,Bowler,08b15b9e,NPL,7.9,35.2,1.1591,7.402,0.9881,0.951,1.0741,6.657,0.0,12.6,1.1281,7.105,2.1,20.1,1.4075,8.511,5.8,2.5,npl_experienced,0.8812
+player_ayub_chand,Ayub Chand,Sudurpaschim Royals,Batter,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_b_bhandari,Binod Bhandari,Sudurpaschim Royals,Wicketkeeper,82342b13,NPL;T20I,261.0,0.0,1.148,7.04,0.9786,0.9999,1.1075,6.452,140.1,0.0,1.0928,6.726,101.9,0.0,1.4405,8.628,19.0,0.0,npl_experienced,0.6041
+player_bj_mcmullen,Brandon McMullen,Sudurpaschim Royals,All-rounder,436c763a,ILT20;NPL;T20I,384.4,162.3,1.2816,7.828,1.0925,0.8993,1.1377,7.539,143.4,112.3,1.2739,6.589,205.3,40.8,1.4111,8.844,35.7,9.2,npl_experienced,0.464
+player_d_bohara,Dipak Bohara,Sudurpaschim Royals,Wicketkeeper,7e46794e,NPL,26.2,0.0,1.153,7.04,0.9829,0.9999,1.073,6.452,8.0,0.0,1.1127,6.726,9.5,0.0,1.4187,8.628,8.7,0.0,npl_experienced,0.9226
+player_ds_airee,Dipendra Singh Airee,Sudurpaschim Royals,All-rounder,1747ea18,NPL;T20I,484.3,583.2,1.382,6.998,1.1781,1.0059,1.0316,6.54,24.9,205.5,1.1862,6.772,297.0,266.7,1.7408,8.411,162.4,111.0,npl_experienced,0.351
+player_h_dhami,Hemant Dhami,Sudurpaschim Royals,Bowler,bb20441f,NPL;T20I,15.8,90.6,1.1277,7.5,0.9613,0.9386,1.0741,7.049,0.0,54.4,1.1216,6.733,0.0,19.7,1.3666,8.627,15.8,16.5,npl_experienced,0.7648
+player_h_mahara,Hikmat Mahara,Sudurpaschim Royals,Batter,28b1c40e,NPL,0.0,11.9,1.1731,7.368,1.0,0.9554,1.0741,6.984,0.0,8.0,1.1216,6.574,0.0,4.0,1.4373,8.628,0.0,0.0,npl_experienced,0.9625
+player_i_pandey,Ishan Pandey,Sudurpaschim Royals,Batter,ed547c49,NPL,152.6,45.3,1.1094,7.23,0.9457,0.9737,1.014,6.353,37.4,5.1,1.109,7.097,89.4,40.3,1.4173,8.628,25.8,0.0,npl_experienced,0.6566
+player_milan_bohara,Milan Bohara,Sudurpaschim Royals,All-rounder,4546e17e,NPL,1.3,4.0,1.1848,7.006,1.01,1.0048,1.0741,6.452,0.0,0.0,1.1216,6.702,0.0,4.0,1.4466,8.628,1.3,0.0,npl_experienced,0.9827
+player_sachin_bhatt,Sachin Bhatta,Sudurpaschim Royals,Bowler,312f21e7,NPL,0.0,15.9,1.1731,7.414,1.0,0.9495,1.0741,6.452,0.0,0.0,1.1216,7.137,0.0,15.9,1.4373,8.628,0.0,0.0,npl_experienced,0.9509
+player_sa_zaib,Saif Ali Zaib,Sudurpaschim Royals,All-rounder,ab01e323,NPL,142.3,151.7,1.2587,6.714,1.073,1.0485,1.0768,6.134,66.7,24.4,1.2001,6.824,61.8,111.3,1.5225,8.322,13.7,16.0,npl_experienced,0.5812
+player_sc_kuggeleijn,Scott Kuggeleijn,Sudurpaschim Royals,All-rounder,fef92afc,ILT20;NPL,50.1,251.7,1.2011,6.84,1.0239,1.0292,1.0741,6.359,0.0,142.8,1.1133,6.479,2.1,28.1,1.4132,8.394,48.0,80.8,npl_experienced,0.5762
+player_tek_rawat,Tek Rawat,Sudurpaschim Royals,Wicketkeeper,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
