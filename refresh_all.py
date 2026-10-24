@@ -29,6 +29,9 @@ PIPELINE_STEPS = [
     # 2. Team ELO Ratings
     ("Rolling Team ELO Ratings", "scripts/compute_team_elo.py"),
     
+    # 2b. Pre-match predictions (after Elo; never touches the frozen log)
+    ("Match Predictions Refresh", "scripts/refresh_predictions.py"),
+
     # 3. Feature Prep
     ("Season Bowler Features", "scripts/prepare_season_features.py"),
     ("Extended Bowler Features", "scripts/prepare_features_extended.py"),
