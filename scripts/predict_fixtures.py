@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from src.prediction import engine  # noqa: E402
 from src.prediction import model as M  # noqa: E402
+from src.prediction import stages as STAGES  # noqa: E402
 import json  # noqa: E402
 
 if __name__ == "__main__":
@@ -45,5 +46,11 @@ if __name__ == "__main__":
                          "p_elo": p.p_elo, "p_logistic_challenger": p.p_logistic_challenger,
                          "features_json": p.features_json})
         if rows:
-            n = engine.lock_predictions(ROOT, pd.DataFrame(rows), "P2")
+            # Canonical horizon P2_POST_TOSS, written under its stored
+            # string via the registry (G1) — previously this path wrote
+            # the bare contract string "P2", a third spelling of the
+            # same horizon; the registry still maps "P2" for any
+            # historical row.
+            n = engine.lock_predictions(
+                ROOT, pd.DataFrame(rows), STAGES.stored_stage("P2_POST_TOSS"))
             print(f"locked {n} P2 predictions")

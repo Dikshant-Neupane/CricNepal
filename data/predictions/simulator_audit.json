@@ -110,6 +110,22 @@
    "ci_includes_zero": false
   }
  },
+ "lomo_influence": {
+  "simulator_minus_champion_logloss": {
+   "n": 32,
+   "full_mean_diff": -0.03376324474789771,
+   "max_abs_change": 0.018656051453048925,
+   "most_influential_match": "espn_1510985",
+   "mean_diff_without_it": -0.05241929620094663
+  },
+  "champion_minus_elo_logloss": {
+   "n": 32,
+   "full_mean_diff": 0.00023936791190138154,
+   "max_abs_change": 0.0045749137098070655,
+   "most_influential_match": "espn_1511002",
+   "mean_diff_without_it": 0.004814281621708447
+  }
+ },
  "champion_minus_elo_logloss": {
   "n_matches": 32,
   "n_resamples": 10000,

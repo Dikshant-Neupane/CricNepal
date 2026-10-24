@@ -119,7 +119,9 @@ def test_scoring_is_per_stage_never_pooled():
     sdf = sp.build_scored(log, matches, fixtures)
     assert len(sdf) == 2
     by_stage = sp.metrics_by_stage(sdf)
-    assert set(by_stage) == {"P1", "P2"}          # exactly the stages present
+    # G1 (review S13): scoring groups by CANONICAL horizon — the stored
+    # contract strings "P1"/"P2" read as P1_CONFIRMED_XI / P2_POST_TOSS.
+    assert set(by_stage) == {"P1_CONFIRMED_XI", "P2_POST_TOSS"}
     assert not any(k.lower() in ("all", "pooled", "overall", "total")
                    for k in by_stage)              # no pooled entry, ever
     for entry in by_stage.values():               # baselines kept per stage

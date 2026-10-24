@@ -58,6 +58,24 @@ def compare_match_sets(named_sets: dict) -> dict:
                              for d in pair_diffs.values())}
 
 
+def lomo_influence(p_a, p_b, y, match_ids) -> dict:
+    """Leave-one-match-out influence on a mean per-match log-loss
+    difference (A minus B), G5 (review S11): how much can any single
+    match move the headline difference? Reports the largest absolute
+    change, the match responsible, and the difference without it.
+    With n=32 every match is ~3% of the sample, so this is the honest
+    fragility check on a small backtest."""
+    d = MT.per_match_log_loss(p_a, y) - MT.per_match_log_loss(p_b, y)
+    full = float(d.mean())
+    loo = np.array([np.delete(d, i).mean() for i in range(len(d))])
+    changes = np.abs(loo - full)
+    i = int(np.argmax(changes))
+    return {"n": int(len(d)), "full_mean_diff": full,
+            "max_abs_change": float(changes[i]),
+            "most_influential_match": str(match_ids[i]),
+            "mean_diff_without_it": float(loo[i])}
+
+
 def leakage_checklist() -> list:
     """Trace the simulator backtest's inputs. Source-inspection checks
     are programmatic where the artefact allows; items that cannot be
@@ -159,12 +177,19 @@ def main():
     verdict = ("advantage not established" if ci["ci_includes_zero"]
                else "advantage established on this backtest (still requires "
                     "frozen-log confirmation before promotion)")
+    lomo = {
+        "simulator_minus_champion_logloss": lomo_influence(
+            m["p_sim_team_1"], m["p_blend"], y, list(m.index)),
+        "champion_minus_elo_logloss": lomo_influence(
+            m["p_blend"], m["p_elo"], y, list(m.index)),
+    }
     out = {
         "question": "Is the simulator's Season 2 backtest advantage over the "
                     "champion blend / Elo real?",
         "identical_set_check": sets,
         "leakage_checklist": leakage_checklist(),
         "bootstrap": boots,
+        "lomo_influence": lomo,
         "champion_minus_elo_logloss": champ_elo,
         "verdict_rule": "Pre-committed: if the 95% CI for the simulator - "
                         "champion per-match log-loss difference includes 0, "
