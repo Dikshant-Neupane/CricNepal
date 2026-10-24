@@ -363,6 +363,81 @@ def _load_real_matches() -> pd.DataFrame | None:
     return team_df
 
 
+def _innings_line(bbb_match: pd.DataFrame, innings_no: int) -> dict | None:
+    """Score line for one innings from ball-by-ball rows (None if absent)."""
+    inn = bbb_match[bbb_match["innings"] == innings_no]
+    if inn.empty:
+        return None
+    runs = int(inn["runs_total"].sum())
+    wkts = int(
+        (inn["is_wicket"] & (inn["dismissal_type"] != "retired hurt")).sum()
+    )
+    legal = int((~inn["extras_type"].isin(["wides", "noballs"])).sum())
+    overs_text = f"{legal // 6}.{legal % 6} Overs"
+    rr = runs / (legal / 6) if legal else 0.0
+    return {
+        "name": str(inn["batting_team"].iloc[0]),
+        "short": str(inn["batting_team"].iloc[0])[:3].upper(),
+        "score": f"{runs}/{wkts}",
+        "overs": overs_text,
+        "rr": f"{rr:.2f}",
+        "runs": runs,
+        "wkts": wkts,
+    }
+
+
+def _build_match_summary(row) -> dict:
+    """Build the render_match_summary contract from real data.
+
+    The old builder hardcoded Janakpur as team 1, invented "20.0 Overs",
+    and omitted the 'result' key entirely — which crashed the summary card
+    (KeyError: 'result') for every match. Scores, overs and run rates are
+    now derived from the match's ball-by-ball rows in actual innings
+    order, and the result text uses the recorded winner and win margin.
+    """
+    bbb = load_ball_by_ball_normalized()
+    match_rows = (
+        bbb[bbb["match_id"] == row["match_id"]] if bbb is not None else None
+    )
+    t1 = _innings_line(match_rows, 1) if match_rows is not None else None
+    t2 = _innings_line(match_rows, 2) if match_rows is not None else None
+    winner = row.get("winner_name")
+    fallback = {
+        "name": _REVIEW_TEAM,
+        "short": "JKB",
+        "score": "—",
+        "overs": "—",
+        "rr": "—",
+        "runs": 0,
+        "wkts": 0,
+    }
+    team1 = t1 or fallback
+    team2 = t2 or {**fallback, "name": row["opposition"], "short": row["opposition"][:3].upper()}
+    # Result text with the correct margin unit: a first-innings winner wins
+    # by runs; a chasing winner wins by wickets in hand. (The recorded
+    # win_margin column is a bare number with no unit, so derive both.)
+    if pd.isna(winner):
+        result_text = "No result"
+    elif t1 and t2 and winner == t1["name"]:
+        result_text = f"{winner} won by {t1['runs'] - t2['runs']} runs"
+    elif t1 and t2 and winner == t2["name"]:
+        wkts_left = 10 - t2["wkts"]
+        result_text = f"{winner} won by {wkts_left} wicket{'s' if wkts_left != 1 else ''}"
+    else:
+        result_text = f"{winner} won"
+    for t in (team1, team2):
+        t["is_winner"] = bool(pd.notna(winner) and t["name"] == winner)
+        t.pop("runs", None)
+        t.pop("wkts", None)
+    return {
+        "match_title": row.get("selector_label", ""),
+        "team1": team1,
+        "team2": team2,
+        "result": result_text,
+        "potm": row.get("player_of_match", "—") if pd.notna(row.get("player_of_match")) else "—",
+    }
+
+
 def render_match_review():
     real_matches = _load_real_matches()
     
@@ -375,26 +450,7 @@ def render_match_review():
     idx = labels.index(selected_label)
     row = real_matches.iloc[idx]
     
-    summary = {
-        "match_title": selected_label,
-        "team1": {
-            "name": _REVIEW_TEAM,
-            "short": "JKB",
-            "score": str(row.get("team_1_total_runs", "—")),
-            "overs": "20.0 Overs",
-            "rr": "—",
-            "is_winner": row["result"] == "Won",
-        },
-        "team2": {
-            "name": row["opposition"],
-            "short": row["opposition"][:3].upper(),
-            "score": str(row.get("team_2_total_runs", "—")),
-            "overs": "20.0 Overs",
-            "rr": "—",
-            "is_winner": row["result"] == "Lost",
-        },
-        "potm": row.get('player_of_match', "—"),
-    }
+    summary = _build_match_summary(row)
     page_subtitle = selected_label
 
     render_page_header(

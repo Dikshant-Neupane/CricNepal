@@ -12,6 +12,7 @@ NAV_ITEMS = [
     {"icon": "", "label": "Bowling Analysis", "key": "bowling_analysis"},
     {"icon": "", "label": "Matchup Engine", "key": "matchup_engine"},
     {"icon": "", "label": "Opposition Reports", "key": "opposition_reports"},
+    {"icon": "", "label": "Match Review", "key": "review"},
     {"icon": "", "label": "S3 Recruiting", "key": "s3_recruiting"},
     {"icon": "", "label": "S3 Strategic Analysis", "key": "s3_strategic_analysis"},
     
