@@ -26,6 +26,73 @@ from ..components.ui_patterns import (
 TEAM = "Janakpur Bolts"
 
 
+def _top_contributors(season: str = "S2", team: str = TEAM, n: int = 3):
+    """Top batting/bowling contributors for `team` in `season`, from real data.
+
+    Attribution comes from match lineups (the players who actually played
+    for the team that season), aggregated over player_innings. The previous
+    implementation ranked the league-wide recruiting forecast exports
+    (s3_batter_forecast.csv / s3_bowler_forecast.csv) without a team filter,
+    which presented other teams' players (e.g. Pokhara's Rossington,
+    Sudur Paschim's Bohara) as Janakpur contributors.
+
+    Returns (batting, bowling): lists of dicts with player_name, runs,
+    strike_rate / wickets, economy. Empty lists when data is unavailable.
+    """
+    try:
+        from src.config.paths import PARQUET_DIR
+
+        lineups = pd.read_parquet(PARQUET_DIR / "match_lineups.parquet")
+        matches = pd.read_parquet(
+            PARQUET_DIR / "matches.parquet", columns=["match_id", "season"]
+        )
+        innings = pd.read_parquet(PARQUET_DIR / "player_innings.parquet")
+    except Exception:
+        return [], []
+    lineups = lineups.merge(matches, on="match_id", how="left")
+    squad = set(
+        lineups[(lineups["team_name"] == team) & (lineups["season"] == season)][
+            "player_name"
+        ]
+    )
+    innings = innings.merge(matches, on="match_id", how="left")
+    inn = innings[
+        (innings["season"] == season) & (innings["player_name"].isin(squad))
+    ]
+    if inn.empty:
+        return [], []
+    bat = (
+        inn.groupby("player_name")
+        .agg(runs=("runs_scored", "sum"), balls=("balls_faced", "sum"))
+        .reset_index()
+    )
+    bat["strike_rate"] = bat["runs"] / bat["balls"].replace(0, pd.NA) * 100
+    batting = (
+        bat.sort_values(["runs", "strike_rate"], ascending=False)
+        .head(n)
+        .to_dict("records")
+    )
+    bowl = (
+        inn.groupby("player_name")
+        .agg(
+            wickets=("wickets_taken", "sum"),
+            runs_conceded=("runs_conceded", "sum"),
+            balls_bowled=("balls_bowled", "sum"),
+        )
+        .reset_index()
+    )
+    bowl["economy"] = bowl["runs_conceded"] / (
+        bowl["balls_bowled"].replace(0, pd.NA) / 6
+    )
+    bowling = (
+        bowl[bowl["wickets"] > 0]
+        .sort_values(["wickets", "economy"], ascending=[False, True])
+        .head(n)
+        .to_dict("records")
+    )
+    return batting, bowling
+
+
 def _load_real_matches() -> pd.DataFrame | None:
     """Load Janakpur Bolts match data via the data_source loader."""
     try:
@@ -337,35 +404,22 @@ def render_executive_overview():
             unsafe_allow_html=True,
         )
 
-        # Dynamic contributor tables from real data
+        # Contributor tables: Janakpur-only, computed from real innings data
+        top_bat, top_bowl = _top_contributors("S2", TEAM)
         bat_rows = ""
-        bat_path = export_path("s3_batter_forecast.csv")
-        if bat_path.exists():
-            try:
-                bdf = pd.read_csv(bat_path)
-                top_bat = bdf[bdf['s2_runs'].notna()].nlargest(3, 's2_runs')
-                for _, r in top_bat.iterrows():
-                    sr_val = f"{r['s2_strike_rate']:.1f}" if pd.notna(r.get('s2_strike_rate')) else "—"
-                    bat_rows += f"<tr><td>{r['player_name']}</td><td class='text-right'>{int(r['s2_runs'])}</td><td class='text-right'>{sr_val}</td></tr>"
-            except Exception:
-                pass
+        for r in top_bat:
+            sr_val = f"{r['strike_rate']:.1f}" if pd.notna(r.get('strike_rate')) else "—"
+            bat_rows += f"<tr><td>{r['player_name']}</td><td class='text-right'>{int(r['runs'])}</td><td class='text-right'>{sr_val}</td></tr>"
         if not bat_rows:
             bat_rows = "<tr><td colspan='3' style='text-align:center; color:#4a5a54;'>No data</td></tr>"
 
         bowl_rows = ""
         pp_wkts, mid_wkts, death_wkts = "—", "—", "—"
-        bowl_path = export_path("s3_bowler_forecast.csv")
         phase_path = export_path("s1_vs_s2_bowling_by_phase.csv")
-        if bowl_path.exists():
-            try:
-                bowldf = pd.read_csv(bowl_path)
-                top_bowl = bowldf[bowldf['s2_wickets'].notna()].nlargest(3, 's2_wickets')
-                for _, r in top_bowl.iterrows():
-                    econ_val = f"{r['s2_economy']:.1f}" if pd.notna(r.get('s2_economy')) else "—"
-                    econ_class = 'text-right text-error' if pd.notna(r.get('s2_economy')) and r['s2_economy'] > 8.5 else 'text-right'
-                    bowl_rows += f"<tr><td>{r['player_name']}</td><td class='text-right'>{int(r['s2_wickets'])}</td><td class='{econ_class}'>{econ_val}</td></tr>"
-            except Exception:
-                pass
+        for r in top_bowl:
+            econ_val = f"{r['economy']:.1f}" if pd.notna(r.get('economy')) else "—"
+            econ_class = 'text-right text-error' if pd.notna(r.get('economy')) and r['economy'] > 8.5 else 'text-right'
+            bowl_rows += f"<tr><td>{r['player_name']}</td><td class='text-right'>{int(r['wickets'])}</td><td class='{econ_class}'>{econ_val}</td></tr>"
         if not bowl_rows:
             bowl_rows = "<tr><td colspan='3' style='text-align:center; color:#4a5a54;'>No data</td></tr>"
         if phase_path.exists():
