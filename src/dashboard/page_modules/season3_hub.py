@@ -33,12 +33,38 @@ def _orient(p, series_team_1, fixture_team_1):
     return p if series_team_1 == fixture_team_1 else 1.0 - p
 
 
+def _data_mtimes(root: Path):
+    """Cache key: the locked artefacts' mtimes. The hub re-reads its
+    files only when one of them actually changes (a lock, a result)."""
+    rels = ["data/fixtures/s3_fixtures.csv", "data/predictions/frozen_log.csv",
+            "data/predictions/upcoming_predictions.csv",
+            "data/predictions/coach_shadow.csv", "data/fixtures/s3_coaches.csv",
+            "data/normalized/matches_normalized.parquet",
+            "data/player_profiles/player_master.csv",
+            "data/player_profiles/enriched_players_20260521.csv"]
+    return tuple((r, (root / r).stat().st_mtime_ns if (root / r).exists() else 0)
+                 for r in rels)
+
+
+@st.cache_data(show_spinner=False)
+def _load_season3_cached(root_str: str, mtimes_key: tuple) -> dict:
+    return load_season3(Path(root_str))
+
+
 def load_season3(root: Path = ROOT) -> dict:
     """Pure data assembly for the hub (unit-tested without Streamlit)."""
     fx = pd.read_csv(root / "data" / "fixtures" / "s3_fixtures.csv",
                      parse_dates=["match_date"])
     frozen = pd.read_csv(root / "data" / "predictions" / "frozen_log.csv")
     champ = frozen[frozen.stage == "P1_preseason_expected_xi"].set_index("match_id")
+    # Latest champion lock per match: post-toss > post-XI > pre-season.
+    LOCK_PRIORITY = [("P2_post_toss", "Post-toss lock"),
+                     ("P1_post_XI", "Post-XI lock"),
+                     ("P1_preseason_expected_xi", "Pre-season lock")]
+    latest_lock = {}
+    for stage, label in LOCK_PRIORITY:
+        for r in frozen[frozen.stage == stage].itertuples():
+            latest_lock.setdefault(r.match_id, (r, label))
     sim = pd.read_csv(root / "data" / "predictions" / "simulator_preseason.csv").set_index("match_id")
     coach = pd.read_csv(root / "data" / "predictions" / "coach_shadow.csv").set_index("match_id")
 
@@ -60,8 +86,12 @@ def load_season3(root: Path = ROOT) -> dict:
         }
         if f.match_id in champ.index:
             c = champ.loc[f.match_id]
-            row["champion"] = _orient(c.p_team_1_win, c.team_1_name, f.team_1_name)
+            row["champion_preseason"] = _orient(c.p_team_1_win, c.team_1_name, f.team_1_name)
             row["elo"] = _orient(c.p_elo, c.team_1_name, f.team_1_name)
+        if f.match_id in latest_lock:
+            r, label = latest_lock[f.match_id]
+            row["champion"] = _orient(r.p_team_1_win, r.team_1_name, f.team_1_name)
+            row["lock_stage"] = label
         if f.match_id in sim.index:
             s = sim.loc[f.match_id]
             row["simulator"] = _orient(s.p_team_1_win, s.team_1_name, f.team_1_name)
@@ -75,18 +105,19 @@ def load_season3(root: Path = ROOT) -> dict:
     scored = table[table.winner.notna() & table.team_1.notna()]
     scorecard = {}
     for label, key in SERIES:
-        if key not in scored.columns or len(scored) == 0:
-            scorecard[label] = {"locked": int(table[key].notna().sum()) if key in table else 0,
+        col = "champion_preseason" if key == "champion" else key
+        if col not in scored.columns or len(scored) == 0:
+            scorecard[label] = {"locked": int(table[col].notna().sum()) if col in table else 0,
                                 "scored": 0, "log_loss": None, "accuracy": None}
             continue
-        d = scored.dropna(subset=[key])
+        d = scored.dropna(subset=[col])
         y = (d.winner == d.team_1).astype(float)
-        p = d[key].clip(1e-6, 1 - 1e-6)
+        p = d[col].clip(1e-6, 1 - 1e-6)
         scorecard[label] = {
-            "locked": int(table[key].notna().sum()),
+            "locked": int(table[col].notna().sum()),
             "scored": int(len(d)),
             "log_loss": float(-np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))) if len(d) else None,
-            "accuracy": float(np.mean((d[key] >= 0.5) == (y == 1))) if len(d) else None,
+            "accuracy": float(np.mean((d[col] >= 0.5) == (y == 1))) if len(d) else None,
         }
 
     league = table[table.stage == "League"]
@@ -127,7 +158,7 @@ def compute_standings(fixtures: pd.DataFrame, teams: list[str]) -> pd.DataFrame:
 
 
 def render_season3_hub():
-    data = load_season3()
+    data = _load_season3_cached(str(ROOT), _data_mtimes(ROOT))
     fx, sc = data["fixtures"], data["scorecard"]
     teams = sorted(data["coaches"].team)
 
@@ -149,10 +180,13 @@ def render_season3_hub():
         c1.metric(nm["team_1"], f"{p:.0%} win (locked)" if pd.notna(p) else "—")
         c2.metric(nm["team_2"], f"{1 - p:.0%} win (locked)" if pd.notna(p) else "—")
         parts = []
-        for label, key in SERIES:
+        for label, key in [("Champion (latest lock)", "champion"), ("Elo baseline", "elo"),
+                           ("Simulator shadow", "simulator"), ("Coach shadow", "coach")]:
             v = nm.get(key)
             if pd.notna(v):
                 parts.append(f"{label}: {v:.0%} for {nm['team_1']}")
+        if nm.get("lock_stage"):
+            parts.append(f"Lock stage: {nm['lock_stage']}")
         if parts:
             st.caption(" · ".join(parts))
     else:
@@ -172,19 +206,26 @@ def render_season3_hub():
     st.markdown("### Standings")
     st.dataframe(compute_standings(fx, teams), width="stretch", hide_index=True)
 
-    st.markdown("### Fixtures & locked forecasts")
+    st.markdown("### Prediction list — locked before every match")
     show = fx.copy()
     show["Date"] = show.date.dt.strftime("%a %d %b")
     show["Match"] = show.apply(
         lambda r: f"{r.team_1} v {r.team_2}" if pd.notna(r.team_1) else r.stage, axis=1)
-    show["Champion pick"] = show.apply(
-        lambda r: (f"{r.team_1 if r.champion >= 0.5 else r.team_2} ({max(r.champion, 1 - r.champion):.0%})"
-                   if pd.notna(r.get("champion")) else "—"), axis=1)
+    for col in ["champion", "elo", "simulator", "coach"]:
+        show[col] = show[col].map(lambda v: f"{v:.0%}" if pd.notna(v) else "—")
     show["Result"] = show.winner.fillna("—")
+    show["Lock"] = show.get("lock_stage", "—")
+    if hasattr(show["Lock"], "fillna"):
+        show["Lock"] = show["Lock"].fillna("—")
     st.dataframe(
-        show[["match_number", "Date", "time", "stage", "Match", "Champion pick", "Result"]]
-        .rename(columns={"match_number": "#", "time": "Start", "stage": "Stage"}),
+        show[["match_number", "Date", "time", "Match", "champion", "elo", "simulator", "coach", "Lock", "Result"]]
+        .rename(columns={"match_number": "#", "time": "Start", "champion": "Champion",
+                         "elo": "Elo", "simulator": "Simulator", "coach": "Coach"}),
         width="stretch", hide_index=True)
+    st.caption("Percentages are win probabilities for the first-named team. The Champion column "
+               "shows the latest lock for the match (post-toss > post-XI > pre-season); Elo, "
+               "Simulator and Coach are the frozen pre-season series. Results and the scorecard "
+               "update as official match data is published after each match.")
 
     st.markdown("### Squads & coaches")
     team = st.selectbox("Team", teams, index=teams.index("Janakpur Bolts"))

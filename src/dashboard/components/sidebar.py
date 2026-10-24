@@ -12,7 +12,7 @@ def render_sidebar() -> str:
     Uses st.session_state to persist selection.
     """
     if "active_page" not in st.session_state:
-        st.session_state.active_page = "executive_overview"
+        st.session_state.active_page = "season3_hub"
 
     with st.sidebar:
         # Brand header
@@ -23,7 +23,7 @@ def render_sidebar() -> str:
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown("#### Analysis")
+        st.markdown("#### Season 3")
 
         # Main navigation
         for item in NAV_ITEMS:

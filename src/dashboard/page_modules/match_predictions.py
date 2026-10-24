@@ -40,9 +40,14 @@ def _canonical_of(stage_str):
         return stage_str
 
 
+@st.cache_data(show_spinner=False)
+def _load_cached(name: str, mtime_ns: int):
+    return pd.read_csv(PRED_DIR / name)
+
+
 def _load(name):
     p = PRED_DIR / name
-    return pd.read_csv(p) if p.exists() else None
+    return _load_cached(name, p.stat().st_mtime_ns) if p.exists() else None
 
 
 def expected_xi_unresolved(master: pd.DataFrame, priors: pd.DataFrame) -> dict:

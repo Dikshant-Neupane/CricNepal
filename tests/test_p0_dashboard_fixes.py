@@ -70,9 +70,11 @@ def test_match_review_summary_contract():
 
 
 def test_match_review_in_nav_and_renders():
-    from src.dashboard.config.nav_config import NAV_ITEMS
+    from src.dashboard.config.nav_config import FROZEN_NAV_ITEMS, NAV_ITEMS
 
-    assert any(item["key"] == "review" for item in NAV_ITEMS)
+    # Reachable in the live nav, or deliberately frozen for the Season 3
+    # showcase — never silently orphaned (the original bug).
+    assert any(item["key"] == "review" for item in NAV_ITEMS + FROZEN_NAV_ITEMS)
 
     from pathlib import Path
 

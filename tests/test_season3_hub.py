@@ -44,3 +44,31 @@ def test_hub_squads_and_coaches_verified_counts():
     assert len(DATA["squads"]) == 141
     jb = DATA["squads"][DATA["squads"].team == "Janakpur Bolts"]
     assert len(jb) == 17
+
+
+def test_hub_lock_stage_is_preseason_until_matchday_locks_exist():
+    league = DATA["fixtures"][DATA["fixtures"].stage == "League"]
+    assert (league.lock_stage == "Pre-season lock").all()
+    assert (league.champion == league.champion_preseason).all()
+
+
+def test_showcase_nav_freezes_analytics_pages():
+    from src.dashboard.config.nav_config import FROZEN_NAV_ITEMS, NAV_ITEMS
+
+    live = {i["key"] for i in NAV_ITEMS}
+    assert live == {"season3_hub", "match_predictions", "player_profiles"}
+    frozen = {i["key"] for i in FROZEN_NAV_ITEMS}
+    assert {"dashboard", "review", "batting_analysis", "win_probability"} <= frozen
+    assert not (live & frozen)
+
+
+def test_app_lands_on_season3_hub():
+    from pathlib import Path
+
+    from streamlit.testing.v1 import AppTest
+
+    at = AppTest.from_file(str(Path(__file__).parent.parent / "app.py"),
+                           default_timeout=180)
+    at.run()
+    assert not at.exception
+    assert at.session_state["active_page"] == "season3_hub"
