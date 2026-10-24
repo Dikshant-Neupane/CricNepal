@@ -47,6 +47,70 @@ def _load_from_database() -> pd.DataFrame:
         return pd.read_sql(query, conn)
 
 
+def _backfill_innings_summaries(matches: pd.DataFrame) -> pd.DataFrame:
+    """Fill missing innings summary columns from ball-by-ball data.
+
+    The cricsheet ingestion leaves innings_1/2 team, runs and overs as NaN in
+    matches.parquet, which silently zeroed every downstream runs/overs KPI
+    (season NRR displayed as +0.000). When those columns are missing, derive
+    them from ball_by_ball.parquet: runs are the innings totals, overs are
+    legal deliveries / 6 with the standard NRR all-out rule (an innings
+    ending all out counts as the full 20 overs). Super-over innings (>2) are
+    excluded, per NRR convention. Existing non-null values are never
+    overwritten.
+    """
+    summary_cols = [
+        "innings_1_team", "innings_1_runs", "innings_1_overs",
+        "innings_2_team", "innings_2_runs", "innings_2_overs",
+    ]
+    if all(c in matches.columns and matches[c].notna().any() for c in summary_cols):
+        return matches
+    bbb_path = os.path.join(PARQUET_DATA_PATH, "ball_by_ball.parquet")
+    if not os.path.exists(bbb_path):
+        return matches
+    try:
+        bbb = pd.read_parquet(
+            bbb_path,
+            columns=["match_id", "innings", "batting_team", "runs_total",
+                     "extras_type", "is_wicket", "dismissal_type"],
+        )
+    except Exception:
+        logger.warning("Could not read ball-by-ball parquet for innings backfill", exc_info=True)
+        return matches
+    bbb = bbb[bbb["innings"] <= 2].copy()
+    if bbb.empty:
+        return matches
+    bbb["legal"] = ~bbb["extras_type"].isin(["wides", "noballs"])
+    bbb["wkt"] = bbb["is_wicket"] & (bbb["dismissal_type"] != "retired hurt")
+    agg = (
+        bbb.groupby(["match_id", "innings", "batting_team"], as_index=False)
+        .agg(runs=("runs_total", "sum"), legal=("legal", "sum"), wkts=("wkt", "sum"))
+    )
+    agg["overs"] = agg.apply(lambda r: 20.0 if r["wkts"] >= 10 else r["legal"] / 6.0, axis=1)
+    by_key = {(r.match_id, r.innings): r for r in agg.itertuples()}
+    matches = matches.copy()
+    for c in summary_cols:
+        if c not in matches.columns:
+            matches[c] = pd.NA
+    # The all-NaN team columns arrive as float64; they must hold strings.
+    for c in ("innings_1_team", "innings_2_team"):
+        if matches[c].dtype != object:
+            matches[c] = matches[c].astype(object)
+    for idx, row in matches.iterrows():
+        for inn in (1, 2):
+            rec = by_key.get((row["match_id"], inn))
+            if rec is None:
+                continue
+            for col, val in (
+                (f"innings_{inn}_team", rec.batting_team),
+                (f"innings_{inn}_runs", float(rec.runs)),
+                (f"innings_{inn}_overs", float(rec.overs)),
+            ):
+                if pd.isna(row[col]):
+                    matches.at[idx, col] = val
+    return matches
+
+
 def _load_from_parquet(team_name: str = "Janakpur Bolts") -> pd.DataFrame:
     """
     Load match records from parquet files for a specific team.
@@ -73,6 +137,7 @@ def _load_from_parquet(team_name: str = "Janakpur Bolts") -> pd.DataFrame:
         # Load matches
         matches = pd.read_parquet(matches_path)
         logger.info(f"Loaded {len(matches)} matches from parquet")
+        matches = _backfill_innings_summaries(matches)
         
         # Filter for the specified team
         team_matches = matches[
