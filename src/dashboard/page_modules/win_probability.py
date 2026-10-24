@@ -154,7 +154,7 @@ def render_win_probability():
                 )
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
             
             # Show "Pressure Moments"
             st.markdown("###  Highest Impact Deliveries (Clutch/Pressure Moments)")

@@ -234,7 +234,7 @@ def render_batting_intelligence():
             st.dataframe(
                 display_df,
                 hide_index=True,
-                use_container_width=True,
+                width="stretch",
                 column_config={
                     "Change": st.column_config.NumberColumn(
                         "Change",
@@ -266,7 +266,7 @@ def render_batting_intelligence():
             st.dataframe(
                 display_df,
                 hide_index=True,
-                use_container_width=True
+                width="stretch"
             )
         else:
             st.info("S3 forecast data unavailable")

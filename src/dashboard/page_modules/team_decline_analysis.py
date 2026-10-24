@@ -137,7 +137,7 @@ def _render_win_drivers_tab() -> None:
             "bowling_wpa": "Bowling WPA",
         })
         display_wpa.index.name = "Rank"
-        st.dataframe(display_wpa, use_container_width=True)
+        st.dataframe(display_wpa, width="stretch")
     else:
         st.warning("Missing: player_wpa_leaderboard.csv — skipping WPA section.")
 
@@ -237,7 +237,7 @@ def _render_loss_drivers_tab() -> None:
                 color_continuous_midpoint=0,
             )
             fig.update_layout(height=260, margin=dict(l=10, r=10, t=20, b=10))
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
     else:
         st.warning("Missing: s1_vs_s2_bowling_by_phase.csv — skipping heatmap.")
 
@@ -257,7 +257,7 @@ def _render_loss_drivers_tab() -> None:
         if available:
             st.dataframe(
                 deltas[list(available.keys())].rename(columns=available),
-                use_container_width=True, hide_index=True
+                width="stretch", hide_index=True
             )
     elif bowling is not None:
         # Build inline from phase CSVs if deltas file is missing
@@ -277,7 +277,7 @@ def _render_loss_drivers_tab() -> None:
                 })
         if rows:
             st.markdown("### What Changed vs S1 — Bowling")
-            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
     # Root Cause Summary
     st.markdown("### Root Cause Summary")

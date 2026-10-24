@@ -610,7 +610,7 @@ def render_tactical_report_tab():
                 </div>
             """, unsafe_allow_html=True)
             if bat_fig:
-                st.plotly_chart(bat_fig, use_container_width=True, config={'displayModeBar': False})
+                st.plotly_chart(bat_fig, width="stretch", config={'displayModeBar': False})
             st.markdown("""
                 <div style="background: #e3ebe6; display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #4a5a54; margin-top: 8px;">Target with Matchup Engine</div>
             </div>
@@ -628,7 +628,7 @@ def render_tactical_report_tab():
                 </div>
             """, unsafe_allow_html=True)
             if bowl_fig:
-                st.plotly_chart(bowl_fig, use_container_width=True, config={'displayModeBar': False})
+                st.plotly_chart(bowl_fig, width="stretch", config={'displayModeBar': False})
             st.markdown("""
                 <div style="background: #e3ebe6; display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #4a5a54; margin-top: 8px;">Respect in Middle Overs</div>
             </div>

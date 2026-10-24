@@ -223,7 +223,7 @@ def render_matchups():
                 margin=dict(l=40, r=40, t=20, b=20),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
             )
-            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+            st.plotly_chart(fig, width="stretch", config={'displayModeBar': False})
 
 
     st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)

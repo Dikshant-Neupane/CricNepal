@@ -94,7 +94,7 @@ def render_player_archetypes():
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
             font=dict(color="#17231f"),
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
         # Archetype distribution summary
         st.markdown("### Archetype Distribution")
@@ -127,7 +127,7 @@ def render_player_archetypes():
             yaxis=dict(gridcolor="rgba(0,0,0,0.06)"),
             font=dict(color="#17231f"),
         )
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width="stretch")
 
     with tab2:
         st.markdown("### Explore Players by Archetype")
@@ -168,6 +168,6 @@ def render_player_archetypes():
 
         st.dataframe(
             filtered[display_cols].rename(columns=rename).reset_index(drop=True),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )

@@ -110,7 +110,7 @@ def render_match_predictions():
                        "has not been generated yet (run "
                        "scripts/refresh_predictions.py).")
         st.dataframe(ratings.rename(columns={"team": "Team", "rating_s3_start": "Elo"}),
-                     hide_index=True, use_container_width=True)
+                     hide_index=True, width="stretch")
 
     st.markdown("### Upcoming Fixtures — P1 Probabilities")
     show = preds.copy()
@@ -135,7 +135,7 @@ def render_match_predictions():
             "match_date": "Date", "team_1_name": "Team 1", "team_2_name": "Team 2",
             "rating_1": "Elo 1", "rating_2": "Elo 2",
             "p_team_1_win": "P(Team 1 win)"}),
-        hide_index=True, use_container_width=True)
+        hide_index=True, width="stretch")
     st.caption("XI data quality = players in the fixture's two expected XIs "
                "whose identity is not yet resolved to a cricsheet registry ID "
                "in the player master; their priors carry wider uncertainty.")
@@ -150,7 +150,7 @@ def render_match_predictions():
     # binary precision (e.g. elo_diff -0.32497301929533023) in the table.
     for _col in drv.select_dtypes(include="float").columns:
         drv[_col] = drv[_col].round(3)
-    st.dataframe(drv, hide_index=True, use_container_width=True)
+    st.dataframe(drv, hide_index=True, width="stretch")
 
     # --- Shadow simulator (Phase 2, A1): locked, scored separately,
     # never the headline. Shown distinctly from the champion P1s above.
@@ -175,7 +175,7 @@ def render_match_predictions():
                  "Simulator favourite"]].rename(columns={
                      "match_date": "Date", "team_1_name": "Team 1",
                      "team_2_name": "Team 2", "p_team_1_win": "Sim P(Team 1 win)"}),
-            hide_index=True, use_container_width=True)
+            hide_index=True, width="stretch")
 
     # --- Three systems, scored separately (review fix R2d) ----------------
     # Pre-match, toss-adjusted and in-play are different prediction tasks;
@@ -192,7 +192,7 @@ def render_match_predictions():
     else:
         p1 = None
     if p1 is not None and len(p1):
-        st.dataframe(p1, hide_index=True, use_container_width=True)
+        st.dataframe(p1, hide_index=True, width="stretch")
     else:
         st.info("No Season 3 results have landed yet, so no locked pre-match "
                 "prediction has been scored. Season 2 walk-forward backtest: "
@@ -213,7 +213,7 @@ def render_match_predictions():
     else:
         p2 = None
     if p2 is not None and len(p2):
-        st.dataframe(p2, hide_index=True, use_container_width=True)
+        st.dataframe(p2, hide_index=True, width="stretch")
     else:
         st.info("No toss-adjusted (P2) predictions have been locked and scored "
                 "yet. P2 locks on matchdays, after the toss, via "
