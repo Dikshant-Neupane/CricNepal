@@ -101,6 +101,26 @@ elif active_page == "win_probability":
     from src.dashboard.page_modules.win_probability import render_win_probability
     render_win_probability()
 
+elif active_page == "phase_analysis":
+    from src.dashboard.page_modules.phase_analysis import render_phase_analysis
+    render_phase_analysis()
+
+elif active_page == "player_archetypes":
+    from src.dashboard.page_modules.player_archetypes import render_player_archetypes
+    render_player_archetypes()
+
+elif active_page == "player_profiles":
+    from src.dashboard.page_modules.player_profiles import render_player_profiles
+    render_player_profiles()
+
+elif active_page == "settings":
+    from src.dashboard.page_modules.settings_page import render_settings
+    render_settings()
+
+elif active_page == "support":
+    from src.dashboard.page_modules.support_page import render_support
+    render_support()
+
 #  Coming Soon Stubs 
 else:
     LABELS = {
