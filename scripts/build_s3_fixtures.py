@@ -1,18 +1,34 @@
 #!/usr/bin/env python
 """Build data/fixtures/s3_fixtures.csv — NPL Season 3 schedule.
 
-Sources (accessed 2026-10-24):
+Sources (pairings/dates accessed 2026-10-24):
 - League-stage pairings/dates/match numbers: nepinsights.com fixture list,
   which reproduces the Cricket Association of Nepal (CAN) fixture graphic,
   cross-checked against ipl.com's NPL 2026 schedule (identical pairings and
-  dates for every league match) and cricketer.io's schedule (same pairings;
-  its match ordering within double-header days differs in places, and its
-  start times conflict with the revised CAN timings reported by
-  nepalontheweb.com, so NO start times are recorded here).
+  dates for every league match). Within a double-header day, the order
+  below is the CAN fixture-graphic order (first listed = day match).
 - Playoff dates/stages: nepalontheweb.com report of CAN's revised schedule
   (Qualifier 1 Nov 17, Eliminator Nov 18, Qualifier 2 Nov 19, Final Nov 21).
   Playoff teams are not known until the league stage ends -> team fields
   are null and verification_status flags that.
+
+Start times (added 2026-10-24, review fix R1):
+- CAN revised the match timings on 2026-10-20 when Hawk-Eye DRS was
+  introduced: the evening start moved from 16:30 to 17:00. The revised
+  rule, as reported from CAN's press statement by nepalontheweb.com
+  ("NPL Season 3 to feature Hawk-Eye DRS, revised schedule announced",
+  published 2026-10-20) and english.khabarhub.com ("DRS to be used in
+  all NPL matches; schedule revised", 2026-10-20) -- both pages opened
+  and read on 2026-10-24 -- is: on double-header days the first match
+  starts 12:30 and the second 17:00; on single-match days the match
+  starts 17:00. Playoff days are single-match days, so playoffs are
+  17:00 under the same rule. This supersedes the earlier conflicting
+  listings (revised CAN graphic 12:30/17:00 vs cricketer.io 12:15/16:15)
+  that previously forced start_time_local to be left blank.
+- Every fixture therefore carries a verified slot time, a per-row
+  start_time_source and start_time_accessed timestamp. Any future row
+  whose slot cannot be verified must stay blank with the reason in
+  start_time_verification -- never guessed.
 
 Team names use the repo/cricsheet canonical forms -- note several
 schedule sources spell Kathmandu's team "Gurkhas"; the canonical name in
@@ -24,6 +40,7 @@ convention. Venue is TU International Cricket Ground, Kirtipur for all
 matches (CAN announcement via nepalontheweb.com).
 """
 import csv
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -32,6 +49,13 @@ VENUE = "Tribhuvan University International Cricket Ground"
 SRC_LEAGUE = ("nepinsights.com (CAN fixture graphic) cross-checked "
               "ipl.com NPL 2026 schedule")
 SRC_PLAYOFF = "nepalontheweb.com (CAN revised schedule announcement)"
+SRC_TIME = ("CAN revised timings announced 2026-10-20 (evening start moved "
+            "16:30 -> 17:00 for DRS): double-header days 12:30 + 17:00, "
+            "single-match days 17:00 — reported by nepalontheweb.com and "
+            "english.khabarhub.com from CAN's press statement")
+TIME_ACCESSED = "2026-10-24"
+DAY_START = "12:30"     # first match on a double-header day
+EVENING_START = "17:00"  # second match on double-header days; all single-match days
 
 # (match_number, date, team_a, team_b) — league stage, CAN graphic order
 LEAGUE = [
@@ -74,35 +98,67 @@ PLAYOFFS = [
 
 FIELDS = ["match_id", "season", "match_number", "match_date", "stage",
           "team_1_name", "team_2_name", "venue_name", "city",
-          "start_time_local", "source", "verification_status"]
+          "start_time_local", "source", "verification_status",
+          "start_time_source", "start_time_accessed",
+          "start_time_verification"]
+
+
+def slot_times(dates_in_order):
+    """Assign CAN revised slot times for one day's matches, in fixture
+    order: a single match -> 17:00; a double-header -> 12:30 then 17:00.
+    Returns a list parallel to the input ('' if a slot is not covered
+    by the verified rule)."""
+    n = len(dates_in_order)
+    if n == 1:
+        return [EVENING_START]
+    if n == 2:
+        return [DAY_START, EVENING_START]
+    return [""] * n  # no verified rule for 3+ matches in a day: leave blank
 
 
 def main():
+    league_by_date = {}
+    for num, d, a, b in LEAGUE:
+        league_by_date.setdefault(d, []).append((num, a, b))
+    times = {}
+    for d, ms in league_by_date.items():
+        for (num, _a, _b), t in zip(ms, slot_times(ms)):
+            times[num] = t
     rows = []
     for num, d, a, b in LEAGUE:
         t1, t2 = sorted([a, b])
+        t = times[num]
         rows.append({
             "match_id": f"s3_2026_{num:02d}", "season": "S3",
             "match_number": num, "match_date": d, "stage": "League",
             "team_1_name": t1, "team_2_name": t2, "venue_name": VENUE,
-            "city": "Kirtipur", "start_time_local": "",
+            "city": "Kirtipur", "start_time_local": t,
             "source": SRC_LEAGUE, "verification_status": "VERIFIED_TWO_SOURCES",
+            "start_time_source": SRC_TIME if t else "",
+            "start_time_accessed": TIME_ACCESSED if t else "",
+            "start_time_verification": (
+                "VERIFIED_SLOT_RULE" if t else
+                "UNVERIFIED: slot not covered by the CAN revised-timing rule"),
         })
     for num, d, stage in PLAYOFFS:
         rows.append({
             "match_id": f"s3_2026_{num:02d}", "season": "S3",
             "match_number": num, "match_date": d, "stage": stage,
             "team_1_name": "", "team_2_name": "", "venue_name": VENUE,
-            "city": "Kirtipur", "start_time_local": "",
+            "city": "Kirtipur", "start_time_local": EVENING_START,
             "source": SRC_PLAYOFF,
             "verification_status": "DATE_VERIFIED_TEAMS_TBA",
+            "start_time_source": SRC_TIME,
+            "start_time_accessed": TIME_ACCESSED,
+            "start_time_verification": "VERIFIED_SLOT_RULE_SINGLE_MATCH_DAY",
         })
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with OUT.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS)
         w.writeheader()
         w.writerows(rows)
-    print(f"Wrote {len(rows)} fixtures to {OUT}")
+    filled = sum(1 for r in rows if r["start_time_local"])
+    print(f"Wrote {len(rows)} fixtures to {OUT} ({filled} with verified start times)")
 
 
 if __name__ == "__main__":
