@@ -52,6 +52,44 @@ def test_hub_lock_stage_is_preseason_until_matchday_locks_exist():
     assert (league.champion == league.champion_preseason).all()
 
 
+def test_hub_survives_missing_results_parquet(tmp_path, monkeypatch):
+    """Regression guard for the 2026-10-24 live outage: the normalized
+    matches parquet existed locally but was not tracked in git, so the
+    deployed hub crashed with FileNotFoundError. The loader must now
+    degrade (no results) instead of raising."""
+    import shutil
+    from pathlib import Path
+
+    import src.dashboard.page_modules.season3_hub as hub
+
+    root = Path(hub.ROOT)
+    for rel in hub.HUB_DATA_FILES:
+        if rel.endswith("matches_normalized.parquet"):
+            continue
+        dest = tmp_path / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(root / rel, dest)
+    data = hub.load_season3(tmp_path)
+    assert data["matches_available"] is False
+    assert data["results"] == {}
+    assert len(data["fixtures"]) == 32
+
+
+def test_hub_data_files_are_git_tracked():
+    """Every file the hub reads must be in the git index — the deployed
+    app clones the repo, so a local-only file is a live outage."""
+    import subprocess
+    from pathlib import Path
+
+    import src.dashboard.page_modules.season3_hub as hub
+
+    root = Path(hub.ROOT)
+    for rel in hub.HUB_DATA_FILES:
+        out = subprocess.run(["git", "ls-files", "--error-unmatch", rel],
+                             cwd=root, capture_output=True, text=True)
+        assert out.returncode == 0, f"{rel} is not tracked in git"
+
+
 def test_showcase_nav_freezes_analytics_pages():
     from src.dashboard.config.nav_config import FROZEN_NAV_ITEMS, NAV_ITEMS
 

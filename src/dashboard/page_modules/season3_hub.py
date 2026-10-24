@@ -33,17 +33,27 @@ def _orient(p, series_team_1, fixture_team_1):
     return p if series_team_1 == fixture_team_1 else 1.0 - p
 
 
+# Every file load_season3 reads. All of them must be tracked in git —
+# the deployed app clones the repo, and a file that exists only locally
+# (data/ is gitignored; these are force-added) crashes the live page.
+# Guarded by test_hub_data_files_are_git_tracked.
+HUB_DATA_FILES = [
+    "data/fixtures/s3_fixtures.csv",
+    "data/predictions/frozen_log.csv",
+    "data/predictions/simulator_preseason.csv",
+    "data/predictions/coach_shadow.csv",
+    "data/fixtures/s3_coaches.csv",
+    "data/normalized/matches_normalized.parquet",
+    "data/predictions/player_master.csv",
+    "data/predictions/player_priors.csv",
+]
+
+
 def _data_mtimes(root: Path):
     """Cache key: the locked artefacts' mtimes. The hub re-reads its
     files only when one of them actually changes (a lock, a result)."""
-    rels = ["data/fixtures/s3_fixtures.csv", "data/predictions/frozen_log.csv",
-            "data/predictions/upcoming_predictions.csv",
-            "data/predictions/coach_shadow.csv", "data/fixtures/s3_coaches.csv",
-            "data/normalized/matches_normalized.parquet",
-            "data/player_profiles/player_master.csv",
-            "data/player_profiles/enriched_players_20260521.csv"]
     return tuple((r, (root / r).stat().st_mtime_ns if (root / r).exists() else 0)
-                 for r in rels)
+                 for r in HUB_DATA_FILES)
 
 
 @st.cache_data(show_spinner=False)
@@ -68,7 +78,14 @@ def load_season3(root: Path = ROOT) -> dict:
     sim = pd.read_csv(root / "data" / "predictions" / "simulator_preseason.csv").set_index("match_id")
     coach = pd.read_csv(root / "data" / "predictions" / "coach_shadow.csv").set_index("match_id")
 
-    matches = pd.read_parquet(root / "data" / "normalized" / "matches_normalized.parquet")
+    # Results source. If it is ever unavailable the hub must degrade —
+    # fixtures and locked predictions still render — never crash.
+    matches_path = root / "data" / "normalized" / "matches_normalized.parquet"
+    matches_available = matches_path.exists()
+    if matches_available:
+        matches = pd.read_parquet(matches_path)
+    else:
+        matches = pd.DataFrame({"season": [], "match_id": [], "winner_name": []})
     s3 = matches[matches.season == "S3"] if "season" in matches.columns else matches.iloc[0:0]
     results = {}
     for r in s3.itertuples():
@@ -132,7 +149,7 @@ def load_season3(root: Path = ROOT) -> dict:
         on="player_key", how="left")
     return {"fixtures": table, "scorecard": scorecard,
             "next_match": next_match, "coaches": coaches, "squads": squads,
-            "results": results}
+            "results": results, "matches_available": matches_available}
 
 
 def compute_standings(fixtures: pd.DataFrame, teams: list[str]) -> pd.DataFrame:
@@ -161,6 +178,10 @@ def render_season3_hub():
     data = _load_season3_cached(str(ROOT), _data_mtimes(ROOT))
     fx, sc = data["fixtures"], data["scorecard"]
     teams = sorted(data["coaches"].team)
+    if not data.get("matches_available", True):
+        st.warning("Match-results data is temporarily unavailable — standings and the "
+                   "forecast scorecard will populate once it is restored. Fixtures and "
+                   "locked predictions are unaffected.")
 
     st.markdown(
         """
