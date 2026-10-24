@@ -132,7 +132,14 @@ def _analyze_priority_gaps(form_table: pd.DataFrame) -> list[dict[str, str]]:
             gaps.append({
                 "status": status,
                 "role": role,
-                "current": f"{stable_or_better}/{targets['min_stable']}",
+                # Label both numbers: coverage counts only in-form/stable
+                # players, while the recommendation counts everyone present.
+                # Shown bare ("0/2" next to "1 player present") they read
+                # as a contradiction.
+                "current": (
+                    f"{stable_or_better}/{targets['min_stable']} in form or stable"
+                    f" ({total} present)"
+                ),
                 "recommendation": recommendation,
             })
     
@@ -355,6 +362,11 @@ def _render_form_ranking_tab() -> None:
                 """,
                 unsafe_allow_html=True,
             )
+    st.caption(
+        "Players Ranked counts only players with enough recent matches to "
+        "score form on; the full recruiting shortlist (Shortlist tab) is "
+        "larger. The two numbers measure different sets."
+    )
 
     render_spacer(20)
     
