@@ -2,7 +2,7 @@ player_key,canonical_name,cricsheet_registry_id,registry_id_matched_name,registr
 player_andre_russell,Andre Russell,bbd41817,AD Russell,initials_surname_unique,Biratnagar Kings,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
 player_aprajit_poudel,Aprajit Poudel,,,,Biratnagar Kings,Bowler,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
 player_basir_ahamad,Basir Ahamad,218c7eab,Basir Ahamad,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Medium Pace,,2001-05-15,25.4,Afghanistan,True,single-form,
-player_charith_asalanka,Charith Asalanka,,,,Biratnagar Kings,Batter,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
+player_charith_asalanka,Charith Asalanka,732c038e,KIC Asalanka,initials_surname_unique,Biratnagar Kings,Batter,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
 player_dilsad_ali,Dilsad Ali,,,,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
 player_imran_sheikh,Imran Sheikh,97fd166d,Imran Sheikh,exact,Biratnagar Kings,Batter,s3_roster.playing_role,Right,,,,,Nepal,False,single-form,bowling_type;date_of_birth
 player_jishan_alam,Jishan Alam,86e22dd4,Jishan Alam,exact,Biratnagar Kings,Batter,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
@@ -76,7 +76,7 @@ player_krishna_paudel,Krishna Paudel,,,,Kathmandu Gorkhas,Bowler,s3_roster.playi
 player_mohammad_aadil_alam,Mohammad Aadil Alam,70ced7f2,Mohammad Aadil Alam,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,,,,,Nepal,False,single-form,bowling_type;date_of_birth
 player_prashiddha_jaisi,Prashiddha Jaisi,,,,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
 player_rashid_khan,Rashid Khan,5f547c8b,Rashid Khan,exact,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Pace,,1998-09-20,28.1,Afghanistan,True,single-form,
-player_sahan_arachchige,Sahan Arachchige,,,,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
+player_sahan_arachchige,Sahan Arachchige,c05f9d20,SSD Arachchige,initials_surname_unique,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
 player_s_patel,Sahil Patel,c4ee6c06,S Patel,exact,Kathmandu Gorkhas,Wicketkeeper,s3_roster.playing_role,,,,,,Nepal,False,confirmed,batting_hand;bowling_type;date_of_birth
 player_santosh_yadav,Santosh Yadav,ef342bdb,Santosh Yadav,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,,2002-11-06,24.0,Nepal,False,single-form,
 player_shahab_alam,Shahab Alam,cdd9fa95,Shahab Alam,exact,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Spin,,1997-12-28,28.8,Nepal,False,single-form,

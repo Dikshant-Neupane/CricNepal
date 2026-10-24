@@ -11,6 +11,21 @@ import plotly.graph_objects as go
 
 from src.dashboard.services.data_loaders import load_export_csv, load_matches_normalized
 
+# Labelling (review S15 fix, G5): WPA here is an exploratory,
+# descriptive statistic, and the page must say so where the numbers
+# are shown.
+WPA_NOTE = (
+    "Exploratory historical estimates: the win probabilities and WPA "
+    "figures on this page come from the in-play model, which uses "
+    "match state only (score, wickets, legal balls remaining, "
+    "target) — no team, player or Elo inputs. Treat the curves and "
+    "the WPA leaderboard as descriptive analysis of matches already "
+    "played, not as validated player ratings. The in-play model's "
+    "validated out-of-sample evaluation (trained on Season 1 only, "
+    "scored on Season 2 deliveries) is reported on the Match "
+    "Predictions page."
+)
+
 @st.cache_data(ttl=600, show_spinner=False)
 def load_wpa_data():
     """Load pre-computed WPA datasets."""
@@ -33,7 +48,8 @@ def render_win_probability():
         """,
         unsafe_allow_html=True,
     )
-    
+    st.info(WPA_NOTE)
+
     delivery_df, leaderboard_df, matches_df = load_wpa_data()
     
     if delivery_df is None or leaderboard_df is None or matches_df is None:

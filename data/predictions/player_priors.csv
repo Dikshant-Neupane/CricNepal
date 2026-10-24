@@ -2,7 +2,7 @@ player_key,canonical_name,team,role,cricsheet_registry_id,history_competitions,b
 player_andre_russell,Andre Russell,Biratnagar Kings,All-rounder,bbd41817,BPL;CPL;ILT20;IPL;MLC;SA20;T20I,656.2,1096.8,1.3321,7.892,1.1356,0.892,1.0713,7.051,22.6,286.5,1.1597,7.334,289.1,440.1,1.5719,9.173,344.5,370.2,external_pro,0.4211
 player_aprajit_poudel,Aprajit Poudel,Biratnagar Kings,Bowler,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
 player_basir_ahamad,Basir Ahamad,Biratnagar Kings,All-rounder,218c7eab,NPL;T20I,221.6,125.7,1.2234,7.087,1.0429,0.9933,1.059,6.153,19.2,44.3,1.1101,6.759,148.1,49.2,1.5378,8.927,54.4,32.2,npl_experienced,0.5492
-player_charith_asalanka,Charith Asalanka,Biratnagar Kings,Batter,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_charith_asalanka,Charith Asalanka,Biratnagar Kings,Batter,732c038e,CPL;ILT20;LPL;PSL;T20I,700.7,214.9,1.2237,7.196,1.0432,0.9783,1.0733,6.671,141.8,52.4,1.1551,6.648,407.7,141.8,1.5265,9.126,151.1,20.6,external_pro,0.5628
 player_dilsad_ali,Dilsad Ali,Biratnagar Kings,Wicketkeeper,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
 player_imran_sheikh,Imran Sheikh,Biratnagar Kings,Batter,97fd166d,NPL,21.3,0.0,1.1555,7.04,0.985,0.9999,1.0496,6.452,7.3,0.0,1.1355,6.726,14.0,0.0,1.4373,8.628,0.0,0.0,npl_experienced,0.9359
 player_jishan_alam,Jishan Alam,Biratnagar Kings,Batter,86e22dd4,BPL,45.2,68.5,1.1716,7.131,0.9987,0.9872,1.0777,6.57,32.9,39.5,1.1343,6.709,12.2,23.7,1.4373,8.775,0.0,5.4,external_pro,1.1313
@@ -76,7 +76,7 @@ player_krishna_paudel,Krishna Paudel,Kathmandu Gorkhas,Bowler,,,0.0,0.0,1.1731,7
 player_mohammad_aadil_alam,Mohammad Aadil Alam,Kathmandu Gorkhas,All-rounder,70ced7f2,NPL;T20I,57.9,33.3,1.246,7.464,1.0622,0.9431,1.0741,6.452,0.0,0.0,1.123,7.278,25.9,29.7,1.4866,8.516,32.0,3.7,npl_experienced,0.7885
 player_prashiddha_jaisi,Prashiddha Jaisi,Kathmandu Gorkhas,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
 player_rashid_khan,Rashid Khan,Kathmandu Gorkhas,Bowler,5f547c8b,ILT20;IPL;MLC;SA20,128.0,846.5,1.1761,6.629,1.0026,1.0619,1.0741,5.9,0.0,65.5,1.0919,6.432,46.3,650.2,1.4212,8.902,81.7,130.8,external_pro,0.5479
-player_sahan_arachchige,Sahan Arachchige,Kathmandu Gorkhas,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
+player_sahan_arachchige,Sahan Arachchige,Kathmandu Gorkhas,All-rounder,c05f9d20,LPL;T20I,226.4,54.9,1.1351,7.149,0.9676,0.9847,1.0699,6.805,18.2,7.9,1.0204,6.636,147.0,42.0,1.5156,8.621,61.2,5.0,external_pro,0.8846
 player_s_patel,Sahil Patel,Kathmandu Gorkhas,Wicketkeeper,c4ee6c06,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
 player_santosh_yadav,Santosh Yadav,Kathmandu Gorkhas,All-rounder,ef342bdb,NPL;T20I,43.9,71.6,1.1728,6.926,0.9998,1.0164,1.0646,6.437,1.9,4.0,1.123,6.455,26.8,55.8,1.4291,8.841,15.2,11.9,npl_experienced,0.7517
 player_shahab_alam,Shahab Alam,Kathmandu Gorkhas,Bowler,cdd9fa95,NPL;T20I,21.7,228.0,1.102,6.513,0.9394,1.0808,1.0741,6.151,0.0,63.1,1.1118,6.51,1.7,128.2,1.3441,8.263,20.0,36.7,npl_experienced,0.6126
