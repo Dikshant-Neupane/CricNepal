@@ -24,7 +24,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from src.prediction import elo as E, model as M, priors as P  # noqa: E402
-from src.prediction.metrics import score_all  # noqa: E402
+from src.prediction.metrics import coin_baseline_metrics, score_all  # noqa: E402
 
 ZIP_DIR = Path(os.environ.get("CRICSHEET_ZIP_DIR", ROOT.parent / ".scratch" / "predbuild"))
 
@@ -105,7 +105,11 @@ def main():
     metrics = {
         "champion_blend": score_all(test["p_blend"], y),
         "challenger_logistic_raw": score_all(test["p_raw"], y),
-        "baseline_coin": score_all(np.full(len(y), 0.5), y),
+        # Coin baseline is definitional (LL=ln2, Brier=0.25, accuracy
+        # null) -- F2 audit: score_all on p=0.5 used to emit a spurious
+        # "accuracy" of 0.34375, which was just the S2 team_1 win share
+        # under the p>=0.5 tie rule. Never compute it again.
+        "baseline_coin": coin_baseline_metrics(len(y)),
         "baseline_higher_elo": score_all(test["p_elo"], y),
         "baseline_chase_heuristic": score_all(test["p_chase"], y),
         "platt_on_logistic_oos": platt, "n_test": int(len(y)),
@@ -130,7 +134,8 @@ def main():
     (out / "model_v1.json").write_text(json.dumps(final, indent=1))
     for k, v in metrics.items():
         if isinstance(v, dict) and "accuracy" in v:
-            print(f"{k:28s} acc={v['accuracy']:.3f} logloss={v['log_loss']:.4f} brier={v['brier']:.4f} n={v['n']}")
+            acc = "  n/a" if v["accuracy"] is None else f"{v['accuracy']:.3f}"
+            print(f"{k:28s} acc={acc} logloss={v['log_loss']:.4f} brier={v['brier']:.4f} n={v['n']}")
     print("platt (diagnostic only):", platt)
 
 

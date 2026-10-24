@@ -1,0 +1,455 @@
+{
+ "finding": "elo_parameter_selection_on_s2_test_set",
+ "chosen_constants": {
+  "k": 20.0,
+  "season_regression": 0.4
+ },
+ "provenance": {
+  "grid_code": "src/prediction/elo.py: tune_walk_forward(); restricted grid invoked by scripts/build_team_ratings.py (ks=range(20,33,4), regressions=(0.25,0.33,0.40))",
+  "grid_scored_on": "Season 2 walk-forward log-loss (pre-match ratings only), n=32 -- the same S2 set reported as the backtest evaluation in backtest_metrics.json",
+  "saved_surface_file": "data/predictions/elo_tuning.csv",
+  "restricted_grid_recomputed": [
+   {
+    "k": 20.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.688848301118256,
+    "saved_log_loss": 0.688848301118256,
+    "reproduces_saved": true
+   },
+   {
+    "k": 24.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.6889186377164151,
+    "saved_log_loss": 0.6889186377164151,
+    "reproduces_saved": true
+   },
+   {
+    "k": 28.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.6891316437541337,
+    "saved_log_loss": 0.6891316437541337,
+    "reproduces_saved": true
+   },
+   {
+    "k": 32.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.6894532370125347,
+    "saved_log_loss": 0.6894532370125347,
+    "reproduces_saved": true
+   },
+   {
+    "k": 20.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6899586675698842,
+    "saved_log_loss": 0.6899586675698842,
+    "reproduces_saved": true
+   },
+   {
+    "k": 24.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6903127216071172,
+    "saved_log_loss": 0.6903127216071172,
+    "reproduces_saved": true
+   },
+   {
+    "k": 28.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6908025635474662,
+    "saved_log_loss": 0.6908025635474662,
+    "reproduces_saved": true
+   },
+   {
+    "k": 20.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.6913332274920447,
+    "saved_log_loss": 0.6913332274920447,
+    "reproduces_saved": true
+   },
+   {
+    "k": 32.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6913892647373412,
+    "saved_log_loss": 0.6913892647373412,
+    "reproduces_saved": true
+   },
+   {
+    "k": 24.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.692043392163332,
+    "saved_log_loss": 0.692043392163332,
+    "reproduces_saved": true
+   },
+   {
+    "k": 28.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.692881875883694,
+    "saved_log_loss": 0.692881875883694,
+    "reproduces_saved": true
+   },
+   {
+    "k": 32.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.6938035900357878,
+    "saved_log_loss": 0.6938035900357878,
+    "reproduces_saved": true
+   }
+  ],
+  "restricted_grid_argmin": {
+   "k": 20.0,
+   "season_regression": 0.4,
+   "n": 32,
+   "walk_forward_log_loss": 0.688848301118256,
+   "saved_log_loss": 0.688848301118256,
+   "reproduces_saved": true
+  },
+  "restricted_grid_range": 0.00495528891753183
+ },
+ "s2_full_grid": {
+  "ks": [
+   16.0,
+   20.0,
+   24.0,
+   28.0,
+   32.0,
+   36.0,
+   40.0
+  ],
+  "regressions": [
+   0.0,
+   0.25,
+   0.33,
+   0.4,
+   0.5
+  ],
+  "surface": [
+   {
+    "k": 16.0,
+    "season_regression": 0.0,
+    "n": 32,
+    "walk_forward_log_loss": 0.6945199893548861
+   },
+   {
+    "k": 16.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.6908172960101873
+   },
+   {
+    "k": 16.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6897968752263781
+   },
+   {
+    "k": 16.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.6889696248234618
+   },
+   {
+    "k": 16.0,
+    "season_regression": 0.5,
+    "n": 32,
+    "walk_forward_log_loss": 0.687894259359338
+   },
+   {
+    "k": 20.0,
+    "season_regression": 0.0,
+    "n": 32,
+    "walk_forward_log_loss": 0.6963518592737454
+   },
+   {
+    "k": 20.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.6913332274920447
+   },
+   {
+    "k": 20.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6899586675698842
+   },
+   {
+    "k": 20.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.688848301118256
+   },
+   {
+    "k": 20.0,
+    "season_regression": 0.5,
+    "n": 32,
+    "walk_forward_log_loss": 0.6874119010254355
+   },
+   {
+    "k": 24.0,
+    "season_regression": 0.0,
+    "n": 32,
+    "walk_forward_log_loss": 0.6983931130424833
+   },
+   {
+    "k": 24.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.692043392163332
+   },
+   {
+    "k": 24.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6903127216071172
+   },
+   {
+    "k": 24.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.6889186377164151
+   },
+   {
+    "k": 24.0,
+    "season_regression": 0.5,
+    "n": 32,
+    "walk_forward_log_loss": 0.6871221361966624
+   },
+   {
+    "k": 28.0,
+    "season_regression": 0.0,
+    "n": 32,
+    "walk_forward_log_loss": 0.7005424537274623
+   },
+   {
+    "k": 28.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.692881875883694
+   },
+   {
+    "k": 28.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6908025635474662
+   },
+   {
+    "k": 28.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.6891316437541337
+   },
+   {
+    "k": 28.0,
+    "season_regression": 0.5,
+    "n": 32,
+    "walk_forward_log_loss": 0.6869853771777026
+   },
+   {
+    "k": 32.0,
+    "season_regression": 0.0,
+    "n": 32,
+    "walk_forward_log_loss": 0.7027314334695796
+   },
+   {
+    "k": 32.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.6938035900357878
+   },
+   {
+    "k": 32.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6913892647373412
+   },
+   {
+    "k": 32.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.6894532370125347
+   },
+   {
+    "k": 32.0,
+    "season_regression": 0.5,
+    "n": 32,
+    "walk_forward_log_loss": 0.6869735653698084
+   },
+   {
+    "k": 36.0,
+    "season_regression": 0.0,
+    "n": 32,
+    "walk_forward_log_loss": 0.7049158602403294
+   },
+   {
+    "k": 36.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.6947790366292953
+   },
+   {
+    "k": 36.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6920471021660204
+   },
+   {
+    "k": 36.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.6898606175472626
+   },
+   {
+    "k": 36.0,
+    "season_regression": 0.5,
+    "n": 32,
+    "walk_forward_log_loss": 0.6870674508675072
+   },
+   {
+    "k": 40.0,
+    "season_regression": 0.0,
+    "n": 32,
+    "walk_forward_log_loss": 0.7070692464808028
+   },
+   {
+    "k": 40.0,
+    "season_regression": 0.25,
+    "n": 32,
+    "walk_forward_log_loss": 0.6957902272037508
+   },
+   {
+    "k": 40.0,
+    "season_regression": 0.33,
+    "n": 32,
+    "walk_forward_log_loss": 0.6927601493389386
+   },
+   {
+    "k": 40.0,
+    "season_regression": 0.4,
+    "n": 32,
+    "walk_forward_log_loss": 0.6903393984515125
+   },
+   {
+    "k": 40.0,
+    "season_regression": 0.5,
+    "n": 32,
+    "walk_forward_log_loss": 0.6872544158067438
+   }
+  ],
+  "ll_at_chosen_20_0.40": 0.688848301118256,
+  "argmin": {
+   "k": 32.0,
+   "season_regression": 0.5,
+   "n": 32,
+   "walk_forward_log_loss": 0.6869735653698084
+  },
+  "ll_range_max_minus_min": 0.020095681110994468,
+  "chosen_minus_argmin": 0.0018747357484476534,
+  "selection_bound": 0.00495528891753183,
+  "selection_bound_outer_full_grid_range": 0.020095681110994468,
+  "bound_definition": "Maximum plausible optimism from selection: the range (max - min log-loss) of the grid that was actually searched at build time (the restricted grid saved in elo_tuning.csv). The chosen cell is that grid's argmin, so no selection within the searched grid could have flattered the reported S2 number by more than this range. The wider default grid's range is kept as a conservative outer envelope."
+ },
+ "s1_only_selection": {
+  "method": "Walk-forward within Season 1 only: ratings evolve through S1 with each candidate K; every S1 match is scored with its pre-match ratings. Regression is not involved (single-season frame).",
+  "table": [
+   {
+    "k": 16.0,
+    "n": 32,
+    "s1_walk_forward_log_loss": 0.6856884128357874
+   },
+   {
+    "k": 20.0,
+    "n": 32,
+    "s1_walk_forward_log_loss": 0.6849285267038272
+   },
+   {
+    "k": 24.0,
+    "n": 32,
+    "s1_walk_forward_log_loss": 0.684555297532673
+   },
+   {
+    "k": 28.0,
+    "n": 32,
+    "s1_walk_forward_log_loss": 0.6845435639634352
+   },
+   {
+    "k": 32.0,
+    "n": 32,
+    "s1_walk_forward_log_loss": 0.6848696953761771
+   },
+   {
+    "k": 36.0,
+    "n": 32,
+    "s1_walk_forward_log_loss": 0.6855116097490692
+   },
+   {
+    "k": 40.0,
+    "n": 32,
+    "s1_walk_forward_log_loss": 0.6864487639656908
+   }
+  ],
+  "chosen_k": 28.0,
+  "s2_log_loss_at_s1_k_reg_0.40": 0.6891316437541337,
+  "s2_log_loss_at_20_0.40": 0.688848301118256,
+  "difference_s1k_minus_chosen_on_s2": 0.0002833426358777036,
+  "branch": "within_0.002_or_better"
+ },
+ "regression_sensitivity_s2_at_k20": {
+  "slice": [
+   {
+    "season_regression": 0.0,
+    "k": 20.0,
+    "s2_walk_forward_log_loss": 0.6963518592737454
+   },
+   {
+    "season_regression": 0.1,
+    "k": 20.0,
+    "s2_walk_forward_log_loss": 0.6942132363343199
+   },
+   {
+    "season_regression": 0.2,
+    "k": 20.0,
+    "s2_walk_forward_log_loss": 0.6922494138522066
+   },
+   {
+    "season_regression": 0.25,
+    "k": 20.0,
+    "s2_walk_forward_log_loss": 0.6913332274920447
+   },
+   {
+    "season_regression": 0.33,
+    "k": 20.0,
+    "s2_walk_forward_log_loss": 0.6899586675698842
+   },
+   {
+    "season_regression": 0.4,
+    "k": 20.0,
+    "s2_walk_forward_log_loss": 0.688848301118256
+   },
+   {
+    "season_regression": 0.5,
+    "k": 20.0,
+    "s2_walk_forward_log_loss": 0.6874119010254355
+   }
+  ],
+  "range": 0.008939958248309954,
+  "note": "The between-season regression cannot be validated within one season, so 0.40 is NOT a clean selection: it rests on the research prior (regress 25-40% toward the mean between seasons) and is merely consistent with this S2 slice. Any future selection must be nested (select on earlier seasons only)."
+ },
+ "decision": {
+  "action": "keep (K=20, season_regression=0.40) for Season 3",
+  "rule": "Pre-committed in Pre-registration Amendment #3: keep the shipped constants under either branch -- if the S1-only K is worse on S2 by >0.002, the shipped pair stands on the bounded-bias argument; if within 0.002 or better, switching mid-protocol for a within-noise difference is worse than the bounded bias.",
+  "branch_taken": "within_0.002_or_better",
+  "standing_rule": "Future parameter selection must be nested: select on earlier seasons only, never on the season being reported as the evaluation.",
+  "effect_on_s3_frozen_log": "None. S3 parameters were fixed before Match 1; the contamination is in the historical S2 evaluation claim, not in the prospective S3 test.",
+  "interpretation": "S2 backtest log-loss figures for Elo-family models are mildly optimistic by at most the measured selection bound (the range of the grid actually searched, 0.0050; outer envelope over the wider default grid: 0.0201). Treat 0.6888 as 'no better than about 0.6938 once selection is accounted for' -- i.e. even Elo's apparent edge over the coin flip (0.6931) is within the selection bound. Still indistinguishable from the champion blend."
+ }
+}

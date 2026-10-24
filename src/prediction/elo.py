@@ -13,9 +13,14 @@ Design (docs/PREDICTION_SYSTEM.md; research report 2026-10-24):
 - update R += K * MOV * (actual - expected), MOV capped at MOV_CAP
 - between seasons every rating regresses toward 1500 by `season_regression`
   (fraction of the deviation from 1500 that is removed).
-- K and season_regression are tuned by walk-forward log-loss: ratings run
-  through Season 1, regress at the boundary, then every Season 2 match is
-  predicted with its pre-match ratings before being updated.
+- K and season_regression were selected by walk-forward log-loss:
+  ratings run through Season 1, regress at the boundary, then every
+  Season 2 match is predicted with its pre-match ratings before being
+  updated. NOTE (F1 audit, 2026-10-24): that selection reused the S2
+  set that is also reported as the backtest -- selection-on-test. The
+  bias is bounded (<=0.0050 log-loss over the grid actually searched)
+  and recorded in Pre-registration Amendment #3 and
+  data/predictions/elo_selection_audit.json.
 """
 from __future__ import annotations
 
@@ -25,10 +30,18 @@ import pandas as pd
 from .metrics import log_loss
 
 INITIAL_ELO = 1500.0
-# Tuned 2026-10-24 by tune_walk_forward() on S1->S2 within the research
-# ranges (K 20-32, regression 0.25-0.40). The surface is FLAT: walk-forward
-# log-loss spans only 0.6888-0.6938 across the whole grid (coin flip =
-# 0.6931), so these values are a principled choice, not a discovered edge.
+# Selected 2026-10-24 by tune_walk_forward() on S1->S2 within the
+# research ranges (K 20-32, regression 0.25-0.40); these values are the
+# restricted grid's argmin (grid saved in data/predictions/elo_tuning.csv).
+# PROVENANCE (F1 audit): the grid was scored on Season 2, the same set
+# reported as the backtest -- selection-on-test. The restricted-grid
+# surface is FLAT (log-loss range 0.0050; coin flip = 0.6931), so the
+# reported Elo log-loss is mildly optimistic by at most that bound.
+# Clean reselection within S1 alone picks K=28 (S2 log-loss within
+# 0.0003 of these constants); (20, 0.40) is kept for Season 3 per
+# Pre-registration Amendment #3. Regression 0.40 rests on the research
+# prior (25-40%), not on clean selection. Full audit:
+# data/predictions/elo_selection_audit.json (scripts/audit_elo_selection.py).
 DEFAULT_K = 20.0
 DEFAULT_SEASON_REGRESSION = 0.40
 MOV_CAP = 1.5

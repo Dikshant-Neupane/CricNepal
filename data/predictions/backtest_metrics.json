@@ -13,9 +13,10 @@
  },
  "baseline_coin": {
   "n": 32,
-  "accuracy": 0.34375,
+  "accuracy": null,
   "log_loss": 0.6931471805599453,
-  "brier": 0.25
+  "brier": 0.25,
+  "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share (S2: 0.34375), which is why it is null."
  },
  "baseline_higher_elo": {
   "n": 32,
