@@ -1,0 +1,172 @@
+{
+ "BBL": {
+  "assumed_t": 0.85,
+  "bat": null,
+  "bowl": null,
+  "combined": null,
+  "combined_n_players": 4,
+  "decision": {
+   "applied": false,
+   "t_after": 0.85,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ },
+ "BPL": {
+  "assumed_t": 0.8,
+  "bat": {
+   "t_hat": 2.7422,
+   "ci_low": 2.063,
+   "ci_high": 3.4215,
+   "n": 4
+  },
+  "bowl": null,
+  "combined": {
+   "t_hat": 2.7422,
+   "ci_low": 2.063,
+   "ci_high": 3.4215,
+   "n": 4
+  },
+  "combined_n_players": 20,
+  "decision": {
+   "applied": false,
+   "t_after": 0.8,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ },
+ "CPL": {
+  "assumed_t": 0.8,
+  "bat": null,
+  "bowl": null,
+  "combined": null,
+  "combined_n_players": 8,
+  "decision": {
+   "applied": false,
+   "t_after": 0.8,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ },
+ "ILT20": {
+  "assumed_t": 0.8,
+  "bat": {
+   "t_hat": -0.1091,
+   "ci_low": -0.472,
+   "ci_high": 0.2537,
+   "n": 3
+  },
+  "bowl": {
+   "t_hat": 0.0769,
+   "ci_low": -0.998,
+   "ci_high": 1.1518,
+   "n": 3
+  },
+  "combined": {
+   "t_hat": 0.0311,
+   "ci_low": -0.5741,
+   "ci_high": 0.6362,
+   "n": 6
+  },
+  "combined_n_players": 26,
+  "decision": {
+   "applied": false,
+   "t_after": 0.8,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ },
+ "IPL": {
+  "assumed_t": 0.85,
+  "bat": null,
+  "bowl": null,
+  "combined": null,
+  "combined_n_players": 4,
+  "decision": {
+   "applied": false,
+   "t_after": 0.85,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ },
+ "LPL": {
+  "assumed_t": 0.8,
+  "bat": null,
+  "bowl": null,
+  "combined": null,
+  "combined_n_players": 7,
+  "decision": {
+   "applied": false,
+   "t_after": 0.8,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ },
+ "MLC": {
+  "assumed_t": 0.8,
+  "bat": {
+   "t_hat": -0.313,
+   "ci_low": -2.5006,
+   "ci_high": 1.8746,
+   "n": 3
+  },
+  "bowl": null,
+  "combined": {
+   "t_hat": -0.313,
+   "ci_low": -2.5006,
+   "ci_high": 1.8746,
+   "n": 3
+  },
+  "combined_n_players": 14,
+  "decision": {
+   "applied": false,
+   "t_after": 0.8,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ },
+ "PSL": {
+  "assumed_t": 0.85,
+  "bat": null,
+  "bowl": null,
+  "combined": null,
+  "combined_n_players": 6,
+  "decision": {
+   "applied": false,
+   "t_after": 0.85,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ },
+ "SA20": {
+  "assumed_t": 0.85,
+  "bat": null,
+  "bowl": null,
+  "combined": null,
+  "combined_n_players": 8,
+  "decision": {
+   "applied": false,
+   "t_after": 0.85,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ },
+ "T20I": {
+  "assumed_t": 0.9,
+  "bat": {
+   "t_hat": 0.1047,
+   "ci_low": -0.214,
+   "ci_high": 0.4235,
+   "n": 19
+  },
+  "bowl": {
+   "t_hat": 0.0258,
+   "ci_low": -0.3528,
+   "ci_high": 0.4044,
+   "n": 21
+  },
+  "combined": {
+   "t_hat": 0.0762,
+   "ci_low": -0.1618,
+   "ci_high": 0.3142,
+   "n": 40
+  },
+  "combined_n_players": 68,
+  "decision": {
+   "applied": false,
+   "t_after": 0.9,
+   "rule": "combined n>=8 AND 95% CI of t_hat excludes the assumed value AND excludes 0; t shrunk toward assumed with N0=8"
+  }
+ }
+}

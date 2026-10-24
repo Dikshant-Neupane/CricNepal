@@ -1,0 +1,30 @@
+{
+ "league": "LPL",
+ "bundle": "lpl_json.zip",
+ "target_season": "2026",
+ "n_prior_matches_all_seasons": 119,
+ "n_target_season_matches": 24,
+ "n_scored": 20,
+ "xi_basis": "actual XIs (post-hoc): listed XI, or effective participants (11-12) in the impact-player era",
+ "priors_basis": "LPL history only, walk-forward as-of each match, 3y window",
+ "caveats": [
+  "Different league strength distribution and team count from the NPL; absolute metric levels are not comparable to NPL numbers.",
+  "XI basis is post-hoc actual XIs, unlike the NPL pre-season expected-XI locks (flatters the XI channel).",
+  "Architecture sanity only -- no NPL claim is updated."
+ ],
+ "blend": {
+  "log_loss": 0.6917,
+  "brier": 0.2493,
+  "accuracy": 0.5
+ },
+ "higher_elo": {
+  "log_loss": 0.6859,
+  "brier": 0.2464,
+  "accuracy": 0.6
+ },
+ "coin": {
+  "log_loss": 0.6931,
+  "brier": 0.25,
+  "accuracy": null
+ }
+}

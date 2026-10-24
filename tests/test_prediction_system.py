@@ -146,7 +146,10 @@ def test_frozen_log_is_append_only(tmp_path):
 def test_frozen_log_production_rows():
     log = pd.read_csv(PRED / "frozen_log.csv")
     assert (log.stage == "P1_preseason_expected_xi").sum() == 28
-    assert log.match_id.is_unique and log.timestamp_locked.notna().all()
+    # uniqueness is per (match, stage): the log holds multiple stages
+    # per match by design (P1, SIM shadow, P1_post_XI, P2...)
+    assert not log.duplicated(subset=["match_id", "stage"]).any()
+    assert log.timestamp_locked.notna().all()
     assert log.p_team_1_win.between(0.05, 0.95).all()
 
 
