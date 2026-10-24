@@ -34,5 +34,25 @@
   "b": -0.5982426287484711
  },
  "n_test": 32,
- "notes": "S2 walk-forward; priors as of 2025-11-17; XI = actual XI (the live P1 is also post-XI-announcement). The fitted logistic LOSES to Elo on this backtest and its Platt slope is negative -- it ships as challenger only. The champion blend ties Elo (no demonstrated gain). S3 frozen log is the decisive evaluation."
+ "notes": "S2 walk-forward; priors as of 2025-11-17; XI = actual XI (the live P1 is also post-XI-announcement). The fitted logistic LOSES to Elo on this backtest and its Platt slope is negative -- it ships as challenger only. The champion blend ties Elo (no demonstrated gain). S3 frozen log is the decisive evaluation.",
+ "champion_vs_elo_bootstrap": {
+  "n_matches": 32,
+  "n_resamples": 10000,
+  "seed": 42,
+  "mean_diff": 0.00023936791190138154,
+  "ci_low": -0.022710568403585485,
+  "ci_high": 0.022799441080247528,
+  "prob_a_better": 0.4924,
+  "ci_includes_zero": true
+ },
+ "simulator_vs_champion_bootstrap": {
+  "n_matches": 32,
+  "n_resamples": 10000,
+  "seed": 42,
+  "mean_diff": -0.03376324474789771,
+  "ci_low": -0.10422954881718872,
+  "ci_high": 0.04275666632451565,
+  "prob_a_better": 0.8196,
+  "ci_includes_zero": true
+ }
 }

@@ -1,0 +1,36 @@
+{
+ "system": "in_play_win_probability",
+ "header_note": "IN-PLAY, delivery-level metrics (one sample per delivery, model trained on Season 1, scored on Season 2). These numbers are NOT comparable to the pre-match (P1) or toss-adjusted (P2) metrics: in-play states include near-determined late-innings positions, so delivery-level accuracy/log-loss are structurally more flattering than one-prediction-per-match pre-match scores.",
+ "comparable_to_prematch_metrics": false,
+ "unit_of_scoring": "delivery",
+ "train_season": "S1",
+ "test_season": "S2",
+ "model": "src/analytics/win_probability_model.py (LogisticRegression, innings-1 and innings-2 models, state features only)",
+ "overall": {
+  "n": 7439,
+  "accuracy": 0.6965990052426402,
+  "log_loss": 0.5434571194308269,
+  "brier": 0.18653568434816442,
+  "n_deliveries": 7439,
+  "n_matches": 32
+ },
+ "by_innings": {
+  "1": {
+   "n": 3936,
+   "accuracy": 0.5940040650406504,
+   "log_loss": 0.661538112468383,
+   "brier": 0.23515192404660584,
+   "n_deliveries": 3936,
+   "n_matches": 32
+  },
+  "2": {
+   "n": 3503,
+   "accuracy": 0.8118755352554953,
+   "log_loss": 0.4107803313646488,
+   "brier": 0.13191007217201098,
+   "n_deliveries": 3503,
+   "n_matches": 32
+  }
+ },
+ "notes": "Delivery-level accuracy counts every delivery as an independent sample although deliveries within a match are highly correlated; treat it as a state-quality diagnostic, not as evidence about pre-match forecasting skill."
+}

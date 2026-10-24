@@ -35,9 +35,11 @@ if __name__ == "__main__":
             if not len(p):
                 continue
             p = p.iloc[0]
-            bat_first_team = t.toss_winner_name if t.toss_decision == "bat" else (
-                p.team_2_name if t.toss_winner_name == p.team_1_name else p.team_1_name)
-            p2 = M.p2_adjust(float(p.p_team_1_win), bat_first_team == p.team_1_name, chase)
+            # P2 goes through the engine's contract-checked path: it
+            # refuses without a valid toss winner + decision (R2a).
+            p2 = engine.p2_probability(float(p.p_team_1_win), p.team_1_name,
+                                       p.team_2_name, t.toss_winner_name,
+                                       t.toss_decision, chase)
             rows.append({"match_id": t.match_id, "team_1_name": p.team_1_name,
                          "team_2_name": p.team_2_name, "p_team_1_win": round(p2, 4),
                          "p_elo": p.p_elo, "p_logistic_challenger": p.p_logistic_challenger,

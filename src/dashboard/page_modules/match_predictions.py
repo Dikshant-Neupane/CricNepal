@@ -62,13 +62,56 @@ def render_match_predictions():
                      feats], axis=1)
     st.dataframe(drv, hide_index=True, use_container_width=True)
 
-    st.markdown("### Frozen-Log Scorecard")
+    # --- Three systems, scored separately (review fix R2d) ----------------
+    # Pre-match, toss-adjusted and in-play are different prediction tasks;
+    # their numbers are never pooled or presented as equivalent.
+    st.markdown("### System 1 — Pre-Match (P1)")
+    st.caption("Inputs: team ratings, expected/confirmed XI strength, form, "
+               "rest. Locked before the toss. One prediction per match.")
     score = _load("scorecard.csv")
-    if score is not None and len(score):
-        st.dataframe(score, hide_index=True, use_container_width=True)
+    p1 = score[score.stage != "P2"] if score is not None and len(score) else None
+    if p1 is not None and len(p1):
+        st.dataframe(p1, hide_index=True, use_container_width=True)
     else:
-        st.info("No Season 3 results have landed yet, so no locked prediction "
-                "has been scored. Season 2 walk-forward backtest: champion blend "
-                "accuracy 46.9%, log-loss 0.689 (higher-Elo baseline 0.689, coin "
-                "flip 0.693) — the system has not yet demonstrated an edge over "
-                "Elo alone; the frozen Season 3 log is the decisive test.")
+        st.info("No Season 3 results have landed yet, so no locked pre-match "
+                "prediction has been scored. Season 2 walk-forward backtest: "
+                "champion blend log-loss 0.6891 vs higher-Elo 0.6888 — paired "
+                "bootstrap 95% CI for the difference is [-0.023, +0.023], which "
+                "includes zero: no demonstrated edge over Elo. The shadow "
+                "simulator's backtest advantage (log-loss 0.655) is likewise "
+                "NOT established — its bootstrap CI vs the champion "
+                "[-0.104, +0.043] includes zero. The frozen Season 3 log is "
+                "the decisive test for both.")
+
+    st.markdown("### System 2 — Toss-Adjusted (P2)")
+    st.caption("Inputs: everything in P1, plus the toss winner and decision. "
+               "Locked after the toss, before the first ball. Scored separately "
+               "from P1, never pooled with it.")
+    p2 = score[score.stage == "P2"] if score is not None and len(score) else None
+    if p2 is not None and len(p2):
+        st.dataframe(p2, hide_index=True, use_container_width=True)
+    else:
+        st.info("No toss-adjusted (P2) predictions have been locked and scored "
+                "yet. P2 locks on matchdays, after the toss, via "
+                "scripts/predict_fixtures.py --toss-csv.")
+
+    st.markdown("### System 3 — In-Play Win Probability")
+    st.caption("A different task: the probability of the batting team winning "
+               "from the current match state, updated delivery by delivery. "
+               "Its metrics are delivery-level and are NOT comparable to the "
+               "pre-match or toss-adjusted numbers above.")
+    inplay_path = PRED_DIR / "inplay_wp_evaluation.json"
+    if inplay_path.exists():
+        import json as _json
+        ev = _json.loads(inplay_path.read_text())
+        o, b1, b2 = ev["overall"], ev["by_innings"]["1"], ev["by_innings"]["2"]
+        st.info(f"Out-of-sample evaluation (trained on Season 1 only, scored "
+                f"on Season 2 deliveries): log-loss {o['log_loss']:.3f}, "
+                f"Brier {o['brier']:.3f}, delivery-level accuracy "
+                f"{o['accuracy']:.1%} over {o['n_deliveries']} deliveries "
+                f"(innings 1 log-loss {b1['log_loss']:.3f}; innings 2 "
+                f"log-loss {b2['log_loss']:.3f}). In-play, delivery-level — "
+                f"not comparable to pre-match metrics.")
+    else:
+        st.info("In-play out-of-sample evaluation not generated yet — run "
+                "scripts/evaluate_inplay_wp.py.")

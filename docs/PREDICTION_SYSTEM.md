@@ -50,7 +50,11 @@ The Monte Carlo simulator beat the blend on the same backtest (accuracy
 68.8%, log-loss 0.655, Brier 0.231, distributions fitted on S1 only,
 2,000 sims/match). It nevertheless stays in **shadow mode**: it may only
 be promoted if it beats the champion on the S3 frozen log, per the
-champion/challenger rule -- a reused backtest is not proof.
+champion/challenger rule -- a reused backtest is not proof. An audit of
+that advantage (2026-10-24, `scripts/audit_simulator.py`) found the
+paired-bootstrap 95% CI for simulator-minus-champion log-loss includes
+zero: **the simulator advantage is not established** -- see the
+bootstrap section below.
 
 ## Player priors
 
@@ -102,9 +106,8 @@ MODEL_VERSION and starts a new frozen-log segment.
 - Fixtures: league stage from the CAN fixture graphic via
   nepinsights.com, cross-checked with ipl.com (pairings/dates agree);
   playoff dates/stages from nepalontheweb.com's report of CAN's revised
-  schedule, teams TBA. Start times are NOT recorded: sources conflict
-  (revised CAN timings vs cricketer.io). They must come from CAN's
-  official announcement before being added.
+  schedule, teams TBA. Start times are now recorded under CAN's revised
+  timings of 2026-10-20 — see the fixture-time correction record below.
 - Player details: roster + identity registry + enriched profiles (joined
   via registry surface forms). Registry IDs resolved for 108/133 players
   (101 exact name matches, 7 constrained initials-surname-unique matches
@@ -128,3 +131,84 @@ MODEL_VERSION and starts a new frozen-log segment.
   blend 0.4718 with the correct 1515.7 rating (was 0.4889 with the default 1500)). No other locked row was
   touched; the season had not started and no prediction had been
   published or scored. Append-only applies from here on.
+
+## The three systems (review fix, 2026-10-24)
+
+Pre-match, toss-adjusted and in-play forecasts are different prediction
+tasks. They are enforced as separate systems (input contracts in
+`src/prediction/engine.py: STAGE_INPUTS`), scored separately, and never
+pooled into one number.
+
+| System | Allowed inputs | Lock time | Evaluation | Current status |
+|---|---|---|---|---|
+| 1. Pre-match (P1, incl. `P1_preseason_expected_xi`) | Team ratings (Elo), expected/confirmed XI strength from player priors, form (EWMA NRR), rest days. **Toss fields are forbidden** — the engine refuses any toss input at this stage. | P1_preseason: before the tournament (expected XIs). P1: after XI announcement, before the toss. | Frozen log, per stage, vs Elo and chase-heuristic baselines (log-loss / Brier / accuracy). | 28 pre-season P1s locked. S2 backtest: champion log-loss 0.6891 vs Elo 0.6888; bootstrap CI for the difference includes zero — no demonstrated edge (below). |
+| 2. Toss-adjusted (P2) | Everything in P1 **plus** toss winner + decision (both required — the engine refuses P2 without them). | After the toss, before the first ball. | Frozen log, stage `P2` only, reported separately from every P1 stage. | No P2 rows locked yet; locks on matchdays via `scripts/predict_fixtures.py --toss-csv`. Kirtipur chase premium in the adjustment: 33/63 (52.4%), logit shift 0.095. |
+| 3. In-play win probability | Current match state only: balls remaining, runs scored/required, wickets, current/required run rate (per innings). No pre-match inputs. | Continuous during the match (not locked). | **Separate, delivery-level**: `scripts/evaluate_inplay_wp.py` trains on S1 only and scores S2 deliveries -> `data/predictions/inplay_wp_evaluation.json`. NOT comparable to P1/P2 metrics. | Out-of-sample (S1->S2): log-loss 0.543, Brier 0.187, delivery-level accuracy 69.7% over 7,439 deliveries (innings 1: log-loss 0.662; innings 2: 0.411). Production model in `refresh_all` still trains on all data — the evaluation harness changes nothing about it. |
+
+## Fixture-time correction record (R1)
+
+- **Before:** `start_time_local` was blank for all 32 fixtures. Sources
+  conflicted: the revised CAN graphic implied 12:30/17:00 while
+  cricketer.io listed 12:15/16:15, so no time was recorded rather than
+  guess.
+- **Correction (2026-10-24):** CAN revised the timings on 2026-10-20
+  when Hawk-Eye DRS was introduced — the evening start moved from
+  16:30 to 17:00. The revised rule, reported from CAN's press statement
+  by nepalontheweb.com and english.khabarhub.com (both opened and read
+  2026-10-24), corroborated by Radio Nepal, Khabarhub, myRepublica and
+  Nepal News reporting of the same statement: **double-header days —
+  first match 12:30, second 17:00; single-match days — 17:00.**
+  Playoff days (Nov 17/18/19/21) are single-match days -> 17:00.
+- **After:** all 32 fixtures carry a verified slot time under that rule,
+  with per-row `start_time_source` and `start_time_accessed`
+  (2026-10-24) and `start_time_verification` fields. Within a
+  double-header day, match order is the CAN fixture-graphic order
+  (as already used for pairings). No row remains unresolved. Fixture
+  times do not enter any locked prediction and the frozen log was not
+  modified by this change.
+
+## Bootstrap uncertainty (R3/R4, 2026-10-24)
+
+Paired bootstrap over matches (10,000 resamples, fixed seed 42) of
+per-match log-loss differences on the Season 2 backtest
+(`scripts/audit_simulator.py` -> `data/predictions/simulator_audit.json`;
+the champion-Elo figures are also in `backtest_metrics.json`):
+
+| Difference (log-loss) | Mean | 95% CI | P(first is better) | Reading |
+|---|---|---|---|---|
+| Simulator − champion | −0.034 | [−0.104, +0.043] | 0.82 | **Includes zero — advantage not established** (pre-committed verdict rule). |
+| Simulator − Elo | −0.034 | [−0.115, +0.052] | 0.79 | Includes zero. |
+| Champion − Elo | +0.000 | [−0.023, +0.023] | 0.49 | Dead even. The headline model has no measurable edge over Elo alone on S2. |
+
+Accuracy differences tell the same story with wider intervals
+(simulator − champion accuracy +0.219, CI [0.000, 0.438]). The audit
+also verified the three backtests are scored on the identical 32 match
+IDs, and its leakage checklist passes the S1-only distribution fit and
+the as-of priors, while flagging: XIs in the simulator backtest are the
+actual XIs that played (post-hoc), the simulator's constants have no
+pre-registered record (tuning-against-S2 cannot be ruled out from the
+artefacts), and 2,000-sim Monte Carlo noise (~0.011 per match) is not
+inside the bootstrap CIs. **Promotion rule unchanged:** the simulator
+stays shadow until it beats the champion on the S3 frozen log.
+
+## Limits of a 32-match season
+
+- **Accuracy noise:** with n=32 matches, the standard error of an
+  accuracy estimate is about sqrt(0.25/32) ≈ **±9 percentage points**.
+  A season finishing at 62% and one at 50% are statistically
+  indistinguishable at this sample size.
+- **Calibration cannot be certified in one season:** a calibration bin
+  holding ~6 matches has a binomial standard error above ±20 points.
+  This is why calibration is reported only in coarse bins and why no
+  calibration claim will be made from Season 3 alone; several seasons
+  of frozen predictions must be pooled before calibration can be
+  assessed honestly.
+- **Log-loss differences of the size seen here (~0.03) are within
+  noise** at n=32, as the bootstrap CIs above show.
+- Therefore the S3 frozen log is **evidence, not proof**: it is a
+  genuine prospective test (predictions locked before matches, never
+  rewritten), which makes it far stronger than another backtest — but
+  a single season can at most shift confidence, not settle which model
+  is best. Model decisions (promotion, refits at the match-10/20
+  checkpoints) follow the pre-committed rules regardless of how the
+  early results feel.

@@ -1,0 +1,126 @@
+{
+ "question": "Is the simulator's Season 2 backtest advantage over the champion blend / Elo real?",
+ "identical_set_check": {
+  "sizes": {
+   "simulator_backtest": 32,
+   "champion_backtest": 32,
+   "elo_baseline": 32,
+   "season_2_matches": 32
+  },
+  "intersection_size": 32,
+  "pair_differences": {
+   "simulator_backtest vs champion_backtest": {
+    "only_in_first": [],
+    "only_in_second": []
+   },
+   "simulator_backtest vs elo_baseline": {
+    "only_in_first": [],
+    "only_in_second": []
+   },
+   "simulator_backtest vs season_2_matches": {
+    "only_in_first": [],
+    "only_in_second": []
+   },
+   "champion_backtest vs elo_baseline": {
+    "only_in_first": [],
+    "only_in_second": []
+   },
+   "champion_backtest vs season_2_matches": {
+    "only_in_first": [],
+    "only_in_second": []
+   },
+   "elo_baseline vs season_2_matches": {
+    "only_in_first": [],
+    "only_in_second": []
+   }
+  },
+  "identical": true
+ },
+ "leakage_checklist": [
+  {
+   "item": "Outcome distributions fitted on Season 1 only",
+   "status": "PASS",
+   "evidence": "scripts/backtest_simulator.py builds distributions from bb[bb.match_id.isin(s1_ids)] (S1 match IDs only) before simulating any S2 match."
+  },
+  {
+   "item": "Player priors computed as of before Season 2",
+   "status": "PASS",
+   "evidence": "backtest_simulator.py uses BT._priors_asof(2025-11-17) -- the S2 start -- so no S2 delivery is inside a prior."
+  },
+  {
+   "item": "Playing XIs are the ACTUAL Season 2 XIs (post-hoc)",
+   "status": "FLAG",
+   "evidence": "XIs come from data/final/parquet/match_lineups.parquet -- the XIs that actually played, knowable only at the toss. The live P1 is also post-XI-announcement, so the deployment task is comparable, but the backtest cannot capture announcement-time uncertainty (late changes, players who were announced but did not play)."
+  },
+  {
+   "item": "Simulator constants chosen without using Season 2 results",
+   "status": "FLAG",
+   "evidence": "K_BAT_SIM=100, K_BOWL_SIM=120 (src/prediction/simulator.py), phase definitions (Powerplay/Middle/Death from the data's phase column) and n_sims=2000 are fixed in code, but there is NO pre-registered record of when they were set relative to the S2 backtest, so tuning-against-S2 cannot be ruled out from the artefacts alone."
+  },
+  {
+   "item": "Monte Carlo noise in p_sim",
+   "status": "FLAG",
+   "evidence": "Backtest used 2,000 sims/match: Monte Carlo standard error on a win probability is ~sqrt(0.25/2000) = 0.011 per match. The paired bootstrap treats p_sim as fixed, so true uncertainty is slightly wider than the reported CIs."
+  },
+  {
+   "item": "Outcome (y) is the target, never an input",
+   "status": "PASS",
+   "evidence": "y is derived from matches.winner_name after simulation; no outcome field is read by build_distributions or simulate_match."
+  }
+ ],
+ "bootstrap": {
+  "simulator_minus_champion_logloss": {
+   "n_matches": 32,
+   "n_resamples": 10000,
+   "seed": 42,
+   "mean_diff": -0.03376324474789771,
+   "ci_low": -0.10422954881718872,
+   "ci_high": 0.04275666632451565,
+   "prob_a_better": 0.8196,
+   "ci_includes_zero": true
+  },
+  "simulator_minus_elo_logloss": {
+   "n_matches": 32,
+   "n_resamples": 10000,
+   "seed": 42,
+   "mean_diff": -0.03352387683599632,
+   "ci_low": -0.11531481250689468,
+   "ci_high": 0.051715131128028384,
+   "prob_a_better": 0.7877,
+   "ci_includes_zero": true
+  },
+  "simulator_minus_champion_accuracy": {
+   "n_matches": 32,
+   "n_resamples": 10000,
+   "seed": 42,
+   "mean_diff": 0.21875,
+   "ci_low": 0.0,
+   "ci_high": 0.4375,
+   "prob_a_better": 0.9607,
+   "ci_includes_zero": true
+  },
+  "simulator_minus_elo_accuracy": {
+   "n_matches": 32,
+   "n_resamples": 10000,
+   "seed": 42,
+   "mean_diff": 0.25,
+   "ci_low": 0.03125,
+   "ci_high": 0.46875,
+   "prob_a_better": 0.9761,
+   "ci_includes_zero": false
+  }
+ },
+ "champion_minus_elo_logloss": {
+  "n_matches": 32,
+  "n_resamples": 10000,
+  "seed": 42,
+  "mean_diff": 0.00023936791190138154,
+  "ci_low": -0.022710568403585485,
+  "ci_high": 0.022799441080247528,
+  "prob_a_better": 0.4924,
+  "ci_includes_zero": true
+ },
+ "verdict_rule": "Pre-committed: if the 95% CI for the simulator - champion per-match log-loss difference includes 0, the verdict is 'advantage not established'.",
+ "verdict": "advantage not established",
+ "promotion_rule_unchanged": "The simulator stays in shadow mode; promotion requires beating the champion on the Season 3 frozen log, not on this backtest."
+}

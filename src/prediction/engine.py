@@ -28,6 +28,77 @@ FROZEN_FIELDS = ["match_id", "season", "stage", "timestamp_locked",
                  "p_team_1_win", "p_elo", "p_logistic_challenger",
                  "features_json"]
 
+# --- Three-system input contracts (review fix R2) -------------------------
+# Pre-match (P1), toss-adjusted (P2) and in-play are DIFFERENT prediction
+# tasks. Their allowed inputs are declared here and enforced: a P1
+# computation must never see a toss field, and P2 refuses to run without
+# the toss result. The in-play system (src/analytics/win_probability_
+# model.py) is separate code and is evaluated separately -- it never
+# enters this engine.
+TOSS_FIELDS = ("toss_winner_name", "toss_decision", "bat_first_team",
+               "team_1_bats_first")
+_P1_INPUTS = ["elo_diff", "xi_batting_diff", "xi_bowling_diff",
+              "form_nrr_diff", "rest_diff", "expected_xi", "player_priors",
+              "team_ratings"]
+STAGE_INPUTS = {
+    "P1_preseason_expected_xi": {
+        "system": "pre_match", "allowed": list(_P1_INPUTS),
+        "forbidden": list(TOSS_FIELDS), "requires": []},
+    "P1": {
+        "system": "pre_match", "allowed": list(_P1_INPUTS),
+        "forbidden": list(TOSS_FIELDS), "requires": []},
+    "P2": {
+        "system": "toss_adjusted",
+        "allowed": list(_P1_INPUTS) + ["toss_winner_name", "toss_decision"],
+        "forbidden": [], "requires": ["toss_winner_name", "toss_decision"]},
+}
+
+
+def validate_stage_inputs(stage: str, inputs) -> None:
+    """Enforce the input contract for a prediction stage.
+
+    - Unknown stage: refuse.
+    - P1 stages: refuse if any toss field is present in `inputs`.
+    - P2: refuse unless toss_winner_name and toss_decision are present
+      and the decision is 'bat' or 'field'.
+    `inputs` is any mapping (or iterable of keys) of supplied input names.
+    """
+    if stage not in STAGE_INPUTS:
+        raise ValueError(f"unknown prediction stage: {stage!r}")
+    keys = set(inputs.keys()) if hasattr(inputs, "keys") else set(inputs)
+    spec = STAGE_INPUTS[stage]
+    bad = keys & set(spec["forbidden"])
+    if bad:
+        raise ValueError(
+            f"stage {stage} is a pre-match (P1) prediction and must not "
+            f"use toss inputs: {sorted(bad)}")
+    for req in spec["requires"]:
+        if req not in keys:
+            raise ValueError(f"stage {stage} requires input {req!r}")
+    if stage == "P2":
+        vals = dict(inputs) if hasattr(inputs, "keys") else {}
+        if vals.get("toss_decision") not in ("bat", "field"):
+            raise ValueError(
+                "stage P2 requires toss_decision in {'bat', 'field'}, "
+                f"got {vals.get('toss_decision')!r}")
+
+
+def p2_probability(p1: float, team_1_name: str, team_2_name: str,
+                   toss_winner_name: str, toss_decision: str,
+                   chase: dict) -> float:
+    """Toss-adjusted (P2) probability from a locked P1 probability.
+
+    This is the ONLY sanctioned P1->P2 path: it validates the toss
+    inputs against the stage contract before adjusting."""
+    validate_stage_inputs("P2", {"toss_winner_name": toss_winner_name,
+                                 "toss_decision": toss_decision})
+    if toss_winner_name not in (team_1_name, team_2_name):
+        raise ValueError(
+            f"toss winner {toss_winner_name!r} is not one of the fixture teams")
+    bat_first_team = toss_winner_name if toss_decision == "bat" else (
+        team_2_name if toss_winner_name == team_1_name else team_1_name)
+    return M.p2_adjust(float(p1), bat_first_team == team_1_name, chase)
+
 
 def select_expected_xi(squad_priors: pd.DataFrame) -> list:
     """Strongest likely XI from priors (documented pre-season assumption).
@@ -118,6 +189,10 @@ def predict_fixture(team_1, team_2, match_date, ratings, priors_by_key,
         "form_nrr_diff": form.get(team_1, 0.0) - form.get(team_2, 0.0),
         "rest_diff": (rest(team_1) - rest(team_2)) / 7.0,
     }
+    # P1 contract enforcement: the feature set computed here must not
+    # contain any toss field (review fix R2a). Raises if it ever does.
+    validate_stage_inputs("P1", feats)
+    assert set(feats) == set(M.FEATURES_P1)
     p_log = float(M.predict_raw(model_json, pd.DataFrame([feats]))[0]) if model_json else None
     return {"team_1_name": team_1, "team_2_name": team_2,
             "rating_1": round(r1, 1), "rating_2": round(r2, 1),
@@ -171,6 +246,8 @@ def generate_predictions(root: Path) -> pd.DataFrame:
 def lock_predictions(root: Path, preds: pd.DataFrame, stage: str) -> int:
     """Append predictions to the frozen log. Refuses duplicates of
     (match_id, stage) -- a locked prediction is never rewritten."""
+    if stage not in STAGE_INPUTS:
+        raise ValueError(f"unknown prediction stage: {stage!r}")
     root = Path(root)
     path = root / "data/predictions/frozen_log.csv"
     path.parent.mkdir(parents=True, exist_ok=True)
