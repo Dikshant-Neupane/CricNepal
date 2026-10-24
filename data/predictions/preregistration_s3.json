@@ -1,0 +1,195 @@
+{
+ "amendments": [
+  {
+   "after": {
+    "BBL": 0.85,
+    "BPL": 0.8,
+    "CPL": 0.8,
+    "ILT20": 0.8,
+    "IPL": 0.85,
+    "LPL": 0.8,
+    "MLC": 0.8,
+    "NPL": 1.0,
+    "PSL": 0.85,
+    "SA20": 0.85,
+    "T20I": 0.9
+   },
+   "date": "2026-10-24",
+   "field": "translation_factors",
+   "id": 1,
+   "summary": "Estimation attempted (Task A5); no factor met the update rule (combined n>=8, CI excludes assumed, CI excludes 0). All assumed factors retained; priors not regenerated."
+  },
+  {
+   "id": 2,
+   "date": "2026-10-24",
+   "field": "player_identity_resolutions",
+   "after": {
+    "resolved_total": 110,
+    "unresolved_total": 23,
+    "resolutions": {
+     "player_charith_asalanka": "732c038e",
+     "player_sahan_arachchige": "c05f9d20"
+    }
+   },
+   "summary": "Resolution pass over the 25 unresolved S3 registry IDs (strong evidence only): 2 resolved (Asalanka -> 732c038e 'KIC Asalanka'; Arachchige -> c05f9d20 'SSD Arachchige', both initials_surname_unique with full-name + appearance-record evidence; see data/predictions/player_resolution_log.csv). 23 remain unresolved. Priors regenerated: external_pro 14 -> 16, debutant 28 -> 26; only the two resolved players' rows changed; player_history.csv unchanged; no constant changed. All 56 locked rows used pre-amendment priors and stay as locked."
+  },
+  {
+   "id": 3,
+   "date": "2026-10-24",
+   "field": "elo_parameter_provenance",
+   "after": {
+    "k": 20.0,
+    "season_regression": 0.4,
+    "changed": false,
+    "selection_disclosure": "Constants are the argmin of the restricted grid (K 20-32 x regression 0.25-0.40) evaluated on the S2 walk-forward -- selection on the reported test set (F1 finding).",
+    "selection_bound_restricted_grid_range": 0.00495528891753183,
+    "selection_bound_outer_full_grid_range": 0.020096,
+    "s1_only_chosen_k": 28.0,
+    "s1_only_k_s2_log_loss": 0.689132,
+    "s2_log_loss_chosen": 0.688848301118256,
+    "decision": "keep (20, 0.40) for S3; within-0.002 branch",
+    "standing_rule": "Future parameter selection must be nested: select on earlier seasons only, never on the season reported as the evaluation."
+   },
+   "summary": "F1 audit (scripts/audit_elo_selection.py -> data/predictions/elo_selection_audit.json): Elo constants were selected on the S2 set also reported as the backtest. Bound: restricted-grid S2 surface range 0.0050 (outer full-grid range 0.0201). S1-only reselection picks K=28, worse on S2 by 0.00028 (within-0.002 branch). Regression 0.40 rests on the research prior (25-40%), not clean selection. No constant changed; S3 frozen log unaffected (parameters fixed before Match 1); contamination is in the historical S2 evaluation claim only. Standing rule added: nested selection (earlier seasons only)."
+  },
+  {
+   "id": 4,
+   "date": "2026-10-24",
+   "field": "update_cadence",
+   "after": {
+    "statement": "Ratings, priors and regenerated forecasts update after every match whose cricsheet data has been published and ingested.",
+    "measured_s2_lag_days": {
+     "min": 0,
+     "p25": 1,
+     "median": 8,
+     "p75": 10,
+     "max": 14,
+     "mean": 5.9,
+     "n": 32,
+     "basis": "cricsheet meta.created minus match date, NPL bundle, Season 2"
+    },
+    "as_of_labelling": "data/predictions/predictions_status.json + dashboard 'Ratings as of' line",
+    "constants_changed": false
+   },
+   "summary": "F3 correction: frozen section 3's 'update after every match' overstated the cadence; cricsheet publication lags matches (S2 measured median 8 days, range 0-14, via meta.created). Corrected statement in force; as-of sidecar + dashboard labelling added; no constant or protocol change; matchday locks unaffected (manual capture)."
+  },
+  {
+   "id": 5,
+   "date": "2026-10-24",
+   "field": "stage_nomenclature",
+   "after": {
+    "canonical_to_stored": {
+     "P0_PRESEASON": "P1_preseason_expected_xi",
+     "P1_CONFIRMED_XI": "P1_post_XI",
+     "P2_POST_TOSS": "P2_post_toss",
+     "SIM_SHADOW": "SIM_shadow_preseason",
+     "INPLAY": null
+    },
+    "contract_aliases": {
+     "P1": "P1_CONFIRMED_XI",
+     "P2": "P2_POST_TOSS"
+    },
+    "registry": "src/prediction/stages.py",
+    "constants_changed": false,
+    "locked_rows_changed": false
+   },
+   "summary": "G1 (review S13): canonical stage names introduced because 'P1' named two information sets (pre-season expected-XI locks vs matchday confirmed-XI). Naming layer only: scoring groups by canonical horizon, dashboard displays canonical labels, locks keep writing the existing stored strings via the registry; no constant, rule or locked row changed."
+  },
+  {
+   "id": 6,
+   "date": "2026-10-24",
+   "field": "provisional_results_policy",
+   "after": {
+    "canonical_source": "cricsheet",
+    "provisional_capture": "winner_only_manual_official_source",
+    "provisional_file": "data/results/provisional_results.csv",
+    "mov_provisional": 1.0,
+    "supersession": "ingested cricsheet record wins; provisional row ignored and reported superseded",
+    "disagreement": "flagged as data-quality warning in predictions_status.json; never silently resolved, never blocking",
+    "lock_basis_fields": [
+     "ratings_basis",
+     "n_provisional_applied",
+     "data_as_of"
+    ]
+   },
+   "summary": "Provisional results policy (review S14; owner decision 2026-10-24, before Match 1): winner-only manual capture from official sources bridges the measured cricsheet lag (S2 median 8 days). Provisional matches move Elo with neutral MOV = 1.0 (no margin captured or estimated). Ratings-with-provisional are a pure function of (ingested matches, fixtures, provisional file). On cricsheet ingestion the provisional row is superseded (canonical wins); a winner disagreement is flagged as a data-quality warning, never silently resolved. Locks record ratings_basis / n_provisional_applied / data_as_of in features_json. No constant changed; all 56 locked rows predate any provisional data (basis canonical) and stay as locked; frozen-log scoring still uses cricsheet outcomes only."
+  }
+ ],
+ "checkpoint_rule": "Refit only after S3 matches 10 and 20; promotion only if the refit beats the frozen champion on since-checkpoint frozen-log log-loss.",
+ "constants": {
+  "blend_k": 2.0,
+  "blend_w_elo": 0.5,
+  "chase_logit_shift": 0.09531017980432492,
+  "clip": [
+   0.05,
+   0.95
+  ],
+  "elo_initial": 1500.0,
+  "elo_k": 20.0,
+  "elo_mov_cap": 1.5,
+  "elo_mov_saturation_runs": 60.0,
+  "elo_season_regression": 0.4,
+  "form_ewma_old_weight": 0.75,
+  "priors_half_life_days": 548.0,
+  "priors_k_bat": 150.0,
+  "priors_k_bowl": 120.0,
+  "sim_jitter_min_balls": 60,
+  "sim_k_bat": 100.0,
+  "sim_k_bowl": 120.0,
+  "sim_n_sims_production": 10000,
+  "temperature_v1_1": 0.7496,
+  "translation_factors": {
+   "BBL": 0.85,
+   "BPL": 0.8,
+   "CPL": 0.8,
+   "ILT20": 0.8,
+   "IPL": 0.85,
+   "LPL": 0.8,
+   "MLC": 0.8,
+   "NPL": 1.0,
+   "PSL": 0.85,
+   "SA20": 0.85,
+   "T20I": 0.9
+  },
+  "uncertainty_overseas_debutant_multiplier": 1.5
+ },
+ "document": "docs/PREREGISTRATION_S3.md",
+ "frozen_before": "NPL Season 3 Match 1 (2026-10-26)",
+ "frozen_date": "2026-10-24",
+ "locked_stages": [
+  {
+   "model_version": "v1",
+   "rows_at_freeze": 28,
+   "stage": "P1_preseason_expected_xi"
+  },
+  {
+   "model_version": "sim_v1",
+   "rows_at_freeze": 28,
+   "stage": "SIM_shadow_preseason"
+  },
+  {
+   "model_version": "v1.1",
+   "rows_at_freeze": 0,
+   "stage": "P1_post_XI"
+  },
+  {
+   "model_version": "v1.1",
+   "rows_at_freeze": 0,
+   "stage": "P2_post_toss"
+  }
+ ],
+ "scoring": {
+  "also": [
+   "brier",
+   "accuracy"
+  ],
+  "baselines": [
+   "coin_flip",
+   "higher_elo",
+   "chase_heuristic"
+  ],
+  "per_stage_never_pooled": true,
+  "primary": "log_loss"
+ },
+ "simulator_promotion_rule": "Shadow until it beats the champion on the S3 frozen log (log-loss, paired-bootstrap 95% CI excluding zero)."
+}
