@@ -1,33 +1,10 @@
 {
- "generated_at": "2026-10-24T07:28:08.973470+00:00",
+ "generated_at": "2026-10-24T07:30:06.695395+00:00",
  "git": {
-  "head_sha": "aa2706ee444e066e0525b5d2a7f2359319a7bab8",
-  "dirty_code_tree": true,
-  "modified_tracked_files": [
-   "scripts/audit_simulator.py",
-   "scripts/backtest_prediction.py",
-   "scripts/predict_fixtures.py",
-   "scripts/refresh_predictions.py",
-   "scripts/score_predictions.py",
-   "src/dashboard/page_modules/match_predictions.py",
-   "src/dashboard/page_modules/win_probability.py",
-   "src/prediction/elo.py",
-   "src/prediction/engine.py",
-   "src/prediction/metrics.py",
-   "src/prediction/model.py"
-  ],
-  "untracked_files": [
-   "scripts/audit_elo_selection.py",
-   "scripts/build_ledger_manifest.py",
-   "scripts/cross_league_check.py",
-   "scripts/estimate_translation.py",
-   "scripts/fit_temperature.py",
-   "scripts/lock_matchday.py",
-   "scripts/record_result.py",
-   "scripts/simulate_fixtures.py",
-   "src/prediction/provisional.py",
-   "src/prediction/stages.py"
-  ]
+  "head_sha": "7b6961f45f75f17817fe9657a55712a566be1b4d",
+  "dirty_code_tree": false,
+  "modified_tracked_files": [],
+  "untracked_files": []
  },
  "frozen_log": {
   "path": "data/predictions/frozen_log.csv",
