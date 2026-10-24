@@ -69,7 +69,7 @@ def render_match_predictions():
         """
         <div class="jb-page-head">
             <h2 class="page-title">Match Predictions</h2>
-            <p class="page-subtitle">Pre-match win probabilities for every Season 3 fixture — Elo + playing-XI strength blend, locked before each match.</p>
+            <p class="page-subtitle">Pre-match win probabilities for Season 3 fixtures — Elo + playing-XI strength blend. Probabilities for all 28 league fixtures were locked before the season; the table below shows the next fixtures first.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -146,6 +146,10 @@ def render_match_predictions():
     feats = pd.json_normalize(show["features_json"].apply(lambda s: __import__("json").loads(s)))
     drv = pd.concat([show[["match_date", "team_1_name", "team_2_name"]].reset_index(drop=True),
                      feats], axis=1)
+    # Round feature values for display: raw floats rendered with full
+    # binary precision (e.g. elo_diff -0.32497301929533023) in the table.
+    for _col in drv.select_dtypes(include="float").columns:
+        drv[_col] = drv[_col].round(3)
     st.dataframe(drv, hide_index=True, use_container_width=True)
 
     # --- Shadow simulator (Phase 2, A1): locked, scored separately,
