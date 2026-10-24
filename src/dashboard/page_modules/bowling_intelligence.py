@@ -17,6 +17,82 @@ _AMBER      = "#e89b3c"
 _RED        = "#c74b4b"
 
 
+def _hand_split_rows() -> list[dict]:
+    """Janakpur S2 bowling economy/wickets vs left- and right-hand batters.
+
+    Batter hands come from the tracked player-profiles file (registry
+    names, same as ball-by-ball); coverage over Janakpur's S2 bowling
+    balls is effectively complete. Returns [] when either source is
+    missing so the card can say so honestly instead of rendering a
+    permanent "unavailable" placeholder.
+    """
+    from ..services.data_loaders import load_bbb_with_season
+    from src.config.paths import PROFILES_DIR
+
+    bbb = load_bbb_with_season()
+    if bbb is None or bbb.empty:
+        return []
+    jb = bbb[(bbb["bowling_team"] == TEAM) & (bbb["season"] == "S2")]
+    if jb.empty:
+        return []
+    profiles_path = PROFILES_DIR / "enriched_players_20260521.csv"
+    if not profiles_path.exists():
+        return []
+    profiles = pd.read_csv(profiles_path, usecols=["player_name", "batting_hand"])
+    hands = dict(zip(profiles["player_name"], profiles["batting_hand"]))
+    jb = jb.assign(hand=jb["batter_name"].map(hands))
+    known = jb[jb["hand"].isin(["Left", "Right"])]
+    if known.empty or len(known) < 0.5 * len(jb):
+        return []
+    rows = []
+    for hand in ["Left", "Right"]:
+        g = known[known["hand"] == hand]
+        if g.empty:
+            continue
+        legal = int((~g["extras_type"].isin(["wides", "noballs"])).sum())
+        econ = g["runs_total"].sum() / (legal / 6) if legal else 0.0
+        rows.append(
+            {
+                "hand": f"{hand}-hand batters",
+                "balls": len(g),
+                "econ": econ,
+                "wkts": int(g["is_wicket"].sum()),
+            }
+        )
+    return rows
+
+
+def _tactical_directives(phases: list[dict]) -> list[str]:
+    """Directives derived from the phase breakdown shown on this page."""
+    if not phases:
+        return []
+    parsed = []
+    for p in phases:
+        try:
+            parsed.append((p["name"], float(p["econ"]), float(p["dot"].rstrip("%")), int(p["wkts"])))
+        except (ValueError, KeyError):
+            continue
+    if not parsed:
+        return []
+    directives = []
+    worst = max(parsed, key=lambda t: t[1])
+    best = min(parsed, key=lambda t: t[1])
+    directives.append(
+        f"Most expensive phase: {worst[0]} at {worst[1]:.2f} RPO — tighten "
+        "fields and bowling changes there first."
+    )
+    directives.append(
+        f"Most controlled phase: {best[0]} at {best[1]:.2f} RPO with "
+        f"{best[2]:.1f}% dot balls — protect this strength when planning overs."
+    )
+    most_wkts = max(parsed, key=lambda t: t[3])
+    directives.append(
+        f"Wicket threat concentrates in {most_wkts[0]} ({most_wkts[3]} wickets in S2) "
+        "— hold attacking options for that window."
+    )
+    return directives
+
+
 def _render_live_heatmap() -> None:
     """Bowler runs-conceded heatmap from ball-by-ball data."""
     from ..services.data_loaders import load_ball_by_ball_normalized, load_matches_normalized
@@ -216,7 +292,19 @@ def render_bowling_intelligence():
             </div>
             <div style="padding:16px;">
         """, unsafe_allow_html=True)
-        st.caption("Detailed batter hand splits unavailable.")
+        hand_rows = _hand_split_rows()
+        if hand_rows:
+            for r in hand_rows:
+                st.markdown(
+                    f"<div style='display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;'>"
+                    f"<span style='color:{_TEXT_MUTED};'>{r['hand']}</span>"
+                    f"<span style='font-weight:600;color:{_TEXT};'>{r['econ']:.2f} econ · {r['wkts']} wkts · {r['balls']} balls</span></div>",
+                    unsafe_allow_html=True,
+                )
+            st.caption("S2, Janakpur bowling. Hands from player profiles; "
+                       "balls with unknown hand excluded.")
+        else:
+            st.caption("Batter hand data unavailable for this dataset.")
         st.markdown("</div></div>", unsafe_allow_html=True)
 
     st.markdown("<div style='height:18px;'></div>", unsafe_allow_html=True)
@@ -230,7 +318,15 @@ def render_bowling_intelligence():
         </div>
     """, unsafe_allow_html=True)
 
-    st.caption("Tactical directives unavailable.")
+    directives = _tactical_directives(phases)
+    if directives:
+        items = "".join(
+            f"<div style='color:#e8f0ec;font-size:14px;line-height:1.6;margin-bottom:8px;'>• {d}</div>"
+            for d in directives
+        )
+        st.markdown(items, unsafe_allow_html=True)
+    else:
+        st.caption("Tactical directives unavailable — phase data missing.")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
