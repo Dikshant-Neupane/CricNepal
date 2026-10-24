@@ -1,0 +1,78 @@
+{
+ "generated_at": "2026-10-24T07:28:08.973470+00:00",
+ "git": {
+  "head_sha": "aa2706ee444e066e0525b5d2a7f2359319a7bab8",
+  "dirty_code_tree": true,
+  "modified_tracked_files": [
+   "scripts/audit_simulator.py",
+   "scripts/backtest_prediction.py",
+   "scripts/predict_fixtures.py",
+   "scripts/refresh_predictions.py",
+   "scripts/score_predictions.py",
+   "src/dashboard/page_modules/match_predictions.py",
+   "src/dashboard/page_modules/win_probability.py",
+   "src/prediction/elo.py",
+   "src/prediction/engine.py",
+   "src/prediction/metrics.py",
+   "src/prediction/model.py"
+  ],
+  "untracked_files": [
+   "scripts/audit_elo_selection.py",
+   "scripts/build_ledger_manifest.py",
+   "scripts/cross_league_check.py",
+   "scripts/estimate_translation.py",
+   "scripts/fit_temperature.py",
+   "scripts/lock_matchday.py",
+   "scripts/record_result.py",
+   "scripts/simulate_fixtures.py",
+   "src/prediction/provisional.py",
+   "src/prediction/stages.py"
+  ]
+ },
+ "frozen_log": {
+  "path": "data/predictions/frozen_log.csv",
+  "sha256": "8e23d50d4e654d3ab9f43c453ed555a5dea39641ac20126ccfb07c26a1e7e421",
+  "rows": 56,
+  "stages": {
+   "P1_preseason_expected_xi": {
+    "rows": 28,
+    "first_locked": "2026-10-24T05:42:56.748039+00:00",
+    "last_locked": "2026-10-24T05:42:56.748039+00:00",
+    "model_versions": [
+     "v1"
+    ]
+   },
+   "SIM_shadow_preseason": {
+    "rows": 28,
+    "first_locked": "2026-10-24T06:24:46.902484+00:00",
+    "last_locked": "2026-10-24T06:24:46.902484+00:00",
+    "model_versions": [
+     "sim_v1"
+    ]
+   }
+  }
+ },
+ "input_snapshots": {
+  "data/fixtures/s3_fixtures.csv": {
+   "sha256": "af92a390b1f125dcc0a35f5873d497b651daacc6f460bf25ef13ef37e81fd79b",
+   "bytes": 15940
+  },
+  "data/predictions/player_master.csv": {
+   "sha256": "b63d4ded84d7c13c2cc2f4dbbeb152430856705065c040b95808434eb1d78b59",
+   "bytes": 22797
+  },
+  "data/predictions/player_priors.csv": {
+   "sha256": "02438b6ec2a59c8904947ebff3959b8475e564b2a6f09ad5912acaa6d009e6d7",
+   "bytes": 26436
+  },
+  "data/predictions/player_history.csv": {
+   "sha256": "c7136d6f07ec7e0583dc09a6ecef65cc33da2319b12f9aefcbaa57a1a36882ce",
+   "bytes": 2644408
+  },
+  "data/predictions/preregistration_s3.json": {
+   "sha256": "01e436142a4b7f2f1d4537254feb94778e6396d1c0e5c36d2c321d6b765632c3",
+   "bytes": 7787
+  }
+ },
+ "note": "Regenerate after every future lock event (scripts/lock_matchday.py does this automatically). Verify with: python scripts/build_ledger_manifest.py --verify"
+}
