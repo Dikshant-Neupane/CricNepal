@@ -1,0 +1,374 @@
+player_key,profile_name,field,value,source,action
+player_andre_russell,Andre Russell,batting_hand,Right,Wikipedia,new profile row
+player_andre_russell,Andre Russell,bowling_type,Pace,Wikipedia,new profile row
+player_andre_russell,Andre Russell,bowling_arm,Right,Wikipedia,new profile row
+player_andre_russell,Andre Russell,date_of_birth,1988-04-29,Wikipedia,new profile row
+player_andre_russell,Andre Russell,country,West Indies,Wikipedia,new profile row
+player_ad_mathews,Angelo Mathews,batting_hand,Right,cricket.com.au / NDTV,new profile row
+player_ad_mathews,Angelo Mathews,bowling_type,Medium Pace,cricket.com.au / NDTV,new profile row
+player_ad_mathews,Angelo Mathews,bowling_arm,Right,cricket.com.au / NDTV,new profile row
+player_ad_mathews,Angelo Mathews,date_of_birth,1987-06-02,cricket.com.au / NDTV,new profile row
+player_ad_mathews,Angelo Mathews,country,Sri Lanka,cricket.com.au / NDTV,new profile row
+player_basir_ahamad,Basir Ahamad,bowling_arm,Left,Wikipedia / NDTV,fill
+player_charith_asalanka,Charith Asalanka,batting_hand,Left,Wikipedia / TOI,new profile row
+player_charith_asalanka,Charith Asalanka,bowling_type,Spin,Wikipedia / TOI,new profile row
+player_charith_asalanka,Charith Asalanka,bowling_arm,Right,Wikipedia / TOI,new profile row
+player_charith_asalanka,Charith Asalanka,date_of_birth,1997-06-29,Wikipedia / TOI,new profile row
+player_charith_asalanka,Charith Asalanka,country,Sri Lanka,Wikipedia / TOI,new profile row
+player_imran_sheikh,Imran Sheikh,bowling_type,Spin,cricnepal.com player profile,fill
+player_imran_sheikh,Imran Sheikh,bowling_arm,Right,cricnepal.com player profile,fill
+player_imran_sheikh,Imran Sheikh,date_of_birth,2005-10-22,cricnepal.com player profile,fill
+player_jishan_alam,Jishan Alam,batting_hand,Right,Cricbuzz / IPL.com,new profile row
+player_jishan_alam,Jishan Alam,bowling_type,Spin,Cricbuzz / IPL.com,new profile row
+player_jishan_alam,Jishan Alam,bowling_arm,Right,Cricbuzz / IPL.com,new profile row
+player_jishan_alam,Jishan Alam,date_of_birth,2004-11-10,Cricbuzz / IPL.com,new profile row
+player_jishan_alam,Jishan Alam,country,Bangladesh,Cricbuzz / IPL.com,new profile row
+player_lokesh_bam,Lokesh Bam,bowling_arm,Right,multiple profiles,fill
+player_n_joshi,N Joshi,bowling_arm,Right,Wikipedia (citing ESPNcricinfo),fill
+player_n_saud,N Saud,bowling_arm,Left,CAN NPL Auction Pool 2026,fill
+player_p_shrestha,P Shrestha,bowling_type,Spin,CAN pool / CREX (year conflict with Cricbuzz noted),fill
+player_p_shrestha,P Shrestha,bowling_arm,Right,CAN pool / CREX (year conflict with Cricbuzz noted),fill
+player_p_shrestha,P Shrestha,date_of_birth,2004-12-18,CAN pool / CREX (year conflict with Cricbuzz noted),fill
+player_pratis_gc,Pratis GC,bowling_arm,Left,NDTV / Moneycontrol / Cricbuzz,fill
+player_rupesh_singh,Rupesh Singh,bowling_arm,Right,CAN pool / cricnepal.com,fill
+player_rupesh_singh,Rupesh Singh,date_of_birth,2000-07-14,CAN pool / cricnepal.com,fill
+player_s_lamichhane,S Lamichhane,bowling_arm,Right,TOI / News18 / CREX,fill
+player_shubham_ranjane,Shubham Ranjane,bowling_arm,Right,TOI / NDTV,fill
+player_subash_bhandari,Subash Bhandari,bowling_arm,Right,Cricbuzz / NDTV / Khelnow,fill
+player_subash_bhandari,Subash Bhandari,date_of_birth,2004-12-05,Cricbuzz / NDTV / Khelnow,fill
+player_a_saud,A Saud,bowling_type,Medium Pace,Moneycontrol / TOI,fill
+player_a_saud,A Saud,bowling_arm,Right,Moneycontrol / TOI,fill
+player_b_yadav,B Yadav,bowling_arm,Right,SportsCafe / News18 / cricnepal.com,fill
+player_b_rawal,B Rawal,bowling_type,,CAN pool / NDTV / cricnepal.com,fill
+player_b_rawal,B Rawal,date_of_birth,2004-09-25,CAN pool / NDTV / cricnepal.com,fill
+player_deepak_bohara,Deepak Bohara,bowling_arm,Right,Wikipedia / NDTV,fill
+player_deepak_bohara,Deepak Bohara,date_of_birth,2005-06-19,Wikipedia / NDTV,fill
+player_d_khanal,D Khanal,bowling_type,Spin,Wikipedia / ICC / myKhel,fill
+player_d_khanal,D Khanal,bowling_arm,Right,Wikipedia / ICC / myKhel,fill
+player_gautam_kc,Gautam KC,batting_hand,Right,CAN pool / cricnepal.com (DOB withheld: 2004-07-31 vs 2001-06-25 conflict),fill
+player_gautam_kc,Gautam KC,bowling_type,Pace,CAN pool / cricnepal.com (DOB withheld: 2004-07-31 vs 2001-06-25 conflict),fill
+player_gautam_kc,Gautam KC,bowling_arm,Right,CAN pool / cricnepal.com (DOB withheld: 2004-07-31 vs 2001-06-25 conflict),fill
+player_kaleem_sana,Kaleem Sana,batting_hand,Right,Wikipedia / Moneycontrol,new profile row
+player_kaleem_sana,Kaleem Sana,bowling_type,Medium Pace,Wikipedia / Moneycontrol,new profile row
+player_kaleem_sana,Kaleem Sana,bowling_arm,Left,Wikipedia / Moneycontrol,new profile row
+player_kaleem_sana,Kaleem Sana,date_of_birth,1994-01-01,Wikipedia / Moneycontrol,new profile row
+player_kaleem_sana,Kaleem Sana,country,Canada,Wikipedia / Moneycontrol,new profile row
+player_ks_airee,KS Airee,bowling_arm,Right,NDTV / Cricbuzz / Moneycontrol,fill
+player_kushal_malla,Kushal Malla,bowling_arm,Left,Wikipedia,fill
+player_r_kumar,R Kumar,bowling_arm,Left,cricnepal.com player profile,fill
+player_rs_bopara,RS Bopara,bowling_arm,Right,Wikipedia,fill
+player_r_dhakal,R Dhakal,bowling_arm,Left,TOI / CAN pool,fill
+player_salahuddin_khan,Salahuddin Khan,batting_hand,Right,CAN pool / CREX,new profile row
+player_salahuddin_khan,Salahuddin Khan,bowling_type,Pace,CAN pool / CREX,new profile row
+player_salahuddin_khan,Salahuddin Khan,bowling_arm,Right,CAN pool / CREX,new profile row
+player_salahuddin_khan,Salahuddin Khan,date_of_birth,2005-05-04,CAN pool / CREX,new profile row
+player_salahuddin_khan,Salahuddin Khan,country,Nepal,CAN pool / CREX,new profile row
+player_sikandar_raza,Sikandar Raza,batting_hand,Right,Wikipedia,new profile row
+player_sikandar_raza,Sikandar Raza,bowling_type,Spin,Wikipedia,new profile row
+player_sikandar_raza,Sikandar Raza,bowling_arm,Right,Wikipedia,new profile row
+player_sikandar_raza,Sikandar Raza,date_of_birth,1986-04-24,Wikipedia,new profile row
+player_sikandar_raza,Sikandar Raza,country,Zimbabwe,Wikipedia,new profile row
+player_usama_mir,Usama Mir,batting_hand,Right,Wikipedia / PCB,new profile row
+player_usama_mir,Usama Mir,bowling_type,Spin,Wikipedia / PCB,new profile row
+player_usama_mir,Usama Mir,bowling_arm,Right,Wikipedia / PCB,new profile row
+player_usama_mir,Usama Mir,date_of_birth,1995-12-23,Wikipedia / PCB,new profile row
+player_usama_mir,Usama Mir,country,Pakistan,Wikipedia / PCB,new profile row
+player_a_mahata,A Mahata,bowling_arm,Left,CREX / CricketAddictor (DOB placeholder rejected),fill
+player_abhisekh_tiwari,Abhisekh Tiwari,batting_hand,Right,CAN pool / Moneycontrol / NDTV,fill
+player_abhisekh_tiwari,Abhisekh Tiwari,bowling_type,Pace,CAN pool / Moneycontrol / NDTV,fill
+player_abhisekh_tiwari,Abhisekh Tiwari,bowling_arm,Right,CAN pool / Moneycontrol / NDTV,fill
+player_abhisekh_tiwari,Abhisekh Tiwari,date_of_birth,2007-09-06,CAN pool / Moneycontrol / NDTV,fill
+player_as_routela,AS Routela,bowling_arm,Right,CAN pool,fill
+player_ak_sah,AK Sah,bowling_arm,Right,TOI / CREX / cricket.com.au,fill
+player_b_aagri,B Aagri,batting_hand,Right,ascores / CFLL,fill
+player_b_aagri,B Aagri,bowling_type,Medium Pace,ascores / CFLL,fill
+player_b_aagri,B Aagri,bowling_arm,Right,ascores / CFLL,fill
+player_b_aagri,B Aagri,date_of_birth,1998-04-30,ascores / CFLL,fill
+player_harmeet_singh,Harmeet Singh,bowling_arm,Left,cricket.com.au,fill
+player_iftikhar_ahmed,Iftikhar Ahmed,batting_hand,Right,Wikipedia,new profile row
+player_iftikhar_ahmed,Iftikhar Ahmed,bowling_type,Spin,Wikipedia,new profile row
+player_iftikhar_ahmed,Iftikhar Ahmed,bowling_arm,Right,Wikipedia,new profile row
+player_iftikhar_ahmed,Iftikhar Ahmed,date_of_birth,1990-09-03,Wikipedia,new profile row
+player_iftikhar_ahmed,Iftikhar Ahmed,country,Pakistan,Wikipedia,new profile row
+player_jds_neesham,JDS Neesham,bowling_arm,Right,Wikipedia,fill
+player_ln_rajbanshi,LN Rajbanshi,bowling_arm,Left,Wikipedia,fill
+player_mayan_yadav,Mayan Yadav,bowling_arm,Right,CricketArchive / Cricbuzz,fill
+player_mayan_yadav,Mayan Yadav,date_of_birth,2006-05-07,CricketArchive / Cricbuzz,fill
+player_moeen_ali,Moeen Ali,batting_hand,Left,Wikipedia,new profile row
+player_moeen_ali,Moeen Ali,bowling_type,Spin,Wikipedia,new profile row
+player_moeen_ali,Moeen Ali,bowling_arm,Right,Wikipedia,new profile row
+player_moeen_ali,Moeen Ali,date_of_birth,1987-06-18,Wikipedia,new profile row
+player_moeen_ali,Moeen Ali,country,England,Wikipedia,new profile row
+player_rit_gautam,Rit Gautam,batting_hand,Right,CAN pool / cricnepal.com,fill
+player_rit_gautam,Rit Gautam,bowling_type,,CAN pool / cricnepal.com,fill
+player_rit_gautam,Rit Gautam,date_of_birth,2001-09-17,CAN pool / cricnepal.com,fill
+player_s_karki,S Karki,bowling_type,Spin,cricnepal.com player profile,fill
+player_s_karki,S Karki,bowling_arm,Right,cricnepal.com player profile,fill
+player_s_karki,S Karki,date_of_birth,2003-07-20,cricnepal.com player profile,fill
+player_tr_das,TR Das,bowling_type,Medium Pace,cricnepal.com player profile,fill
+player_tr_das,TR Das,bowling_arm,Right,cricnepal.com player profile,fill
+player_tr_das,TR Das,date_of_birth,2002-10-18,cricnepal.com player profile,fill
+player_akbar_ali,Akbar Ali,batting_hand,Right,NDTV / Cricbuzz,new profile row
+player_akbar_ali,Akbar Ali,bowling_type,,NDTV / Cricbuzz,new profile row
+player_akbar_ali,Akbar Ali,date_of_birth,2001-10-08,NDTV / Cricbuzz,new profile row
+player_akbar_ali,Akbar Ali,country,Bangladesh,NDTV / Cricbuzz,new profile row
+player_ariful_islam,Ariful Islam,batting_hand,Right,Wikipedia,new profile row
+player_ariful_islam,Ariful Islam,bowling_type,Spin,Wikipedia,new profile row
+player_ariful_islam,Ariful Islam,bowling_arm,Right,Wikipedia,new profile row
+player_ariful_islam,Ariful Islam,date_of_birth,2004-12-08,Wikipedia,new profile row
+player_ariful_islam,Ariful Islam,country,Bangladesh,Wikipedia,new profile row
+player_bp_sharma,BP Sharma,bowling_arm,Left,CAN pool,fill
+player_da_miller,David Miller,batting_hand,Left,cricket.com.au,new profile row
+player_da_miller,David Miller,bowling_type,Spin,cricket.com.au,new profile row
+player_da_miller,David Miller,bowling_arm,Right,cricket.com.au,new profile row
+player_da_miller,David Miller,date_of_birth,1989-06-10,cricket.com.au,new profile row
+player_da_miller,David Miller,country,South Africa,cricket.com.au,new profile row
+player_deepak_dumre,Deepak Dumre,batting_hand,Right,cricnepal.com,fill
+player_deepak_dumre,Deepak Dumre,bowling_type,,cricnepal.com,fill
+player_deepak_dumre,Deepak Dumre,date_of_birth,2004-09-22,cricnepal.com,fill
+player_d_rawat,D Rawat,bowling_arm,Right,Wikipedia squad tables (arm: 3 sources Right-arm off break vs CAN pool Left — Right accepted),fill
+player_d_rawat,D Rawat,date_of_birth,2002-06-09,Wikipedia squad tables (arm: 3 sources Right-arm off break vs CAN pool Left — Right accepted),fill
+player_gulsan_jha,Gulsan Jha,bowling_arm,Right,Wikipedia,fill
+player_hussain_talat,Hussain Talat,batting_hand,Left,PCB / IPL.com / TOI,new profile row
+player_hussain_talat,Hussain Talat,bowling_type,Medium Pace,PCB / IPL.com / TOI,new profile row
+player_hussain_talat,Hussain Talat,bowling_arm,Right,PCB / IPL.com / TOI,new profile row
+player_hussain_talat,Hussain Talat,date_of_birth,1996-02-12,PCB / IPL.com / TOI,new profile row
+player_hussain_talat,Hussain Talat,country,Pakistan,PCB / IPL.com / TOI,new profile row
+player_mrj_watt,MRJ Watt,bowling_arm,Left,Wikipedia,fill
+player_nk_yadav,NK Yadav,bowling_arm,Right,CAN pool,fill
+player_p_sarraf,P Sarraf,bowling_arm,Right,Wikipedia / Cricbuzz,fill
+player_sahibzada_farhan,Sahibzada Farhan,batting_hand,Right,PCB official profile,new profile row
+player_sahibzada_farhan,Sahibzada Farhan,bowling_type,,PCB official profile,new profile row
+player_sahibzada_farhan,Sahibzada Farhan,date_of_birth,1996-03-06,PCB official profile,new profile row
+player_sahibzada_farhan,Sahibzada Farhan,country,Pakistan,PCB official profile,new profile row
+player_s_kansakar,S Kansakar,bowling_type,Spin,CAN pool / cricnepal.com / CREX,fill
+player_s_kansakar,S Kansakar,bowling_arm,Right,CAN pool / cricnepal.com / CREX,fill
+player_s_kansakar,S Kansakar,date_of_birth,2000-05-15,CAN pool / cricnepal.com / CREX,fill
+player_sompal_kami,Sompal Kami,bowling_arm,Right,Wikipedia,fill
+player_surya_tamang,Surya Tamang,bowling_arm,Left,Moneycontrol / TOI / NDTV / Cricbuzz,fill
+player_ubs_thakuri,UBS Thakuri,bowling_arm,Right,schedulefixtures / NDTV,fill
+player_ubs_thakuri,UBS Thakuri,date_of_birth,2006-02-28,schedulefixtures / NDTV,fill
+player_y_khatri,Y Khatri,bowling_arm,Right,Wikipedia / Cricbuzz / TOI,fill
+player_y_khatri,Y Khatri,date_of_birth,2007-09-30,Wikipedia / Cricbuzz / TOI,fill
+player_b_sharki,B Sharki,bowling_arm,Right,Wikipedia / CREX,fill
+player_david_warner,David Warner,batting_hand,Left,Wikipedia,new profile row
+player_david_warner,David Warner,bowling_type,Spin,Wikipedia,new profile row
+player_david_warner,David Warner,bowling_arm,Right,Wikipedia,new profile row
+player_david_warner,David Warner,date_of_birth,1986-10-27,Wikipedia,new profile row
+player_david_warner,David Warner,country,Australia,Wikipedia,new profile row
+player_k_s_bharat,K. S. Bharat,batting_hand,Right,Wikipedia / cricket.com.au (nominal off-spin listed; zero career bowling innings — treated as non-bowler),new profile row
+player_k_s_bharat,K. S. Bharat,bowling_type,,Wikipedia / cricket.com.au (nominal off-spin listed; zero career bowling innings — treated as non-bowler),new profile row
+player_k_s_bharat,K. S. Bharat,bowling_arm,Right,Wikipedia / cricket.com.au (nominal off-spin listed; zero career bowling innings — treated as non-bowler),new profile row
+player_k_s_bharat,K. S. Bharat,date_of_birth,1993-10-03,Wikipedia / cricket.com.au (nominal off-spin listed; zero career bowling innings — treated as non-bowler),new profile row
+player_k_s_bharat,K. S. Bharat,country,India,Wikipedia / cricket.com.au (nominal off-spin listed; zero career bowling innings — treated as non-bowler),new profile row
+player_karan_kc,Karan KC,bowling_arm,Right,Wikipedia,fill
+player_mohammad_aadil_alam,Mohammad Aadil Alam,bowling_type,Medium Pace,Wikipedia / TOI / Cricbuzz,fill
+player_mohammad_aadil_alam,Mohammad Aadil Alam,bowling_arm,Right,Wikipedia / TOI / Cricbuzz,fill
+player_mohammad_aadil_alam,Mohammad Aadil Alam,date_of_birth,2003-10-18,Wikipedia / TOI / Cricbuzz,fill
+player_rashid_khan,Rashid Khan,bowling_arm,Right,Wikipedia,fill
+player_sahan_arachchige,Sahan Arachchige,batting_hand,Left,Wikipedia,new profile row
+player_sahan_arachchige,Sahan Arachchige,bowling_type,Spin,Wikipedia,new profile row
+player_sahan_arachchige,Sahan Arachchige,bowling_arm,Right,Wikipedia,new profile row
+player_sahan_arachchige,Sahan Arachchige,date_of_birth,1996-05-13,Wikipedia,new profile row
+player_sahan_arachchige,Sahan Arachchige,country,Sri Lanka,Wikipedia,new profile row
+player_s_patel,S Patel,batting_hand,Right,CAN pool / NDTV / TOI / Cricbuzz,fill
+player_s_patel,S Patel,bowling_type,,CAN pool / NDTV / TOI / Cricbuzz,fill
+player_s_patel,S Patel,date_of_birth,2007-10-05,CAN pool / NDTV / TOI / Cricbuzz,fill
+player_santosh_yadav,Santosh Yadav,bowling_arm,Left,Cricbuzz profile,fill
+player_shahab_alam,Shahab Alam,bowling_arm,Left,Wikipedia / NDTV / TOI,fill
+player_a_tripathi,A Tripathi,bowling_type,Spin,cricnepal Lumbini squad page (Right-arm offbreak; CAN pool blank superseded per pattern),fill
+player_a_tripathi,A Tripathi,bowling_arm,Right,cricnepal Lumbini squad page (Right-arm offbreak; CAN pool blank superseded per pattern),fill
+player_aasif_sheikh,Aasif Sheikh,bowling_type,,NDTV (ESPN-derived),fill
+player_abhishesh_gautam,Abhishesh Gautam,bowling_arm,Left,CREX / cricnepal.com,fill
+player_a_yadav,A Yadav,bowling_arm,Left,CAN pool / cricnepal.com,fill
+player_a_yadav,A Yadav,date_of_birth,1993-05-17,CAN pool / cricnepal.com,fill
+player_djm_short,DJM Short,bowling_arm,Left,Wikipedia / NDTV,fill
+player_d_nath,D Nath,bowling_type,,NDTV / Moneycontrol,fill
+player_d_adhikari,D Adhikari,bowling_type,Pace,Cricbuzz / Wikipedia,fill
+player_d_adhikari,D Adhikari,bowling_arm,Right,Cricbuzz / Wikipedia,fill
+player_d_adhikari,D Adhikari,date_of_birth,2004-10-16,Cricbuzz / Wikipedia,fill
+player_d_gupta,D Gupta,bowling_arm,Left,CAN pool / cricnepal.com / Cricbuzz,fill
+player_d_gupta,D Gupta,date_of_birth,2004-12-25,CAN pool / cricnepal.com / Cricbuzz,fill
+player_k_mahato,K Mahato,bowling_arm,Right,CAN pool,fill
+player_n_dickwella,N Dickwella,bowling_type,,NDTV,fill
+player_rk_paudel,RK Paudel,bowling_arm,Right,Wikipedia,fill
+player_r_trumpelmann,R Trumpelmann,bowling_arm,Left,Wikipedia,fill
+player_sc_van_schalkwyk,Shadley van Schalkwyk,batting_hand,Left,Wikipedia / NDTV,new profile row
+player_sc_van_schalkwyk,Shadley van Schalkwyk,bowling_type,Medium Pace,Wikipedia / NDTV,new profile row
+player_sc_van_schalkwyk,Shadley van Schalkwyk,bowling_arm,Right,Wikipedia / NDTV,new profile row
+player_sc_van_schalkwyk,Shadley van Schalkwyk,date_of_birth,1988-08-05,Wikipedia / NDTV,new profile row
+player_sc_van_schalkwyk,Shadley van Schalkwyk,country,USA,Wikipedia / NDTV,new profile row
+player_shamim_hossain,Shamim Hossain,batting_hand,Left,Wikipedia,new profile row
+player_shamim_hossain,Shamim Hossain,bowling_type,Spin,Wikipedia,new profile row
+player_shamim_hossain,Shamim Hossain,bowling_arm,Right,Wikipedia,new profile row
+player_shamim_hossain,Shamim Hossain,date_of_birth,2000-09-02,Wikipedia,new profile row
+player_shamim_hossain,Shamim Hossain,country,Bangladesh,Wikipedia,new profile row
+player_s_malla,S Malla,bowling_arm,Right,Wikipedia / Cricbuzz / NDTV,fill
+player_s_jora,S Jora,bowling_arm,Right,cricnepal.com player profile,fill
+player_tr_bhandari,TR Bhandari,bowling_arm,Right,Wikipedia / cricnepal.com,fill
+player_aakash_chand,Aakash Chand,bowling_arm,Right,Wikipedia / Moneycontrol / Cricbuzz,fill
+player_a_gharti,A Gharti,bowling_type,,CAN pool / Wikipedia,fill
+player_a_gharti,A Gharti,date_of_birth,2003-08-21,CAN pool / Wikipedia,fill
+player_arjun_kumal,Arjun Kumal,bowling_type,Spin,cricnepal.com / Moneycontrol,fill
+player_arjun_kumal,Arjun Kumal,bowling_arm,Right,cricnepal.com / Moneycontrol,fill
+player_arjun_kumal,Arjun Kumal,date_of_birth,2005-12-11,cricnepal.com / Moneycontrol,fill
+player_bipin_acharya,Bipin Acharya,batting_hand,Left,CAN pool / Cricbuzz / CREX / Khelnow,new profile row
+player_bipin_acharya,Bipin Acharya,bowling_type,Spin,CAN pool / Cricbuzz / CREX / Khelnow,new profile row
+player_bipin_acharya,Bipin Acharya,bowling_arm,Right,CAN pool / Cricbuzz / CREX / Khelnow,new profile row
+player_bipin_acharya,Bipin Acharya,date_of_birth,2001-02-22,CAN pool / Cricbuzz / CREX / Khelnow,new profile row
+player_bipin_acharya,Bipin Acharya,country,Nepal,CAN pool / Cricbuzz / CREX / Khelnow,new profile row
+player_bipin_khatri,Bipin Khatri,bowling_arm,Right,Wikipedia / Cricbuzz,fill
+player_chamika_karunaratne,Chamika Karunaratne,batting_hand,Right,Wikipedia,new profile row
+player_chamika_karunaratne,Chamika Karunaratne,bowling_type,Pace,Wikipedia,new profile row
+player_chamika_karunaratne,Chamika Karunaratne,bowling_arm,Right,Wikipedia,new profile row
+player_chamika_karunaratne,Chamika Karunaratne,date_of_birth,1996-05-29,Wikipedia,new profile row
+player_chamika_karunaratne,Chamika Karunaratne,country,Sri Lanka,Wikipedia,new profile row
+player_d_lakshan,D Lakshan,bowling_arm,Right,Wikipedia,fill
+player_d_lakshan,D Lakshan,date_of_birth,1998-10-05,Wikipedia,fill
+player_d_kharel,D Kharel,bowling_arm,Right,Advance Cricket (single weak source — flagged),fill
+player_k_thagunna,K Thagunna,bowling_arm,Right,Wikipedia / NDTV / TOI,fill
+player_k_thagunna,K Thagunna,date_of_birth,1997-07-23,Wikipedia / NDTV / TOI,fill
+player_k_bhurtel,K Bhurtel,bowling_arm,Right,IPL.com / myKhel,fill
+player_mahedi_hasan,Mahedi Hasan,batting_hand,Right,Wikipedia,new profile row
+player_mahedi_hasan,Mahedi Hasan,bowling_type,Spin,Wikipedia,new profile row
+player_mahedi_hasan,Mahedi Hasan,bowling_arm,Right,Wikipedia,new profile row
+player_mahedi_hasan,Mahedi Hasan,date_of_birth,1994-12-12,Wikipedia,new profile row
+player_mahedi_hasan,Mahedi Hasan,country,Bangladesh,Wikipedia,new profile row
+player_mohammad_saifuddin,Mohammad Saifuddin,batting_hand,Left,Wikipedia / NDTV / TOI,new profile row
+player_mohammad_saifuddin,Mohammad Saifuddin,bowling_type,Medium Pace,Wikipedia / NDTV / TOI,new profile row
+player_mohammad_saifuddin,Mohammad Saifuddin,bowling_arm,Right,Wikipedia / NDTV / TOI,new profile row
+player_mohammad_saifuddin,Mohammad Saifuddin,date_of_birth,1996-11-01,Wikipedia / NDTV / TOI,new profile row
+player_mohammad_saifuddin,Mohammad Saifuddin,country,Bangladesh,Wikipedia / NDTV / TOI,new profile row
+player_s_dhakal,S Dhakal,bowling_arm,Left,Moneycontrol / NDTV / TOI / Cricbuzz,fill
+player_shakib_al_hasan,Shakib Al Hasan,batting_hand,Left,Wikipedia,new profile row
+player_shakib_al_hasan,Shakib Al Hasan,bowling_type,Spin,Wikipedia,new profile row
+player_shakib_al_hasan,Shakib Al Hasan,bowling_arm,Left,Wikipedia,new profile row
+player_shakib_al_hasan,Shakib Al Hasan,date_of_birth,1987-03-24,Wikipedia,new profile row
+player_shakib_al_hasan,Shakib Al Hasan,country,Bangladesh,Wikipedia,new profile row
+player_s_aryal,S Aryal,batting_hand,Right,CAN pool / cricnepal.com,fill
+player_s_aryal,S Aryal,bowling_type,Pace,CAN pool / cricnepal.com,fill
+player_s_aryal,S Aryal,bowling_arm,Right,CAN pool / cricnepal.com,fill
+player_s_aryal,S Aryal,date_of_birth,2006-11-06,CAN pool / cricnepal.com,fill
+player_aarif_sheikh,Aarif Sheikh,bowling_type,Medium Pace,Wikipedia / NDTV / Moneycontrol,fill
+player_aarif_sheikh,Aarif Sheikh,bowling_arm,Right,Wikipedia / NDTV / Moneycontrol,fill
+player_a_bohara,A Bohara,bowling_arm,Right,Wikipedia,fill
+player_a_kharel,A Kharel,bowling_arm,Left,schedulefixtures / khelnow,fill
+player_b_bhandari,B Bhandari,bowling_type,Medium Pace,TOI / IPL.com (supersedes CREX leg-break listing),fill
+player_b_bhandari,B Bhandari,bowling_arm,Right,TOI / IPL.com (supersedes CREX leg-break listing),fill
+player_bj_mcmullen,BJ McMullen,bowling_arm,Right,Wikipedia,fill
+player_d_bohara,D Bohara,bowling_type,,CAN pool / cricnepal.com,fill
+player_d_bohara,D Bohara,date_of_birth,2004-12-26,CAN pool / cricnepal.com,fill
+player_ds_airee,DS Airee,bowling_arm,Right,Wikipedia,fill
+player_h_dhami,H Dhami,bowling_arm,Right,Moneycontrol / NDTV / Cricbuzz / CREX,fill
+player_h_mahara,H Mahara,batting_hand,Right,cricnepal.com / Khelnow,fill
+player_h_mahara,H Mahara,bowling_type,Medium Pace,cricnepal.com / Khelnow,fill
+player_h_mahara,H Mahara,bowling_arm,Right,cricnepal.com / Khelnow,fill
+player_h_mahara,H Mahara,date_of_birth,2003-11-15,cricnepal.com / Khelnow,fill
+player_i_pandey,I Pandey,bowling_arm,Right,Wikipedia (citing ESPNcricinfo),fill
+player_milan_bohara,Milan Bohara,bowling_type,Spin,cricnepal.com player profile (supersedes CAN pool),fill
+player_milan_bohara,Milan Bohara,bowling_arm,Left,cricnepal.com player profile (supersedes CAN pool),fill
+player_milan_bohara,Milan Bohara,date_of_birth,2005-06-28,cricnepal.com player profile (supersedes CAN pool),fill
+player_sachin_bhatt,Sachin Bhatt,batting_hand,Right,CAN pool (type); batting Advance Cricket only — flagged; arm and DOB unresolved,fill
+player_sachin_bhatt,Sachin Bhatt,bowling_type,Spin,CAN pool (type); batting Advance Cricket only — flagged; arm and DOB unresolved,fill
+player_sa_zaib,SA Zaib,bowling_arm,Left,Wikipedia,fill
+player_sc_kuggeleijn,SC Kuggeleijn,bowling_arm,Right,Wikipedia,fill
+player_se_rutherford,Sherfane Rutherford,batting_hand,Left,Wikipedia,new profile row
+player_se_rutherford,Sherfane Rutherford,bowling_type,Pace,Wikipedia,new profile row
+player_se_rutherford,Sherfane Rutherford,bowling_arm,Right,Wikipedia,new profile row
+player_se_rutherford,Sherfane Rutherford,date_of_birth,1998-08-15,Wikipedia,new profile row
+player_se_rutherford,Sherfane Rutherford,country,West Indies,Wikipedia,new profile row
+player_aprajit_poudel,Aprajit Poudel,batting_hand,Right,News18 player profile,new profile row
+player_aprajit_poudel,Aprajit Poudel,bowling_type,Spin,News18 player profile,new profile row
+player_aprajit_poudel,Aprajit Poudel,bowling_arm,Left,News18 player profile,new profile row
+player_aprajit_poudel,Aprajit Poudel,date_of_birth,2007-07-08,News18 player profile,new profile row
+player_aprajit_poudel,Aprajit Poudel,country,Nepal,News18 player profile,new profile row
+player_dilsad_ali,Dilsad Ali,batting_hand,Right,cricnepal.com player page,new profile row
+player_dilsad_ali,Dilsad Ali,bowling_type,,cricnepal.com player page,new profile row
+player_dilsad_ali,Dilsad Ali,bowling_arm,,cricnepal.com player page,new profile row
+player_dilsad_ali,Dilsad Ali,date_of_birth,2007-05-03,cricnepal.com player page,new profile row
+player_dilsad_ali,Dilsad Ali,country,Nepal,cricnepal.com player page,new profile row
+player_prajwal_thapa,Prajwal Thapa,batting_hand,Right,CAN NPL Auction Pool PDF,new profile row
+player_prajwal_thapa,Prajwal Thapa,bowling_type,,CAN NPL Auction Pool PDF,new profile row
+player_prajwal_thapa,Prajwal Thapa,bowling_arm,,CAN NPL Auction Pool PDF,new profile row
+player_prajwal_thapa,Prajwal Thapa,date_of_birth,2005-03-04,CAN NPL Auction Pool PDF,new profile row
+player_prajwal_thapa,Prajwal Thapa,country,Nepal,CAN NPL Auction Pool PDF,new profile row
+player_sujan_thapaliya,Sujan Thapaliya,batting_hand,Left,CAN NPL Auction Pool PDF (conflict: aggregators say Right/medium — CAN followed),new profile row
+player_sujan_thapaliya,Sujan Thapaliya,bowling_type,,CAN NPL Auction Pool PDF (conflict: aggregators say Right/medium — CAN followed),new profile row
+player_sujan_thapaliya,Sujan Thapaliya,bowling_arm,,CAN NPL Auction Pool PDF (conflict: aggregators say Right/medium — CAN followed),new profile row
+player_sujan_thapaliya,Sujan Thapaliya,country,Nepal,CAN NPL Auction Pool PDF (conflict: aggregators say Right/medium — CAN followed),new profile row
+player_ashok_dhami,Ashok Dhami,batting_hand,Right,Cricbuzz profile,new profile row
+player_ashok_dhami,Ashok Dhami,bowling_type,Spin,Cricbuzz profile,new profile row
+player_ashok_dhami,Ashok Dhami,bowling_arm,Left,Cricbuzz profile,new profile row
+player_ashok_dhami,Ashok Dhami,date_of_birth,2007-02-17,Cricbuzz profile,new profile row
+player_ashok_dhami,Ashok Dhami,country,Nepal,Cricbuzz profile,new profile row
+player_mousom_dhakal,Mousom Dhakal,batting_hand,Right,Wikipedia (cites ESPNcricinfo),new profile row
+player_mousom_dhakal,Mousom Dhakal,bowling_type,Spin,Wikipedia (cites ESPNcricinfo),new profile row
+player_mousom_dhakal,Mousom Dhakal,bowling_arm,Right,Wikipedia (cites ESPNcricinfo),new profile row
+player_mousom_dhakal,Mousom Dhakal,date_of_birth,2001-01-27,Wikipedia (cites ESPNcricinfo),new profile row
+player_mousom_dhakal,Mousom Dhakal,country,Nepal,Wikipedia (cites ESPNcricinfo),new profile row
+player_aashutosh_pandey,Aashutosh Pandey,country,Nepal,NPL S3 squad list (Domestic category) — no profile published,new profile row
+player_bishal_kumar_patel,Bishal Kumar Patel,batting_hand,Left,cricnepal.com player page,new profile row
+player_bishal_kumar_patel,Bishal Kumar Patel,bowling_type,Medium Pace,cricnepal.com player page,new profile row
+player_bishal_kumar_patel,Bishal Kumar Patel,bowling_arm,Left,cricnepal.com player page,new profile row
+player_bishal_kumar_patel,Bishal Kumar Patel,date_of_birth,2003-10-30,cricnepal.com player page,new profile row
+player_bishal_kumar_patel,Bishal Kumar Patel,country,Nepal,cricnepal.com player page,new profile row
+player_bishal_susling,Bishal Susling,batting_hand,Right,KhelNow profile,new profile row
+player_bishal_susling,Bishal Susling,bowling_type,Spin,KhelNow profile,new profile row
+player_bishal_susling,Bishal Susling,bowling_arm,Right,KhelNow profile,new profile row
+player_bishal_susling,Bishal Susling,date_of_birth,1999-12-12,KhelNow profile,new profile row
+player_bishal_susling,Bishal Susling,country,Nepal,KhelNow profile,new profile row
+player_diwan_pun,Diwan Pun,batting_hand,Right,cricnepal.com player page,new profile row
+player_diwan_pun,Diwan Pun,bowling_type,Spin,cricnepal.com player page,new profile row
+player_diwan_pun,Diwan Pun,bowling_arm,Left,cricnepal.com player page,new profile row
+player_diwan_pun,Diwan Pun,date_of_birth,2005-12-11,cricnepal.com player page,new profile row
+player_diwan_pun,Diwan Pun,country,Nepal,cricnepal.com player page,new profile row
+player_sachin_sharma,Sachin Sharma,batting_hand,Right,Possible11 profile (single weak source — flagged),new profile row
+player_sachin_sharma,Sachin Sharma,bowling_type,,Possible11 profile (single weak source — flagged),new profile row
+player_sachin_sharma,Sachin Sharma,bowling_arm,,Possible11 profile (single weak source — flagged),new profile row
+player_sachin_sharma,Sachin Sharma,date_of_birth,2000-08-22,Possible11 profile (single weak source — flagged),new profile row
+player_sachin_sharma,Sachin Sharma,country,Nepal,Possible11 profile (single weak source — flagged),new profile row
+player_dayanand_mandal,Dayanand Mandal,batting_hand,Left,NDTV Sports profile (raw: left-arm medium fast),new profile row
+player_dayanand_mandal,Dayanand Mandal,bowling_type,Medium Pace,NDTV Sports profile (raw: left-arm medium fast),new profile row
+player_dayanand_mandal,Dayanand Mandal,bowling_arm,Left,NDTV Sports profile (raw: left-arm medium fast),new profile row
+player_dayanand_mandal,Dayanand Mandal,date_of_birth,2006-11-28,NDTV Sports profile (raw: left-arm medium fast),new profile row
+player_dayanand_mandal,Dayanand Mandal,country,Nepal,NDTV Sports profile (raw: left-arm medium fast),new profile row
+player_dev_shah,Dev Shah,batting_hand,Right,CREX player profile (DOB rejected as placeholder),new profile row
+player_dev_shah,Dev Shah,bowling_type,Spin,CREX player profile (DOB rejected as placeholder),new profile row
+player_dev_shah,Dev Shah,bowling_arm,Left,CREX player profile (DOB rejected as placeholder),new profile row
+player_dev_shah,Dev Shah,country,Nepal,CREX player profile (DOB rejected as placeholder),new profile row
+player_krishna_paudel,Krishna Paudel,batting_hand,Right,KhelNow profile,new profile row
+player_krishna_paudel,Krishna Paudel,bowling_type,Medium Pace,KhelNow profile,new profile row
+player_krishna_paudel,Krishna Paudel,bowling_arm,Right,KhelNow profile,new profile row
+player_krishna_paudel,Krishna Paudel,country,Nepal,KhelNow profile,new profile row
+player_prashiddha_jaisi,Prashiddha Jaisi,country,Nepal,U-16 match reports — no profile fields published,new profile row
+player_sonu_devkota,Sonu Devkota,batting_hand,Right,CAN NPL Auction Pool PDF (arm not stated for leg spin),new profile row
+player_sonu_devkota,Sonu Devkota,bowling_type,Spin,CAN NPL Auction Pool PDF (arm not stated for leg spin),new profile row
+player_sonu_devkota,Sonu Devkota,country,Nepal,CAN NPL Auction Pool PDF (arm not stated for leg spin),new profile row
+player_suryanshu_koirala,Suryanshu Koirala,batting_hand,Right,CAN pool (batting/no-bowl); DOB Cricketnmore only — flagged,new profile row
+player_suryanshu_koirala,Suryanshu Koirala,bowling_type,,CAN pool (batting/no-bowl); DOB Cricketnmore only — flagged,new profile row
+player_suryanshu_koirala,Suryanshu Koirala,bowling_arm,,CAN pool (batting/no-bowl); DOB Cricketnmore only — flagged,new profile row
+player_suryanshu_koirala,Suryanshu Koirala,date_of_birth,2008-09-02,CAN pool (batting/no-bowl); DOB Cricketnmore only — flagged,new profile row
+player_suryanshu_koirala,Suryanshu Koirala,country,Nepal,CAN pool (batting/no-bowl); DOB Cricketnmore only — flagged,new profile row
+player_ajay_chauhan,Ajay Chauhan,batting_hand,Right,cricnepal.com player profile,new profile row
+player_ajay_chauhan,Ajay Chauhan,bowling_type,Spin,cricnepal.com player profile,new profile row
+player_ajay_chauhan,Ajay Chauhan,bowling_arm,Left,cricnepal.com player profile,new profile row
+player_ajay_chauhan,Ajay Chauhan,date_of_birth,2003-03-24,cricnepal.com player profile,new profile row
+player_ajay_chauhan,Ajay Chauhan,country,Nepal,cricnepal.com player profile,new profile row
+player_bibek_kumar_rana_magar,Bibek Kumar Rana Magar,batting_hand,Left,Cricbuzz profile,new profile row
+player_bibek_kumar_rana_magar,Bibek Kumar Rana Magar,bowling_type,Spin,Cricbuzz profile,new profile row
+player_bibek_kumar_rana_magar,Bibek Kumar Rana Magar,bowling_arm,Right,Cricbuzz profile,new profile row
+player_bibek_kumar_rana_magar,Bibek Kumar Rana Magar,date_of_birth,2004-02-25,Cricbuzz profile,new profile row
+player_bibek_kumar_rana_magar,Bibek Kumar Rana Magar,country,Nepal,Cricbuzz profile,new profile row
+player_pratik_pokharel,Pratik Pokharel,batting_hand,Right,Wisden player profile (raw: right-arm medium fast),new profile row
+player_pratik_pokharel,Pratik Pokharel,bowling_type,Medium Pace,Wisden player profile (raw: right-arm medium fast),new profile row
+player_pratik_pokharel,Pratik Pokharel,bowling_arm,Right,Wisden player profile (raw: right-arm medium fast),new profile row
+player_pratik_pokharel,Pratik Pokharel,date_of_birth,2006-04-19,Wisden player profile (raw: right-arm medium fast),new profile row
+player_pratik_pokharel,Pratik Pokharel,country,Nepal,Wisden player profile (raw: right-arm medium fast),new profile row
+player_sunny_bk,Sunny BK,country,Nepal,nepalcric.com squad page — no profile published,new profile row
+player_ayub_chand,Ayub Chand,batting_hand,Right,CAN NPL Auction Pool PDF (arm not stated for leg spin),new profile row
+player_ayub_chand,Ayub Chand,bowling_type,Spin,CAN NPL Auction Pool PDF (arm not stated for leg spin),new profile row
+player_ayub_chand,Ayub Chand,country,Nepal,CAN NPL Auction Pool PDF (arm not stated for leg spin),new profile row
+player_tek_rawat,Tek Rawat,batting_hand,Right,KhelNow profile,new profile row
+player_tek_rawat,Tek Rawat,bowling_type,,KhelNow profile,new profile row
+player_tek_rawat,Tek Rawat,bowling_arm,,KhelNow profile,new profile row
+player_tek_rawat,Tek Rawat,country,Nepal,KhelNow profile,new profile row

@@ -1,5 +1,5 @@
 """
-Player master file: one row per Season 3 squad player (133).
+Player master file: one row per Season 3 squad player (141).
 
 Built ONLY from sourced fields; anything unsourced is null and named in
 `missing_fields`. Joins never use raw name strings across files:
@@ -97,12 +97,15 @@ def build_player_master(root: Path, registry_map: dict | None = None) -> pd.Data
         country = None if p is None or pd.isna(p["country"]) else str(p["country"])
         bat_hand = None
         bowling_type = None
+        bowling_arm = None
         dob = None
         if p is not None:
             if not pd.isna(p["batting_hand"]) and p["batting_hand"] != "Unknown":
                 bat_hand = str(p["batting_hand"])
             if not pd.isna(p["bowling_type"]):
                 bowling_type = str(p["bowling_type"])
+            if "bowling_arm" in p and not pd.isna(p["bowling_arm"]):
+                bowling_arm = str(p["bowling_arm"])
             if not pd.isna(p["date_of_birth"]):
                 dob = str(p["date_of_birth"])
         age = None
@@ -136,7 +139,7 @@ def build_player_master(root: Path, registry_map: dict | None = None) -> pd.Data
             "role_source": "s3_roster.playing_role",
             "batting_hand": bat_hand,
             "bowling_type": bowling_type,
-            "bowling_arm": None,  # no in-repo source separates arm from type
+            "bowling_arm": bowling_arm,
             "date_of_birth": dob,
             "age_at_season_start": age,
             "nationality": country,

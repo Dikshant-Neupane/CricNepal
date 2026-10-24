@@ -1,142 +1,142 @@
 player_key,canonical_name,cricsheet_registry_id,registry_id_matched_name,registry_id_match_type,team,role,role_source,batting_hand,bowling_type,bowling_arm,date_of_birth,age_at_season_start,nationality,is_overseas,identity_status,missing_fields
-player_andre_russell,Andre Russell,bbd41817,AD Russell,initials_surname_unique,Biratnagar Kings,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_ad_mathews,Angelo Mathews,896d78ad,AD Mathews,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_aprajit_poudel,Aprajit Poudel,,,,Biratnagar Kings,Bowler,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_basir_ahamad,Basir Ahamad,218c7eab,Basir Ahamad,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Medium Pace,,2001-05-15,25.4,Afghanistan,True,single-form,
-player_charith_asalanka,Charith Asalanka,732c038e,KIC Asalanka,exact,Biratnagar Kings,Batter,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_dilsad_ali,Dilsad Ali,,,,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_imran_sheikh,Imran Sheikh,97fd166d,Imran Sheikh,exact,Biratnagar Kings,Batter,s3_roster.playing_role,Right,,,,,Nepal,False,single-form,bowling_type;date_of_birth
-player_jishan_alam,Jishan Alam,86e22dd4,Jishan Alam,exact,Biratnagar Kings,Batter,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_lokesh_bam,Lokesh Bam,75c8a26b,Lokesh Bam,exact,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,Right,Medium Pace,,2002-11-19,23.9,Nepal,False,single-form,
-player_n_joshi,Narayan Joshi,58c71b70,N Joshi,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,,2005-05-08,21.5,Nepal,False,confirmed,
-player_n_saud,Naren Saud,010df582,N Saud,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,,2003-10-05,23.1,Nepal,False,confirmed,
-player_prajwal_thapa,Prajwal Thapa,,,,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_p_shrestha,Pratik Shrestha,534c4b03,P Shrestha,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,,,,,Nepal,False,confirmed,bowling_type;date_of_birth
-player_pratis_gc,Pratish GC,c1077ba3,Pratis GC,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Medium Pace,,1995-07-22,31.3,Nepal,False,confirmed,
-player_rupesh_singh,Rupesh Kumar Singh,30b93df1,Rupesh Singh,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,,,,Nepal,False,confirmed,date_of_birth
-player_s_lamichhane,Sandeep Lamichhane,b410bd3d,S Lamichhane,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,,2000-08-02,26.2,Nepal,False,confirmed,
-player_shubham_ranjane,Shubham Ranjane,6c7a68d0,Shubham Ranjane,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,,2005-01-14,21.8,Nepal,False,single-form,
-player_subash_bhandari,Subash Bhandari,1519bdeb,Subash Bhandari,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,,,,Nepal,False,single-form,date_of_birth
-player_sujan_thapaliya,Sujan Thapaliya,,,,Biratnagar Kings,All-rounder,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_a_saud,Arjun Saud,94b8d7dd,A Saud,exact,Chitwan Rhinos,Wicketkeeper,s3_roster.playing_role,Right,,,2004-09-03,22.1,Nepal,False,confirmed,bowling_type
-player_ashok_dhami,Ashok Dhami,,,,Chitwan Rhinos,Bowler,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_b_yadav,Bibek Kumar Yadav,ef07f354,B Yadav,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Right,Pace,,2003-09-11,23.1,Nepal,False,confirmed,
-player_b_rawal,Bipin Rawal,6527fb51,B Rawal,exact,Chitwan Rhinos,Wicketkeeper,s3_roster.playing_role,Right,,,,,Nepal,False,confirmed,bowling_type;date_of_birth
-player_deepak_bohara,Deepak Bohara,9b1276f1,Deepak Bohara,exact,Chitwan Rhinos,Batter,s3_roster.playing_role,Right,Spin,,,,Nepal,False,single-form,date_of_birth
-player_d_khanal,Dev Khanal,c4bc3b59,D Khanal,exact,Chitwan Rhinos,Batter,s3_roster.playing_role,Right,,,2001-07-25,25.3,Nepal,False,confirmed,bowling_type
-player_gautam_kc,Gautam KC,a2ff9c85,Gautam KC,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,,,,,,Nepal,False,single-form,batting_hand;bowling_type;date_of_birth
-player_kaleem_sana,Kaleem Sana,14810ee7,Kaleem Sana,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_ks_airee,Kamal Singh Airee,548d4188,KS Airee,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Pace,,2004-07-18,22.3,Nepal,False,confirmed,
-player_kushal_malla,Kushal Malla,7e9f1cde,Kushal Malla,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Left,Medium Pace,,2002-11-04,24.0,Nepal,False,single-form,
-player_mousom_dhakal,Mousom Dhakal,,,,Chitwan Rhinos,Bowler,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_r_kumar,Ranjeet Kumar,aba0f4a9,R Kumar,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,,2003-03-19,23.6,Nepal,False,confirmed,
-player_rs_bopara,Ravi Bopara,7ca5e05d,RS Bopara,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Right,Medium Pace,,1985-05-04,41.5,England,True,confirmed,
-player_r_dhakal,Rijan Dhakal,8399a7af,R Dhakal,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Medium Pace,,1999-04-17,27.5,Nepal,False,confirmed,
-player_salahuddin_khan,Salahuddin Khan,f088b960,SN Khan,initials_surname_unique,Chitwan Rhinos,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_sikandar_raza,Sikandar Raza,26d041c4,Sikandar Raza,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_usama_mir,Usama Mir,6dd8b88c,Usama Mir,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_a_mahata,Aadity Mahata,83fddc3f,A Mahata,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Pace,,,,Nepal,False,confirmed,date_of_birth
-player_aashutosh_pandey,Aashutosh Pandey,,,,Janakpur Bolts,All-rounder,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_abhisekh_tiwari,Abhisekh Tiwari,12d57ebd,Abhisekh Tiwari,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,,,,,,Nepal,False,single-form,batting_hand;bowling_type;date_of_birth
-player_as_routela,Amar Singh Rautela,3d74eacf,AS Routela,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Medium Pace,,2004-08-09,22.2,Nepal,False,confirmed,
-player_ak_sah,Anil Kumar Sah,5b1d6583,AK Sah,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Right,Medium Pace,,2002-03-25,24.6,Nepal,False,confirmed,
-player_b_aagri,Bikash Aagri,179f9589,B Aagri,exact,Janakpur Bolts,Bowler,s3_roster.playing_role,,,,,,Nepal,False,confirmed,batting_hand;bowling_type;date_of_birth
-player_bishal_kumar_patel,Bishal Kumar Patel,,,,Janakpur Bolts,All-rounder,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_bishal_susling,Bishal Susling,,,,Janakpur Bolts,All-rounder,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_harmeet_singh,Harmeet Singh,0bf15e52,Harmeet Singh,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,,1989-02-24,37.7,India,True,single-form,
-player_iftikhar_ahmed,Iftikhar Ahmed,29e253dd,Iftikhar Ahmed,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_jds_neesham,Jimmy Neesham,9219eff0,JDS Neesham,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Pace,,1990-09-17,36.1,New Zealand,True,confirmed,
-player_ln_rajbanshi,Lalit Narayan Rajbanshi,6ad2d5f7,LN Rajbanshi,exact,Janakpur Bolts,Bowler,s3_roster.playing_role,Right,Spin,,1998-08-30,28.2,Nepal,False,confirmed,
-player_mayan_yadav,Mayan Yadav,c6355538,Mayan Yadav,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Spin,,,,Nepal,False,single-form,date_of_birth
-player_moeen_ali,Moeen Ali,bb351c23,MM Ali,initials_surname_unique,Janakpur Bolts,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_rit_gautam,Rit Gautam,f1471db3,Rit Gautam,exact,Janakpur Bolts,Batter,s3_roster.playing_role,,,,,,Nepal,False,single-form,batting_hand;bowling_type;date_of_birth
-player_s_karki,Santosh Karki,4898e6fb,S Karki,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Right,,,,,Nepal,False,confirmed,bowling_type;date_of_birth
-player_tr_das,Trit Raj Das,40f1a776,TR Das,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,,,,,Nepal,False,confirmed,bowling_type;date_of_birth
-player_akbar_ali,Akbar Ali,abae26ad,Akbar Ali,exact,Karnali Yaks,Wicketkeeper,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_ariful_islam,Ariful Islam,bd9b6cc3,Ariful Islam,exact,Karnali Yaks,Batter,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_bp_sharma,Bipin Sharma,947ceca5,BP Sharma,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Spin,,2000-09-27,26.1,Nepal,False,confirmed,
-player_da_miller,David Miller,d67d5f00,DA Miller,exact,Karnali Yaks,Batter,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_deepak_dumre,Deepak Dumre,e2acb37d,Deepak Dumre,exact,Karnali Yaks,Wicketkeeper,s3_roster.playing_role,,,,,,Nepal,False,single-form,batting_hand;bowling_type;date_of_birth
-player_d_rawat,Dipendra Rawat,c6ff5ac2,D Rawat,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Pace,,,,Nepal,False,confirmed,date_of_birth
-player_diwan_pun,Diwan Pun,,,,Karnali Yaks,All-rounder,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_gulsan_jha,Gulshan Jha,9811e35e,Gulsan Jha,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Pace,,2002-06-12,24.4,Nepal,False,confirmed,
-player_hussain_talat,Hussain Talat,bb4b445b,Hussain Talat,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_mrj_watt,Mark Watt,1252f71a,MRJ Watt,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Spin,,1996-03-29,30.6,Scotland,True,confirmed,
-player_nk_yadav,Nandan Yadav,737e595d,NK Yadav,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Left,Medium Pace,,1996-05-19,30.4,Nepal,False,confirmed,
-player_p_sarraf,Pawan Sarraf,82294960,P Sarraf,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Medium Pace,,2005-03-25,21.6,Nepal,False,confirmed,
-player_sachin_sharma,Sachin Sharma,,,,Karnali Yaks,Batter,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_sahibzada_farhan,Sahibzada Farhan,1aba45cd,Sahibzada Farhan,exact,Karnali Yaks,Batter,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_s_kansakar,Shubh Kansakar,fd0e5582,S Kansakar,exact,Karnali Yaks,Batter,s3_roster.playing_role,Right,,,,,Nepal,False,confirmed,bowling_type;date_of_birth
-player_sompal_kami,Sompal Kami,1adb8ee8,Sompal Kami,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Pace,,1992-01-12,34.8,Nepal,False,single-form,
-player_surya_tamang,Surya Tamang,579f2447,Surya Tamang,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Medium Pace,,2004-04-17,22.5,Nepal,False,single-form,
-player_ubs_thakuri,Unish Bikram Singh Thakuri,fd0aef78,UBS Thakuri,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Medium Pace,,,,Nepal,False,confirmed,date_of_birth
-player_y_khatri,Yuvraj Khatri,0d705d2d,Y Khatri,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Pace,,,,Nepal,False,confirmed,date_of_birth
-player_b_sharki,Bhim Sharki,fbdc8309,B Sharki,exact,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Spin,,2001-09-26,25.1,Nepal,False,confirmed,
-player_david_warner,David Warner,dcce6f09,DA Warner,initials_surname_unique,Kathmandu Gorkhas,Batter,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_dayanand_mandal,Dayanand Mandal,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_dev_shah,Dev Shah,,,,Kathmandu Gorkhas,Batter,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_k_s_bharat,K. S. Bharat,44a89551,KS Bharat,initials_surname_unique,Kathmandu Gorkhas,Wicketkeeper,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_karan_kc,Karan KC,f53b3e1d,Karan KC,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,,1993-03-01,33.7,Nepal,False,single-form,
-player_krishna_paudel,Krishna Paudel,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_mohammad_aadil_alam,Mohammad Aadil Alam,70ced7f2,Mohammad Aadil Alam,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,,,,,Nepal,False,single-form,bowling_type;date_of_birth
-player_prashiddha_jaisi,Prashiddha Jaisi,,,,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_rashid_khan,Rashid Khan,5f547c8b,Rashid Khan,exact,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Pace,,1998-09-20,28.1,Afghanistan,True,single-form,
-player_sahan_arachchige,Sahan Arachchige,c05f9d20,SSD Arachchige,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_s_patel,Sahil Patel,c4ee6c06,S Patel,exact,Kathmandu Gorkhas,Wicketkeeper,s3_roster.playing_role,,,,,,Nepal,False,confirmed,batting_hand;bowling_type;date_of_birth
-player_santosh_yadav,Santosh Yadav,ef342bdb,Santosh Yadav,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,,2002-11-06,24.0,Nepal,False,single-form,
-player_shahab_alam,Shahab Alam,cdd9fa95,Shahab Alam,exact,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Spin,,1997-12-28,28.8,Nepal,False,single-form,
-player_sonu_devkota,Sonu Devkota,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_suryanshu_koirala,Suryanshu Koirala,,,,Kathmandu Gorkhas,Batter,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_a_tripathi,Aakash Tripathi,cbba9e4e,A Tripathi,exact,Lumbini Lions,Batter,s3_roster.playing_role,Right,,,2004-11-30,21.9,Nepal,False,confirmed,bowling_type
-player_aasif_sheikh,Aasif Sheikh,dcbea954,Aasif Sheikh,exact,Lumbini Lions,Wicketkeeper,s3_roster.playing_role,Right,,,2001-06-22,25.3,Nepal,False,single-form,bowling_type
-player_abhishesh_gautam,Abhishesh Gautam,0baa5518,Abhishesh Gautam,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Spin,,2002-05-03,24.5,Nepal,False,single-form,
-player_ajay_chauhan,Ajay Chauhan,,,,Lumbini Lions,Bowler,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_a_yadav,Arniko Prasad Yadav,b564b5e6,A Yadav,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,Right,Medium Pace,,,,Nepal,False,confirmed,date_of_birth
-player_djm_short,D'Arcy Short,1a156c88,DJM Short,exact,Lumbini Lions,Batter,s3_roster.playing_role,Right,Pace,,1990-08-09,36.2,Australia,True,confirmed,
-player_d_nath,Dilip Nath,d019608b,D Nath,exact,Lumbini Lions,Wicketkeeper,s3_roster.playing_role,Right,,,2004-02-28,22.7,Nepal,False,confirmed,bowling_type
-player_d_adhikari,Dinesh Adhikari,bd4fb3ba,D Adhikari,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,,,,,Nepal,False,confirmed,bowling_type;date_of_birth
-player_d_gupta,Durgesh Gupta,762ea5b1,D Gupta,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Pace,,,,Nepal,False,confirmed,date_of_birth
-player_k_mahato,Kishore Mahato,d913103d,K Mahato,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Medium Pace,,2000-04-02,26.6,Nepal,False,confirmed,
-player_n_dickwella,Niroshan Dickwella,45963d9e,N Dickwella,exact,Lumbini Lions,Wicketkeeper,s3_roster.playing_role,Left,,,1993-06-25,33.3,Sri Lanka,True,confirmed,bowling_type
-player_rk_paudel,Rohit Paudel,1a3cc554,RK Paudel,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,Right,Spin,,2002-07-06,24.3,Nepal,False,confirmed,
-player_r_trumpelmann,Ruben Trumpelmann,ff6a7ab5,R Trumpelmann,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Left,Spin,,1999-01-08,27.8,Namibia,True,confirmed,
-player_sc_van_schalkwyk,Shadley van Schalkwyk,97b0e4ff,SC van Schalkwyk,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_shamim_hossain,Shamim Hossain,711249d1,Shamim Hossain,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_s_malla,Sher Malla,1daa8927,S Malla,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Spin,,1994-03-15,32.6,Nepal,False,confirmed,
-player_s_jora,Sundeep Jora,156378d8,S Jora,exact,Lumbini Lions,Batter,s3_roster.playing_role,Right,Medium Pace,,2002-12-09,23.9,Nepal,False,confirmed,
-player_tr_bhandari,Tilak Raj Bhandari,2593c302,TR Bhandari,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Spin,,2004-05-15,22.4,Nepal,False,confirmed,
-player_aakash_chand,Aakash Chand,279c51f0,Aakash Chand,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,Right,Pace,,2004-01-23,22.8,Nepal,False,single-form,
-player_a_gharti,Arjun Gharti,0b62d391,A Gharti,exact,Pokhara Avengers,Wicketkeeper,s3_roster.playing_role,Right,,,,,Nepal,False,confirmed,bowling_type;date_of_birth
-player_arjun_kumal,Arjun Kumal,2f7a41f8,Arjun Kumal,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,,,,,Nepal,False,single-form,bowling_type;date_of_birth
-player_bibek_kumar_rana_magar,Bibek Kumar Rana Magar,,,,Pokhara Avengers,Batter,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_bipin_acharya,Bipin Acharya,f5faec97,B Acharya,initials_surname_unique,Pokhara Avengers,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_bipin_khatri,Bipin Khatri,6e21867e,Bipin Khatri,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,Right,Spin,,1999-07-08,27.3,Nepal,False,single-form,
-player_chamika_karunaratne,Chamika Karunaratne,fb3e0d39,C Karunaratne,initials_surname_unique,Pokhara Avengers,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_d_lakshan,Dhananjaya Lakshan,0a2184d9,D Lakshan,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,Right,Spin,,,,Nepal,False,confirmed,date_of_birth
-player_d_kharel,Dinesh Kharel,0e3bfa00,D Kharel,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Spin,,2002-04-09,24.5,Nepal,False,confirmed,
-player_k_thagunna,Kiran Thagunna,97d86e77,K Thagunna,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Medium Pace,,,,Nepal,False,confirmed,date_of_birth
-player_k_bhurtel,Kushal Bhurtel,e3386c8a,K Bhurtel,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Medium Pace,,1997-11-01,29.0,Nepal,False,confirmed,
-player_mahedi_hasan,Mahedi Hasan,9dad0f2e,Mahedi Hasan,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_mohammad_saifuddin,Mohammad Saifuddin,b3a28446,Mohammad Saifuddin,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_pratik_pokharel,Pratik Pokharel,,,,Pokhara Avengers,Batter,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_s_dhakal,Sagar Dhakal,8955b928,S Dhakal,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,Right,Medium Pace,,2001-11-11,25.0,Nepal,False,confirmed,
-player_shakib_al_hasan,Shakib Al Hasan,7dc35884,Shakib Al Hasan,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_s_aryal,Sudip Aryal,c1974b74,S Aryal,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,,,,,,Nepal,False,confirmed,batting_hand;bowling_type;date_of_birth
-player_sunny_bk,Sunny BK,,,,Pokhara Avengers,All-rounder,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_aarif_sheikh,Aarif Sheikh,cd4d7695,Aarif Sheikh,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,Right,,,1997-10-04,29.1,Nepal,False,single-form,bowling_type
-player_a_bohara,Abinash Bohara,64fb6b15,A Bohara,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,Right,Medium Pace,,1996-02-11,30.7,Nepal,False,confirmed,
-player_a_kharel,Anil Kharel,08b15b9e,A Kharel,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,Right,Pace,,2005-11-16,20.9,Nepal,False,confirmed,
-player_ayub_chand,Ayub Chand,,,,Sudurpaschim Royals,Batter,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
-player_b_bhandari,Binod Bhandari,82342b13,B Bhandari,exact,Sudurpaschim Royals,Wicketkeeper,s3_roster.playing_role,Right,,,1993-11-08,33.0,Nepal,False,confirmed,bowling_type
-player_bj_mcmullen,Brandon McMullen,436c763a,BJ McMullen,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Right,Spin,,1994-10-10,32.0,Ireland,True,confirmed,
-player_d_bohara,Dipak Bohara,7e46794e,D Bohara,exact,Sudurpaschim Royals,Wicketkeeper,s3_roster.playing_role,Right,,,,,Nepal,False,confirmed,bowling_type;date_of_birth
-player_ds_airee,Dipendra Singh Airee,1747ea18,DS Airee,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Right,Pace,,2000-02-03,26.7,Nepal,False,confirmed,
-player_h_dhami,Hemant Dhami,bb20441f,H Dhami,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,Right,Medium Pace,,2004-04-26,22.5,Nepal,False,confirmed,
-player_h_mahara,Hikmat Mahara,28b1c40e,H Mahara,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,,,,,,Nepal,False,confirmed,batting_hand;bowling_type;date_of_birth
-player_i_pandey,Ishan Pandey,ed547c49,I Pandey,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,Right,Medium Pace,,2001-09-05,25.1,Nepal,False,confirmed,
-player_milan_bohara,Milan Bohara,4546e17e,Milan Bohara,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,,,,,,Nepal,False,single-form,batting_hand;bowling_type;date_of_birth
-player_sachin_bhatt,Sachin Bhatta,312f21e7,Sachin Bhatt,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,,,,,,Nepal,False,confirmed,batting_hand;bowling_type;date_of_birth
-player_sa_zaib,Saif Ali Zaib,ab01e323,SA Zaib,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Left,Spin,,1998-05-22,28.4,England,True,confirmed,
-player_sc_kuggeleijn,Scott Kuggeleijn,fef92afc,SC Kuggeleijn,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Right,Spin,,1992-03-25,34.6,New Zealand,True,confirmed,
-player_se_rutherford,Sherfane Rutherford,d014d5ac,SE Rutherford,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,,,,,,,,single-form,batting_hand;bowling_type;date_of_birth;nationality
-player_tek_rawat,Tek Rawat,,,,Sudurpaschim Royals,Wicketkeeper,s3_roster.playing_role,,,,,,,,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth;nationality
+player_andre_russell,Andre Russell,bbd41817,AD Russell,initials_surname_unique,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,Right,1988-04-29,38.5,West Indies,True,single-form,
+player_ad_mathews,Angelo Mathews,896d78ad,AD Mathews,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,1987-06-02,39.4,Sri Lanka,True,single-form,
+player_aprajit_poudel,Aprajit Poudel,,,,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,Left,2007-07-08,19.3,Nepal,False,single-form,cricsheet_registry_id
+player_basir_ahamad,Basir Ahamad,218c7eab,Basir Ahamad,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Medium Pace,Left,2001-05-15,25.4,Afghanistan,True,single-form,
+player_charith_asalanka,Charith Asalanka,732c038e,KIC Asalanka,exact,Biratnagar Kings,Batter,s3_roster.playing_role,Left,Spin,Right,1997-06-29,29.3,Sri Lanka,True,single-form,
+player_dilsad_ali,Dilsad Ali,,,,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2007-05-03,19.5,Nepal,False,single-form,cricsheet_registry_id
+player_imran_sheikh,Imran Sheikh,97fd166d,Imran Sheikh,exact,Biratnagar Kings,Batter,s3_roster.playing_role,Right,Spin,Right,2005-10-22,21.0,Nepal,False,single-form,
+player_jishan_alam,Jishan Alam,86e22dd4,Jishan Alam,exact,Biratnagar Kings,Batter,s3_roster.playing_role,Right,Spin,Right,2004-11-10,22.0,Bangladesh,True,single-form,
+player_lokesh_bam,Lokesh Bam,75c8a26b,Lokesh Bam,exact,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,Right,Medium Pace,Right,2002-11-19,23.9,Nepal,False,single-form,
+player_n_joshi,Narayan Joshi,58c71b70,N Joshi,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,Right,2005-05-08,21.5,Nepal,False,confirmed,
+player_n_saud,Naren Saud,010df582,N Saud,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,Left,2003-10-05,23.1,Nepal,False,confirmed,
+player_prajwal_thapa,Prajwal Thapa,,,,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2005-03-04,21.6,Nepal,False,single-form,cricsheet_registry_id
+player_p_shrestha,Pratik Shrestha,534c4b03,P Shrestha,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Spin,Right,2004-12-18,21.9,Nepal,False,confirmed,
+player_pratis_gc,Pratish GC,c1077ba3,Pratis GC,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Medium Pace,Left,1995-07-22,31.3,Nepal,False,confirmed,
+player_rupesh_singh,Rupesh Kumar Singh,30b93df1,Rupesh Singh,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,Right,2000-07-14,26.3,Nepal,False,confirmed,
+player_s_lamichhane,Sandeep Lamichhane,b410bd3d,S Lamichhane,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,Right,2000-08-02,26.2,Nepal,False,confirmed,
+player_shubham_ranjane,Shubham Ranjane,6c7a68d0,Shubham Ranjane,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,Right,2005-01-14,21.8,Nepal,False,single-form,
+player_subash_bhandari,Subash Bhandari,1519bdeb,Subash Bhandari,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,Right,2004-12-05,21.9,Nepal,False,single-form,
+player_sujan_thapaliya,Sujan Thapaliya,,,,Biratnagar Kings,All-rounder,s3_roster.playing_role,Left,Non-bowler,,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
+player_a_saud,Arjun Saud,94b8d7dd,A Saud,exact,Chitwan Rhinos,Wicketkeeper,s3_roster.playing_role,Right,Medium Pace,Right,2004-09-03,22.1,Nepal,False,confirmed,
+player_ashok_dhami,Ashok Dhami,,,,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Left,2007-02-17,19.7,Nepal,False,single-form,cricsheet_registry_id
+player_b_yadav,Bibek Kumar Yadav,ef07f354,B Yadav,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Right,Pace,Right,2003-09-11,23.1,Nepal,False,confirmed,
+player_b_rawal,Bipin Rawal,6527fb51,B Rawal,exact,Chitwan Rhinos,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2004-09-25,22.1,Nepal,False,confirmed,
+player_deepak_bohara,Deepak Bohara,9b1276f1,Deepak Bohara,exact,Chitwan Rhinos,Batter,s3_roster.playing_role,Right,Spin,Right,2005-06-19,21.4,Nepal,False,single-form,
+player_d_khanal,Dev Khanal,c4bc3b59,D Khanal,exact,Chitwan Rhinos,Batter,s3_roster.playing_role,Right,Spin,Right,2001-07-25,25.3,Nepal,False,confirmed,
+player_gautam_kc,Gautam KC,a2ff9c85,Gautam KC,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Pace,Right,,,Nepal,False,single-form,date_of_birth
+player_kaleem_sana,Kaleem Sana,14810ee7,Kaleem Sana,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Medium Pace,Left,1994-01-01,32.8,Canada,True,single-form,
+player_ks_airee,Kamal Singh Airee,548d4188,KS Airee,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Pace,Right,2004-07-18,22.3,Nepal,False,confirmed,
+player_kushal_malla,Kushal Malla,7e9f1cde,Kushal Malla,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Left,Medium Pace,Left,2002-11-04,24.0,Nepal,False,single-form,
+player_mousom_dhakal,Mousom Dhakal,,,,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Right,2001-01-27,25.7,Nepal,False,single-form,cricsheet_registry_id
+player_r_kumar,Ranjeet Kumar,aba0f4a9,R Kumar,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Left,2003-03-19,23.6,Nepal,False,confirmed,
+player_rs_bopara,Ravi Bopara,7ca5e05d,RS Bopara,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,1985-05-04,41.5,England,True,confirmed,
+player_r_dhakal,Rijan Dhakal,8399a7af,R Dhakal,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Medium Pace,Left,1999-04-17,27.5,Nepal,False,confirmed,
+player_salahuddin_khan,Salahuddin Khan,f088b960,SN Khan,initials_surname_unique,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Right,Pace,Right,2005-05-04,21.5,Nepal,False,single-form,
+player_sikandar_raza,Sikandar Raza,26d041c4,Sikandar Raza,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Right,Spin,Right,1986-04-24,40.5,Zimbabwe,True,single-form,
+player_usama_mir,Usama Mir,6dd8b88c,Usama Mir,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Right,1995-12-23,30.8,Pakistan,True,single-form,
+player_a_mahata,Aadity Mahata,83fddc3f,A Mahata,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Pace,Left,,,Nepal,False,confirmed,date_of_birth
+player_aashutosh_pandey,Aashutosh Pandey,,,,Janakpur Bolts,All-rounder,s3_roster.playing_role,,,,,,Nepal,False,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth
+player_abhisekh_tiwari,Abhisekh Tiwari,12d57ebd,Abhisekh Tiwari,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Pace,Right,2007-09-06,19.1,Nepal,False,single-form,
+player_as_routela,Amar Singh Rautela,3d74eacf,AS Routela,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,2004-08-09,22.2,Nepal,False,confirmed,
+player_ak_sah,Anil Kumar Sah,5b1d6583,AK Sah,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Right,Medium Pace,Right,2002-03-25,24.6,Nepal,False,confirmed,
+player_b_aagri,Bikash Aagri,179f9589,B Aagri,exact,Janakpur Bolts,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,1998-04-30,28.5,Nepal,False,confirmed,
+player_bishal_kumar_patel,Bishal Kumar Patel,,,,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Medium Pace,Left,2003-10-30,23.0,Nepal,False,single-form,cricsheet_registry_id
+player_bishal_susling,Bishal Susling,,,,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,Right,1999-12-12,26.9,Nepal,False,single-form,cricsheet_registry_id
+player_harmeet_singh,Harmeet Singh,0bf15e52,Harmeet Singh,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,Left,1989-02-24,37.7,India,True,single-form,
+player_iftikhar_ahmed,Iftikhar Ahmed,29e253dd,Iftikhar Ahmed,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,Right,1990-09-03,36.1,Pakistan,True,single-form,
+player_jds_neesham,Jimmy Neesham,9219eff0,JDS Neesham,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Pace,Right,1990-09-17,36.1,New Zealand,True,confirmed,
+player_ln_rajbanshi,Lalit Narayan Rajbanshi,6ad2d5f7,LN Rajbanshi,exact,Janakpur Bolts,Bowler,s3_roster.playing_role,Right,Spin,Left,1998-08-30,28.2,Nepal,False,confirmed,
+player_mayan_yadav,Mayan Yadav,c6355538,Mayan Yadav,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Spin,Right,2006-05-07,20.5,Nepal,False,single-form,
+player_moeen_ali,Moeen Ali,bb351c23,MM Ali,initials_surname_unique,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Spin,Right,1987-06-18,39.4,England,True,single-form,
+player_rit_gautam,Rit Gautam,f1471db3,Rit Gautam,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Non-bowler,,2001-09-17,25.1,Nepal,False,single-form,
+player_s_karki,Santosh Karki,4898e6fb,S Karki,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Right,Spin,Right,2003-07-20,23.3,Nepal,False,confirmed,
+player_tr_das,Trit Raj Das,40f1a776,TR Das,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Medium Pace,Right,2002-10-18,24.0,Nepal,False,confirmed,
+player_akbar_ali,Akbar Ali,abae26ad,Akbar Ali,exact,Karnali Yaks,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2001-10-08,25.0,Bangladesh,True,single-form,
+player_ariful_islam,Ariful Islam,bd9b6cc3,Ariful Islam,exact,Karnali Yaks,Batter,s3_roster.playing_role,Right,Spin,Right,2004-12-08,21.9,Bangladesh,True,single-form,
+player_bp_sharma,Bipin Sharma,947ceca5,BP Sharma,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Spin,Left,2000-09-27,26.1,Nepal,False,confirmed,
+player_da_miller,David Miller,d67d5f00,DA Miller,exact,Karnali Yaks,Batter,s3_roster.playing_role,Left,Spin,Right,1989-06-10,37.4,South Africa,True,single-form,
+player_deepak_dumre,Deepak Dumre,e2acb37d,Deepak Dumre,exact,Karnali Yaks,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2004-09-22,22.1,Nepal,False,single-form,
+player_d_rawat,Dipendra Rawat,c6ff5ac2,D Rawat,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Pace,Right,2002-06-09,24.4,Nepal,False,confirmed,
+player_diwan_pun,Diwan Pun,,,,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Spin,Left,2005-12-11,20.9,Nepal,False,single-form,cricsheet_registry_id
+player_gulsan_jha,Gulshan Jha,9811e35e,Gulsan Jha,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Pace,Right,2002-06-12,24.4,Nepal,False,confirmed,
+player_hussain_talat,Hussain Talat,bb4b445b,Hussain Talat,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Left,Medium Pace,Right,1996-02-12,30.7,Pakistan,True,single-form,
+player_mrj_watt,Mark Watt,1252f71a,MRJ Watt,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Spin,Left,1996-03-29,30.6,Scotland,True,confirmed,
+player_nk_yadav,Nandan Yadav,737e595d,NK Yadav,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Left,Medium Pace,Right,1996-05-19,30.4,Nepal,False,confirmed,
+player_p_sarraf,Pawan Sarraf,82294960,P Sarraf,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,2005-03-25,21.6,Nepal,False,confirmed,
+player_sachin_sharma,Sachin Sharma,,,,Karnali Yaks,Batter,s3_roster.playing_role,Right,Non-bowler,,2000-08-22,26.2,Nepal,False,single-form,cricsheet_registry_id
+player_sahibzada_farhan,Sahibzada Farhan,1aba45cd,Sahibzada Farhan,exact,Karnali Yaks,Batter,s3_roster.playing_role,Right,Non-bowler,,1996-03-06,30.6,Pakistan,True,single-form,
+player_s_kansakar,Shubh Kansakar,fd0e5582,S Kansakar,exact,Karnali Yaks,Batter,s3_roster.playing_role,Right,Spin,Right,2000-05-15,26.4,Nepal,False,confirmed,
+player_sompal_kami,Sompal Kami,1adb8ee8,Sompal Kami,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Pace,Right,1992-01-12,34.8,Nepal,False,single-form,
+player_surya_tamang,Surya Tamang,579f2447,Surya Tamang,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Medium Pace,Left,2004-04-17,22.5,Nepal,False,single-form,
+player_ubs_thakuri,Unish Bikram Singh Thakuri,fd0aef78,UBS Thakuri,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,2006-02-28,20.7,Nepal,False,confirmed,
+player_y_khatri,Yuvraj Khatri,0d705d2d,Y Khatri,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Pace,Right,2007-09-30,19.1,Nepal,False,confirmed,
+player_b_sharki,Bhim Sharki,fbdc8309,B Sharki,exact,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Spin,Right,2001-09-26,25.1,Nepal,False,confirmed,
+player_david_warner,David Warner,dcce6f09,DA Warner,initials_surname_unique,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Left,Spin,Right,1986-10-27,40.0,Australia,True,single-form,
+player_dayanand_mandal,Dayanand Mandal,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Left,Medium Pace,Left,2006-11-28,19.9,Nepal,False,single-form,cricsheet_registry_id
+player_dev_shah,Dev Shah,,,,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Spin,Left,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
+player_k_s_bharat,K. S. Bharat,44a89551,KS Bharat,initials_surname_unique,Kathmandu Gorkhas,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,Right,1993-10-03,33.1,India,True,single-form,
+player_karan_kc,Karan KC,f53b3e1d,Karan KC,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,Right,1993-03-01,33.7,Nepal,False,single-form,
+player_krishna_paudel,Krishna Paudel,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
+player_mohammad_aadil_alam,Mohammad Aadil Alam,70ced7f2,Mohammad Aadil Alam,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,2003-10-18,23.0,Nepal,False,single-form,
+player_prashiddha_jaisi,Prashiddha Jaisi,,,,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,,,,,,Nepal,False,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth
+player_rashid_khan,Rashid Khan,5f547c8b,Rashid Khan,exact,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Pace,Right,1998-09-20,28.1,Afghanistan,True,single-form,
+player_sahan_arachchige,Sahan Arachchige,c05f9d20,SSD Arachchige,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Left,Spin,Right,1996-05-13,30.5,Sri Lanka,True,single-form,
+player_s_patel,Sahil Patel,c4ee6c06,S Patel,exact,Kathmandu Gorkhas,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2007-10-05,19.1,Nepal,False,confirmed,
+player_santosh_yadav,Santosh Yadav,ef342bdb,Santosh Yadav,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,Left,2002-11-06,24.0,Nepal,False,single-form,
+player_shahab_alam,Shahab Alam,cdd9fa95,Shahab Alam,exact,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Spin,Left,1997-12-28,28.8,Nepal,False,single-form,
+player_sonu_devkota,Sonu Devkota,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Spin,,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
+player_suryanshu_koirala,Suryanshu Koirala,,,,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Non-bowler,,2008-09-02,18.1,Nepal,False,single-form,cricsheet_registry_id
+player_a_tripathi,Aakash Tripathi,cbba9e4e,A Tripathi,exact,Lumbini Lions,Batter,s3_roster.playing_role,Right,Spin,Right,2004-11-30,21.9,Nepal,False,confirmed,
+player_aasif_sheikh,Aasif Sheikh,dcbea954,Aasif Sheikh,exact,Lumbini Lions,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2001-06-22,25.3,Nepal,False,single-form,
+player_abhishesh_gautam,Abhishesh Gautam,0baa5518,Abhishesh Gautam,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Spin,Left,2002-05-03,24.5,Nepal,False,single-form,
+player_ajay_chauhan,Ajay Chauhan,,,,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Spin,Left,2003-03-24,23.6,Nepal,False,single-form,cricsheet_registry_id
+player_a_yadav,Arniko Prasad Yadav,b564b5e6,A Yadav,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,Right,Medium Pace,Left,1993-05-17,33.4,Nepal,False,confirmed,
+player_djm_short,D'Arcy Short,1a156c88,DJM Short,exact,Lumbini Lions,Batter,s3_roster.playing_role,Right,Pace,Left,1990-08-09,36.2,Australia,True,confirmed,
+player_d_nath,Dilip Nath,d019608b,D Nath,exact,Lumbini Lions,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2004-02-28,22.7,Nepal,False,confirmed,
+player_d_adhikari,Dinesh Adhikari,bd4fb3ba,D Adhikari,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Pace,Right,2004-10-16,22.0,Nepal,False,confirmed,
+player_d_gupta,Durgesh Gupta,762ea5b1,D Gupta,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Pace,Left,2004-12-25,21.8,Nepal,False,confirmed,
+player_k_mahato,Kishore Mahato,d913103d,K Mahato,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,2000-04-02,26.6,Nepal,False,confirmed,
+player_n_dickwella,Niroshan Dickwella,45963d9e,N Dickwella,exact,Lumbini Lions,Wicketkeeper,s3_roster.playing_role,Left,Non-bowler,,1993-06-25,33.3,Sri Lanka,True,confirmed,
+player_rk_paudel,Rohit Paudel,1a3cc554,RK Paudel,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,Right,Spin,Right,2002-07-06,24.3,Nepal,False,confirmed,
+player_r_trumpelmann,Ruben Trumpelmann,ff6a7ab5,R Trumpelmann,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Left,Spin,Left,1999-01-08,27.8,Namibia,True,confirmed,
+player_sc_van_schalkwyk,Shadley van Schalkwyk,97b0e4ff,SC van Schalkwyk,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,Left,Medium Pace,Right,1988-08-05,38.2,USA,True,single-form,
+player_shamim_hossain,Shamim Hossain,711249d1,Shamim Hossain,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,Left,Spin,Right,2000-09-02,26.1,Bangladesh,True,single-form,
+player_s_malla,Sher Malla,1daa8927,S Malla,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Spin,Right,1994-03-15,32.6,Nepal,False,confirmed,
+player_s_jora,Sundeep Jora,156378d8,S Jora,exact,Lumbini Lions,Batter,s3_roster.playing_role,Right,Medium Pace,Right,2002-12-09,23.9,Nepal,False,confirmed,
+player_tr_bhandari,Tilak Raj Bhandari,2593c302,TR Bhandari,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Spin,Right,2004-05-15,22.4,Nepal,False,confirmed,
+player_aakash_chand,Aakash Chand,279c51f0,Aakash Chand,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,Right,Pace,Right,2004-01-23,22.8,Nepal,False,single-form,
+player_a_gharti,Arjun Gharti,0b62d391,A Gharti,exact,Pokhara Avengers,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2003-08-21,23.2,Nepal,False,confirmed,
+player_arjun_kumal,Arjun Kumal,2f7a41f8,Arjun Kumal,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Spin,Right,2005-12-11,20.9,Nepal,False,single-form,
+player_bibek_kumar_rana_magar,Bibek Kumar Rana Magar,,,,Pokhara Avengers,Batter,s3_roster.playing_role,Left,Spin,Right,2004-02-25,22.7,Nepal,False,single-form,cricsheet_registry_id
+player_bipin_acharya,Bipin Acharya,f5faec97,B Acharya,initials_surname_unique,Pokhara Avengers,All-rounder,s3_roster.playing_role,Left,Spin,Right,2001-02-22,25.7,Nepal,False,single-form,
+player_bipin_khatri,Bipin Khatri,6e21867e,Bipin Khatri,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,Right,Spin,Right,1999-07-08,27.3,Nepal,False,single-form,
+player_chamika_karunaratne,Chamika Karunaratne,fb3e0d39,C Karunaratne,initials_surname_unique,Pokhara Avengers,All-rounder,s3_roster.playing_role,Right,Pace,Right,1996-05-29,30.4,Sri Lanka,True,single-form,
+player_d_lakshan,Dhananjaya Lakshan,0a2184d9,D Lakshan,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,Right,Spin,Right,1998-10-05,28.1,Nepal,False,confirmed,
+player_d_kharel,Dinesh Kharel,0e3bfa00,D Kharel,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Spin,Right,2002-04-09,24.5,Nepal,False,confirmed,
+player_k_thagunna,Kiran Thagunna,97d86e77,K Thagunna,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Medium Pace,Right,1997-07-23,29.3,Nepal,False,confirmed,
+player_k_bhurtel,Kushal Bhurtel,e3386c8a,K Bhurtel,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Medium Pace,Right,1997-11-01,29.0,Nepal,False,confirmed,
+player_mahedi_hasan,Mahedi Hasan,9dad0f2e,Mahedi Hasan,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,Right,Spin,Right,1994-12-12,31.9,Bangladesh,True,single-form,
+player_mohammad_saifuddin,Mohammad Saifuddin,b3a28446,Mohammad Saifuddin,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,Left,Medium Pace,Right,1996-11-01,30.0,Bangladesh,True,single-form,
+player_pratik_pokharel,Pratik Pokharel,,,,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Medium Pace,Right,2006-04-19,20.5,Nepal,False,single-form,cricsheet_registry_id
+player_s_dhakal,Sagar Dhakal,8955b928,S Dhakal,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,Right,Medium Pace,Left,2001-11-11,25.0,Nepal,False,confirmed,
+player_shakib_al_hasan,Shakib Al Hasan,7dc35884,Shakib Al Hasan,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,Left,Spin,Left,1987-03-24,39.6,Bangladesh,True,single-form,
+player_s_aryal,Sudip Aryal,c1974b74,S Aryal,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,Right,Pace,Right,2006-11-06,20.0,Nepal,False,confirmed,
+player_sunny_bk,Sunny BK,,,,Pokhara Avengers,All-rounder,s3_roster.playing_role,,,,,,Nepal,False,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth
+player_aarif_sheikh,Aarif Sheikh,cd4d7695,Aarif Sheikh,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,Right,Medium Pace,Right,1997-10-04,29.1,Nepal,False,single-form,
+player_a_bohara,Abinash Bohara,64fb6b15,A Bohara,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,1996-02-11,30.7,Nepal,False,confirmed,
+player_a_kharel,Anil Kharel,08b15b9e,A Kharel,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,Right,Pace,Left,2005-11-16,20.9,Nepal,False,confirmed,
+player_ayub_chand,Ayub Chand,,,,Sudurpaschim Royals,Batter,s3_roster.playing_role,Right,Spin,,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
+player_b_bhandari,Binod Bhandari,82342b13,B Bhandari,exact,Sudurpaschim Royals,Wicketkeeper,s3_roster.playing_role,Right,Medium Pace,Right,1993-11-08,33.0,Nepal,False,confirmed,
+player_bj_mcmullen,Brandon McMullen,436c763a,BJ McMullen,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Right,Spin,Right,1994-10-10,32.0,Ireland,True,confirmed,
+player_d_bohara,Dipak Bohara,7e46794e,D Bohara,exact,Sudurpaschim Royals,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2004-12-26,21.8,Nepal,False,confirmed,
+player_ds_airee,Dipendra Singh Airee,1747ea18,DS Airee,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Right,Pace,Right,2000-02-03,26.7,Nepal,False,confirmed,
+player_h_dhami,Hemant Dhami,bb20441f,H Dhami,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,2004-04-26,22.5,Nepal,False,confirmed,
+player_h_mahara,Hikmat Mahara,28b1c40e,H Mahara,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,Right,Medium Pace,Right,2003-11-15,22.9,Nepal,False,confirmed,
+player_i_pandey,Ishan Pandey,ed547c49,I Pandey,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,Right,Medium Pace,Right,2001-09-05,25.1,Nepal,False,confirmed,
+player_milan_bohara,Milan Bohara,4546e17e,Milan Bohara,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,,Spin,Left,2005-06-28,21.3,Nepal,False,single-form,batting_hand
+player_sachin_bhatt,Sachin Bhatta,312f21e7,Sachin Bhatt,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,Right,Spin,,,,Nepal,False,confirmed,date_of_birth
+player_sa_zaib,Saif Ali Zaib,ab01e323,SA Zaib,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Left,Spin,Left,1998-05-22,28.4,England,True,confirmed,
+player_sc_kuggeleijn,Scott Kuggeleijn,fef92afc,SC Kuggeleijn,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Right,Spin,Right,1992-03-25,34.6,New Zealand,True,confirmed,
+player_se_rutherford,Sherfane Rutherford,d014d5ac,SE Rutherford,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,Left,Pace,Right,1998-08-15,28.2,West Indies,True,single-form,
+player_tek_rawat,Tek Rawat,,,,Sudurpaschim Royals,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
