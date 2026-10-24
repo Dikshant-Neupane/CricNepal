@@ -241,21 +241,32 @@ def load_matchup_stats(batter_name: str, bowler_name: str, season_filter: str = 
         return None
         
     matchup = bbb[(bbb['batter_name'] == batter_name) & (bbb['bowler_name'] == bowler_name)].copy()
-    
+
+    # Season filter labels are "All", "S2 (2025)", "S1 (2024)". The old
+    # labels ("2024" -> S2, "2023" -> S1) were both wrong: S1 was played in
+    # 2024 and S2 in 2025, and 2023 has no NPL data at all.
     if not matchup.empty and season_filter != "All" and "season" in matchup.columns:
-        matchup = matchup[matchup['season'] == ("S2" if season_filter == "2024" else "S1")]
+        wanted = "S2" if str(season_filter).startswith("S2") else "S1"
+        matchup = matchup[matchup['season'] == wanted]
 
     if matchup.empty or len(matchup) < min_threshold:
+        # No usable sample: score is None (the page renders an explicit
+        # insufficient-data state). Returning a neutral 50 here made the
+        # UI present a fabricated "Balanced Matchup" verdict on zero data.
+        actual_balls = len(matchup)
         return {
-            "balls_faced": 0,
+            "balls_faced": actual_balls,
             "runs_scored": 0,
             "wickets": 0,
             "dot_balls": 0,
             "dismissal_prob": 0.0,
             "expected_sr": 0.0,
             "dot_pressure": 0.0,
-            "score": 50,
-            "confidence": "No Data (0 Balls)",
+            "score": None,
+            "confidence": (
+                "No Data (0 Balls)" if actual_balls == 0
+                else f"Below sample threshold ({actual_balls} balls)"
+            ),
             "ci_lower": 0.0,
             "ci_upper": 0.0
         }

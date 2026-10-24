@@ -40,7 +40,7 @@ def render_matchups():
         st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
         st.markdown("<div style='font-size: 14px; font-weight: 600; margin-bottom: 8px;'>Season Filter</div>", unsafe_allow_html=True)
         
-        season_filter = st.radio("Season Filter", ["All", "2024", "2023"], horizontal=True, label_visibility="collapsed")
+        season_filter = st.radio("Season Filter", ["All", "S2 (2025)", "S1 (2024)"], horizontal=True, label_visibility="collapsed")
         
         min_threshold = st.slider("Sample Min Threshold Balls", 0, 100, 30, label_visibility="visible")
         
@@ -55,7 +55,13 @@ def render_matchups():
             return
 
         score = stats["score"]
-        if score >= 70:
+        has_data = score is not None
+        if not has_data:
+            # No usable sample: never present a numeric score or verdict.
+            favor = "Insufficient Data"
+            color = "#4a5a54"
+            bg = "rgba(74, 90, 84, 0.1)"
+        elif score >= 70:
             favor = "Favorable to Batter"
             color = "#b7802f"
             bg = "rgba(183, 128, 47, 0.1)"
@@ -67,6 +73,7 @@ def render_matchups():
             favor = "Balanced Matchup"
             color = "#4a5a54"
             bg = "rgba(74, 90, 84, 0.1)"
+        score_display = f"{score}" if has_data else "—"
 
         # Matchup Score Card
         st.markdown(f"""
@@ -75,7 +82,7 @@ def render_matchups():
                 <div>
                     <div style="font-size: 12px; font-weight: 600; color: #4a5a54; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 8px;">Matchup Score</div>
                     <div style="display: flex; align-items: baseline; gap: 8px;">
-                        <span style="font-size: 64px; font-weight: 700; color: #103b2f; line-height: 1;">{score}</span>
+                        <span style="font-size: 64px; font-weight: 700; color: #103b2f; line-height: 1;">{score_display}</span>
                         <span style="font-size: 24px; color: #4a5a54;">/ 100</span>
                     </div>
                 </div>
@@ -89,7 +96,10 @@ def render_matchups():
         </div>
         """, unsafe_allow_html=True)
         
-        # Stats Cards
+        # Stats Cards (rate stats show "—" when there is no usable sample)
+        dismissal_display = f"{stats['dismissal_prob']:.1f}%" if has_data else "—"
+        sr_display = f"{stats['expected_sr']:.1f}" if has_data else "—"
+        dot_display = f"{stats['dot_pressure']:.1f}%" if has_data else "—"
         c1, c2, c3, c4 = st.columns(4)
         
         with c1:
@@ -97,7 +107,7 @@ def render_matchups():
             <div class="card" style="height: 100%;">
                 <div class="card-body">
                     <div style="font-size: 14px; font-weight: 600; margin-bottom: 16px;">Dismissal Prob.</div>
-                    <div style="font-size: 32px; font-weight: 700; color: #103b2f; margin-bottom: 8px;">{stats['dismissal_prob']:.1f}%</div>
+                    <div style="font-size: 32px; font-weight: 700; color: #103b2f; margin-bottom: 8px;">{dismissal_display}</div>
                     <div style="font-size: 12px; color: #4a5a54;">Per 10 balls faced</div>
                 </div>
             </div>
@@ -108,7 +118,7 @@ def render_matchups():
             <div class="card" style="height: 100%;">
                 <div class="card-body">
                     <div style="font-size: 14px; font-weight: 600; margin-bottom: 16px;">Expected SR</div>
-                    <div style="font-size: 32px; font-weight: 700; color: #103b2f; margin-bottom: 8px;">{stats['expected_sr']:.1f}</div>
+                    <div style="font-size: 32px; font-weight: 700; color: #103b2f; margin-bottom: 8px;">{sr_display}</div>
                     <div style="font-size: 12px; color: #4a5a54;">Runs per 100 balls</div>
                 </div>
             </div>
@@ -119,7 +129,7 @@ def render_matchups():
             <div class="card" style="height: 100%;">
                 <div class="card-body">
                     <div style="font-size: 14px; font-weight: 600; margin-bottom: 16px;">Dot Pressure</div>
-                    <div style="font-size: 32px; font-weight: 700; color: #103b2f; margin-bottom: 2px;">{stats['dot_pressure']:.1f}%</div>
+                    <div style="font-size: 32px; font-weight: 700; color: #103b2f; margin-bottom: 2px;">{dot_display}</div>
                     <div style="font-size: 11px; color: #7d8f88; margin-bottom: 8px;">95% CI: [{stats['ci_lower']:.1f}%, {stats['ci_upper']:.1f}%]</div>
                     <div style="font-size: 12px; color: #4a5a54;">Balls resulting in 0 runs</div>
                 </div>
@@ -142,7 +152,7 @@ def render_matchups():
         
         # Generate dynamic plan based on stats
         plan = []
-        if stats['balls_faced'] == 0:
+        if not has_data:
             plan.append("No historical data available for this specific matchup.")
         else:
             if stats['dot_pressure'] > 40:
@@ -219,9 +229,9 @@ def render_matchups():
     st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
     
     # Decision Summary Logic
-    insight = "No historical matchup data." if stats['balls_faced'] == 0 else f"Expected SR is {stats['expected_sr']:.1f} with a dismissal rate of {stats['dismissal_prob']:.1f}% per 10 balls."
-    risk = "Unknown risk profile." if stats['balls_faced'] == 0 else f"Dot ball pressure is currently at {stats['dot_pressure']:.1f}%."
-    action = "Collect more data." if stats['balls_faced'] == 0 else ("Bowl aggressively" if stats['score'] <= 40 else "Defensive field settings" if stats['score'] >= 70 else "Standard plans apply")
+    insight = "No historical matchup data." if not has_data else f"Expected SR is {stats['expected_sr']:.1f} with a dismissal rate of {stats['dismissal_prob']:.1f}% per 10 balls."
+    risk = "Unknown risk profile." if not has_data else f"Dot ball pressure is currently at {stats['dot_pressure']:.1f}%."
+    action = "Collect more data." if not has_data else ("Bowl aggressively" if stats['score'] <= 40 else "Defensive field settings" if stats['score'] >= 70 else "Standard plans apply")
     
     st.markdown(
         f"""
