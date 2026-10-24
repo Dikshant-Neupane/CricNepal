@@ -39,6 +39,14 @@ GAMEPLAN_DATA_FILES = [
 _CARD_RE = re.compile(r"opponent_card_m(\d+)_.*\.md$")
 _PHASES = [("powerplay", "Powerplay"), ("middle", "Middle"), ("death", "Death")]
 
+# Version of load_game_plan's return shape, folded into the cache key.
+# Bump whenever the shape changes: Streamlit Cloud keeps the process
+# (and st.cache_data) alive across redeploys, and the data files do
+# not change when only code does — without this, a new render reads a
+# stale dict cached by the old loader and crashes (the 2026-10-24
+# live KeyError: data["fixtures"]).
+DATA_SCHEMA = 2
+
 
 def _card_files(root: Path) -> dict:
     """match_number -> card text, from the capture directory."""
@@ -173,7 +181,7 @@ def _cache_key(root: Path):
     cap = root / "data" / "capture"
     names = tuple(sorted(p.name for p in cap.glob("opponent_card_m*.md"))) \
         if cap.exists() else ()
-    return (tuple(parts), names)
+    return (DATA_SCHEMA, tuple(parts), names)
 
 
 @st.cache_data(show_spinner=False)

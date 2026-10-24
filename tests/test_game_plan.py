@@ -89,6 +89,17 @@ def test_app_header_has_no_date_pill():
     assert "datetime" not in app_src
 
 
+def test_gameplan_cache_key_carries_schema():
+    """Regression guard for the 2026-10-24 live crash: the loader's
+    return shape changed while the cache key (data-file mtimes) did
+    not, so the deployed page read a stale cached dict. The key must
+    carry DATA_SCHEMA so a shape change busts the cache."""
+    import src.dashboard.page_modules.game_plan as gp
+
+    key = gp._cache_key(Path(gp.ROOT))
+    assert key[0] == gp.DATA_SCHEMA
+
+
 def test_game_plan_page_renders():
     from streamlit.testing.v1 import AppTest
 
