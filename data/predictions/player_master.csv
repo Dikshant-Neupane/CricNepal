@@ -88,6 +88,7 @@ player_santosh_yadav,Santosh Yadav,ef342bdb,Santosh Yadav,exact,Kathmandu Gorkha
 player_shahab_alam,Shahab Alam,cdd9fa95,Shahab Alam,exact,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Spin,Left,1997-12-28,28.8,Nepal,False,single-form,
 player_sonu_devkota,Sonu Devkota,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Spin,,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
 player_suryanshu_koirala,Suryanshu Koirala,,,,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Non-bowler,,2008-09-02,18.1,Nepal,False,single-form,cricsheet_registry_id
+player_wg_bosisto,Will Bosisto,04ef663a,WG Bosisto,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,,1992-02-14,34.7,Australia,True,confirmed,
 player_a_tripathi,Aakash Tripathi,cbba9e4e,A Tripathi,exact,Lumbini Lions,Batter,s3_roster.playing_role,Right,Spin,Right,2004-11-30,21.9,Nepal,False,confirmed,
 player_aasif_sheikh,Aasif Sheikh,dcbea954,Aasif Sheikh,exact,Lumbini Lions,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2001-06-22,25.3,Nepal,False,single-form,
 player_abhishesh_gautam,Abhishesh Gautam,0baa5518,Abhishesh Gautam,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Spin,Left,2002-05-03,24.5,Nepal,False,single-form,

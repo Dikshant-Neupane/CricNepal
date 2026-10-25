@@ -43,10 +43,10 @@ def test_fixtures_integrity(fixtures):
 # ---------- player master + priors ----------
 def test_player_master():
     m = pd.read_csv(PRED / "player_master.csv")
-    assert len(m) == 142 and m.player_key.is_unique
+    assert len(m) == 143 and m.player_key.is_unique
     assert m.groupby("team").size().to_dict() == {
         "Biratnagar Kings": 19, "Chitwan Rhinos": 17, "Janakpur Bolts": 18,
-        "Karnali Yaks": 19, "Kathmandu Gorkhas": 16, "Lumbini Lions": 18,
+        "Karnali Yaks": 19, "Kathmandu Gorkhas": 17, "Lumbini Lions": 18,
         "Pokhara Avengers": 18, "Sudurpaschim Royals": 17}
     assert set(m.role) <= {"Batter", "Bowler", "All-rounder", "Wicketkeeper"}
     # unsourced fields are null, never invented
@@ -56,7 +56,7 @@ def test_player_master():
 
 def test_player_priors():
     p = pd.read_csv(PRED / "player_priors.csv")
-    assert len(p) == 142
+    assert len(p) == 143
     assert (p.bat_index > 0).all() and (p.prior_bowl_econ > 0).all()
     deb = p[p.prior_group == "debutant"]
     assert len(deb) > 0 and np.allclose(deb.bat_index, 1.0)  # league-mean prior

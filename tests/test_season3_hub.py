@@ -41,7 +41,7 @@ def test_hub_squads_and_coaches_verified_counts():
     assert len(DATA["coaches"]) == 8
     assert DATA["coaches"].head_coach.notna().all()
     assert DATA["coaches"].captain.notna().all()
-    assert len(DATA["squads"]) == 142
+    assert len(DATA["squads"]) == 143
     jb = DATA["squads"][DATA["squads"].team == "Janakpur Bolts"]
     assert len(jb) == 18
 
