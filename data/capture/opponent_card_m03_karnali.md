@@ -1,9 +1,10 @@
 # Opponent card — Match 3: Janakpur Bolts v Karnali Yaks
 **Tue 27 Oct 2026, 17:00 (Day-Night), TU Kirtipur.** Filled Sat 24 Oct (T-72h; runbook slot T-48h).
+Refreshed Sun 25 Oct (T-48h sweep): Availability section updated, Form watch section added; all other sections unchanged.
 Sources: project priors (S1+S2 cricsheet + external T20 history), TU par tables (our 64 matches),
 squad file as verified 24 Oct, press as cited. Unknowns are stated, never filled in.
 
-## Availability sweep (24 Oct)
+## Availability sweep (24 Oct, refreshed 25 Oct)
 - **CONFIRMED IN NEPAL:** Sahibzada Farhan and Hussain Talat — arrived Kathmandu Sat 24 Oct,
   welcomed by the franchise (Nepal Views / Pardafas, 24 Oct).
 - **SIGNED, ARRIVAL NOT STATED IN SOURCES READ:** David Miller (announced Fri 23 Oct,
@@ -18,6 +19,26 @@ squad file as verified 24 Oct, press as cited. Unknowns are stated, never filled
   Ariful/Akbar would only enter the XI if the first four aren't all available.
 - Janakpur: no absence reported for Moeen Ali, Jimmy Neesham, Iftikhar Ahmed, Harmeet Singh.
   (Not the same as individually confirmed arrivals — no source read today confirms each one.)
+- **REFRESH, SUN 25 OCT — NO CHANGE TO THE ABOVE, EXCEPT AS NOTED:**
+  - **David Miller — still no arrival report.** Re-checked 25 Oct: sources read still carry only
+    the Fri 23 Oct signing announcement (Kathmandu Post; CricNepal, 23 Oct). One 24 Oct report
+    notes explicitly that the announcement specifies no debut date or match count (Futsal House).
+    Tuesday availability remains POSSIBLE BUT UNCONFIRMED.
+  - **Ariful Islam / Akbar Ali — still unconfirmed for Match 3.** No new arrival report in the
+    25 Oct sweep; the first-three-NCL-rounds expectation (NCL runs 3 Oct – 17 Nov) stands as
+    reported 21 Sep (Daily Sun) and repeated in 25 Oct coverage.
+  - **Mark Watt — re-signed, no individual arrival report found** in sources read 25 Oct
+    (press says "has also joined" / "will return" — no landing report read).
+  - **NEW BOLTS SIGNING, NOT IN THE 24 OCT VERIFIED SQUAD LIST: Hunain Shah (Pakistan fast
+    bowler).** Reported Sun 25 Oct (Makalu Khabar, published 09:20 NPT; also Kathmandu Post,
+    25 Oct): signed for Janakpur Bolts for Season 3. The 24 Oct verified Bolts squad named four
+    overseas — Moeen Ali, Jimmy Neesham, Iftikhar Ahmed, Harmeet Singh — and did not include
+    Shah. No arrival-in-Nepal report and no XI word in sources read 25 Oct. This adds a fifth
+    overseas name to the Bolts group and therefore an overseas-slot question for Tuesday;
+    the plan section below is left unchanged per the refresh rule — resolve at the matchday
+    XI check, not by assumption here.
+  - **Bolts overseas arrivals — still no individual confirmation** for Moeen Ali, Jimmy
+    Neesham, Iftikhar Ahmed or Harmeet Singh in sources read 25 Oct; no absence reported either.
 
 ## Their likely XI (analyst judgement, not announced)
 Farhan, Gulshan Jha, Talat, Miller, Sompal Kami (c), Pawan Sarraf, Deepak Dumre (wk),
@@ -49,6 +70,25 @@ Captain Sompal Kami; coach Gyanendra Malla. Associate-in-XI (if the clause is re
 17:00 slot = Day-Night split: 1st-innings mean 160.3 but n=9 only — treat as indicative.
 All-match par = low 150s (1st-inn mean 147.5, median 144.5); chases won 52.4% overall.
 Toss: no reliable edge in the research — decide on the strip read, log the dew either way.
+
+## Form watch — last 10 T20s (sourced at the T-48h sweep, 25 Oct; blank where unverified)
+- **Their threats — verified recent numbers only (not a full last-10 table):**
+  - **Sahibzada Farhan — in form.** 89 off 53 (9 Oct), 73 off 44 (11 Oct), 76 off 47 (13 Oct)
+    v Sri Lanka at Rawalpindi; 238 runs in the 3-match series, Player of the Tournament, in
+    his first series as Pakistan T20 captain (CricTracker; Outlook India, reporting 13–14 Oct).
+  - **David Miller — in form.** 174 runs from 6 innings at the 2026 T20 World Cup (avg 58.00,
+    SR 155.36), then 211 runs at SR 154.01 in the 2026 IPL (CricNepal, 23 Oct).
+  - Hussain Talat, Mark Watt, Gulshan Jha, Sompal Kami, Bipin Sharma — no verified last-10
+    figures found in the 25 Oct sweep; left blank, not estimated.
+- **Our key players:**
+  - **Hunain Shah (new Bolts signing, see Availability) — in wicket-taking form.** 17 wickets
+    in 10 matches in the 2026 PSL; 16 wickets in 13 matches in the 2026 CPL, joint-leading
+    wicket-taker there (Makalu Khabar, 25 Oct).
+  - Moeen Ali, Jimmy Neesham, Iftikhar Ahmed, Harmeet Singh, Anil Sah — no verified last-10
+    figures found in the 25 Oct sweep; left blank, not estimated.
+- **Read-across:** the two verified Karnali form lines both point the same way as the priors —
+  Farhan and Miller arrive in runs. Nothing in the sweep contradicts the card's plan; the
+  Hunain item is an availability question, not a form verdict on the Karnali XI.
 
 ## Our plan in one paragraph
 Take the Farhan matchup early and aggressively: Harmeet Singh's powerplay economy on our
