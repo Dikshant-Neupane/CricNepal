@@ -33,7 +33,10 @@ squad file as verified 24 Oct, press as cited. Unknowns are stated, never filled
     bowler).** Reported Sun 25 Oct (Makalu Khabar, published 09:20 NPT; also Kathmandu Post,
     25 Oct): signed for Janakpur Bolts for Season 3. The 24 Oct verified Bolts squad named four
     overseas — Moeen Ali, Jimmy Neesham, Iftikhar Ahmed, Harmeet Singh — and did not include
-    Shah. No arrival-in-Nepal report and no XI word in sources read 25 Oct. This adds a fifth
+    Shah. **Added to the verified project squad data Sun 25 Oct** (roster/registry/master,
+    with a real cricsheet CPL+PSL prior: bowl index 1.025, PP econ 6.13, death 8.41) — he is
+    now in the system if named. No arrival-in-Nepal report and no XI word in sources read
+    25 Oct. This adds a fifth
     overseas name to the Bolts group and therefore an overseas-slot question for Tuesday;
     the plan section below is left unchanged per the refresh rule — resolve at the matchday
     XI check, not by assumption here.

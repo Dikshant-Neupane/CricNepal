@@ -52,6 +52,7 @@ player_moeen_ali,Moeen Ali,bb351c23,MM Ali,initials_surname_unique,Janakpur Bolt
 player_rit_gautam,Rit Gautam,f1471db3,Rit Gautam,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Non-bowler,,2001-09-17,25.1,Nepal,False,single-form,
 player_s_karki,Santosh Karki,4898e6fb,S Karki,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Right,Spin,Right,2003-07-20,23.3,Nepal,False,confirmed,
 player_tr_das,Trit Raj Das,40f1a776,TR Das,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Medium Pace,Right,2002-10-18,24.0,Nepal,False,confirmed,
+player_hunain_shah,Hunain Shah,3b8679bf,Hunain Shah,exact,Janakpur Bolts,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,2004-02-04,22.7,Pakistan,True,single-form,
 player_akbar_ali,Akbar Ali,abae26ad,Akbar Ali,exact,Karnali Yaks,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2001-10-08,25.0,Bangladesh,True,single-form,
 player_ariful_islam,Ariful Islam,bd9b6cc3,Ariful Islam,exact,Karnali Yaks,Batter,s3_roster.playing_role,Right,Spin,Right,2004-12-08,21.9,Bangladesh,True,single-form,
 player_bp_sharma,Bipin Sharma,947ceca5,BP Sharma,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Spin,Left,2000-09-27,26.1,Nepal,False,confirmed,
