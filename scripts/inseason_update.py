@@ -139,6 +139,10 @@ def main() -> int:
             if not run_step("refresh", [py, "refresh_all.py"], log):
                 print(f"STATUS FAIL: refresh_all step failed; see {log_path}")
                 return 1
+            if not run_step("approach_profiles",
+                            [py, "scripts/build_approach_profiles.py"], log):
+                print(f"STATUS FAIL: approach profiles step failed; see {log_path}")
+                return 1
 
             m1, d1, ids1 = parquet_counts()
             fresh = ids1 - ids0

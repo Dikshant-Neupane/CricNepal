@@ -28,11 +28,14 @@ the next opponent's matches.
 | During | Strip read, dew onset/severity, drops, injuries, DRS, role changes | `matchday_log.csv`, `events_log.csv` |
 | Full time +1h | Result recorded; scorecard entered from the broadcast/ESPNcricinfo/Cricbuzz card | `scripts/record_result.py`; `match_facts.csv`, `scorecard_batting.csv`, `scorecard_bowling.csv` |
 | Same evening | Run the validator — entry must close before it is used | `python scripts/scorecard_check.py --match-id <id>` |
+| Same evening | Post-match team brief written: how each team approached the game, players vs their priors, and the implications for Janakpur's next fixtures (every match involving Janakpur or a future opponent) | `data/briefs/brief_m<NN>.md` — rendered on the Bolts Game Plan page |
 | Same evening | Our bowlers' workload updated | `workload_log.csv` |
 | Next morning | Daily check ingests any Cricsheet data; reconcile diffs | cron + runbook `docs/S3_INGESTION_RUNBOOK.md` |
 
-For non-Janakpur matches: result + scorecard entry only (facts rows are
-enough for standings/NRR); events/watch items only for the next opponent.
+For non-Janakpur matches: result + scorecard entry (facts rows are
+enough for standings/NRR) plus the same-evening team brief — every
+league opponent is a future Janakpur opponent; events/watch items only
+for the next opponent.
 
 ## The files (all in data/capture/)
 

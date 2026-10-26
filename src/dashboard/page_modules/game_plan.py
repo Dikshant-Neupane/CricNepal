@@ -11,6 +11,14 @@ the T-48h sweep; a "pending" notice until then) and the standing
 season blueprint (docs/BOLTS_BLUEPRINT.md, revised only at the
 pre-registered checkpoints). No probabilities here — numbers live on
 Match Predictions; this page is decisions only.
+
+Two further layers (2026-10-26 brief integration): an approach panel
+per selected opponent — how that team actually plays, computed from
+the ball-by-ball dataset by scripts/build_approach_profiles.py into
+data/approach/ and rebuilt by the morning ingest — and the written
+team briefs (data/briefs/brief_m<NN>.md), one per played match, filed
+the same evening as the scorecard capture. The profiles carry the
+comparable numbers; the briefs carry the analyst's judgement.
 """
 import re
 from pathlib import Path
@@ -34,9 +42,12 @@ GAMEPLAN_DATA_FILES = [
     "data/predictions/player_priors.csv",
     "data/venue/tu_par_summary.csv",
     "data/venue/tu_wickets_by_type.csv",
+    "data/approach/team_approach_profiles.csv",
+    "data/approach/head_to_head.csv",
 ]
 
 _CARD_RE = re.compile(r"opponent_card_m(\d+)_.*\.md$")
+_BRIEF_RE = re.compile(r"brief_m(\d+)\.md$")
 _PHASES = [("powerplay", "Powerplay"), ("middle", "Middle"), ("death", "Death")]
 
 # Version of load_game_plan's return shape, folded into the cache key.
@@ -45,7 +56,8 @@ _PHASES = [("powerplay", "Powerplay"), ("middle", "Middle"), ("death", "Death")]
 # not change when only code does — without this, a new render reads a
 # stale dict cached by the old loader and crashes (the 2026-10-24
 # live KeyError: data["fixtures"]).
-DATA_SCHEMA = 2
+# v3 (2026-10-26): loader also returns "approach", "h2h" and "briefs".
+DATA_SCHEMA = 3
 
 
 def _card_files(root: Path) -> dict:
@@ -58,6 +70,50 @@ def _card_files(root: Path) -> dict:
             if m:
                 out[int(m.group(1))] = p.read_text(encoding="utf-8")
     return out
+
+
+def _brief_files(root: Path) -> dict:
+    """match_number -> brief text, from data/briefs/ (one written team
+    brief per played match, filed the same evening as the scorecard)."""
+    out = {}
+    bdir = root / "data" / "briefs"
+    if bdir.exists():
+        for p in sorted(bdir.glob("brief_m*.md")):
+            m = _BRIEF_RE.match(p.name)
+            if m:
+                out[int(m.group(1))] = p.read_text(encoding="utf-8")
+    return out
+
+
+def _brief_title(text: str, match_number: int) -> str:
+    for line in text.splitlines():
+        if line.startswith("# "):
+            return line[2:].strip()
+    return f"Match {match_number} brief"
+
+
+def _identity_tags(row: dict) -> list:
+    """Plain-language identity tags derived from an approach profile —
+    computed from the numbers, never hand-written, so they cannot drift
+    from the table beside them."""
+    tags = []
+    if row["chase_win_pct"] - row["bat_first_win_pct"] >= 15:
+        tags.append("chase-first side")
+    elif row["bat_first_win_pct"] - row["chase_win_pct"] >= 15:
+        tags.append("bat-first side")
+    if row["pp_bowl_wkts_per_match"] >= 2.0:
+        tags.append("powerplay-wicket attack")
+    if row["pp_bat_wkts_per_match"] <= 1.6:
+        tags.append("powerplay-safe batting")
+    elif row["pp_bat_wkts_per_match"] >= 2.0:
+        tags.append("powerplay-fragile batting")
+    if row["death_bat_runs_per_match"] >= 33:
+        tags.append("strong death batting")
+    elif row["death_bat_runs_per_match"] <= 27:
+        tags.append("weak death batting")
+    if row["toss_field_pct"] >= 75:
+        tags.append("fields first at the toss")
+    return tags
 
 
 def _team_tables(priors: pd.DataFrame, team: str) -> dict:
@@ -132,6 +188,28 @@ def load_game_plan(root: Path = ROOT) -> dict:
         })
 
     cards = _card_files(root)
+    briefs = _brief_files(root)
+
+    # Approach profiles + head-to-head: computed from the ball-by-ball
+    # dataset by scripts/build_approach_profiles.py (rebuilt by the
+    # morning ingest). Degrade to empty when the derived files are
+    # absent, like every other optional layer on this page.
+    approach = {}
+    profiles_path = root / "data" / "approach" / "team_approach_profiles.csv"
+    if profiles_path.exists():
+        prof = pd.read_csv(profiles_path)
+        approach = {r.team: r._asdict() for r in prof.itertuples()}
+    h2h = {}
+    h2h_path = root / "data" / "approach" / "head_to_head.csv"
+    if h2h_path.exists():
+        hh = pd.read_csv(h2h_path)
+        for r in hh.itertuples():
+            h2h[(r.team_a, r.team_b)] = {
+                "matches": int(r.matches),
+                "a_wins": int(r.a_wins), "b_wins": int(r.b_wins)}
+            h2h[(r.team_b, r.team_a)] = {
+                "matches": int(r.matches),
+                "a_wins": int(r.b_wins), "b_wins": int(r.a_wins)}
 
     # Venue tiles from the TU tables (overall + per slot).
     par = pd.read_csv(root / "data" / "venue" / "tu_par_summary.csv")
@@ -167,6 +245,9 @@ def load_game_plan(root: Path = ROOT) -> dict:
         "fixtures": fixtures,
         "next_match_number": next_match_number,
         "cards": cards,
+        "briefs": briefs,
+        "approach": approach,
+        "h2h": h2h,
         "matches_available": matches_available,
         "venue": venue,
         "tables": tables,
@@ -181,7 +262,10 @@ def _cache_key(root: Path):
     cap = root / "data" / "capture"
     names = tuple(sorted(p.name for p in cap.glob("opponent_card_m*.md"))) \
         if cap.exists() else ()
-    return (DATA_SCHEMA, tuple(parts), names)
+    bdir = root / "data" / "briefs"
+    brief_names = tuple(sorted(p.name for p in bdir.glob("brief_m*.md"))) \
+        if bdir.exists() else ()
+    return (DATA_SCHEMA, tuple(parts), names, brief_names)
 
 
 @st.cache_data(show_spinner=False)
@@ -286,6 +370,46 @@ def render_game_plan() -> None:
                "Priors = S1/S2 ball-by-ball + career T20 history, shrunk "
                "toward league average.")
 
+    approach = data.get("approach", {})
+    if opp in approach and TEAM in approach:
+        jb_a, op_a = approach[TEAM], approach[opp]
+        st.markdown(f"#### How {opp} play — approach since Season 1")
+        rows = [
+            ("Win % (all matches)", "win_pct", "{:.1f}%"),
+            ("Batting first — average total", "bat_first_avg", "{:.0f}"),
+            ("Batting first — win %", "bat_first_win_pct", "{:.1f}%"),
+            ("Chasing — win %", "chase_win_pct", "{:.1f}%"),
+            ("Powerplay batting — wickets lost / match",
+             "pp_bat_wkts_per_match", "{:.2f}"),
+            ("Powerplay bowling — wickets taken / match",
+             "pp_bowl_wkts_per_match", "{:.2f}"),
+            ("Death batting (overs 16–20) — runs / match",
+             "death_bat_runs_per_match", "{:.1f}"),
+            ("Totals under 120", "totals_under_120", "{:.0f}"),
+            ("Bowled out", "times_all_out", "{:.0f}"),
+        ]
+        panel = pd.DataFrame([
+            {"Measure": label, "Janakpur Bolts": fmt.format(jb_a[key]),
+             opp: fmt.format(op_a[key])}
+            for label, key, fmt in rows
+        ])
+        st.dataframe(panel, hide_index=True, width="stretch")
+        tags = _identity_tags(op_a)
+        h2h = data.get("h2h", {}).get((TEAM, opp))
+        bits = []
+        if tags:
+            bits.append(f"{opp} identity: " + ", ".join(tags) + ".")
+        if h2h:
+            bits.append(
+                f"Head-to-head since Season 1: Janakpur {h2h['a_wins']}–"
+                f"{h2h['b_wins']} {opp} ({h2h['matches']} matches).")
+        if bits:
+            st.caption(" ".join(bits))
+        st.caption("Computed from the project's ball-by-ball dataset "
+                   "(Seasons 1–2; Season 3 matches join as Cricsheet "
+                   "ingests them each morning). Rebuilt nightly by "
+                   "scripts/build_approach_profiles.py.")
+
     for team_name in (TEAM, opp):
         t = data["tables"][team_name]
         st.markdown(f"#### {team_name} — phase priors")
@@ -314,6 +438,22 @@ def render_game_plan() -> None:
         st.caption("Cards also filed for match(es): "
                    + ", ".join(str(n) for n in other_cards)
                    + " — pick the match above to read them.")
+
+    briefs = data.get("briefs", {})
+    st.divider()
+    st.markdown("## Team briefs — what the matches are teaching us")
+    if briefs:
+        st.caption("One written brief per played match, filed the same "
+                   "evening as the scorecard: how each team approached "
+                   "the game, which players beat or missed their priors, "
+                   "and what it means for Janakpur's next fixtures.")
+        for n in sorted(briefs, reverse=True):
+            with st.expander(_brief_title(briefs[n], n),
+                             expanded=(n == max(briefs))):
+                st.markdown(briefs[n])
+    else:
+        st.info("No match briefs filed yet — the first is written on the "
+                "evening of the season's first match.")
 
     st.divider()
     if data["blueprint"]:
