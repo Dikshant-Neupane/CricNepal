@@ -386,3 +386,7 @@ player_kusal_perera,Kusal Perera,batting_hand,Left,Wikipedia; CREX profile,new p
 player_kusal_perera,Kusal Perera,bowling_type,Non-bowler,CREX profile (Bowls na); NDTV profile (Bowling -),new profile row 2026-10-26
 player_kusal_perera,Kusal Perera,date_of_birth,1990-08-17,Wikipedia; CREX profile; NDTV profile,new profile row 2026-10-26
 player_kusal_perera,Kusal Perera,country,Sri Lanka,Janakpur Bolts official announcement; The Rising Nepal/RSS (signing reports 2026-10-26),new profile row 2026-10-26
+player_sd_heazlett,Sam Heazlett,country,Australia,Wikipedia; cricket.com.au profile,corrected profile row 2026-10-26 (was Nepal; unsourced)
+player_sd_heazlett,Sam Heazlett,date_of_birth,1995-09-12,Wikipedia; cricket.com.au profile,corrected profile row 2026-10-26 (was 2004-06-12; unsourced)
+player_sd_heazlett,Sam Heazlett,bowling_type,Spin,Wikipedia (slow left-arm orthodox); cricket.com.au profile (Left-Arm Orthodox),corrected profile row 2026-10-26 (was Pace; unsourced)
+player_sd_heazlett,Sam Heazlett,batting_hand,Left,Wikipedia; cricket.com.au profile,profile row confirmed 2026-10-26
