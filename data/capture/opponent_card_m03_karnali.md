@@ -42,6 +42,14 @@ squad file as verified 24 Oct, press as cited. Unknowns are stated, never filled
     XI check, not by assumption here.
   - **Bolts overseas arrivals — still no individual confirmation** for Moeen Ali, Jimmy
     Neesham, Iftikhar Ahmed or Harmeet Singh in sources read 25 Oct; no absence reported either.
+  - **NEW BOLTS SIGNING, MON 26 OCT: Kusal Perera (Sri Lanka wicketkeeper-batter).**
+    Announced by Janakpur Bolts on the franchise's official Facebook page Mon 26 Oct
+    (reported the same day by The Rising Nepal/RSS). **Added to the verified project
+    squad data Mon 26 Oct** (roster/registry/master, with a real cricsheet external
+    T20 prior: bat index 1.09, PP rpb 1.15, death rpb 1.53) — he is now in the system
+    if named. No arrival-in-Nepal report and no XI word in sources read 26 Oct. This
+    adds a sixth overseas name to the Bolts group and therefore an overseas-slot
+    question for Tuesday; resolve at the matchday XI check, not by assumption here.
 
 ## Their likely XI (analyst judgement, not announced)
 Farhan, Gulshan Jha, Talat, Miller, Sompal Kami (c), Pawan Sarraf, Deepak Dumre (wk),

@@ -47,6 +47,7 @@ player_harmeet_singh,Harmeet Singh,0bf15e52,Harmeet Singh,exact,Janakpur Bolts,A
 player_hunain_shah,Hunain Shah,3b8679bf,Hunain Shah,exact,Janakpur Bolts,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,2004-02-04,22.7,Pakistan,True,single-form,
 player_iftikhar_ahmed,Iftikhar Ahmed,29e253dd,Iftikhar Ahmed,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,Right,1990-09-03,36.1,Pakistan,True,single-form,
 player_jds_neesham,Jimmy Neesham,9219eff0,JDS Neesham,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Pace,Right,1990-09-17,36.1,New Zealand,True,confirmed,
+player_kusal_perera,Kusal Perera,f21043a5,MDKJ Perera,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Left,Non-bowler,,1990-08-17,36.2,Sri Lanka,True,single-form,
 player_ln_rajbanshi,Lalit Narayan Rajbanshi,6ad2d5f7,LN Rajbanshi,exact,Janakpur Bolts,Bowler,s3_roster.playing_role,Right,Spin,Left,1998-08-30,28.2,Nepal,False,confirmed,
 player_mayan_yadav,Mayan Yadav,c6355538,Mayan Yadav,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Spin,Right,2006-05-07,20.5,Nepal,False,single-form,
 player_moeen_ali,Moeen Ali,bb351c23,MM Ali,initials_surname_unique,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Spin,Right,1987-06-18,39.4,England,True,single-form,
