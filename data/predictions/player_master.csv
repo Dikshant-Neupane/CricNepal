@@ -142,3 +142,4 @@ player_sa_zaib,Saif Ali Zaib,ab01e323,SA Zaib,exact,Sudurpaschim Royals,All-roun
 player_sc_kuggeleijn,Scott Kuggeleijn,fef92afc,SC Kuggeleijn,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Right,Spin,Right,1992-03-25,34.6,New Zealand,True,confirmed,
 player_se_rutherford,Sherfane Rutherford,d014d5ac,SE Rutherford,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,Left,Pace,Right,1998-08-15,28.2,West Indies,True,single-form,
 player_tek_rawat,Tek Rawat,,,,Sudurpaschim Royals,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
+player_fa_allen,Fabian Allen,b52ffbbd,FA Allen,exact,Sudurpaschim Royals,All-rounder,s3_roster.playing_role,Right,Spin,Left,1995-05-07,31.5,West Indies,True,single-form,
