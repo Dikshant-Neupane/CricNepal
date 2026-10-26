@@ -312,7 +312,7 @@ def test_g3_legacy_role_field_is_constant_by_construction():
     # WHY the legacy field must never be used: it carries no signal.
     legacy = pd.read_csv(
         ROOT / "data/player_profiles/enriched_players_20260521.csv")
-    assert len(legacy) == 237  # 188 legacy + 49 sourced S3 profile rows (2026-10-24 enrichment)
+    assert len(legacy) == 239  # 188 legacy + 51 sourced S3 profile rows (49 from the 2026-10-24 enrichment + Hunain Shah and Fabian Allen, 2026-10-26)
     assert legacy["primary_role"].nunique() == 1
     assert legacy["primary_role"].iloc[0] == "Batter"
 

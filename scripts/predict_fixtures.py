@@ -22,6 +22,24 @@ if __name__ == "__main__":
     args = ap.parse_args()
     preds = engine.generate_predictions(ROOT)
     out = ROOT / "data/predictions/upcoming_predictions.csv"
+    if not args.lock and not args.toss_csv:
+        # Guard (2026-10-26): a bare regeneration must never overwrite a
+        # locked fixture's displayed line. Locked values live in the
+        # frozen log and upcoming_predictions.csv mirrors them; squad
+        # drift (new signings) otherwise silently rewrites the locked
+        # pre-season lines on the dashboard. Locked fixtures keep their
+        # existing rows; only never-locked fixtures are regenerated.
+        frozen = ROOT / "data/predictions/frozen_log.csv"
+        if out.exists() and frozen.exists():
+            locked_ids = set(pd.read_csv(frozen, usecols=["match_id"]).match_id)
+            old = pd.read_csv(out)
+            keep = old[old.match_id.isin(locked_ids)]
+            if len(keep):
+                preds = pd.concat(
+                    [preds[~preds.match_id.isin(locked_ids)], keep],
+                    ignore_index=True)
+                preds = preds.sort_values("match_id").reset_index(drop=True)
+                print(f"guard: preserved locked rows for {len(keep)} fixtures")
     preds.to_csv(out, index=False)
     print(f"{len(preds)} fixture predictions -> {out}")
     if args.lock:
