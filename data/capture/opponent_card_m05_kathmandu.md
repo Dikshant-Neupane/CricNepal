@@ -33,12 +33,14 @@ Kathmandu open their Season 3 in this match — they have no S3 match behind the
 - **CAPTAIN / COACH:** Karan KC (c), Monty Desai (head coach) — s3_coaches.csv;
   confirmed by the CricNepal preview. Kathmandu finished 5th in 2024 and 4th in 2025
   (Eliminator loss to eventual champions Lumbini, per the preview).
-- **JANAKPUR SIDE — THURSDAY CANNOT BE FINALISED YET:** the Bolts play Match 3
-  v Karnali tonight (Tue 27 Oct, 17:00) before this match. As of the 27 Oct morning
-  sweep, the PCB NOC hold over Iftikhar Ahmed and Hunain Shah is unresolved (see the
-  Match 3 card refresh), and Kusal Perera's arrival/XI status is unconfirmed. Any
-  injury or form consequence of Match 3 is unknown at filing time — resolve at the
-  Thursday XI check, not by assumption here.
+- **JANAKPUR SIDE — MATCH 3 NOW PLAYED (updated 27 Oct, post-match):** the Bolts
+  lost Match 3 v Karnali by 19 runs, bowled out for 113 chasing 133 (verified
+  scorecard; brief_m03). Iftikhar Ahmed and Hunain Shah did NOT play, with the
+  PCB NOC doubt from the morning unresolved in any source read; Talat, under
+  the same doubt, DID play for Karnali. Kusal Perera played, batted at No. 5
+  and made 6 off 4. No injury is recorded in the Match 3 capture. Thursday's
+  XI and the Iftikhar/Hunain question still resolve at the Thursday XI check,
+  not by assumption here.
 
 ## Their likely XI (analyst judgement, not announced)
 Warner, Bhim Sharki, K. S. Bharat (wk), Will Bosisto, Sahan Arachchige,
@@ -108,9 +110,10 @@ mean of 160.3 (n=9) does NOT apply to this slot — do not use it here.
     (CricNepal preview; CricFacts).
   - Sam Heazlett — career T20: 898 runs in 51 matches, highest score 74 not out
     (OnlineKhabar, 25 Oct). Career, not current form.
-- **Our key players:** no verified last-10 figures found in the sweep. The Bolts
-  have not played Match 3 yet at filing time, so no S3 form exists for them at all.
-  Left blank.
+- **Our key players:** no verified last-10 figures found in the sweep. S3 form
+  now exists from Match 3 (verified scorecard, 27 Oct): Harmeet Singh 3/22 and
+  19 off 13; Moeen Ali 2/19 with the ball, 19 off 22 with the bat; Rahul Yadav
+  2/15. One match, labelled as such, not a last-10 line.
 - **Read-across:** priors, not form, drive this card. Nothing in the sweep
   contradicts the priors.
 
@@ -128,6 +131,56 @@ overs 17-20 entirely). With the bat, do NOT spend Moeen in the powerplay
 overs. Janakpur's Associate-in-XI, if the clause is real: Harmeet Singh (USA).
 The overseas-slot question for Thursday (Perera / Iftikhar / Hunain, and
 Heazlett on their side) resolves at the XI check, not here.
+
+## Match 3 lessons applied: fixed batting order and innings benchmarks (added 27 Oct, post-match)
+
+Match 3 evidence (verified): chasing 133, Janakpur's top four made 45 runs off
+53 balls (Moeen Ali 19 off 22 at No. 3, Anil Sah 11 off 17 at No. 4), the side
+was 56/4 in the 10th over, and nobody passed 20. At 81/5 in 11.5 overs the
+chase was still winnable; Harmeet Singh and Jimmy Neesham then both fell to
+Unish Thakuri and the innings closed at 113. The plan paragraph above already
+names the right roles; this section makes them checkable for Thursday. It does
+not revise the season blueprint, which stays checkpoint-only (matches 10/20).
+
+Fixed batting order, if the same core is selected:
+1. Anil Sah — the blueprint opener (powerplay rpb 1.1076 on priors).
+2. Mayan Yadav — second opener; his Match 3 rate (14 off 11, two sixes) was
+   the one top-order innings at the required rate, ended by a run out.
+3. Kusal Perera, if selected — powerplay rpb 1.1512, the best powerplay rate
+   of the available top order. At No. 5 in Match 3 he faced 4 balls: a wasted
+   slot. If he plays, he bats in the top three.
+4. Jimmy Neesham — middle rpb 1.2735, the anti-spin gear for Shahab Alam and
+   Rashid Khan through overs 7-14. Not No. 6, where he batted in Match 3.
+5. Moeen Ali — never before No. 5. His powerplay rpb (0.907) is the side's
+   weakest; his value is the middle (1.0668) and the death (1.5529).
+6-7. Harmeet Singh (death rpb 1.50) and the best domestic finisher on the day.
+
+Innings benchmarks (the checks Match 3 failed):
+- At most 2 wickets down after 6 overs, and at most 4 down after 14 overs.
+- One top-five batter still batting at over 15. In Match 3 the last recognised
+  batter went at 18.3 with the tail already exposed.
+- Score at or above the Day-slot second-innings phase rates (powerplay 6.80,
+  middle 7.15, from the conditions line). Do not let control bowlers bowl
+  unchallenged cheap overs early: in Match 3, Watt and Sompal bowled 4 overs
+  for 10 runs combined and set the squeeze up. Against Shahab Alam (powerplay
+  econ 6.151) and Rashid Khan (powerplay 5.900), rotate strike as the default
+  and put a boundary option on each of their overs.
+- The death target stays Karan KC (death econ 9.178) and Arachchige's
+  part-time overs, as in the plan above — but the innings must still be alive
+  at over 17 for that target to exist. In Match 3 Janakpur were bowled out in
+  19.3 overs and never faced a 20th over.
+
+Rajbanshi role, defined: Lalit Rajbanshi's priors are powerplay econ 6.445,
+middle 6.497 and death 8.508. His overs belong inside overs 1-14, aimed at
+the Sharki / Bosisto / Arachchige middle group; no death overs. Match 3 check:
+3 overs for 38 v Karnali was an outlier against both his priors and his
+S1-S2 head-to-head record in that fixture (5 wickets at 4.85). If his first
+two overs on Thursday cost more than 18, hold the rest of the spell for a new
+batter rather than completing four overs by default.
+
+Bowling order otherwise unchanged from the plan above: Harmeet at Warner in
+the powerplay, Moeen held for the middle and the death, Neesham out of overs
+17-20.
 
 ## Honesty note on the locked number
 The frozen pre-season line for this match is Janakpur 47.2% (p_team_1 0.4718,
