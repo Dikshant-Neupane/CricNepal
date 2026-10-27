@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-10-24T07:30:06.695395+00:00",
+ "generated_at": "2026-10-27T06:43:08.349306+00:00",
  "git": {
-  "head_sha": "7b6961f45f75f17817fe9657a55712a566be1b4d",
+  "head_sha": "fd876b3ee19104be1e3845ef81320d0ebdfbd53c",
   "dirty_code_tree": false,
   "modified_tracked_files": [],
   "untracked_files": []
  },
  "frozen_log": {
   "path": "data/predictions/frozen_log.csv",
-  "sha256": "8e23d50d4e654d3ab9f43c453ed555a5dea39641ac20126ccfb07c26a1e7e421",
-  "rows": 56,
+  "sha256": "44353aa767a71a257ec05ad34c6abf363e32d307bff3ee1a6442656a296cd6d1",
+  "rows": 57,
   "stages": {
    "P1_preseason_expected_xi": {
     "rows": 28,
@@ -17,6 +17,14 @@
     "last_locked": "2026-10-24T05:42:56.748039+00:00",
     "model_versions": [
      "v1"
+    ]
+   },
+   "P2_post_toss": {
+    "rows": 1,
+    "first_locked": "2026-10-27T06:43:07.769817+00:00",
+    "last_locked": "2026-10-27T06:43:07.769817+00:00",
+    "model_versions": [
+     "v1.1"
     ]
    },
    "SIM_shadow_preseason": {
@@ -35,12 +43,12 @@
    "bytes": 15940
   },
   "data/predictions/player_master.csv": {
-   "sha256": "b63d4ded84d7c13c2cc2f4dbbeb152430856705065c040b95808434eb1d78b59",
-   "bytes": 22797
+   "sha256": "b110cbb7755265aaa0007dec5bfa0d886bf191019fd431ab2dabbf2e0ac5cad5",
+   "bytes": 24782
   },
   "data/predictions/player_priors.csv": {
-   "sha256": "02438b6ec2a59c8904947ebff3959b8475e564b2a6f09ad5912acaa6d009e6d7",
-   "bytes": 26436
+   "sha256": "57f687a724ec2e75a861c822cef1b055c1b19f3ba427302c2ae3719fb98ab888",
+   "bytes": 29211
   },
   "data/predictions/player_history.csv": {
    "sha256": "c7136d6f07ec7e0583dc09a6ecef65cc33da2319b12f9aefcbaa57a1a36882ce",
