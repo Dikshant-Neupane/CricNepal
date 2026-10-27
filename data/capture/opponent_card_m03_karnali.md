@@ -50,6 +50,30 @@ squad file as verified 24 Oct, press as cited. Unknowns are stated, never filled
     if named. No arrival-in-Nepal report and no XI word in sources read 26 Oct. This
     adds a sixth overseas name to the Bolts group and therefore an overseas-slot
     question for Tuesday; resolve at the matchday XI check, not by assumption here.
+- **REFRESH, TUE 27 OCT — FARHAN OUT, NOC HOLD UNRESOLVED, WATT ARRIVAL CONFIRMED:**
+  - **Sahibzada Farhan — UNAVAILABLE for Match 3.** Called up to Pakistan's ODI
+    tri-series squad (replacing Saim Ayub; PCB confirmed 26 Oct); his return to
+    Pakistan is forthcoming, and Karnali director Grihendra Ghimire expects him to
+    rejoin after Pakistan's 31 Oct fixture. Karnali is preparing an interim
+    replacement — no name announced (OnlineKhabar, Pardafas, ANI via Tribune,
+    26 Oct). This supersedes the "CONFIRMED IN NEPAL" line above for tonight.
+  - **Hussain Talat — DOUBTFUL.** PCB NOC still on hold; no clearance reported
+    as of the 27 Oct morning sweep (same 26 Oct reports).
+  - **Bolts: Iftikhar Ahmed, Hunain Shah — DOUBTFUL.** Same PCB NOC hold; no
+    clearance reported as of this morning. The "no absence reported" line above
+    for Iftikhar is superseded.
+  - **Mark Watt — ARRIVAL CONFIRMED.** Landed Sunday morning, welcomed at TIA
+    (Pardafas 25 Oct 17:18 citing a Karnali press release, corroborated by Banking
+    News) — closes the "no individual arrival report found" gap above.
+  - **David Miller — still no arrival report** as of the 27 Oct morning sweep;
+    Tuesday availability remains POSSIBLE BUT UNCONFIRMED.
+  - **Ariful Islam / Akbar Ali — still unconfirmed** for Match 3; the
+    first-three-NCL-rounds expectation stands.
+  - **Kusal Perera — arrival/XI still unconfirmed.**
+  - Revised realistic Karnali overseas pool for tonight: Watt + Miller (if arrived)
+    + Talat (if cleared) + Ariful/Akbar (if in Nepal); Farhan out. The plan section
+    below is left unchanged per the refresh rule — resolve at the matchday XI
+    check, not by assumption here.
 
 ## Their likely XI (analyst judgement, not announced)
 Farhan, Gulshan Jha, Talat, Miller, Sompal Kami (c), Pawan Sarraf, Deepak Dumre (wk),
