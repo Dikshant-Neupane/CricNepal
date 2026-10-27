@@ -1,0 +1,58 @@
+# Match 3 prep brief — what Karnali v Janakpur tells the Janakpur Bolts
+
+Prepared 27 Oct 2026, the evening of the match. Sources: ESPNcricinfo full scorecard (Match 3, verified; capture entry closes arithmetically in data/capture/), CricNepal ball-by-ball dataset for NPL Seasons 1–2 (64 matches, TU Kirtipur), player priors file. Player of the Match is not shown on the scorecard pages checked, so none is named here.
+
+**Result:** Karnali Yaks won by 19 runs. Karnali 132/9 in 20 overs; Janakpur 113 all out in 19.3 overs, chasing 133. Toss: Janakpur, fielded.
+
+## The one-line read
+
+Janakpur won the toss, took three powerplay wickets for the first time in the profiled history, held Karnali to 132 — and still lost, because their own chase stalled in the middle overs and then broke: after Moeen Ali fell at 56/4 in the 10th over, the last six wickets added 57 runs, and the last two added 19. The game was not lost in the powerplay. It was lost to Karnali's middle-and-death bowling, which took six of the ten wickets.
+
+## How Karnali approach games (S1–S2 evidence, confirmed and broken today)
+
+- **Bat-first is their volume, not their strength.** S1–S2: batting first they average 140.8 and win 36.4%. Today they made 132/9 — below that average and below the TU par in the low 150s — and won anyway, because 132 was enough against this chase.
+- **Their powerplay batting broke, then recovered.** S1–S2 they lose 1.69 powerplay wickets per match. Today they lost three inside 5.3 overs (Watt 1, Dumre 13, Talat 3) and were 37/3. The recovery was the fourth-wicket stand: Ariful Islam and Pawan Sarraf added 42, taking Karnali from 37/3 to 79/4 before Ariful fell at 12.1. Janakpur could not break that stand, and that stand is why 132 existed at all.
+- **Ariful was the innings, Pawan the anchor.** Ariful 43 off 29 (1.48 runs per ball against a 1.1102 prior) with four sixes and no fours — every boundary cleared the rope. Pawan 37 off 37 (1.00 against a 1.1948 prior) was slower than his base and exactly the anchor the innings needed after 37/3. After Pawan fell at 18.5, Karnali added only 6 runs before the innings closed.
+- **The rest of their batting failed its priors.** Watt 1 off 5 (prior 1.3136 — the "genuine batting threat for a bowler" from the opponent card did not fire), Talat 3 off 14 (0.21 against 1.1289), Sompal Kami 1 off 5 (against 1.2291), Akbar Ali 1 off 2, Gulshan Jha 12 off 9 (1.33 against 1.319 — exactly himself, but gone at 15.1 before the death overs where his prior is 1.6028). Only two other Karnali batters reached double figures: Dumre 13 and Gulshan 12.
+- **Their bowling identity held, with a new name on it.** S1–S2 Karnali take 2.06 powerplay wickets per match with the ball. Today their wickets came later: Hussain Talat 4-0-26-3 (6.50 an over against a 7.369 prior) and Unish Thakuri 4-1-22-3 (5.50 against 7.051, including a maiden) took six of the ten Janakpur wickets between them. Nandan Yadav 2.3-0-13-2 (5.20 against 7.571) and Sompal Kami 2-0-5-1 (2.50 against 7.675) were tighter than their bases. Mark Watt went 2-0-5-0 (2.50 against a 7.542 prior) — wicketless but the tightest spell of the match by economy. Pawan Sarraf 4-0-27-0 (6.75 against 6.98) was par.
+- **Availability outcome, stated as XI fact only.** Talat played for Karnali despite the PCB NOC doubt that stood on the morning of the match. Farhan did not play (Pakistan call-up, already confirmed out) and David Miller did not play (no arrival report). Karnali's four overseas on the night were Watt, Talat, Ariful and Akbar.
+
+## How Janakpur approach games — and where today broke
+
+- **Field-first habit, again.** They field on 66.7% of toss wins across S1–S2; Harmeet Singh won this toss and fielded. The decision cannot be faulted on the evidence: Karnali were held to 132.
+- **The powerplay bowling finally took wickets — and it was not Harmeet.** S1–S2 Janakpur take 1.00 powerplay wicket per match with the ball and have never taken 3+ in a powerplay. Today they took three: Moeen Ali removed Watt in the first over, and Rahul Yadav removed Dumre and Talat. Harmeet's own three wickets (4-1-22-3, 5.50 against a 6.634 prior, powerplay economy prior 5.89) came later — Ariful at 12.1, Akbar at 12.4, Sompal at 16.2. The plan's powerplay weapon delivered, just not in the powerplay.
+- **Moeen was spent exactly where the plan says not to spend him — twice.** With the ball he opened and took 2/19 (4.75 against a 6.815 prior), which worked. With the bat he came in at 3, in the powerplay, and made 19 off 22 (0.86 per ball against a 1.1443 prior and a 0.907 powerplay prior) before falling at 9.2. The opponent card's warning was explicit: do not spend Moeen in the powerplay (his powerplay runs per ball is the side's weakest); his value is the middle (1.0668) and death (1.5529). Tonight he was spent in the powerplay and stalled there.
+- **The top order did not give the chase a platform.** Mayan Yadav 14 off 11 (1.27 against a 1.078 prior — above his base, but run out), Trit Raj Das 1 off 3, Anil Sah 11 off 17 (0.65 against a 1.1731 prior; the blueprint's opener did not fire), Kusal Perera 6 off 4 (1.50 against a 1.2786 prior — above base, but gone at 9.5). At the fall of the fourth wicket Janakpur were 56/4 in the 10th over, needing 77 off 64 with the middle order in.
+- **Neesham floated, but not where the plan floats him.** The plan floats Neesham at 4-5 to attack spin through overs 7-14 (his middle-overs prior is 1.2735, the side's best anti-spin gear). Tonight he batted at 6 and made 15 off 14 (1.07 against a 1.302 prior) before falling to Unish at 15.1. With the ball he bowled two overs for 17 and none at the death, so the "Neesham out of overs 17-20" (death economy prior 9.53) part of the plan held.
+- **Harmeet was the one Bolt who beat his priors on both sides.** As captain he took 3/22 with the ball and made 19 off 13 with the bat (1.46 against a 1.218 prior, death prior 1.50) before being caught-and-bowled by Unish at 13.1. Abhisekh Tiwari top-scored with 20 off 17 (1.18 against a 1.1263 prior) and was the last recognised batter out, at 18.3. Aaditya Mahata fell first ball to Unish; Rahul Yadav finished 1 not out off 10; Lalit Rajbanshi was bowled for 1.
+- **The death-bowling attack plan never got a target.** The card said attack Sompal (death economy prior 9.28) and Gulshan (8.86) at the death. Janakpur never faced them there: Sompal bowled two early overs for 5, Gulshan bowled one over for 14, and the death was bowled by Talat, Unish and Nandan — who took the wickets. And Janakpur were bowled out in 19.3 overs, so there was no 20th over to attack.
+- **Availability outcome, stated as XI fact only.** Iftikhar Ahmed and Hunain Shah did not play (both stood under the same PCB NOC doubt as Talat on the morning of the match). The Bolts overseas on the night were Moeen Ali, Jimmy Neesham, Kusal Perera and Harmeet Singh (captain).
+
+## The mirror: what this means for Janakpur's own approach
+
+- **The problem has moved from the powerplay to the middle overs.** Janakpur's known S1–S2 weakness with the bat is 2.06 powerplay wickets lost per match. Tonight they lost two in the powerplay — then lost six wickets for 57 runs in the last 10.1 overs. The next opponent's middle-overs spin is now the priority, not just the first six overs.
+- **Spin in the middle overs is the matchup that decides Bolts games.** Karnali's Talat and Unish took six wickets between them in this match, all six after the 9th over. Janakpur's S1–S2 powerplay-bowling weakness (1.00 wicket per match) is fixed for a night; their middle-overs batting against spin is the new exposed seam.
+- **132 is defendable at TU when the bowling side keeps taking wickets.** Two matches in three days now show the same shape: Chitwan defended 157 on wickets, Karnali defended 132 on wickets. The TU par tables (first-innings mean 147.5, par in the low 150s) describe the average game, not the winnable game: a side that takes wickets through the middle overs defends below par.
+
+## What this changes for the Bolts
+
+**Match 5 v Kathmandu Gorkhas (Thu 29 Oct, 12:30, Day):**
+1. Fix the batting order before Thursday, not the bowling. Moeen Ali must not bat at 3 again: 19 off 22 tonight is the stall the blueprint predicts. Bat him at 5-6, where his middle (1.0668) and death (1.5529) priors live, and let the top three be the top three.
+2. Prepare for Kathmandu's middle-overs spin as the main battle. The filed Kathmandu card already names it: Shahab Alam (middle-overs economy 6.51 on priors) and Nepal's Rashid Khan (middle 6.43) own overs 7-14, exactly where Janakpur lost this match to Talat and Unish. Neesham's middle-overs gear (1.2735) is the designated answer — bat him at 4-5 on Thursday, as the plan always intended, not at 6.
+3. Keep Harmeet as the powerplay bowler and death bat. He is the one player who beat his priors on both sides tonight, and his 3/22 shows the powerplay-bowling plan works when the wickets are shared — Moeen and Rahul Yadav took the powerplay wickets tonight, Harmeet took the middle-over ones.
+4. Do not price Thursday off tonight's XI alone. Iftikhar Ahmed's availability is still the open question: he did not play tonight under the NOC doubt while Talat, under the same doubt, played for Karnali. Resolve it at the Thursday XI check, not by assumption.
+
+**Match 9 v Pokhara Avengers (Sun 1 Nov, 17:00):** the same middle-overs lesson applies until disproved — Pokhara's attack will be scouted on the same question (who takes wickets in overs 7-14), and Janakpur's top three must show a second consecutive platform, not one night of losing only two powerplay wickets.
+
+**Match 12 v Biratnagar Kings (Tue 3 Nov, 12:30) and Match 25 v Chitwan Rhinos (Fri 13 Nov, 17:00):** unchanged from the Match 2 brief — Biratnagar's chase breaks in clusters and Chitwan's attack defends par by taking late wickets. Tonight adds a third data point to that pattern: at TU, wickets in clusters beat rate pressure, and Janakpur have now been on the receiving end of it.
+
+## Model note
+
+Frozen lines scored on Match 3: the pre-season line leaned Janakpur 50.0% (0.5003 in the upcoming-predictions file), and Karnali won, so the locked line scores a miss. The P1 post-XI and P2 post-toss locks were both missed for this match (no lock rows exist), so there is no locked line to score beyond the pre-season one. One match decides nothing: the pre-registered checkpoints stay at matches 10 and 20, and no model constant changes off this.
+
+## Data notes
+
+- No Player of the Match is named: the scorecard pages checked (ESPNcricinfo full scorecard, corroborated by CricTracker and KhelNow) do not display one for this match.
+- Bowling-attribution flag for cricsheet reconciliation: this capture follows ESPNcricinfo, which credits Nandan Yadav with 2.3-0-13-2 in the Janakpur innings (Kathmandu Post agrees: two wickets for 13 in 2.3 overs). CricTracker and KhelNow split that spell between Nandan Yadav and Yuvraj Khatri (their combined figures are the same 15 balls, 13 runs, 2 wickets). The discrepancy is in attribution only; the innings totals close either way.
+- No priors rows exist for Rahul Yadav, Trit Raj Das or Yuvraj Khatri, so no versus-prior read exists for them. Flagged for the next priors rebuild; not filled in by hand.
+- Name variants between the scorecard and the priors file, for the record: scorecard "Gulsan Jha" = priors "Gulshan Jha"; "Unish Thakuri" = "Unish Bikram Singh Thakuri"; "Anil Sah" = "Anil Kumar Sah"; "James Neesham" = "Jimmy Neesham"; "Lalit Rajbanshi" = "Lalit Narayan Rajbanshi"; "Aaditya Mahata" = "Aadity Mahata". Capture rows use the scorecard's spellings.
