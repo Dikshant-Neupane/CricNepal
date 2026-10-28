@@ -46,7 +46,7 @@ S Dhawan,India,Batter,Left,,1985-12-05,40.0,136.0,123.0,4.0,0.0,6.0,1.0,0.0,4.0,
 SS Eskinazi,England,Batter,Right,,1994-12-20,31.0,133.0,121.0,7.0,0.0,6.0,1.0,0.0,7.0,109.92,0.0,
 JN Loftie-Eaton,Namibia,Batter,Right,Medium Pace,1994-09-25,31.0,125.0,125.0,10.0,5.0,90.0,15.0,6.0,10.0,100.0,7.13,
 Hassan Eisakhil,Nepal,Batter,Right,,2006-03-14,19.0,125.0,105.0,6.0,0.0,6.0,1.0,0.0,6.0,119.05,0.0,
-DJ Malan,England,Batter,Left,,1987-09-03,38.0,121.0,105.0,7.0,0.0,8.0,1.3,1.0,7.0,115.24,3.75,
+DJ Malan,England,Batter,Left,Spin,1987-09-03,38.0,121.0,105.0,7.0,0.0,8.0,1.3,1.0,7.0,115.24,3.75,Right
 S Maharjan,Nepal,Batter,Right,,,,119.0,144.0,11.0,0.0,6.0,1.0,0.0,11.0,82.64,0.0,
 Milind Kumar,Nepal,Batter,Right,Spin,2003-04-06,22.0,115.0,145.0,7.0,10.0,169.0,28.2,7.0,7.0,79.31,5.75,
 DA Douthwaite,Wales/England,Batter,Right,Spin,1999-05-20,27.0,115.0,102.0,7.0,5.0,117.0,19.5,6.0,7.0,112.75,6.67,
@@ -239,3 +239,4 @@ Tek Rawat,Nepal,Batter,Right,Non-bowler,,,,,,,,,,,,,
 Hunain Shah,Pakistan,Batter,Right,Medium Pace,2004-02-04,22.7,,,,,,,,,,,Right
 FA Allen,West Indies,Batter,Right,Spin,1995-05-07,31.5,,,,,,,,,,,Left
 Kusal Perera,Sri Lanka,Batter,Left,Non-bowler,1990-08-17,36.2,,,,,,,,,,,
+DR Mousley,England,Batter,Left,Spin,2001-07-08,25.3,,,,,,,,,,,Right

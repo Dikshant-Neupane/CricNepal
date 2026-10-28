@@ -22,6 +22,8 @@ player_a_saud,Arjun Saud,94b8d7dd,A Saud,exact,Chitwan Rhinos,Wicketkeeper,s3_ro
 player_ashok_dhami,Ashok Dhami,,,,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Left,2007-02-17,19.7,Nepal,False,single-form,cricsheet_registry_id
 player_b_yadav,Bibek Kumar Yadav,ef07f354,B Yadav,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Right,Pace,Right,2003-09-11,23.1,Nepal,False,confirmed,
 player_b_rawal,Bipin Rawal,6527fb51,B Rawal,exact,Chitwan Rhinos,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2004-09-25,22.1,Nepal,False,confirmed,
+player_dr_mousley,Dan Mousley,876dbe2d,DR Mousley,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Left,Spin,Right,2001-07-08,25.3,England,True,confirmed,
+player_dj_malan,Dawid Malan,ad9c32a2,DJ Malan,exact,Chitwan Rhinos,Batter,s3_roster.playing_role,Left,Spin,Right,1987-09-03,39.1,England,True,confirmed,
 player_deepak_bohara,Deepak Bohara,9b1276f1,Deepak Bohara,exact,Chitwan Rhinos,Batter,s3_roster.playing_role,Right,Spin,Right,2005-06-19,21.4,Nepal,False,single-form,
 player_d_khanal,Dev Khanal,c4bc3b59,D Khanal,exact,Chitwan Rhinos,Batter,s3_roster.playing_role,Right,Spin,Right,2001-07-25,25.3,Nepal,False,confirmed,
 player_gautam_kc,Gautam KC,a2ff9c85,Gautam KC,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Pace,Right,,,Nepal,False,single-form,date_of_birth

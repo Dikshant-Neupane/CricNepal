@@ -390,3 +390,10 @@ player_sd_heazlett,Sam Heazlett,country,Australia,Wikipedia; cricket.com.au prof
 player_sd_heazlett,Sam Heazlett,date_of_birth,1995-09-12,Wikipedia; cricket.com.au profile,corrected profile row 2026-10-26 (was 2004-06-12; unsourced)
 player_sd_heazlett,Sam Heazlett,bowling_type,Spin,Wikipedia (slow left-arm orthodox); cricket.com.au profile (Left-Arm Orthodox),corrected profile row 2026-10-26 (was Pace; unsourced)
 player_sd_heazlett,Sam Heazlett,batting_hand,Left,Wikipedia; cricket.com.au profile,profile row confirmed 2026-10-26
+player_dj_malan,DJ Malan,bowling_type,Spin,Wikipedia,fill
+player_dj_malan,DJ Malan,bowling_arm,Right,Wikipedia,fill
+player_dr_mousley,DR Mousley,country,England,Wikipedia,new profile row
+player_dr_mousley,DR Mousley,batting_hand,Left,Wikipedia,new profile row
+player_dr_mousley,DR Mousley,bowling_type,Spin,Wikipedia,new profile row
+player_dr_mousley,DR Mousley,bowling_arm,Right,Wikipedia,new profile row
+player_dr_mousley,DR Mousley,date_of_birth,2001-07-08,Wikipedia,new profile row
