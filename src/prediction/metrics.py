@@ -1,7 +1,12 @@
 """Proper scoring metrics for probabilistic match predictions."""
 import numpy as np
 
-EPS = 1e-15
+# Log-loss clipping per the master prompt Section 5: p is clipped to
+# [1e-6, 1 - 1e-6]. (Was 1e-15 until 2026-10-29, plan task 5.1; every
+# shipped probability is already clipped to [0.05, 0.95] upstream, so
+# no shipped or backtest number changes — verified against
+# data/predictions/backtest_s2.csv in docs/WORKLOG.md.)
+EPS = 1e-6
 
 
 def log_loss(p, y):
