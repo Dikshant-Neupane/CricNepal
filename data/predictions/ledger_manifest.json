@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-10-28T11:08:59.557768+00:00",
+ "generated_at": "2026-10-29T11:06:38.014562+00:00",
  "git": {
-  "head_sha": "039acd464920b2ed197b7f501b688c864e7e7768",
+  "head_sha": "b5702b82962dc3d6488d541b082323352bdc5369",
   "dirty_code_tree": false,
   "modified_tracked_files": [],
   "untracked_files": []
  },
  "frozen_log": {
   "path": "data/predictions/frozen_log.csv",
-  "sha256": "5f9c5f2b453df61b4a67b43e1fb17735ee9f5bae586680f09dfa6df3d006121c",
-  "rows": 58,
+  "sha256": "02bf1fac46fd3d49c3d55bc46ef76a3e55b71a1ccce63a3b2442d537060d463e",
+  "rows": 59,
   "stages": {
    "P1_preseason_expected_xi": {
     "rows": 28,
@@ -20,9 +20,9 @@
     ]
    },
    "P2_post_toss": {
-    "rows": 2,
+    "rows": 3,
     "first_locked": "2026-10-27T06:43:07.769817+00:00",
-    "last_locked": "2026-10-28T11:08:58.302050+00:00",
+    "last_locked": "2026-10-29T11:06:37.500101+00:00",
     "model_versions": [
      "v1.1"
     ]
@@ -43,12 +43,12 @@
    "bytes": 15940
   },
   "data/predictions/player_master.csv": {
-   "sha256": "3dcc67e28f0badafe42fb004bedaeea776010bb79f45943458e3a8b75f584f89",
-   "bytes": 25097
+   "sha256": "5357ae0fc0447b2437bbc8e115952104d8812f9a62d25e51771f559dd24468d4",
+   "bytes": 25482
   },
   "data/predictions/player_priors.csv": {
-   "sha256": "bba89b0110a7be93c4e39033a50245520bb1d6594684b3eea17cf1e2ae0cd4f9",
-   "bytes": 29617
+   "sha256": "c49dc7c655efdac6be4d387c44c0b043636e8399d2b384b7d4c737587f024abd",
+   "bytes": 30056
   },
   "data/predictions/player_history.csv": {
    "sha256": "c7136d6f07ec7e0583dc09a6ecef65cc33da2319b12f9aefcbaa57a1a36882ce",
