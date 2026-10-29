@@ -120,24 +120,35 @@ def _team_tables(priors: pd.DataFrame, team: str) -> dict:
     """Phase-prior tables for one squad: top batters and bowlers, plus
     the top-11 mean phase line used in the phase battle."""
     t = priors[priors.team == team]
+    # Evidence context (plan 6.1): every index is shown with the
+    # effective balls behind it, its prior group as the evidence
+    # label, and the prior uncertainty. Values pass through unchanged.
     bat_cols = ["canonical_name", "role", "is_overseas", "bat_index",
                 "prior_bat_rpb_powerplay", "prior_bat_rpb_middle",
-                "prior_bat_rpb_death"]
+                "prior_bat_rpb_death", "bat_balls_eff", "prior_group",
+                "uncertainty"]
     bowl_cols = ["canonical_name", "role", "is_overseas", "bowl_index",
                  "prior_bowl_econ_powerplay", "prior_bowl_econ_middle",
-                 "prior_bowl_econ_death"]
+                 "prior_bowl_econ_death", "bowl_balls_eff", "prior_group",
+                 "uncertainty"]
     bat = (t.sort_values("bat_index", ascending=False).head(7)[bat_cols]
            .rename(columns={"canonical_name": "Player", "role": "Role",
                             "is_overseas": "OS", "bat_index": "Bat idx",
                             "prior_bat_rpb_powerplay": "PP",
                             "prior_bat_rpb_middle": "Mid",
-                            "prior_bat_rpb_death": "Death"}))
+                            "prior_bat_rpb_death": "Death",
+                            "bat_balls_eff": "Bat balls (eff)",
+                            "prior_group": "Evidence",
+                            "uncertainty": "±"}))
     bowl = (t.sort_values("bowl_index", ascending=False).head(7)[bowl_cols]
             .rename(columns={"canonical_name": "Player", "role": "Role",
                              "is_overseas": "OS", "bowl_index": "Bowl idx",
                              "prior_bowl_econ_powerplay": "PP",
                              "prior_bowl_econ_middle": "Mid",
-                             "prior_bowl_econ_death": "Death"}))
+                             "prior_bowl_econ_death": "Death",
+                             "bowl_balls_eff": "Bowl balls (eff)",
+                             "prior_group": "Evidence",
+                             "uncertainty": "±"}))
     top11 = t.sort_values("bat_index", ascending=False).head(11)
     battle = {}
     for key, _ in _PHASES:
@@ -277,7 +288,7 @@ def _fmt_table(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
     out["OS"] = out["OS"].map(lambda v: "OS" if v is True else "")
     for c in out.columns:
-        if c not in ("Player", "Role", "OS"):
+        if c not in ("Player", "Role", "OS", "Evidence"):
             out[c] = out[c].map(lambda v: f"{v:.2f}")
     return out
 
@@ -422,6 +433,13 @@ def render_game_plan() -> None:
             st.markdown("**Bowling** (economy by phase)")
             st.dataframe(_fmt_table(t["bowl"]), hide_index=True,
                          width="stretch")
+        st.caption(
+            "Evidence — group: where the prior comes from "
+            "(npl_experienced: NPL record on file; external_pro: "
+            "overseas record only, 1.5x uncertainty; debutant: no "
+            "record, league-mean prior). Balls (eff): decay-weighted "
+            "balls behind the estimate. ±: prior uncertainty — "
+            "lower means firmer evidence.")
 
     card = data["cards"].get(sel["match_number"])
     if card is not None:

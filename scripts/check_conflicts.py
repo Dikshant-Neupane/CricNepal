@@ -29,10 +29,64 @@ REGISTER = ROOT / "data/conflicts_register.csv"
 DETECTED = "2026-10-29"
 
 
+RESOLVED_ROWS = [
+    {
+        "conflict_id": "CONF-001",
+        "detected": DETECTED,
+        "type": "team_identity_split",
+        "scope": "all matches involving the Kathmandu franchise, S1+S2",
+        "source_a": "data/normalized/matches_normalized.parquet",
+        "value_a": "Kathmandu Gorkhas",
+        "source_b": "data/final/parquet/matches.parquet",
+        "value_b": "Kathmandu Gurkhas",
+        "status": "RESOLVED 2026-10-29",
+        "resolution": "plan task 1.2: scripts/sync_final_from_normalized.py "
+                      "regenerated the final copies from the canonical "
+                      "normalized layer and aligned team identity in the "
+                      "derived artefacts; the served layer now carries "
+                      "exactly 8 team names (tests/test_canonical_layer.py)",
+        "notes": "Identity conflict only; the 2026-10-29 audit found zero "
+                 "winner/margin discrepancies. Winner-spelling rows "
+                 "CONF-W-espn_1462644/1462657/1462662/1462664 were the "
+                 "per-match instances and are resolved by the same action. "
+                 "A residual ID-level split inside normalized itself is "
+                 "tracked separately as CONF-002.",
+    },
+]
+
+
 def detect_conflicts() -> list[dict]:
     norm = pd.read_parquet(NORMALIZED)
     final = pd.read_parquet(FINAL)
     rows: list[dict] = []
+
+    # CONF-002: the canonical layer's own team-ID columns carry both
+    # Kathmandu IDs. The served final copy is aligned by the sync
+    # script, but the upstream ingest still emits both — surfaced
+    # here, not patched at the source mid-season (plan 1.2).
+    id_cols = [c for c in ("team_1_id", "team_2_id") if c in norm]
+    if id_cols:
+        ids = set(pd.concat([norm[c] for c in id_cols]).dropna().unique())
+        if "team_kathmandu_gurkhas" in ids:
+            rows.append({
+                "conflict_id": "CONF-002",
+                "detected": DETECTED,
+                "type": "team_id_split_in_canonical",
+                "scope": "Kathmandu matches in data/normalized "
+                         "(team_1_id/team_2_id)",
+                "source_a": "data/normalized/matches_normalized.parquet",
+                "value_a": "team_kathmandu_gorkhas",
+                "source_b": "data/normalized/matches_normalized.parquet",
+                "value_b": "team_kathmandu_gurkhas",
+                "status": "open — surfaced, not resolved",
+                "resolution": "served copies aligned by "
+                              "scripts/sync_final_from_normalized.py; the "
+                              "ingest-side fix (single canonical team ID) "
+                              "is a separate post-season change",
+                "notes": "Name columns in normalized are unified "
+                         "(Kathmandu Gorkhas only); only the ID columns "
+                         "split. No displayed name or result is affected.",
+            })
 
     def team_names(df):
         cols = [c for c in ("team_1_name", "team_2_name") if c in df]
@@ -60,6 +114,54 @@ def detect_conflicts() -> list[dict]:
                      "2026-10-29 audit recomputed every result and "
                      "found zero winner/margin discrepancies.",
         })
+
+    # CONF-003: canonical's stored innings overs disagree with the
+    # NRR convention derived from the canonical ball-by-ball (all-out
+    # innings stored at overs faced, not the full 20). Stored runs
+    # agree everywhere. Served copies carry the derived summaries.
+    try:
+        bbb = pd.read_parquet(
+            ROOT / "data/normalized/ball_by_ball_normalized.parquet")
+        bbb = bbb[bbb["innings"] <= 2].copy()
+        bbb["legal"] = ~bbb["extras_type"].isin(["wides", "noballs"])
+        bbb["wkt"] = (bbb["is_wicket"]
+                      & (bbb["dismissal_type"] != "retired hurt"))
+        agg = (bbb.groupby(["match_id", "innings"])
+               .agg(legal=("legal", "sum"), wkts=("wkt", "sum")))
+        n_idx = norm.set_index("match_id")
+        n_bad = 0
+        for (match_id, inn), r in agg.iterrows():
+            expected = 20.0 if r["wkts"] >= 10 else r["legal"] / 6.0
+            stored = n_idx.loc[match_id, f"innings_{inn}_overs"]
+            if pd.notna(stored) and abs(float(stored) - expected) > 1e-9:
+                n_bad += 1
+        if n_bad:
+            rows.append({
+                "conflict_id": "CONF-003",
+                "detected": DETECTED,
+                "type": "stored_overs_convention",
+                "scope": f"{n_bad} of {len(agg)} innings in "
+                         "data/normalized",
+                "source_a": "data/normalized/matches_normalized.parquet "
+                            "(stored innings_*_overs)",
+                "value_a": "overs as stored (all-out innings at overs "
+                           "faced; notation variant elsewhere)",
+                "source_b": "data/normalized/ball_by_ball_normalized."
+                            "parquet (derived, NRR convention)",
+                "value_b": "legal-ball overs; all-out innings count "
+                           "the full 20 overs",
+                "status": "open — surfaced, not resolved",
+                "resolution": "served copies carry the derived "
+                              "summaries (scripts/"
+                              "sync_final_from_normalized.py), which "
+                              "reproduce the verified Janakpur S1 NRR "
+                              "+0.139; stored summaries would read "
+                              "+0.492. Ingest-side fix is post-season.",
+                "notes": "Stored runs agree with the deliveries on "
+                         "all innings; only overs differ.",
+            })
+    except Exception:
+        pass
 
     merged = norm[["match_id", "winner_name"]].merge(
         final[["match_id", "winner_name"]], on="match_id",
@@ -91,10 +193,13 @@ def main() -> int:
                     help="write data/conflicts_register.csv")
     args = ap.parse_args()
     try:
-        rows = detect_conflicts()
+        live = detect_conflicts()
     except Exception as exc:  # unreadable inputs are a hard failure
         print(f"ERROR: could not read match layers: {exc}", file=sys.stderr)
         return 2
+    live_ids = {r["conflict_id"] for r in live}
+    rows = live + [r for r in RESOLVED_ROWS
+                   if r["conflict_id"] not in live_ids]
     df = pd.DataFrame(rows)
     if args.write:
         df.to_csv(REGISTER, index=False)

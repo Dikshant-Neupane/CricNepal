@@ -18,12 +18,17 @@ WPA_NOTE = (
     "Exploratory historical estimates: the win probabilities and WPA "
     "figures on this page come from the in-play model, which uses "
     "match state only (score, wickets, legal balls remaining, "
-    "target) — no team, player or Elo inputs. Treat the curves and "
-    "the WPA leaderboard as descriptive analysis of matches already "
-    "played, not as validated player ratings. The in-play model's "
-    "validated out-of-sample evaluation (trained on Season 1 only, "
-    "scored on Season 2 deliveries) is reported on the Match "
-    "Predictions page."
+    "target) — no team, player or Elo inputs. Probabilities are for "
+    "the team currently batting, in both innings (the referent team "
+    "changes at the innings break). Since the 2026-10-29 rebuild "
+    "(plan 4.2), each match's figures are produced by a model trained "
+    "only on matches played on strictly earlier dates — "
+    "out-of-sample by construction; the export's .meta.json sidecar "
+    "records the method. Treat the curves and the WPA leaderboard "
+    "as descriptive analysis of matches already played, not as "
+    "validated player ratings. The in-play model's validated "
+    "out-of-sample evaluation (trained on Season 1 only, scored on "
+    "Season 2 deliveries) is reported on the Match Predictions page."
 )
 
 @st.cache_data(ttl=600, show_spinner=False)

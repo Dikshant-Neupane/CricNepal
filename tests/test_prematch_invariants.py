@@ -55,4 +55,10 @@ def test_conflicts_register_surfaces_known_conflict():
     assert (reg.conflict_id == "CONF-001").any()
     conf = reg[reg.conflict_id == "CONF-001"].iloc[0]
     assert "Kathmandu Gurkhas" in conf.value_b
-    assert "not resolved" in conf.status
+    # Plan 1.2 (2026-10-29) resolved the served-layer split; the
+    # register keeps the row WITH its resolution rather than going
+    # silent, and the residual canonical-ID split stays open.
+    assert "RESOLVED" in conf.status
+    assert "sync_final_from_normalized" in conf.resolution
+    open_rows = reg[reg.status.str.contains("not resolved")]
+    assert (open_rows.conflict_id == "CONF-002").any()

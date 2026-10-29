@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import math
+
 import pandas as pd
 from typing import Dict, Any
 
@@ -29,6 +31,44 @@ def _run_rate(runs: float, overs: float) -> float:
     return float(runs / overs)
 
 
+_NRR_COLUMNS = ("runs_for", "runs_against", "overs_faced", "overs_bowled")
+
+
+def _nrr_aggregation(df: pd.DataFrame) -> tuple[float | None, int, int]:
+    """Aggregate NRR over the rows that actually carry innings data.
+
+    A row contributes only when all four NRR inputs are present and
+    both overs values are positive. Rows are never repaired with
+    defaults (plan 1.3 / criteria D7 — missing stays missing):
+
+    - rows with any missing input are excluded and counted as
+      ``n_missing`` (a data-quality problem);
+    - rows with zero overs (no innings played, e.g. a no-result) are
+      excluded and counted as ``n_no_innings`` (a legitimate absence —
+      NRR conventions do not count matches with no play).
+
+    Returns ``(nrr, n_missing, n_no_innings)``; ``nrr`` is None when
+    no row contributes.
+    """
+    if not all(c in df.columns for c in _NRR_COLUMNS):
+        return None, len(df), 0
+    vals = {c: pd.to_numeric(df[c], errors="coerce") for c in _NRR_COLUMNS}
+    missing = pd.concat(vals, axis=1).isna().any(axis=1)
+    no_innings = ~missing & ((vals["overs_faced"] <= 0) | (vals["overs_bowled"] <= 0))
+    valid = ~missing & ~no_innings
+    if not bool(valid.any()):
+        return None, int(missing.sum()), int(no_innings.sum())
+    nrr = (
+        float(vals["runs_for"][valid].sum()) / float(vals["overs_faced"][valid].sum())
+        - float(vals["runs_against"][valid].sum()) / float(vals["overs_bowled"][valid].sum())
+    )
+    return nrr, int(missing.sum()), int(no_innings.sum())
+
+
+def _data_quality(n_missing: int, n_no_innings: int) -> str:
+    return "ok" if (n_missing + n_no_innings) == 0 else "incomplete"
+
+
 def compute_team_kpis(df: pd.DataFrame) -> dict:
     """Compute normalized team KPIs from match-level records."""
     matches = len(df)
@@ -38,12 +78,8 @@ def compute_team_kpis(df: pd.DataFrame) -> dict:
 
     win_pct = (wins / matches * 100.0) if matches else 0.0
 
-    total_for = float(df["runs_for"].sum())
-    total_against = float(df["runs_against"].sum())
-    overs_for = float(df["overs_faced"].sum())
-    overs_against = float(df["overs_bowled"].sum())
-
-    nrr = _run_rate(total_for, overs_for) - _run_rate(total_against, overs_against)
+    nrr_value, n_missing, n_no_innings = _nrr_aggregation(df)
+    nrr = round(nrr_value, 3) if nrr_value is not None else float("nan")
 
     return {
         "matches": matches,
@@ -51,9 +87,13 @@ def compute_team_kpis(df: pd.DataFrame) -> dict:
         "losses": losses,
         "no_results": no_results,
         "win_pct": round(win_pct, 1),
-        "nrr": round(nrr, 3),
-        "avg_runs_for": round(total_for / matches, 1) if matches else 0.0,
-        "avg_runs_against": round(total_against / matches, 1) if matches else 0.0,
+        "nrr": nrr,
+        "data_quality": _data_quality(n_missing, n_no_innings),
+        "nrr_missing_rows": n_missing,
+        "nrr_no_innings_rows": n_no_innings,
+        "nrr_excluded": n_missing + n_no_innings,
+        "avg_runs_for": round(float(df["runs_for"].mean()), 1) if matches and df["runs_for"].notna().any() else 0.0,
+        "avg_runs_against": round(float(df["runs_against"].mean()), 1) if matches and df["runs_against"].notna().any() else 0.0,
     }
 
 
@@ -71,41 +111,43 @@ def compute_season_kpis(df: pd.DataFrame) -> Dict[str, Dict[str, Any]]:
         - wins: win count
         - losses: loss count
         - win_pct: win percentage
-        - nrr: net run rate
+        - nrr: net run rate over the matches that carry innings data,
+          or None when no match in the season does
+        - data_quality: "ok" when every match contributed to NRR,
+          else "incomplete"
+        - nrr_missing_rows / nrr_no_innings_rows / nrr_excluded:
+          how many matches were excluded from NRR, and why
+
+    Missing runs/overs are never defaulted (plan 1.3 / criteria D7):
+    previously this filled missing overs with 20.0 and missing runs
+    with 0, silently pricing an unplayed or unrecorded innings as a
+    full 20 overs.
     """
     result = {}
-    
+
     if df.empty or "season" not in df.columns:
         return result
-    
+
     for season, grp in df.groupby("season"):
         n = len(grp)
         wins = int((grp["result"] == "W").sum())
         losses = n - wins
         win_pct = (wins / n * 100.0) if n > 0 else 0.0
 
-        # Calculate NRR using runs and overs columns
-        runs_for = pd.to_numeric(grp["runs_for"], errors="coerce").fillna(0)
-        runs_against = pd.to_numeric(grp["runs_against"], errors="coerce").fillna(0)
-        overs_faced = pd.to_numeric(grp["overs_faced"], errors="coerce").fillna(20.0).replace(0, 20.0)
-        overs_bowled = pd.to_numeric(grp["overs_bowled"], errors="coerce").fillna(20.0).replace(0, 20.0)
-        
-        # NRR: (runs_for/overs_faced) - (runs_against/overs_bowled)
-        total_for = runs_for.sum()
-        total_against = runs_against.sum()
-        total_overs_faced = overs_faced.sum()
-        total_overs_bowled = overs_bowled.sum()
-        
-        nrr = _run_rate(total_for, total_overs_faced) - _run_rate(total_against, total_overs_bowled)
+        nrr_value, n_missing, n_no_innings = _nrr_aggregation(grp)
 
         result[season] = {
             "n": n,
             "wins": wins,
             "losses": losses,
             "win_pct": round(win_pct, 1),
-            "nrr": round(nrr, 3),
+            "nrr": round(nrr_value, 3) if nrr_value is not None else None,
+            "data_quality": _data_quality(n_missing, n_no_innings),
+            "nrr_missing_rows": n_missing,
+            "nrr_no_innings_rows": n_no_innings,
+            "nrr_excluded": n_missing + n_no_innings,
         }
-    
+
     return result
 
 
@@ -128,14 +170,22 @@ def compute_season_delta(season_kpis: Dict[str, Dict[str, Any]],
     """
     s1 = season_kpis.get(s1_label, {})
     s2 = season_kpis.get(s2_label, {})
-    
+
     win_pct_delta = s2.get("win_pct", 0.0) - s1.get("win_pct", 0.0)
-    nrr_delta = s2.get("nrr", 0.0) - s1.get("nrr", 0.0)
+    # A season whose NRR is None (no innings data at all) has no
+    # meaningful delta; a wholly absent season keeps the legacy 0.0.
+    s1_nrr = s1.get("nrr", 0.0)
+    s2_nrr = s2.get("nrr", 0.0)
+    nrr_delta = (
+        round(s2_nrr - s1_nrr, 3)
+        if s1_nrr is not None and s2_nrr is not None
+        else None
+    )
     matches_delta = s2.get("n", 0) - s1.get("n", 0)
-    
+
     return {
         "win_pct_delta": round(win_pct_delta, 1),
-        "nrr_delta": round(nrr_delta, 3),
+        "nrr_delta": nrr_delta,
         "matches_delta": matches_delta,
     }
 
@@ -240,11 +290,18 @@ def build_executive_cards(df: pd.DataFrame) -> list[tuple[str, str, str, str]]:
     season_delta = round(s2_win_pct - s1_win_pct, 1)
 
     delta_prefix = "+" if season_delta >= 0 else ""
-    trend_prefix = "+" if kpis["nrr"] >= 0 else ""
+    nrr = kpis["nrr"]
+    if isinstance(nrr, float) and math.isnan(nrr):
+        # No innings data at all: show the gap, never a fake number.
+        nrr_card = ("NRR", "N/A", "No innings data", "")
+    else:
+        trend_prefix = "+" if nrr >= 0 else ""
+        nrr_note = " net trend" if kpis.get("data_quality", "ok") == "ok" else " net trend (incomplete data)"
+        nrr_card = ("NRR", f"{nrr:+.3f}", f"{trend_prefix}{nrr:.3f}{nrr_note}", "")
 
     cards = [
         ("Win %", f"{kpis['win_pct']:.1f}%", f"{delta_prefix}{season_delta:.1f}% S2 vs S1", ""),
-        ("NRR", f"{kpis['nrr']:+.3f}", f"{trend_prefix}{kpis['nrr']:.3f} net trend", ""),
+        nrr_card,
         ("Matches", str(kpis["matches"]), f"W {kpis['wins']} / L {kpis['losses']}", ""),
         ("Form Index", f"{weighted_form:.1f}", "Quality-adjusted", ""),
     ]

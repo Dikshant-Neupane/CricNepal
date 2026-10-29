@@ -29,24 +29,43 @@ described as an improvement.
 
 ## In-play model (separate system, frozen pages)
 State-feature logistic models per innings, target = batting team
-wins (perspective flips at the innings break — audit I-05). Its
-out-of-sample evaluation (train S1, test S2, delivery-level) exists
-(inplay_wp_evaluation.json), but the production WPA export is
-IN-SAMPLE (I-04) and labelled exploratory. Batch 1 added the
-prompt-required simple-logistic baseline (runs needed, balls left,
-wickets in hand; innings 2): S2 log loss 0.4137 / Brier 0.1320 /
-accuracy 0.8139 on 3,471 undecided states, versus the WP model's
-innings-2 stored aggregates 0.4108 / 0.1319 / 0.8119 on 3,503
-deliveries — i.e. the WP model's innings-2 performance is
-indistinguishable from the 3-feature baseline on current evidence.
+wins. PERSPECTIVE DECISION (plan 4.3, 2026-10-29): the batting-team
+perspective is KEPT — it is applied consistently (one target
+definition in both innings; the referent team changes at the break
+by construction), and the alternative fixed-referent chain is now
+exported alongside it (p_first_team_win), under which the whole
+match's WPA telescopes to outcome − 0.50 exactly. Both the code
+docs and the page label state the perspective explicitly.
+
+Production WPA was rebuilt out-of-sample (plan 4.2/4.4, 2026-10-29):
+each match is scored by a model trained only on matches played on
+strictly earlier dates (walk-forward; the 5 earliest matches, with
+fewer than 4 predecessors, are not scored); decided innings-2
+states are exactly 1/0; the innings-2 chain opens at 1 − (innings
+1's final probability), not 0.50; exports carry a .meta.json
+provenance sidecar (method: walk_forward_by_match). The legacy
+in-sample construction is retained only as
+compute_and_export_wpa() for reproducing historical artefacts and
+stamps its exports in_sample_legacy.
+
+Skill vs the simple baseline (plan 5.5): Batch 1's 3-feature
+logistic baseline (runs needed, balls left, wickets in hand;
+innings 2) scored S2 log loss 0.4137 on 3,471 undecided states vs
+the WP model's aggregate 0.4108 on 3,503. The paired like-for-like
+comparison (inplay_wp_vs_baseline_ci.json; 3,255 identical states,
+32 matches): WP 0.4111 vs baseline 0.4115, per-match difference
+−0.0001 with paired bootstrap 95% CI [−0.0178, +0.0178] — NO
+demonstrated difference between the WP model and the 3-feature
+baseline on current evidence.
 
 ## Known defects (audit IDs; fixes pending waiver decisions)
 - I-01: no overseas cap in expected-XI selection (rule now sourced:
   docs/PLAYING_CONDITIONS.md) — WAIVER-A task 3.1.
 - I-03: predict_fixture drops no-registry-ID players from XI strength
   instead of counting them at 1.0 — WAIVER-A task 4.1.
-- I-04/I-05: in-sample production WPA; innings-2 baseline reset;
-  batting-team perspective — plan tasks 4.2/4.3 (gated).
+- I-04/I-05: FIXED 2026-10-29 (plan 4.2/4.3/4.4, Batch 2) — see
+  the in-play section above; worktree exports regenerated with the
+  walk-forward pipeline (deterministic, byte-identical on re-run).
 - I-06: model.match_nrr ignores the all-out rule (correct Janakpur
   S1 NRR +0.139 vs +0.452 approximated) — WAIVER-A task 2.3. The
   correct implementation now exists in src/cricket/metrics.py and

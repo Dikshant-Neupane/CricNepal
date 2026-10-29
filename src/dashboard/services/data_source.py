@@ -168,16 +168,22 @@ def _load_from_parquet(team_name: str = "Janakpur Bolts") -> pd.DataFrame:
             # Determine if team was batting first or second
             team_batted_first = row['innings_1_team'] == team_name
             
+            # Missing innings summaries stay missing (plan 1.3 /
+            # criteria D7). This transform used to substitute 0 runs
+            # and 20.0 overs, which silently priced an unrecorded
+            # innings as a full 20 overs in every downstream KPI;
+            # compute_season_kpis now excludes such rows from NRR and
+            # flags the season's data quality instead.
             if team_batted_first:
-                runs_for = row['innings_1_runs'] if pd.notna(row['innings_1_runs']) else 0
-                runs_against = row['innings_2_runs'] if pd.notna(row['innings_2_runs']) else 0
-                overs_faced = row['innings_1_overs'] if pd.notna(row['innings_1_overs']) else 20.0
-                overs_bowled = row['innings_2_overs'] if pd.notna(row['innings_2_overs']) else 20.0
+                runs_for = row['innings_1_runs'] if pd.notna(row['innings_1_runs']) else float("nan")
+                runs_against = row['innings_2_runs'] if pd.notna(row['innings_2_runs']) else float("nan")
+                overs_faced = row['innings_1_overs'] if pd.notna(row['innings_1_overs']) else float("nan")
+                overs_bowled = row['innings_2_overs'] if pd.notna(row['innings_2_overs']) else float("nan")
             else:
-                runs_for = row['innings_2_runs'] if pd.notna(row['innings_2_runs']) else 0
-                runs_against = row['innings_1_runs'] if pd.notna(row['innings_1_runs']) else 0
-                overs_faced = row['innings_2_overs'] if pd.notna(row['innings_2_overs']) else 20.0
-                overs_bowled = row['innings_1_overs'] if pd.notna(row['innings_1_overs']) else 20.0
+                runs_for = row['innings_2_runs'] if pd.notna(row['innings_2_runs']) else float("nan")
+                runs_against = row['innings_1_runs'] if pd.notna(row['innings_1_runs']) else float("nan")
+                overs_faced = row['innings_2_overs'] if pd.notna(row['innings_2_overs']) else float("nan")
+                overs_bowled = row['innings_1_overs'] if pd.notna(row['innings_1_overs']) else float("nan")
             
             # Determine result
             if pd.isna(row['winner_name']):

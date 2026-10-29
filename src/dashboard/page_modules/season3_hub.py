@@ -7,6 +7,8 @@ Everything shown is read from the project's own locked artefacts
 (data/fixtures, data/predictions). Forecasts are the append-only
 pre-season locks; nothing here recomputes or revises them.
 """
+import json
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -137,6 +139,8 @@ def load_season3(root: Path = ROOT) -> dict:
             "accuracy": float(np.mean((d[col] >= 0.5) == (y == 1))) if len(d) else None,
         }
 
+    scorecard_ci = _champion_vs_elo_ci(scored)
+
     league = table[table.stage == "League"]
     upcoming = league[league.winner.isna()]
     next_match = upcoming.iloc[0].to_dict() if len(upcoming) else None
@@ -148,8 +152,232 @@ def load_season3(root: Path = ROOT) -> dict:
         priors[["player_key", "prior_group", "bat_index", "bowl_index"]],
         on="player_key", how="left")
     return {"fixtures": table, "scorecard": scorecard,
+            "scorecard_ci": scorecard_ci,
             "next_match": next_match, "coaches": coaches, "squads": squads,
             "results": results, "matches_available": matches_available}
+
+
+# ------------------------------------------------------------------
+# Data & model health (plan 7.1). A Hub section, not a new page: the
+# showcase navigation is frozen. Everything here is surfaced, never
+# hidden — a missing file, a stale status or an open conflict renders
+# as a visible warning (plan 7.3 / criteria B3).
+# ------------------------------------------------------------------
+
+HEALTH_DATASETS = [
+    ("S3 fixtures", "data/fixtures/s3_fixtures.csv"),
+    ("Frozen prediction log", "data/predictions/frozen_log.csv"),
+    ("Normalized matches (canonical)", "data/normalized/matches_normalized.parquet"),
+    ("Ball-by-ball", "data/final/parquet/ball_by_ball.parquet"),
+    ("Player master", "data/predictions/player_master.csv"),
+    ("Player priors", "data/predictions/player_priors.csv"),
+    ("Conflicts register", "data/conflicts_register.csv"),
+]
+
+
+def _file_rows(path: Path):
+    """Row count of a CSV/parquet file, or None if unreadable."""
+    try:
+        if path.suffix == ".parquet":
+            import pyarrow.parquet as pq
+
+            return pq.ParquetFile(path).metadata.num_rows
+        return len(pd.read_csv(path, usecols=[0]))
+    except Exception:
+        return None
+
+
+def _read_json(path: Path):
+    """Parsed JSON at path, or None when missing/unreadable."""
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def load_health(root: Path = ROOT) -> dict:
+    """Pure assembly of the health section's data (unit-tested).
+
+    Degrades field by field: every source reports available=False
+    rather than raising, and the renderer turns each absence into a
+    visible notice.
+    """
+    datasets = []
+    for label, rel in HEALTH_DATASETS:
+        p = root / rel
+        entry = {"dataset": label, "path": rel, "exists": p.exists(),
+                 "updated": None, "rows": None}
+        if p.exists():
+            entry["updated"] = datetime.fromtimestamp(
+                p.stat().st_mtime).strftime("%Y-%m-%d %H:%M")
+            entry["rows"] = _file_rows(p)
+        datasets.append(entry)
+
+    status = {"available": False, "data_as_of": None,
+              "generated_at": None, "stale": False}
+    status_path = root / "data" / "predictions" / "predictions_status.json"
+    if status_path.exists():
+        try:
+            raw = json.loads(status_path.read_text(encoding="utf-8"))
+            status.update(available=True,
+                          data_as_of=raw.get("data_as_of"),
+                          generated_at=raw.get("generated_at"))
+        except Exception:
+            pass
+    if status["data_as_of"]:
+        # Stale = a played match exists in the canonical data that the
+        # prediction artefacts predate.
+        try:
+            matches = pd.read_parquet(
+                root / "data" / "normalized" / "matches_normalized.parquet",
+                columns=["match_date"])
+            latest = pd.to_datetime(matches["match_date"]).max()
+            if pd.notna(latest):
+                status["stale"] = str(status["data_as_of"]) < latest.strftime("%Y-%m-%d")
+        except Exception:
+            pass
+
+    conflicts = {"available": False, "rows": []}
+    register_path = root / "data" / "conflicts_register.csv"
+    if register_path.exists():
+        try:
+            reg = pd.read_csv(register_path, dtype=str).fillna("")
+            conflicts = {"available": True,
+                         "rows": reg.to_dict("records")}
+        except Exception:
+            pass
+
+    models = {"available": False}
+    metrics_path = root / "data" / "predictions" / "backtest_metrics.json"
+    if metrics_path.exists():
+        try:
+            raw = json.loads(metrics_path.read_text(encoding="utf-8"))
+            boot = raw.get("champion_vs_elo_bootstrap", {})
+            models = {
+                "available": True,
+                "n": raw.get("n_test"),
+                "champion_log_loss": raw["champion_blend"]["log_loss"],
+                "elo_log_loss": raw["baseline_higher_elo"]["log_loss"],
+                "champion_vs_elo_ci": (boot.get("ci_low"), boot.get("ci_high")),
+                "champion_vs_elo_ci_includes_zero": bool(boot.get("ci_includes_zero")),
+                "label": ("no demonstrated improvement over Elo"
+                          if boot.get("ci_includes_zero") else
+                          "champion differs from Elo on the S2 backtest"),
+            }
+        except Exception:
+            models = {"available": False}
+    inplay_ci = _read_json(
+        root / "data/predictions/inplay_wp_vs_baseline_ci.json")
+    if inplay_ci:
+        boot = inplay_ci.get("difference_bootstrap") or {}
+        models["inplay_vs_baseline"] = {
+            "mean_diff": boot.get("mean_diff"),
+            "ci_low": boot.get("ci_low"), "ci_high": boot.get("ci_high"),
+            "includes_zero": boot.get("ci_includes_zero"),
+            "verdict": inplay_ci.get("verdict"),
+        }
+
+    test_status = {"available": False, "status": None, "evidence": None}
+    matrix_path = root / "docs" / "CRITERIA_MATRIX.md"
+    if matrix_path.exists():
+        for line in matrix_path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("| B5 |"):
+                cells = [c.strip() for c in line.strip().strip("|").split("|")]
+                if len(cells) >= 3:
+                    test_status = {"available": True,
+                                   "status": cells[1], "evidence": cells[2]}
+                break
+
+    return {"datasets": datasets, "predictions_status": status,
+            "conflicts": conflicts, "models": models,
+            "test_status": test_status}
+
+
+def _render_health_section(health: dict):
+    st.markdown("### Data & model health")
+    rows = [{
+        "Dataset": d["dataset"],
+        "Updated": d["updated"] if d["exists"] else "MISSING",
+        "Rows": "—" if d["rows"] is None else f"{d['rows']:,}",
+        "Status": "ok" if d["exists"] else "MISSING",
+    } for d in health["datasets"]]
+    st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+
+    status = health["predictions_status"]
+    if status["available"]:
+        text = (f"Prediction artefacts: data as of {status['data_as_of']}; "
+                f"status generated {status['generated_at']}.")
+        if status["stale"]:
+            st.warning(text + " A played match in the canonical data is "
+                              "newer than that watermark — the prediction "
+                              "artefacts predate it.")
+        else:
+            st.caption(text)
+    else:
+        st.warning("Prediction status file is unavailable — artefact "
+                   "freshness cannot be verified here.")
+
+    conflicts = health["conflicts"]
+    if conflicts["available"] and conflicts["rows"]:
+        st.warning(f"Cross-source conflicts on record: "
+                   f"{len(conflicts['rows'])} — surfaced here, not "
+                   f"silently resolved (see the conflicts register).")
+        st.dataframe(pd.DataFrame(conflicts["rows"])[
+            ["conflict_id", "type", "scope", "status"]],
+            width="stretch", hide_index=True)
+    elif conflicts["available"]:
+        st.caption("Conflicts register: no open conflicts recorded.")
+    else:
+        st.warning("Conflicts register is unavailable in this deployment "
+                   "— cross-source conflicts cannot be surfaced here "
+                   "(run scripts/check_conflicts.py to generate it).")
+
+    models = health["models"]
+    if models["available"]:
+        lo, hi = models["champion_vs_elo_ci"]
+        st.caption(
+            f"Model label (S2 backtest, n={models['n']}): Champion "
+            f"log-loss {models['champion_log_loss']:.3f} vs Elo "
+            f"{models['elo_log_loss']:.3f}; paired bootstrap 95% CI for "
+            f"the difference [{lo:+.3f}, {hi:+.3f}] — "
+            f"{models['label']} (Section 5 labelling rule).")
+    else:
+        st.warning("Backtest metrics are unavailable — model labels "
+                   "cannot be verified here.")
+    ip = models.get("inplay_vs_baseline")
+    if ip and ip.get("mean_diff") is not None:
+        st.caption(
+            f"In-play model vs simple baseline (paired states, S2): "
+            f"mean log-loss difference {ip['mean_diff']:+.4f} (95% CI "
+            f"[{ip['ci_low']:+.4f}, {ip['ci_high']:+.4f}]) — "
+            f"{ip.get('verdict') or ''}.")
+
+    ts = health["test_status"]
+    if ts["available"]:
+        st.caption(f"Test-suite status (criteria matrix B5): {ts['status']}.")
+
+
+def _champion_vs_elo_ci(scored: pd.DataFrame):
+    """Paired bootstrap of the champion-minus-Elo per-match log-loss
+    difference over the matches scored so far (plan 5.5 / V4).
+    Match-level resampling, fixed seed; None until at least one match
+    is scored for both series."""
+    if scored is None or len(scored) == 0:
+        return None
+    if "champion" not in scored.columns or "elo" not in scored.columns:
+        return None
+    d = scored.dropna(subset=["champion", "elo"])
+    if len(d) == 0:
+        return None
+    from src.prediction.metrics import paired_bootstrap, per_match_log_loss
+
+    y = (d["winner"] == d["team_1"]).astype(float)
+    diffs = (per_match_log_loss(d["champion"], y)
+             - per_match_log_loss(d["elo"], y))
+    boot = paired_bootstrap(np.asarray(diffs, dtype=float))
+    return {"n": boot["n_matches"], "mean_diff": boot["mean_diff"],
+            "ci_low": boot["ci_low"], "ci_high": boot["ci_high"],
+            "includes_zero": boot["ci_includes_zero"]}
 
 
 def compute_standings(fixtures: pd.DataFrame, teams: list[str]) -> pd.DataFrame:
@@ -223,6 +451,15 @@ def render_season3_hub():
     if all(v["scored"] == 0 for v in sc.values()):
         st.caption("No matches scored yet — scoring begins with Match 1 on 26 October. "
                    "In backtesting the champion did not beat the Elo baseline; this log is the prospective test.")
+    ci = data.get("scorecard_ci")
+    if ci:
+        verdict = ("includes zero — no demonstrated difference yet"
+                   if ci["includes_zero"] else "excludes zero")
+        st.caption(
+            f"Champion − Elo on scored matches: mean log-loss difference "
+            f"{ci['mean_diff']:+.3f} (paired bootstrap 95% CI "
+            f"[{ci['ci_low']:+.3f}, {ci['ci_high']:+.3f}], "
+            f"n={ci['n']} matches) — {verdict}.")
 
     st.markdown("### Standings")
     st.dataframe(compute_standings(fx, teams), width="stretch", hide_index=True)
@@ -272,3 +509,6 @@ def render_season3_hub():
     st.caption("Squad and coaching data: verified pre-season research (October 2026), "
                "cross-checked against published sources. Bat/bowl indices are relative to the "
                "league average of 1.000; 'debutant' priors are league-average by construction.")
+
+    st.divider()
+    _render_health_section(load_health(ROOT))

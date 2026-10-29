@@ -1,4 +1,10 @@
 # CricNepal Developer Makefile
+# Cross-platform (plan task 8.1): PYTHON is the project virtualenv's
+# interpreter — override it on the command line, e.g.
+#   make test PYTHON=~/workspace/.scratch/cric-audit-venv/bin/python
+# The wrapped commands are the canonical ones in README.md.
+
+PYTHON ?= python
 
 .PHONY: help refresh test dashboard clean
 
@@ -10,13 +16,13 @@ help:
 	@echo "  make clean      - Clean temporary python, cache, and coverage files"
 
 refresh:
-	.venv/Scripts/python.exe refresh_all.py
+	$(PYTHON) refresh_all.py
 
 test:
-	.venv/Scripts/python.exe -m pytest tests/ -v
+	$(PYTHON) -m pytest tests/
 
 dashboard:
-	.venv/Scripts/streamlit.exe run src/dashboard/app.py
+	$(PYTHON) -m streamlit run src/dashboard/app.py
 
 clean:
 	rm -rf .pytest_cache .coverage htmlcov
