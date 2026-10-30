@@ -41,9 +41,9 @@ def test_hub_squads_and_coaches_verified_counts():
     assert len(DATA["coaches"]) == 8
     assert DATA["coaches"].head_coach.notna().all()
     assert DATA["coaches"].captain.notna().all()
-    assert len(DATA["squads"]) == 150
+    assert len(DATA["squads"]) == 151
     jb = DATA["squads"][DATA["squads"].team == "Janakpur Bolts"]
-    assert len(jb) == 20
+    assert len(jb) == 21
 
 
 def test_hub_lock_stage_is_preseason_until_matchday_locks_exist():
