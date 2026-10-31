@@ -30,8 +30,14 @@ CUTOFF = date(2023, 10, 26)  # ~3 years of history
 HALF_LIFE_DAYS = 548.0
 K_BAT = 150.0
 K_BOWL = 120.0
-BOWLER_WICKETS = {"bowled", "caught", "caught and bowled", "lbw", "stumped",
-                  "hit wicket", "retired out"}
+# Bowler-credited dismissals: the single authority is
+# src/cricket/metrics.py (master prompt Section 4). "retired out" and
+# "run out" are NOT credited to the bowler. (Plan task 2.2: this set
+# previously included "retired out", inflating bowl_wkts in
+# player_history.csv; compute_priors itself does not consume
+# bowl_wkts -- priors are built from runs and balls only.)
+from src.cricket.metrics import BOWLER_CREDITED_WICKETS as _BCW
+BOWLER_WICKETS = set(_BCW)
 
 # zip name -> (competition label, translation factor t)
 COMPETITIONS = {
@@ -214,5 +220,33 @@ def compute_priors(agg: pd.DataFrame, master: pd.DataFrame) -> pd.DataFrame:
         row["prior_group"] = group
         base_unc = 1.0 / np.sqrt(1.0 + (n_bat + n_bowl) / 150.0)
         row["uncertainty"] = round(float(base_unc * (1.5 if group in ("external_pro", "debutant") else 1.0)), 4)
+        # --- Batch 3 additions (appended LAST: no positional consumer
+        # can be disturbed; every in-repo consumer reads by name).
+        # is_overseas: carried from the master; the expected-XI
+        # selector's overseas-cap repair (plan 3.1) consumes it. A
+        # master without the column (the S2 backtest builds a
+        # synthetic one from cricsheet lineups, where NPL overseas
+        # status is undefined) yields NaN = unknown, never a guessed
+        # boolean; the selector refuses non-boolean values.
+        row["is_overseas"] = (bool(mp["is_overseas"])
+                              if "is_overseas" in master.columns
+                              else float("nan"))
+        # Posterior intervals (plan 6.2), normal partial-pooling form
+        # matching the shrinkage above: for a rate estimated from n
+        # effective balls shrunk with prior strength k toward the
+        # league mean mu, the posterior sd of the mean is
+        # sqrt(mu / (n + k)) under a variance ~= mean approximation
+        # for per-ball runs. Interval = estimate +/- 1.96 sd, clipped
+        # at 0. This is a documented approximation (not a bootstrap
+        # interval); the heuristic `uncertainty` column above is kept
+        # unchanged for existing consumers.
+        mu_bat = float(npl_all["bat_rpb"])
+        sd_bat = float(np.sqrt(mu_bat / (n_bat + K_BAT)))
+        row["bat_rpb_ci_lo"] = round(max(0.0, row["prior_bat_rpb"] - 1.96 * sd_bat), 4)
+        row["bat_rpb_ci_hi"] = round(row["prior_bat_rpb"] + 1.96 * sd_bat, 4)
+        mu_bowl = float(npl_all["bowl_rpb"])
+        sd_econ = 6.0 * float(np.sqrt(mu_bowl / (n_bowl + K_BOWL)))
+        row["bowl_econ_ci_lo"] = round(max(0.0, row["prior_bowl_econ"] - 1.96 * sd_econ), 3)
+        row["bowl_econ_ci_hi"] = round(row["prior_bowl_econ"] + 1.96 * sd_econ, 3)
         rows.append(row)
     return pd.DataFrame(rows)

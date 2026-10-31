@@ -7,9 +7,9 @@
  },
  "challenger_logistic_raw": {
   "n": 32,
-  "accuracy": 0.40625,
-  "log_loss": 0.7958685389177311,
-  "brier": 0.2940201520290439
+  "accuracy": 0.34375,
+  "log_loss": 0.8127758288666418,
+  "brier": 0.30332621346090494
  },
  "baseline_coin": {
   "n": 32,
@@ -31,8 +31,8 @@
   "brier": 0.2547189528023127
  },
  "platt_on_logistic_oos": {
-  "a": -0.7941425309425149,
-  "b": -0.5982426287484711
+  "a": -1.0310066356536933,
+  "b": -0.5810032195693647
  },
  "n_test": 32,
  "notes": "S2 walk-forward; priors as of 2025-11-17; XI = actual XI (the live P1 is also post-XI-announcement). The fitted logistic LOSES to Elo on this backtest and its Platt slope is negative -- it ships as challenger only. The champion blend ties Elo (no demonstrated gain). S3 frozen log is the decisive evaluation.",

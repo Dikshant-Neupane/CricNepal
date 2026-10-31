@@ -142,9 +142,15 @@ def parse_match(path: Path, run_id: str):
             over_0idx = int(over_obj["over"])
             for b_idx, dlv in enumerate(over_obj["deliveries"], start=1):
                 seq += 1
-                balls += 1
-                runs = dlv["runs"]
                 extras = dlv.get("extras", {})
+                # Legal balls only (plan task 9 / CONF-003): wides and
+                # no-balls are deliveries, not legal balls. The stored
+                # innings overs follow the NRR convention (legal balls
+                # in cricket notation); the pre-fix count included
+                # wides and no-balls, inflating stored overs.
+                if "wides" not in extras and "noballs" not in extras:
+                    balls += 1
+                runs = dlv["runs"]
                 extras_type = next(iter(extras.keys()), None)
                 wickets = dlv.get("wickets", [])
                 is_wicket = bool(wickets)

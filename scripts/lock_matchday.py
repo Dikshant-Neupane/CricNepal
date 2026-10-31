@@ -18,9 +18,10 @@ expected XIs with the ANNNOUNCED XIs. Workflow (docs/PREDICTION_SYSTEM.md):
 Validation: exactly 11 players per team; every player must be in that
 team's squad in player_master.csv (by player_key or exact canonical
 name); no duplicates; batting positions unique 1..11 per team.
-OVERSEAS CAP: no check -- no NPL playing-conditions rule for an XI
-overseas cap was verified from an opened source during this build, so
-none is enforced (see data/matchday/README.md).
+OVERSEAS CAP: enforced (plan task 3.1) -- at most 4 overseas players
+per XI, per the NPL playing conditions in docs/PLAYING_CONDITIONS.md
+(REPORTED-CORROBORATED from CAN officials via multiple outlets); an
+over-cap XI is rejected with the count and the rule shown.
 
 --dry-run: compute + print, and write any locks to a temp directory
 (the production frozen log is never written in dry-run mode).
@@ -84,6 +85,18 @@ def validate_xi(xi: pd.DataFrame, fixture: pd.Series,
         if outside:
             raise ValueError(f"{team}: players not in this team's squad "
                              f"(player_master): {outside}")
+        if "is_overseas" not in master.columns:
+            raise ValueError("player_master lacks the is_overseas column "
+                             "-- the overseas cap cannot be validated")
+        overseas_flag = dict(zip(master["player_key"],
+                                 master["is_overseas"].astype(bool)))
+        n_os = sum(1 for p in sub["player_key"] if overseas_flag.get(p, False))
+        if n_os > engine.MAX_OVERSEAS_PER_XI:
+            raise ValueError(
+                f"{team}: XI has {n_os} overseas players; the NPL "
+                f"playing conditions allow at most "
+                f"{engine.MAX_OVERSEAS_PER_XI} per XI "
+                f"(docs/PLAYING_CONDITIONS.md)")
         pos = pd.to_numeric(sub["batting_position"], errors="coerce")
         if pos.isna().any() or sorted(pos.astype(int)) != list(range(1, 12)):
             raise ValueError(f"{team}: batting_position must be 1..11, unique")

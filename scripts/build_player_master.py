@@ -25,3 +25,12 @@ if __name__ == "__main__":
     print(f"player_master: {len(master)} rows; registry IDs resolved: "
           f"{master.cricsheet_registry_id.notna().sum()}; "
           f"registry map names: {len(reg_map)} from {[z.name for z in zips]}")
+    # Squad-rule validation report (plan task 3.3): flags only, never
+    # fails the build -- squads evolve in-season.
+    from src.prediction.squad_validation import validate_squads
+    report = validate_squads(master)
+    report.to_csv(out_dir / "squad_validation_report.csv", index=False)
+    flagged = report[~report["overseas_within_reported_range"]]
+    print(f"squad validation: {len(report)} teams, "
+          f"{len(flagged)} flagged outside the reported 6-8 overseas "
+          f"range: {sorted(flagged['team'])}")

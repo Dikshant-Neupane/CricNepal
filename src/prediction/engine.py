@@ -112,16 +112,41 @@ def p2_probability(p1: float, team_1_name: str, team_2_name: str,
     return M.p2_adjust(float(p1), bat_first_team == team_1_name, chase)
 
 
+# NPL playing conditions (docs/PLAYING_CONDITIONS.md, REPORTED-
+# CORROBORATED from CAN officials via multiple outlets): a playing XI
+# may include at most 4 overseas players. Enforced here (plan 3.1) and
+# in scripts/lock_matchday.py's announced-XI validation.
+MAX_OVERSEAS_PER_XI = 4
+
+
 def select_expected_xi(squad_priors: pd.DataFrame) -> list:
     """Strongest likely XI from priors (documented pre-season assumption).
 
     Score = role-weighted bat/bowl index blend. Constraints repaired in:
-    at least 1 Wicketkeeper (if the squad has one) and at least 5 bowling
-    options (bowl_balls_eff >= 60 or role Bowler/All-rounder). No overseas
-    cap is imposed -- no sourced NPL playing-condition was found for one.
+    at least 1 Wicketkeeper (if the squad has one), at least 5 bowling
+    options (bowl_balls_eff >= 60 or role Bowler/All-rounder), and at
+    most MAX_OVERSEAS_PER_XI overseas players (plan 3.1; the cap repair
+    swaps the lowest-scored overseas player for the best domestic
+    player not in the XI, preferring a swap that keeps the WK and
+    bowling constraints satisfied). The squad frame must carry
+    is_overseas (the priors build emits it from the master): without
+    it the cap cannot be checked, and the selector refuses rather
+    than silently skipping a playing-condition rule.
     Returns player_keys in batting-priority order.
     """
+    if "is_overseas" not in squad_priors.columns:
+        raise ValueError(
+            "select_expected_xi requires the is_overseas column (the "
+            "priors build emits it from player_master) -- without it "
+            "the NPL overseas cap cannot be enforced")
     s = squad_priors.copy()
+    flags = s["is_overseas"]
+    if flags.isna().any() or not set(flags.unique()) <= {True, False}:
+        raise ValueError(
+            "select_expected_xi: is_overseas must be a known boolean "
+            "for every squad member -- the overseas cap cannot be "
+            "enforced on unknown values")
+    s["is_overseas"] = flags.astype(bool)
     def score(r):
         if r["role"] == "Bowler":
             return 0.3 * r["bat_index"] + 0.7 * r["bowl_index"]
@@ -131,14 +156,38 @@ def select_expected_xi(squad_priors: pd.DataFrame) -> list:
     s["sel_score"] = s.apply(score, axis=1)
     s = s.sort_values("sel_score", ascending=False)
     xi = list(s.head(11)["player_key"])
+    overseas = dict(zip(s["player_key"], s["is_overseas"]))
     def is_bowling_option(r):
         return r["bowl_balls_eff"] >= 60 or r["role"] in ("Bowler", "All-rounder")
     def repair():
         cur = s[s["player_key"].isin(xi)]
+        # 1) overseas cap (plan 3.1)
+        if sum(1 for k in xi if overseas[k]) > MAX_OVERSEAS_PER_XI:
+            outside_dom = s[(~s["player_key"].isin(xi)) & (~s["is_overseas"])]
+            if not len(outside_dom):
+                return False  # squad cannot field a legal XI; leave as-is
+            add = outside_dom.iloc[0]
+            cur_os = cur[cur["is_overseas"]].sort_values("sel_score")
+            drop = None
+            for _, cand in cur_os.iterrows():
+                trial = [k for k in xi if k != cand["player_key"]] + [add["player_key"]]
+                trows = s[s["player_key"].isin(trial)]
+                if (s["role"] == "Wicketkeeper").any() and (trows["role"] == "Wicketkeeper").sum() == 0:
+                    continue
+                if sum(is_bowling_option(r) for _, r in cur.iterrows()) >= 5 and \
+                        sum(is_bowling_option(r) for _, r in trows.iterrows()) < 5:
+                    continue
+                drop = cand
+                break
+            if drop is None:
+                drop = cur_os.iloc[0]
+            xi.remove(drop["player_key"]); xi.append(add["player_key"]); return True
+        # 2) wicketkeeper (pre-existing repair)
         if (cur["role"] == "Wicketkeeper").sum() == 0 and (s["role"] == "Wicketkeeper").any():
             wk = s[(s["role"] == "Wicketkeeper") & (~s["player_key"].isin(xi))].iloc[0]
             drop = cur[(cur["role"] != "Wicketkeeper")].sort_values("sel_score").iloc[0]
             xi.remove(drop["player_key"]); xi.append(wk["player_key"]); return True
+        # 3) bowling options (pre-existing repair)
         cur = s[s["player_key"].isin(xi)]
         if sum(is_bowling_option(r) for _, r in cur.iterrows()) < 5:
             cand = s[(~s["player_key"].isin(xi)) & (s.apply(is_bowling_option, axis=1))]
@@ -147,8 +196,9 @@ def select_expected_xi(squad_priors: pd.DataFrame) -> list:
                 drop = cur[~cur.apply(is_bowling_option, axis=1)].sort_values("sel_score").iloc[0]
                 xi.remove(drop["player_key"]); xi.append(add["player_key"]); return True
         return False
-    while repair():
-        pass
+    for _ in range(200):  # bounded: each pass fixes one violation
+        if not repair():
+            break
     order = s.set_index("player_key")["sel_score"]
     return sorted(xi, key=lambda k: -order.get(k, 0))
 
@@ -173,18 +223,13 @@ def predict_fixture(team_1, team_2, match_date, ratings, priors_by_key,
                     xi_by_team, form, last_played, model_json) -> dict:
     xi1 = xi_by_team.get(team_1, [])
     xi2 = xi_by_team.get(team_2, [])
-    by_id = {}
-    # xi_strength works on registry ids; map keys -> registry ids via priors
-    def reg_ids(keys):
-        return [priors_by_key[k]["cricsheet_registry_id"] for k in keys
-                if priors_by_key.get(k, {}).get("cricsheet_registry_id")]
-    priors_by_id = {}
-    for k, v in priors_by_key.items():
-        rid = v.get("cricsheet_registry_id")
-        if isinstance(rid, str):
-            priors_by_id[rid] = v
-    b1, w1 = M.xi_strength(reg_ids(xi1), priors_by_id)
-    b2, w2 = M.xi_strength(reg_ids(xi2), priors_by_id)
+    # xi_strength over the FULL XI by player_key (plan 4.1): a player
+    # without a cricsheet registry ID still has a priors row (index
+    # exactly 1.0 for a debutant) and must count in the mean. The
+    # pre-fix code mapped the XI through registry IDs and silently
+    # DROPPED no-ID players, shrinking the denominator.
+    b1, w1 = M.xi_strength(xi1, priors_by_key)
+    b2, w2 = M.xi_strength(xi2, priors_by_key)
     r1 = ratings.get(team_1, E.INITIAL_ELO)
     r2 = ratings.get(team_2, E.INITIAL_ELO)
     p_elo = E.expected(r1, r2)

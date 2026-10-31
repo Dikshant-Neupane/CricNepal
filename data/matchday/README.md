@@ -22,10 +22,12 @@ Header: `match_id,team,player,batting_position`
 Validation (enforced by lock_matchday.py): exactly 11 players per
 team; every player belongs to that team's squad in the player master;
 no duplicates; batting positions unique per team.
-**Overseas-player cap: NOT enforced.** No NPL playing-conditions rule
-for an XI overseas cap was verified from an opened source during the
-Phase 2 build, so no cap check exists — if the league publishes one,
-add the check and cite the source here.
+**Overseas-player cap: enforced (corrections plan task 3.1).** At most
+4 overseas players per XI, per the NPL playing conditions in
+docs/PLAYING_CONDITIONS.md (REPORTED-CORROBORATED from CAN officials
+via multiple outlets; the Phase 2 build had found no such source, the
+2026-10-29 sourcing pass did). An over-cap XI is rejected with the
+count and the rule shown.
 
 ## toss.csv — toss result
 

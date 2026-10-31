@@ -145,9 +145,9 @@ k=150 balls faced / k=120 balls bowled. Groups: `npl_experienced` (91),
    `scripts/lock_matchday.py --make-example-xi <match_id>`) and run
    `python scripts/lock_matchday.py --xi-csv <file>`. It validates the
    XIs (11 per team, all in the team's squad in the player master, no
-   duplicates, batting positions 1-11; **no overseas cap is enforced --
-   no NPL playing-conditions rule for one was verified from an opened
-   source**), computes XI strength from the CURRENT priors, and locks
+   duplicates, batting positions 1-11; **the overseas cap IS enforced
+   (corrections plan task 3.1): at most 4 overseas per XI per
+   docs/PLAYING_CONDITIONS.md**), computes XI strength from the CURRENT priors, and locks
    stage `P1_post_XI` at model v1.1 (temperature-calibrated blend).
    Actual announced XIs supersede the expected-XI selector -- this is
    the biggest real accuracy lever in the system.

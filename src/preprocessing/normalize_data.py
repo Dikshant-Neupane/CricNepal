@@ -34,6 +34,18 @@ TEAM_NAME_MAPPING = {
     "Sudur Paschim Royals": "Sudurpaschim Royals",  # Remove space
 }
 
+
+def _team_id(name: str) -> str:
+    return "team_" + name.strip().lower().replace(" ", "_")
+
+
+# Canonical team-ID mapping (plan task 9 / CONF-002), derived from the
+# name mapping so the two can never drift apart: normalization used to
+# unify team NAMES while leaving team-ID columns split (one franchise
+# under team_kathmandu_gurkhas AND team_kathmandu_gorkhas).
+TEAM_ID_MAPPING = {_team_id(old): _team_id(new)
+                   for old, new in TEAM_NAME_MAPPING.items()}
+
 # ══════════════════════════════════════════════════════════════════════════
 # 1. Team Name Normalization
 # ══════════════════════════════════════════════════════════════════════════
@@ -53,11 +65,18 @@ def normalize_team_names(df: pd.DataFrame) -> pd.DataFrame:
     team_cols += [col for col in df.columns if col in ['batting_team', 'bowling_team']]
     
     df_normalized = df.copy()
-    
+
     for col in team_cols:
         if col in df_normalized.columns:
             df_normalized[col] = df_normalized[col].replace(TEAM_NAME_MAPPING)
-    
+
+    # Team-ID columns follow the same canonical mapping (CONF-002):
+    # any *_id column belonging to a team gets the derived ID mapping.
+    id_cols = [col for col in df_normalized.columns
+               if col.endswith('_id') and 'team' in col.lower()]
+    for col in id_cols:
+        df_normalized[col] = df_normalized[col].replace(TEAM_ID_MAPPING)
+
     return df_normalized
 
 

@@ -28,16 +28,33 @@ def overs_to_balls(overs_float) -> float:
 
 
 def match_nrr(row, team) -> float | None:
-    """Net run rate of `team` in one completed match (approx: innings
-    overs from the scorecard; all-out innings are NOT adjusted to 20 overs
-    here -- documented approximation, used only as a form feature)."""
+    """Net run rate of `team` in one completed match.
+
+    Applies the all-out full-quota rule (plan task 2.3; master prompt
+    Section 4): an innings ending all out counts as the full 20 overs,
+    on both the batting and the bowling side. The adjustment delegates
+    to src.cricket.metrics.adjusted_balls, the single authority for
+    the rule. (The float-notation overs converter above stays local:
+    src.cricket.metrics.overs_to_balls parses scorecard strings; this
+    one parses stored floats like 19.5.) A row without wickets
+    columns keeps the legacy actual-overs behaviour.
+    """
+    from src.cricket.metrics import adjusted_balls
+
+    def eff_balls(inn, wk_inn):
+        balls = overs_to_balls(row[f"innings_{inn}_overs"])
+        wk = row.get(f"innings_{wk_inn}_wickets")
+        if wk is not None and not pd.isna(wk):
+            balls = adjusted_balls(balls, int(wk))
+        return balls
+
     try:
         if row["innings_1_team"] == team:
             rf, ra = row["innings_1_runs"], row["innings_2_runs"]
-            bf, ba = overs_to_balls(row["innings_1_overs"]), overs_to_balls(row["innings_2_overs"])
+            bf, ba = eff_balls(1, 1), eff_balls(2, 2)
         elif row["innings_2_team"] == team:
             rf, ra = row["innings_2_runs"], row["innings_1_runs"]
-            bf, ba = overs_to_balls(row["innings_2_overs"]), overs_to_balls(row["innings_1_overs"])
+            bf, ba = eff_balls(2, 2), eff_balls(1, 1)
         else:
             return None
         if not bf or not ba:

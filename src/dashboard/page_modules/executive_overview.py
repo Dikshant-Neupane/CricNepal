@@ -115,35 +115,6 @@ def _load_real_matches() -> pd.DataFrame | None:
         return None
 
 
-def _nrr_from_bbb(match_ids: list, season: str) -> float:
-    """Calculate NRR from ball-by-ball data (legacy function - kept for reference)."""
-    try:
-        bbb = pd.read_parquet("data/normalized/ball_by_ball_normalized.parquet")
-        bbb = bbb[bbb["match_id"].isin(match_ids)].copy()
-        if bbb.empty:
-            return float("nan")
-
-        # Runs for (Janakpur batting)
-        batting = bbb[bbb["batting_team"] == TEAM]
-        # Runs against (Janakpur bowling)
-        bowling = bbb[bbb["bowling_team"] == TEAM]
-
-        runs_for_total = pd.to_numeric(batting["runs_total"], errors="coerce").sum()
-        runs_against_total = pd.to_numeric(bowling["runs_total"], errors="coerce").sum()
-
-        # Balls (legal deliveries) for overs
-        # Each row is one delivery; divide by 6 for overs
-        balls_faced = len(batting)
-        balls_bowled = len(bowling)
-        overs_faced = balls_faced / 6 if balls_faced > 0 else 1.0
-        overs_bowled = balls_bowled / 6 if balls_bowled > 0 else 1.0
-
-        nrr = (runs_for_total / overs_faced) - (runs_against_total / overs_bowled)
-        return float(nrr)
-    except Exception:
-        return float("nan")
-
-
 def _momentum_chart(jab: pd.DataFrame | None) -> None:
     """Plot win rate trajectory by season."""
     if jab is None or jab.empty:

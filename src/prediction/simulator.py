@@ -101,6 +101,33 @@ def _batting_order_dists(xi_ids, phase, dists, priors_by_id):
     return [player_bat_dist(pid, phase, dists, priors_by_id.get(pid)) for pid in xi_ids]
 
 
+MAX_BALLS_PER_BOWLER = 24  # 4 overs, the T20 per-bowler limit
+
+
+def _choose_bowler(active_bowlers, bowler_balls, start_idx,
+                   max_balls=MAX_BALLS_PER_BOWLER):
+    """Pick the bowler for the next over (plan task 3.3: the
+    simulator's 4-over / no-consecutive-overs constraints, extracted
+    unchanged from simulate_innings so they can be pinned by tests).
+
+    Round-robin from start_idx over the active bowlers, skipping any
+    bowler at the max_balls quota. Because the pointer advances past
+    the chosen bowler, the same bowler cannot bowl consecutive overs
+    while at least two active bowlers have quota left. If EVERY
+    active bowler is at quota -- reachable only when fewer than 5
+    bowling options must cover 120 balls (5 x 24), e.g. a 4-bowler
+    rotation (4 x 24 = 96 < 120) -- falls back to active_bowlers[0]
+    and leaves the pointer unchanged (the pre-extraction behaviour;
+    the quota is a model constraint, not a physical one, in that
+    corner). Returns (bowler, next_start_idx).
+    """
+    for tries in range(len(active_bowlers)):
+        cand = active_bowlers[(start_idx + tries) % len(active_bowlers)]
+        if bowler_balls.get(cand, 0) < max_balls:
+            return cand, (start_idx + tries + 1) % len(active_bowlers)
+    return active_bowlers[0], start_idx
+
+
 def simulate_innings(bat_xi, bowl_xi, dists, priors_by_id, n_sims, rng,
                      target=None, jitter=True):
     """Vectorised innings simulation. bat_xi/bowl_xi: registry-id lists
@@ -137,15 +164,8 @@ def simulate_innings(bat_xi, bowl_xi, dists, priors_by_id, n_sims, rng,
         over = ball_no // 6
         phase = PHASES[0] if over < 6 else (PHASES[1] if over < 15 else PHASES[2])
         # choose bowler for this over: next in rotation with quota left
-        bowler = None
-        for tries in range(len(active_bowlers)):
-            cand = active_bowlers[(over_bowler_idx + tries) % len(active_bowlers)]
-            if bowler_balls[cand] < 24:
-                bowler = cand
-                over_bowler_idx = (over_bowler_idx + tries + 1) % len(active_bowlers)
-                break
-        if bowler is None:
-            bowler = active_bowlers[0]
+        bowler, over_bowler_idx = _choose_bowler(
+            active_bowlers, bowler_balls, over_bowler_idx)
         for _ in range(6):
             if ball_no >= total_balls:
                 break

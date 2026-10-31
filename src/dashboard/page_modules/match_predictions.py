@@ -69,6 +69,31 @@ def expected_xi_unresolved(master: pd.DataFrame, priors: pd.DataFrame) -> dict:
     return out
 
 
+def challenger_disclosure(root: Path = ROOT):
+    """Disclosure sentence for the challenger (logistic) series, with
+    its training window read from the model artefact itself
+    (data/predictions/model_v1.json, field trained_on) -- never
+    hardcoded, so the text cannot drift from the artefact (plan task
+    5.4, display variant only: the artefact is read, never written).
+    Returns None when the artefact or the field is absent, and the
+    page then shows no challenger line at all."""
+    import json as _json
+
+    p = Path(root) / "data" / "predictions" / "model_v1.json"
+    if not p.exists():
+        return None
+    try:
+        trained_on = _json.loads(p.read_text()).get("trained_on")
+    except Exception:
+        return None
+    if not trained_on:
+        return None
+    return (f"Challenger (logistic regression, shadow series — never "
+            f"locked, scored separately): trained on {trained_on}. "
+            f"Its S2 backtest did not beat the champion; shown for "
+            f"comparison only.")
+
+
 def load_match_analysis(root: Path = ROOT) -> list:
     """Per-fixture analysis for the match picker: every Season 3
     fixture (all 32), with the four locked series oriented to the
@@ -138,7 +163,8 @@ def load_match_analysis(root: Path = ROOT) -> list:
                            else None,
             "lock_stage": lock_stage.get(r.match_id),
             "champion": None, "elo": None, "simulator": None,
-            "coach": None, "rating_1": None, "rating_2": None,
+            "coach": None, "challenger": None,
+            "rating_1": None, "rating_2": None,
             "xi_1": [], "xi_2": [], "drivers": {},
         }
         if u is not None and item["team_1_name"]:
@@ -147,6 +173,12 @@ def load_match_analysis(root: Path = ROOT) -> list:
                 type("R", (), {"team_1_name": u.team_1_name,
                                "p_team_1_win": u.p_elo})(),
                 item["team_1_name"])
+            _chal = getattr(u, "p_logistic_challenger", None)
+            if _chal is not None and not pd.isna(_chal):
+                item["challenger"] = _orient(
+                    type("R", (), {"team_1_name": u.team_1_name,
+                                   "p_team_1_win": _chal})(),
+                    item["team_1_name"])
             item["rating_1"] = float(u.rating_1)
             item["rating_2"] = float(u.rating_2)
             item["xi_1"] = _xi(u.xi_1_keys)
@@ -205,6 +237,14 @@ def _render_match_analysis():
     lock_labels = {"P1_preseason_expected_xi": "Pre-season lock",
                    "P1_post_XI": "Post-XI lock",
                    "P2_post_toss": "Post-toss lock"}
+    if m["challenger"] is not None:
+        _disc = challenger_disclosure()
+        if _disc:
+            _cfav = t1 if m["challenger"] >= 0.5 else t2
+            st.caption(
+                f"Challenger: {_cfav} "
+                f"{max(m['challenger'], 1 - m['challenger']):.0%}. "
+                f"{_disc}")
     st.caption(
         f"Elo: {t1} {m['rating_1']:.0f} · {t2} {m['rating_2']:.0f}. "
         f"Latest champion lock: "

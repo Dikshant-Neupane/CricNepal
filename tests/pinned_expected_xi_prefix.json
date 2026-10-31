@@ -1,0 +1,130 @@
+{
+ "Biratnagar Kings": {
+  "xi": [
+   "player_lokesh_bam",
+   "player_s_lamichhane",
+   "player_charith_asalanka",
+   "player_andre_russell",
+   "player_subash_bhandari",
+   "player_basir_ahamad",
+   "player_n_saud",
+   "player_dilsad_ali",
+   "player_prajwal_thapa",
+   "player_sujan_thapaliya",
+   "player_aprajit_poudel"
+  ],
+  "overseas": 3
+ },
+ "Chitwan Rhinos": {
+  "xi": [
+   "player_sikandar_raza",
+   "player_rs_bopara",
+   "player_kaleem_sana",
+   "player_r_kumar",
+   "player_salahuddin_khan",
+   "player_kushal_malla",
+   "player_usama_mir",
+   "player_ashok_dhami",
+   "player_mousom_dhakal",
+   "player_dj_malan",
+   "player_a_saud"
+  ],
+  "overseas": 5
+ },
+ "Janakpur Bolts": {
+  "xi": [
+   "player_kusal_perera",
+   "player_parvez_hossain_emon",
+   "player_harmeet_singh",
+   "player_as_routela",
+   "player_a_mahata",
+   "player_ln_rajbanshi",
+   "player_iftikhar_ahmed",
+   "player_jds_neesham",
+   "player_b_aagri",
+   "player_ak_sah",
+   "player_moeen_ali"
+  ],
+  "overseas": 6
+ },
+ "Karnali Yaks": {
+  "xi": [
+   "player_sahibzada_farhan",
+   "player_da_miller",
+   "player_bp_sharma",
+   "player_gulsan_jha",
+   "player_p_sarraf",
+   "player_sachin_sharma",
+   "player_diwan_pun",
+   "player_mrj_watt",
+   "player_sompal_kami",
+   "player_deepak_dumre",
+   "player_ubs_thakuri"
+  ],
+  "overseas": 3
+ },
+ "Kathmandu Gorkhas": {
+  "xi": [
+   "player_sd_heazlett",
+   "player_david_warner",
+   "player_rashid_khan",
+   "player_shahab_alam",
+   "player_wg_bosisto",
+   "player_b_sharki",
+   "player_karan_kc",
+   "player_mohammad_aadil_alam",
+   "player_santosh_yadav",
+   "player_dev_shah",
+   "player_s_patel"
+  ],
+  "overseas": 4
+ },
+ "Lumbini Lions": {
+  "xi": [
+   "player_tr_bhandari",
+   "player_aasif_sheikh",
+   "player_shamim_hossain",
+   "player_abhishesh_gautam",
+   "player_s_jora",
+   "player_rk_paudel",
+   "player_s_malla",
+   "player_n_dickwella",
+   "player_ajay_chauhan",
+   "player_d_adhikari",
+   "player_djm_short"
+  ],
+  "overseas": 3
+ },
+ "Pokhara Avengers": {
+  "xi": [
+   "player_k_bhurtel",
+   "player_mohammad_saifuddin",
+   "player_d_lakshan",
+   "player_bipin_khatri",
+   "player_shakib_al_hasan",
+   "player_mahedi_hasan",
+   "player_pratik_pokharel",
+   "player_bibek_kumar_rana_magar",
+   "player_sunny_bk",
+   "player_bipin_acharya",
+   "player_s_samarawickrama"
+  ],
+  "overseas": 4
+ },
+ "Sudurpaschim Royals": {
+  "xi": [
+   "player_se_rutherford",
+   "player_ds_airee",
+   "player_sa_zaib",
+   "player_sc_kuggeleijn",
+   "player_fa_allen",
+   "player_milan_bohara",
+   "player_bj_mcmullen",
+   "player_aarif_sheikh",
+   "player_tek_rawat",
+   "player_ayub_chand",
+   "player_h_mahara"
+  ],
+  "overseas": 5
+ }
+}
