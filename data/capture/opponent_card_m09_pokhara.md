@@ -39,14 +39,19 @@ so Match 4 is still their latest form when this card is read.
   8 wickets (Kathmandu 115 all out in 19.3; Janakpur 116/2 in 17.2; verified
   scorecard; brief_m05). Jimmy Neesham was benched for Match 5 for personal reasons
   (OnlineKhabar, 29 Oct) — whether he returns Sunday is unconfirmed, not assumed.
-  Iftikhar Ahmed and Hunain Shah did NOT play Match 5, the PCB NOC hold still
-  unresolved in any source read; Parvez Hossain Emon (signed 29 Oct) did NOT play
-  Match 5. Saif Hassan played Match 5 (40 not out off 39, 2/11). Rahul Yadav was
+  Iftikhar Ahmed and Hunain Shah are OUT for the season (Bolts CEO Niroj
+  Khatiwada: "it is certain they will not play for Janakpur" — Kathmandu Post,
+  29 Oct; OnlineKhabar and MakaluKhabar, 28 Oct; ProPakistani, 30 Oct) and were
+  REMOVED from the verified project squad data 31 Oct (151 to 149 players,
+  Janakpur 21 to 19). Parvez Hossain Emon (signed 29 Oct) did NOT play
+  Match 5. Saif Hassan played Match 5 (40 not out off 39, 2/11). Moeen Ali is
+  on a FOUR-MATCH stint only (his own words, Kathmandu Post, 29 Oct): Matches
+  3 and 5 played, so Sunday and Match 12 (3 Nov) are his last two unless an
+  extension is reported. Rahul Yadav was
   Player of the Match in Match 5 (4/31) but is NOT in player_master.csv (no
   cricsheet registry form found) — flagged to Dikshant, not hand-added; if he is
   in Sunday's XI, lock validation will fail the same way Samarawickrama did
-  in Match 4. Sunday's XI and the Iftikhar/Hunain question resolve at the
-  Sunday XI check, not here.
+  in Match 4.
 
 ## Their likely XI (analyst judgement, from the Match 4 XI — not announced)
 Mahedi Hasan, Dinesh Kharel, Kushal Bhurtel (c), Shakib Al Hasan,
