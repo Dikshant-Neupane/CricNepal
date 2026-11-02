@@ -8,10 +8,9 @@ lost Match 6 v Karnali by 4 wickets (186/7 chased with a ball to spare), beat Su
 in Match 8 by 35 runs in a rain-shortened five-over game (105/2 v 70/3). They play no
 fixture between now and Tuesday — Matches 10–11 on Mon 2 Nov are Karnali v Kathmandu
 and Chitwan v Sudurpaschim — so Match 8 is still their latest form when this card is read.
-READ THIS CARD WITH THE MATCH 9 CAVEAT: Janakpur play Pokhara today, Sun 1 Nov at
-17:00, before Tuesday. Today's XI, result and any injury will change the Bolts side of
-this card; the Biratnagar analysis below does not depend on it, but the Bolts plan
-paragraph must be re-read after Match 9, not taken as final.
+MATCH 9 UPDATE (Mon 2 Nov sweep): Janakpur beat Pokhara by 9 runs on Sun 1 Nov
+(147/7 v 138/9; Trit Raj Das 61, Moeen Ali 21 + 3/13; brief_m09). The Bolts side
+below is updated for that result; the Biratnagar analysis does not depend on it.
 
 ## Availability sweep (1 Nov)
 - **PLAYED ALL THREE S3 MATCHES, OVERSEAS CORE:** Andre Russell — arrived in Nepal
@@ -48,22 +47,25 @@ paragraph must be re-read after Match 9, not taken as final.
   s3_coaches.csv. Biratnagar finished third in 2025 (ipl.com preview) and reached
   the playoffs on the back of Sandeep's control (17 wickets at 4.92 in 2025, per
   the CricNepal season preview).
-- **JANAKPUR SIDE — MATCH 9 STILL TO PLAY (today, 17:00):** the Bolts are 1–1
-  (lost Match 3 v Karnali by 19 runs, beat Kathmandu in Match 5 by 8 wickets;
-  verified scorecards; brief_m03, brief_m05). Jimmy Neesham was benched for
-  Match 5 for personal reasons (OnlineKhabar, 29 Oct) — whether he returns today
-  or Tuesday is unconfirmed, not assumed. Iftikhar Ahmed and Hunain Shah are OUT
+- **JANAKPUR SIDE — UPDATED AFTER MATCH 9 (2 Nov sweep):** the Bolts are 2–1
+  (lost Match 3 v Karnali by 19 runs, beat Kathmandu in Match 5 by 8 wickets,
+  beat Pokhara in Match 9 by 9 runs — 147/7 v 138/9; verified scorecards;
+  brief_m03, brief_m05, brief_m09). Jimmy Neesham RETURNED in Match 9 (11 off 11
+  + 1 wicket) after being benched for Match 5 for personal reasons
+  (OnlineKhabar, 29 Oct). Iftikhar Ahmed and Hunain Shah are OUT
   for the season (Bolts CEO Niroj Khatiwada: "it is certain they will not play
   for Janakpur" — Kathmandu Post, 29 Oct; OnlineKhabar and MakaluKhabar, 28 Oct;
   ProPakistani, 30 Oct) and were REMOVED from the verified project squad data
   31 Oct (151 to 149 players, Janakpur 21 to 19). Moeen Ali is on a FOUR-MATCH
-  stint only (his own words, Kathmandu Post, 29 Oct): Matches 3 and 5 played, so
-  today (Match 9) and Tuesday (Match 12) are his last two unless an extension is
-  reported. Parvez Hossain Emon (signed 29 Oct) did NOT play Match 5. Saif Hassan
-  played Match 5 (40 not out off 39, 2/11). Rahul Yadav was Player of the Match
-  in Match 5 (4/31) but is NOT in player_master.csv (no cricsheet registry form
-  found) — flagged to Dikshant, not hand-added; if he is in either XI this week,
-  lock validation will fail the same way Samarawickrama did in Match 4.
+  stint only (his own words, Kathmandu Post, 29 Oct): Matches 3, 5 and 9 played,
+  so Tuesday (Match 12) is his LAST match unless an extension is reported.
+  Parvez Hossain Emon (signed 29 Oct) has NOT appeared in a Season 3 scorecard
+  through Match 9. Saif Hassan played Match 5 (40 not out off 39, 2/11) and
+  Match 9 (1 off 9, 2 wickets). Rahul Yadav was Player of the Match
+  in Match 5 (4/31) and bowled again in Match 9, but is NOT in player_master.csv
+  (no cricsheet registry form found) — flagged to Dikshant, not hand-added; if
+  he is in Tuesday's XI, lock validation will fail the same way Samarawickrama
+  did in Match 4.
 
 ## Their likely XI (analyst judgement, from the Match 8 XI — not announced)
 Lokesh Bam (wk), Shehan Jayasuriya, Andre Russell, Imran Sheikh, Angelo Mathews,
@@ -216,9 +218,9 @@ intent against Imran Sheikh's unproven new-ball record, and bat through
 against an attack that took three wickets in 20 overs in Match 2: a set
 Janakpur batter can bat the innings against this side. Janakpur's
 Associate-in-XI, if the clause is real: Harmeet Singh (USA). The overseas-slot
-questions for Tuesday (Asalanka's return, Neesham's return, Emon's first
-appearance, and whether Moeen's stint ends here as announced) resolve at the
-Tuesday XI check — and the Match 9 XI today resolves some of them first.
+questions for Tuesday (Asalanka's return, Emon's first appearance, and
+whether Moeen's stint ends here as announced) resolve at the
+Tuesday XI check — Match 9 already resolved Neesham's return (he played).
 
 ## Honesty note on the locked number
 The frozen pre-season line for this match is Biratnagar 51.5% (p_team_1 0.5148,
