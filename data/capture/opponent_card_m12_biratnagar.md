@@ -33,15 +33,12 @@ below is updated for that result; the Biratnagar analysis does not depend on it.
   Sandeep did not bowl in Match 8 (five-over game, four bowlers used) — that is a
   format artefact, not a fitness signal. Sujan Thapaliya played Match 6 only (did
   not bat); no absence or injury report for him was found in this sweep.
-- **JISHAN ALAM — DO NOT PUT HIM IN EITHER XI FROM THIS CARD:** the verified
-  project squad data still lists him at Biratnagar, but he has played no S3 match
-  for Biratnagar, and BDCricTime reported 31 Oct that he has joined Karnali Yaks
-  "after his expected move to Biratnagar Kings fell through" (alongside Akbar Ali
-  and Ariful Islam). The 31 Oct availability log records that move as NOT
-  integrated — BDCricTime is one reliable source, the fan site nplcricketleague
-  is not counted, and no second reliable source or match XI confirms it yet.
-  Until a second source or an XI settles it, he is a player with two claimed
-  teams and zero S3 appearances: name him in neither XI.
+- **JISHAN ALAM — DO NOT PUT HIM IN EITHER XI FROM THIS CARD (UPDATED 3 NOV):**
+  he is now confirmed as a Karnali Yaks player, not Biratnagar: Karnali chairman
+  Grihendra Ghimire confirmed the signing 2 Nov (MakaluKhabar, myRepublica and
+  Pardafas), and he played Match 10 for Karnali v Kathmandu (7 off 5). The
+  project roster/registry were corrected Biratnagar → Karnali on 3 Nov, so he
+  belongs to neither side in this fixture regardless.
 - **NO INJURY REPORT FOUND** for any Biratnagar player in sources read 1 Nov.
 - **CAPTAIN / COACH:** Sandeep Lamichhane (c), Dhammika Prasad (head coach) —
   s3_coaches.csv. Biratnagar finished third in 2025 (ipl.com preview) and reached

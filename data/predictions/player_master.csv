@@ -6,7 +6,6 @@ player_basir_ahamad,Basir Ahamad,218c7eab,Basir Ahamad,exact,Biratnagar Kings,Al
 player_charith_asalanka,Charith Asalanka,732c038e,KIC Asalanka,exact,Biratnagar Kings,Batter,s3_roster.playing_role,Left,Spin,Right,1997-06-29,29.3,Sri Lanka,True,single-form,
 player_dilsad_ali,Dilsad Ali,,,,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2007-05-03,19.5,Nepal,False,single-form,cricsheet_registry_id
 player_imran_sheikh,Imran Sheikh,97fd166d,Imran Sheikh,exact,Biratnagar Kings,Batter,s3_roster.playing_role,Right,Spin,Right,2005-10-22,21.0,Nepal,False,single-form,
-player_jishan_alam,Jishan Alam,86e22dd4,Jishan Alam,exact,Biratnagar Kings,Batter,s3_roster.playing_role,Right,Spin,Right,2004-11-10,22.0,Bangladesh,True,single-form,
 player_lokesh_bam,Lokesh Bam,75c8a26b,Lokesh Bam,exact,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,Right,Medium Pace,Right,2002-11-19,23.9,Nepal,False,single-form,
 player_n_joshi,Narayan Joshi,58c71b70,N Joshi,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,Right,2005-05-08,21.5,Nepal,False,confirmed,
 player_n_saud,Naren Saud,010df582,N Saud,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,Left,2003-10-05,23.1,Nepal,False,confirmed,
@@ -65,6 +64,7 @@ player_d_rawat,Dipendra Rawat,c6ff5ac2,D Rawat,exact,Karnali Yaks,All-rounder,s3
 player_diwan_pun,Diwan Pun,,,,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Spin,Left,2005-12-11,20.9,Nepal,False,single-form,cricsheet_registry_id
 player_gulsan_jha,Gulshan Jha,9811e35e,Gulsan Jha,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Pace,Right,2002-06-12,24.4,Nepal,False,confirmed,
 player_hussain_talat,Hussain Talat,bb4b445b,Hussain Talat,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Left,Medium Pace,Right,1996-02-12,30.7,Pakistan,True,single-form,
+player_jishan_alam,Jishan Alam,86e22dd4,Jishan Alam,exact,Karnali Yaks,Batter,s3_roster.playing_role,Right,Spin,Right,2004-11-10,22.0,Bangladesh,True,single-form,
 player_mrj_watt,Mark Watt,1252f71a,MRJ Watt,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Right,Spin,Left,1996-03-29,30.6,Scotland,True,confirmed,
 player_nk_yadav,Nandan Yadav,737e595d,NK Yadav,exact,Karnali Yaks,Bowler,s3_roster.playing_role,Left,Medium Pace,Right,1996-05-19,30.4,Nepal,False,confirmed,
 player_p_sarraf,Pawan Sarraf,82294960,P Sarraf,exact,Karnali Yaks,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,2005-03-25,21.6,Nepal,False,confirmed,

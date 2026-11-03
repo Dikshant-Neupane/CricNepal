@@ -6,7 +6,6 @@ player_basir_ahamad,Basir Ahamad,Biratnagar Kings,All-rounder,218c7eab,NPL;T20I,
 player_charith_asalanka,Charith Asalanka,Biratnagar Kings,Batter,732c038e,CPL;ILT20;LPL;PSL;T20I,700.7,214.9,1.2237,7.196,1.0432,0.9783,1.0733,6.671,141.8,52.4,1.1551,6.648,407.7,141.8,1.5265,9.126,151.1,20.6,external_pro,0.5628
 player_dilsad_ali,Dilsad Ali,Biratnagar Kings,Wicketkeeper,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
 player_imran_sheikh,Imran Sheikh,Biratnagar Kings,Batter,97fd166d,NPL,21.3,0.0,1.1555,7.04,0.985,0.9999,1.0496,6.452,7.3,0.0,1.1355,6.726,14.0,0.0,1.4373,8.628,0.0,0.0,npl_experienced,0.9359
-player_jishan_alam,Jishan Alam,Biratnagar Kings,Batter,86e22dd4,BPL,45.2,68.5,1.1716,7.131,0.9987,0.9872,1.0777,6.57,32.9,39.5,1.1343,6.709,12.2,23.7,1.4373,8.775,0.0,5.4,external_pro,1.1313
 player_lokesh_bam,Lokesh Bam,Biratnagar Kings,Wicketkeeper,75c8a26b,NPL;T20I,247.5,2.5,1.34,7.059,1.1423,0.9972,1.1343,6.452,104.0,0.0,1.2575,6.726,100.3,0.0,1.5623,8.615,43.2,2.5,npl_experienced,0.6124
 player_n_joshi,Narayan Joshi,Biratnagar Kings,All-rounder,58c71b70,NPL,44.7,24.7,1.147,7.521,0.9778,0.936,1.0741,6.635,0.0,6.4,1.0613,6.958,31.2,14.3,1.4613,8.767,13.4,3.9,npl_experienced,0.8269
 player_n_saud,Naren Saud,Biratnagar Kings,Bowler,010df582,NPL,15.2,59.2,1.14,6.896,0.9718,1.0208,1.0741,6.444,0.0,7.6,1.0908,6.744,7.8,48.7,1.4234,8.524,7.4,2.9,npl_experienced,0.8175
@@ -65,6 +64,7 @@ player_d_rawat,Dipendra Rawat,Karnali Yaks,All-rounder,c6ff5ac2,NPL,6.6,19.9,1.1
 player_diwan_pun,Diwan Pun,Karnali Yaks,All-rounder,,,0.0,0.0,1.1731,7.04,1.0,0.9999,1.0741,6.452,0.0,0.0,1.1216,6.726,0.0,0.0,1.4373,8.628,0.0,0.0,debutant,1.5
 player_gulsan_jha,Gulshan Jha,Karnali Yaks,All-rounder,9811e35e,NPL;T20I,287.1,218.5,1.319,7.675,1.1244,0.9172,1.0604,6.648,20.8,22.4,1.1709,7.343,164.0,176.0,1.6028,8.861,102.4,20.1,npl_experienced,0.4783
 player_hussain_talat,Hussain Talat,Karnali Yaks,All-rounder,bb4b445b,BPL;PSL;T20I,132.6,97.3,1.1289,7.369,0.9623,0.9553,1.0396,6.452,10.6,0.0,1.1124,6.821,103.2,73.4,1.4308,8.99,18.8,23.9,external_pro,0.9425
+player_jishan_alam,Jishan Alam,Karnali Yaks,Batter,86e22dd4,BPL,45.2,68.5,1.1716,7.131,0.9987,0.9872,1.0777,6.57,32.9,39.5,1.1343,6.709,12.2,23.7,1.4373,8.775,0.0,5.4,external_pro,1.1313
 player_mrj_watt,Mark Watt,Karnali Yaks,Bowler,1252f71a,ILT20;NPL;T20I,171.7,368.1,1.3136,7.542,1.1198,0.9334,1.1803,6.282,72.3,107.1,1.2231,7.397,53.8,182.7,1.451,8.991,45.7,78.3,npl_experienced,0.4663
 player_nk_yadav,Nandan Yadav,Karnali Yaks,Bowler,737e595d,NPL;T20I,34.9,361.1,1.2325,7.571,1.0507,0.9298,1.0741,6.56,0.0,141.1,1.1125,6.989,4.6,81.9,1.4764,8.909,30.3,138.1,npl_experienced,0.5241
 player_p_sarraf,Pawan Sarraf,Karnali Yaks,All-rounder,82294960,NPL,57.1,39.6,1.1948,6.98,1.0185,1.0085,1.0802,6.37,13.2,15.9,1.1327,6.853,32.2,23.7,1.4456,8.628,11.7,0.0,npl_experienced,0.7798
