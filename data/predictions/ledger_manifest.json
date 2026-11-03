@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-11-03T06:38:22.201561+00:00",
+ "generated_at": "2026-11-03T11:07:33.078249+00:00",
  "git": {
-  "head_sha": "4a06079e582f6669b7c5d448707d3c914e854d60",
+  "head_sha": "a2cb50c5634d34036ba8238f0a9651911b0c3b17",
   "dirty_code_tree": false,
   "modified_tracked_files": [],
   "untracked_files": []
  },
  "frozen_log": {
   "path": "data/predictions/frozen_log.csv",
-  "sha256": "e84faa16ba18beb4a5cc1e4f235c361f1a5d293e970468db5b77e1057746e33e",
-  "rows": 63,
+  "sha256": "2c2e791152f21faf49f8ce76fb8cdcc76d131f6c97cce43a4b06728e8d503bd2",
+  "rows": 64,
   "stages": {
    "P1_preseason_expected_xi": {
     "rows": 28,
@@ -20,9 +20,9 @@
     ]
    },
    "P2_post_toss": {
-    "rows": 7,
+    "rows": 8,
     "first_locked": "2026-10-27T06:43:07.769817+00:00",
-    "last_locked": "2026-11-03T06:38:21.590652+00:00",
+    "last_locked": "2026-11-03T11:07:31.233076+00:00",
     "model_versions": [
      "v1.1"
     ]
