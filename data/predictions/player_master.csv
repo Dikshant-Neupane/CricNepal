@@ -51,6 +51,7 @@ player_ln_rajbanshi,Lalit Narayan Rajbanshi,6ad2d5f7,LN Rajbanshi,exact,Janakpur
 player_mayan_yadav,Mayan Yadav,c6355538,Mayan Yadav,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Spin,Right,2006-05-07,20.5,Nepal,False,single-form,
 player_moeen_ali,Moeen Ali,bb351c23,MM Ali,initials_surname_unique,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Spin,Right,1987-06-18,39.4,England,True,single-form,
 player_parvez_hossain_emon,Parvez Hossain Emon,489aaf0a,Parvez Hossain Emon,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Left,Non-bowler,,2002-06-12,24.4,Bangladesh,True,confirmed,
+player_rahul_yadav,Rahul Yadav,,,,Janakpur Bolts,Bowler,s3_roster.playing_role,,Pace,,,,Nepal,False,single-form,cricsheet_registry_id;batting_hand;date_of_birth
 player_rit_gautam,Rit Gautam,f1471db3,Rit Gautam,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Non-bowler,,2001-09-17,25.1,Nepal,False,single-form,
 player_saif_hassan,Saif Hassan,bb95564b,Saif Hassan,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,Right,1998-10-30,28.0,Bangladesh,True,confirmed,
 player_s_karki,Santosh Karki,4898e6fb,S Karki,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Right,Spin,Right,2003-07-20,23.3,Nepal,False,confirmed,
