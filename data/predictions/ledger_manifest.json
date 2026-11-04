@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-11-03T11:07:33.078249+00:00",
+ "generated_at": "2026-11-04T14:36:35.769601+00:00",
  "git": {
-  "head_sha": "a2cb50c5634d34036ba8238f0a9651911b0c3b17",
+  "head_sha": "2e69ad5014c1c79ee4e2d8736655531078e39104",
   "dirty_code_tree": false,
   "modified_tracked_files": [],
   "untracked_files": []
@@ -43,16 +43,16 @@
    "bytes": 15940
   },
   "data/predictions/player_master.csv": {
-   "sha256": "d6628c91791921f4ba92b58b4925a533cc1f9f241105f53974627595fb7c35ff",
-   "bytes": 25460
+   "sha256": "6c64ced52dae7700eb3fece1af009f53889c6b0d3658079c1997cb71e6559287",
+   "bytes": 27009
   },
   "data/predictions/player_priors.csv": {
-   "sha256": "caa1e7b6bf946f2d2fb70e7ce5b68ba28279490b3ccabf5a761fb0ff61ff7c37",
-   "bytes": 29998
+   "sha256": "72ac4ec41e0d8e040b2e4e5af195cee1485e485717cbde437900f7c0b273bf2b",
+   "bytes": 36946
   },
   "data/predictions/player_history.csv": {
-   "sha256": "c7136d6f07ec7e0583dc09a6ecef65cc33da2319b12f9aefcbaa57a1a36882ce",
-   "bytes": 2644408
+   "sha256": "4f339162c93ffd92936300415bb9ed2523252b687e3f568b85c1ecdb8debc787",
+   "bytes": 2644110
   },
   "data/predictions/preregistration_s3.json": {
    "sha256": "01e436142a4b7f2f1d4537254feb94778e6396d1c0e5c36d2c321d6b765632c3",
