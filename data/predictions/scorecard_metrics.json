@@ -1,6 +1,161 @@
 {
+ "P0_PRESEASON": {
+  "n": 12,
+  "canonical_horizon": "P0_PRESEASON",
+  "canonical_label": "P0 \u2014 Pre-season (expected XI)",
+  "stage": "P1_preseason_expected_xi",
+  "stored_stages": [
+   "P1_preseason_expected_xi"
+  ],
+  "model": {
+   "n": 12,
+   "accuracy": 0.4166666666666667,
+   "log_loss": 0.6864574247499835,
+   "brier": 0.2466738491666666
+  },
+  "elo_baseline": {
+   "n": 12,
+   "accuracy": 0.5,
+   "log_loss": 0.682957070743162,
+   "brier": 0.2450099333333333
+  },
+  "chase_baseline": {
+   "n": 12,
+   "accuracy": 0.5833333333333334,
+   "log_loss": 0.6862943571984376,
+   "brier": 0.24657600000000005
+  },
+  "calibration_bins": [
+   {
+    "bin": [
+     0.4,
+     0.5
+    ],
+    "n": 7,
+    "pred_mean": 0.46955714285714284,
+    "actual_rate": 0.5714285714285714
+   },
+   {
+    "bin": [
+     0.5,
+     0.6
+    ],
+    "n": 5,
+    "pred_mean": 0.51436,
+    "actual_rate": 0.4
+   }
+  ]
+ },
+ "SIM_SHADOW": {
+  "n": 12,
+  "canonical_horizon": "SIM_SHADOW",
+  "canonical_label": "SIM \u2014 Shadow simulator",
+  "stage": "SIM_shadow_preseason",
+  "stored_stages": [
+   "SIM_shadow_preseason"
+  ],
+  "model": {
+   "n": 12,
+   "accuracy": 0.25,
+   "log_loss": 0.7663287486122381,
+   "brier": 0.28541261333333334
+  },
+  "elo_baseline": {
+   "n": 12,
+   "accuracy": 0.5,
+   "log_loss": 0.682957070743162,
+   "brier": 0.2450099333333333
+  },
+  "chase_baseline": {
+   "n": 12,
+   "accuracy": 0.5833333333333334,
+   "log_loss": 0.6862943571984376,
+   "brier": 0.24657600000000005
+  },
+  "calibration_bins": [
+   {
+    "bin": [
+     0.4,
+     0.5
+    ],
+    "n": 7,
+    "pred_mean": 0.4681857142857143,
+    "actual_rate": 0.7142857142857143
+   },
+   {
+    "bin": [
+     0.5,
+     0.6
+    ],
+    "n": 4,
+    "pred_mean": 0.5479,
+    "actual_rate": 0.25
+   },
+   {
+    "bin": [
+     0.6,
+     0.8
+    ],
+    "n": 1,
+    "pred_mean": 0.6895,
+    "actual_rate": 0.0
+   }
+  ]
+ },
+ "P2_POST_TOSS": {
+  "n": 8,
+  "canonical_horizon": "P2_POST_TOSS",
+  "canonical_label": "P2 \u2014 Post-toss",
+  "stage": "P2_post_toss",
+  "stored_stages": [
+   "P2_post_toss"
+  ],
+  "model": {
+   "n": 8,
+   "accuracy": 0.625,
+   "log_loss": 0.652217306157256,
+   "brier": 0.22967569750000003
+  },
+  "elo_baseline": {
+   "n": 8,
+   "accuracy": 0.625,
+   "log_loss": 0.6334099305550271,
+   "brier": 0.22040779875
+  },
+  "chase_baseline": {
+   "n": 8,
+   "accuracy": 0.625,
+   "log_loss": 0.6822912809447033,
+   "brier": 0.24457600000000002
+  },
+  "calibration_bins": [
+   {
+    "bin": [
+     0.4,
+     0.5
+    ],
+    "n": 6,
+    "pred_mean": 0.4598333333333333,
+    "actual_rate": 0.3333333333333333
+   },
+   {
+    "bin": [
+     0.5,
+     0.6
+    ],
+    "n": 2,
+    "pred_mean": 0.5445,
+    "actual_rate": 0.5
+   }
+  ]
+ },
  "outcome_classification": {
-  "counts": {},
+  "counts": {
+   "scored": {
+    "matches": 12,
+    "log_rows": 32
+   }
+  },
   "excluded_matches": []
  }
 }

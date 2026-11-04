@@ -15,12 +15,12 @@ player_am_rossington,Adam Rossington,confirmed,AM Rossington,player_am_rossingto
 player_ajay_chauhan,Ajay Chauhan,single-form,Ajay Chauhan,,S3: Lumbini Lions,One surface form across all datasets
 player_akbar_ali,Akbar Ali,single-form,Akbar Ali,,S3: Karnali Yaks,One surface form across all datasets
 player_ar_ramjani,Alpesh Ramjani,confirmed,AR Ramjani,player_ar_ramjani,S2: Chitwan Rhinos,Chitwan S2 squad lists
-player_as_routela,Amar Singh Rautela,confirmed,AS Routela; Amar Singh Rautela,player_as_routela,S1: Chitwan Rhinos; S2: Chitwan Rhinos; S3: Janakpur Bolts,Chitwan squad lists: Amar Rautela; Bolts S3 auction buy: Amar Singh Rautela
+player_as_routela,Amar Singh Rautela,confirmed,AS Routela; Amar Singh Rautela; Amar Routela,player_as_routela,S1: Chitwan Rhinos; S2: Chitwan Rhinos; S3: Janakpur Bolts,Chitwan squad lists: Amar Rautela; Bolts S3 auction buy: Amar Singh Rautela
 player_andre_russell,Andre Russell,single-form,Andre Russell,,S3: Biratnagar Kings,One surface form across all datasets
 player_ags_gous,Andries Gous,confirmed,AGS Gous,player_ags_gous,S1: Pokhara Avengers,Public player profile (USA)
 player_a_kharel,Anil Kharel,confirmed,A Kharel,player_a_kharel,S1: Biratnagar Kings; S3: Sudurpaschim Royals,S1 match reports: Anil Kharel (Biratnagar)
 player_ak_sah,Anil Kumar Sah,confirmed,AK Sah,player_ak_sah,S1: Janakpur Bolts; S2: Janakpur Bolts; S3: Janakpur Bolts,Janakpur captain S1/S2; retained lists: Anil Kumar Sah
-player_aprajit_poudel,Aprajit Poudel,single-form,Aprajit Poudel,,S3: Biratnagar Kings,One surface form across all datasets
+player_aprajit_poudel,Aprajit Poudel,single-form,"Aprajit Poudel, A Poudel",,S3: Biratnagar Kings,One surface form across all datasets
 player_aqib_ilyas,Aqib Ilyas,single-form,Aqib Ilyas,player_aqib_ilyas,S1: Biratnagar Kings,One surface form across all datasets
 player_ariful_islam,Ariful Islam,single-form,Ariful Islam,,S3: Karnali Yaks,One surface form across all datasets
 player_a_gharti,Arjun Gharti,confirmed,A Gharti,player_a_gharti,S1: Karnali Yaks; S2: Karnali Yaks; S3: Pokhara Avengers,Karnali/Janakpur squad lists: Arjun Gharti (wk)
@@ -48,7 +48,7 @@ player_bipin_khatri,Bipin Khatri,single-form,Bipin Khatri,player_bipin_khatri,S1
 player_b_rawal,Bipin Rawal,confirmed,B Rawal,player_b_rawal,S1: Chitwan Rhinos; S3: Chitwan Rhinos,Chitwan squad lists: Bipin Rawal (wk)
 player_bp_sharma,Bipin Sharma,confirmed,BP Sharma,player_bp_sharma,S1: Karnali Yaks; S2: Karnali Yaks; S3: Karnali Yaks,Karnali squad lists
 player_bishal_kumar_patel,Bishal Kumar Patel,single-form,Bishal Kumar Patel,,S3: Janakpur Bolts,One surface form across all datasets
-player_bishal_susling,Bishal Susling,single-form,Bishal Susling,,S3: Janakpur Bolts,One surface form across all datasets
+player_bishal_susling,Bishal Susling,single-form,"Bishal Susling, B Shusling",,S3: Janakpur Bolts,One surface form across all datasets
 player_bj_mcmullen,Brandon McMullen,confirmed,BJ McMullen,player_bj_mcmullen,S1: Sudurpaschim Royals; S3: Sudurpaschim Royals,Sudurpaschim squad lists: Brandon McMullen
 player_cak_walton,Chadwick Walton,confirmed,CAK Walton,player_cak_walton,S1: Karnali Yaks,Public player profile (West Indies)
 player_chamika_karunaratne,Chamika Karunaratne,single-form,Chamika Karunaratne,,S3: Pokhara Avengers,One surface form across all datasets
@@ -65,7 +65,7 @@ player_dayanand_mandal,Dayanand Mandal,single-form,Dayanand Mandal,,S3: Kathmand
 player_deepak_bohara,Deepak Bohara,single-form,Deepak Bohara,player_deepak_bohara,S1: Chitwan Rhinos; S2: Chitwan Rhinos; S3: Chitwan Rhinos,One surface form across all datasets
 player_deepak_dumre,Deepak Dumre,single-form,Deepak Dumre,player_deepak_dumre,S2: Karnali Yaks; S3: Karnali Yaks,One surface form across all datasets
 player_d_khanal,Dev Khanal,confirmed,D Khanal,player_d_khanal,S1: Karnali Yaks; S2: Chitwan Rhinos; S3: Chitwan Rhinos,Chitwan squad lists
-player_dev_shah,Dev Shah,single-form,Dev Shah,,S3: Kathmandu Gorkhas,One surface form across all datasets
+player_dev_shah,Dev Shah,single-form,"Dev Shah, D Shah",,S3: Kathmandu Gorkhas,One surface form across all datasets
 player_d_lakshan,Dhananjaya Lakshan,confirmed,D Lakshan,player_d_lakshan,S2: Pokhara Avengers; S3: Pokhara Avengers,Pokhara squad lists
 player_d_nath,Dilip Nath,confirmed,D Nath,player_d_nath,S1: Pokhara Avengers; S2: Lumbini Lions; S3: Lumbini Lions,Lumbini squad lists: Dilip Nath (wk)
 player_dilsad_ali,Dilsad Ali,single-form,Dilsad Ali,,S3: Biratnagar Kings,One surface form across all datasets
@@ -89,7 +89,6 @@ player_h_thaker,Harsh Thaker,confirmed,H Thaker,player_h_thaker,S1: Janakpur Bol
 player_hassan_eisakhil,Hassan Eisakhil,single-form,Hassan Eisakhil,player_hassan_eisakhil,S1: Chitwan Rhinos,One surface form across all datasets
 player_h_dhami,Hemant Dhami,confirmed,H Dhami,player_h_dhami,S1: Janakpur Bolts; S2: Sudurpaschim Royals; S3: Sudurpaschim Royals,Sudurpaschim squad lists: Hemant Dhami
 player_h_mahara,Hikmat Mahara,confirmed,H Mahara,player_h_mahara,S2: Sudurpaschim Royals; S3: Sudurpaschim Royals,Sudurpaschim squad lists
-player_iftikhar_ahmed,Iftikhar Ahmed,single-form,Iftikhar Ahmed,,S3: Janakpur Bolts,One surface form across all datasets
 player_imran_sheikh,Imran Sheikh,single-form,Imran Sheikh,player_imran_sheikh,S2: Karnali Yaks; S3: Biratnagar Kings,One surface form across all datasets
 player_i_pandey,Ishan Pandey,confirmed,I Pandey,player_i_pandey,S1: Sudurpaschim Royals; S2: Sudurpaschim Royals; S3: Sudurpaschim Royals,Sudurpaschim squad lists
 player_ismat_alam,Ismat Alam,single-form,Ismat Alam,player_ismat_alam,S1: Biratnagar Kings,One surface form across all datasets
@@ -98,7 +97,7 @@ player_jj_smit,JJ Smit,initials-unexpanded,JJ Smit,player_jj_smit,S2: Lumbini Li
 player_jn_loftie-eaton,Jan Nicol Loftie-Eaton,confirmed,JN Loftie-Eaton,player_jn_loftie-eaton,S1: Chitwan Rhinos; S2: Janakpur Bolts,Janakpur S2 reports: Jan Nicol Loftie-Eaton
 player_jj_roy,Jason Roy,confirmed,JJ Roy,player_jj_roy,S2: Pokhara Avengers,Pokhara S2 signing reports
 player_jds_neesham,Jimmy Neesham,confirmed,JDS Neesham,player_jds_neesham,S1: Janakpur Bolts; S2: Pokhara Avengers; S3: Janakpur Bolts,Janakpur S1 title winner; Pokhara S2; Bolts S3 overseas
-player_jishan_alam,Jishan Alam,single-form,Jishan Alam,,S3: Biratnagar Kings,One surface form across all datasets
+player_jishan_alam,Jishan Alam,single-form,Jishan Alam,,S3: Karnali Yaks,One surface form across all datasets
 player_jk_mukhiya,Jitendra Mukhiya,confirmed,JK Mukhiya,player_jk_mukhiya,S1: Biratnagar Kings,Public player profile (Nepal)
 player_ja_simpson,John Simpson,confirmed,JA Simpson,player_ja_simpson,S2: Kathmandu Gorkhas,Kathmandu S2 squad lists
 player_j_brown,Josh Brown,confirmed,J Brown,player_j_brown,S2: Sudurpaschim Royals,Sudurpaschim S2 squad lists
@@ -135,7 +134,7 @@ player_milind_kumar,Milind Kumar,single-form,Milind Kumar,player_milind_kumar,S2
 player_moeen_ali,Moeen Ali,single-form,Moeen Ali,,S3: Janakpur Bolts,One surface form across all datasets
 player_mohammad_aadil_alam,Mohammad Aadil Alam,single-form,Mohammad Aadil Alam,player_mohammad_aadil_alam,S2: Kathmandu Gorkhas; S3: Kathmandu Gorkhas,One surface form across all datasets
 player_mohammad_mohsin,Mohammad Mohsin,single-form,Mohammad Mohsin,player_mohammad_mohsin,S1: Janakpur Bolts,One surface form across all datasets
-player_mousom_dhakal,Mousom Dhakal,single-form,Mousom Dhakal,,S3: Chitwan Rhinos,One surface form across all datasets
+player_mousom_dhakal,Mousom Dhakal,single-form,"Mousom Dhakal, SM Dhakal",,S3: Chitwan Rhinos,One surface form across all datasets
 player_mukhtar_ahmed,Mukhtar Ahmed,single-form,Mukhtar Ahmed,player_mukhtar_ahmed,S2: Sudurpaschim Royals,One surface form across all datasets
 player_na_sowter,NA Sowter,initials-unexpanded,NA Sowter,player_na_sowter,S1: Kathmandu Gorkhas,Initials form only; full name not found in any source
 player_nb_budayair,NB Budayair,initials-unexpanded,NB Budayair,player_nb_budayair,S1: Sudurpaschim Royals,Initials form only; full name not found in any source
@@ -151,7 +150,7 @@ player_p_mehra,P Mehra,initials-unexpanded,P Mehra,player_p_mehra,S2: Sudurpasch
 player_p_sarraf,Pawan Sarraf,confirmed,P Sarraf,player_p_sarraf,S2: Karnali Yaks; S3: Karnali Yaks,Karnali squad lists
 player_prajwal_thapa,Prajwal Thapa,single-form,Prajwal Thapa,,S3: Biratnagar Kings,One surface form across all datasets
 player_prashiddha_jaisi,Prashiddha Jaisi,single-form,"Prashiddha Jaisi, Prashiddha Jaishi",,S3: Kathmandu Gorkhas,One surface form across all datasets
-player_pratik_pokharel,Pratik Pokharel,single-form,Pratik Pokharel,,S3: Pokhara Avengers,One surface form across all datasets
+player_pratik_pokharel,Pratik Pokharel,single-form,"Pratik Pokharel, P Pokhrel",,S3: Pokhara Avengers,One surface form across all datasets
 player_p_shrestha,Pratik Shrestha,confirmed,P Shrestha,player_p_shrestha,S1: Kathmandu Gorkhas; S2: Kathmandu Gorkhas; S3: Biratnagar Kings,S1 report: Pratik Shrestha top-scored 39 for Kathmandu; S2 Kathmandu squad lists; Biratnagar bought him at 2026 auction (NPR 2 lakh)
 player_pratis_gc,Pratish GC,confirmed,Pratis GC,player_pratis_gc,S1: Biratnagar Kings; S2: Biratnagar Kings; S3: Biratnagar Kings,Biratnagar retained list (Wikipedia)
 player_priyank_panchal,Priyank Panchal,single-form,Priyank Panchal,player_priyank_panchal,S2: Karnali Yaks,One surface form across all datasets
@@ -159,6 +158,7 @@ player_r_dhawan,R Dhawan,initials-unexpanded,R Dhawan,player_r_dhawan,S2: Pokhar
 player_rr_simmonds,RR Simmonds,initials-unexpanded,RR Simmonds,player_rr_simmonds,S1: Lumbini Lions,Initials form only; full name not found in any source
 player_rp_magar,Rajesh Pulami Magar,probable,RP Magar,player_rp_magar,S1: Biratnagar Kings,"S1 reports name Rajesh Pulami (Biratnagar, 25 off 21 vs Kathmandu); delivery slug player_rp_magar"
 player_r_kumar,Ranjeet Kumar,confirmed,R Kumar,player_r_kumar,S1: Chitwan Rhinos; S2: Chitwan Rhinos; S3: Chitwan Rhinos,Chitwan squad lists: Ranjeet Kumar
+player_rahul_yadav,Rahul Yadav,single-form,Rahul Yadav,,S3: Janakpur Bolts,One surface form across all datasets
 player_rashid_khan,Rashid Khan,single-form,Rashid Khan,player_rashid_khan,S1: Kathmandu Gorkhas; S2: Kathmandu Gorkhas; S3: Kathmandu Gorkhas,One surface form across all datasets
 player_rs_bopara,Ravi Bopara,confirmed,RS Bopara,player_rs_bopara,S1: Chitwan Rhinos; S2: Chitwan Rhinos; S3: Chitwan Rhinos,Chitwan squad lists
 player_ra_reifer,Raymon Reifer,confirmed,RA Reifer,player_ra_reifer,S1: Pokhara Avengers,Pokhara S2 squad lists
@@ -205,7 +205,7 @@ player_sonu_devkota,Sonu Devkota,single-form,Sonu Devkota,,S3: Kathmandu Gorkhas
 player_ss_eskinazi,Stephen Eskinazi,confirmed,SS Eskinazi,player_ss_eskinazi,S1: Kathmandu Gorkhas,Kathmandu S1 match reports
 player_subash_bhandari,Subash Bhandari,single-form,Subash Bhandari,player_subash_bhandari,S1: Biratnagar Kings; S2: Biratnagar Kings; S3: Biratnagar Kings,One surface form across all datasets
 player_s_aryal,Sudip Aryal,confirmed,S Aryal,player_s_aryal,S1: Pokhara Avengers; S3: Pokhara Avengers,Pokhara squad lists
-player_sujan_thapaliya,Sujan Thapaliya,single-form,Sujan Thapaliya,,S3: Biratnagar Kings,One surface form across all datasets
+player_sujan_thapaliya,Sujan Thapaliya,single-form,"Sujan Thapaliya, S Thapaliya",,S3: Biratnagar Kings,One surface form across all datasets
 player_sl_verma,Sumeet Verma,confirmed,SL Verma,player_sl_verma,S2: Pokhara Avengers,Pokhara S2 match reports: Sumeet Verma
 player_s_maharjan,Sumit Maharjan,confirmed,S Maharjan,player_s_maharjan,S1: Kathmandu Gorkhas; S2: Lumbini Lions,Kathmandu S1 match reports: Sumit Maharjan
 player_s_jora,Sundeep Jora,confirmed,S Jora,player_s_jora,S1: Lumbini Lions; S2: Lumbini Lions; S3: Lumbini Lions,Lumbini squad lists: Sundeep Jora
@@ -236,9 +236,17 @@ player_sc_van_schalkwyk,Shadley van Schalkwyk,confirmed,"SC van Schalkwyk, Shadl
 player_shamim_hossain,Shamim Hossain,confirmed,"Shamim Hossain",player_shamim_hossain,S3: Lumbini Lions,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
 player_mohammad_saifuddin,Mohammad Saifuddin,confirmed,"Mohammad Saifuddin",player_mohammad_saifuddin,S3: Pokhara Avengers,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
 player_se_rutherford,Sherfane Rutherford,confirmed,"SE Rutherford, Sherfane Rutherford",player_se_rutherford,S3: Sudurpaschim Royals,"S3 verified squad research 2026-10-24; cricsheet registry form on file"
-player_hunain_shah,Hunain Shah,confirmed,"Hunain Shah",player_hunain_shah,S3: Janakpur Bolts,"S3 verified signing research 2026-10-25 (Makalu Khabar; Kathmandu Post); cricsheet registry form on file"
 player_fa_allen,Fabian Allen,confirmed,FA Allen,player_fa_allen,S3: Sudurpaschim Royals,S3 verified signing research 2026-10-26 (myRepublica; Makalu Khabar); cricsheet registry form on file
 player_kusal_perera,Kusal Perera,confirmed,"Kusal Perera, MDKJ Perera",player_kusal_perera,S3: Janakpur Bolts,S3 verified signing research 2026-10-26 (Janakpur Bolts official Facebook announcement; The Rising Nepal/RSS); cricsheet registry form MDKJ Perera on file
 player_dr_mousley,Dan Mousley,confirmed,DR Mousley,player_dr_mousley,S3: Chitwan Rhinos,Chitwan S3: OnlineKhabar 27 Oct 2026 + Match 2 XI/scorecard (ESPNcricinfo/CricTracker)
 player_s_samarawickrama,Sadeera Samarawickrama,confirmed,S Samarawickrama,player_s_samarawickrama,S3: Pokhara Avengers,"Pokhara S3: Kathmandu Post 28 Oct 2026 + RedVoice Nepal 28 Oct 2026 + Match 4 XI/scorecard (ESPNcricinfo/CricTracker)"
 player_parvez_hossain_emon,Parvez Hossain Emon,confirmed,Parvez Hossain Emon,player_parvez_hossain_emon,S3: Janakpur Bolts,"Janakpur S3: myRepublica 29 Oct 2026 (franchise announcement reported) + BDCricTime 28 Oct 2026; integrated on Dikshant's approval 29 Oct 2026; cricsheet registry form on file"
+player_saif_hassan,Saif Hassan,confirmed,Saif Hassan,player_saif_hassan,S3: Janakpur Bolts,"S3 verified signing research 2026-10-30 (myRepublica 29 Oct 2026 duo report; OnlineKhabar 29 Oct 2026 Match 5 XI + ESPNcricinfo full scorecard Match 5); cricsheet registry form on file"
+player_smit_patel,Smit Patel,confirmed,"Smit Patel, SK Patel",player_smit_patel,S3: Kathmandu Gorkhas,"S3 verified signing research 2026-11-04 (cricnepal.com NPL 2026 preview lists Smit Patel among Kathmandu overseas players; ESPNcricinfo full scorecards Matches 5 and 10 show Smit Patel in Kathmandu XI, 13 off 13 and 9 off 11; cricsheet registry form SK Patel on file)"
+player_ryan_burl,Ryan Burl,confirmed,"Ryan Burl, RP Burl",player_ryan_burl,S3: Janakpur Bolts,Moeen Ali replacement announced by Janakpur (Kathmandu Post double-header preview 3 Nov 2026); integrated on Dikshant instruction 2026-11-04; cricsheet registry form RP Burl on file
+player_shehan_jayasuriya,Shehan Jayasuriya,confirmed,"Shehan Jayasuriya, GSNFG Jayasuriya",player_shehan_jayasuriya,S3: Biratnagar Kings,"Biratnagar Kings signing announced (nplt20league.com); played Matches 6, 8 and 12 (published full scorecards); cricsheet registry form GSNFG Jayasuriya (full name Gampalage Shehan Naveendra De Fonseka Gunawarna Jayasuriya, NDTV profile)"
+player_tharindu_ratnayake,Tharindu Ratnayake,confirmed,"Tharindu Ratnayake, Tharindu Rathnayake, KTH Ratnayake",player_tharindu_ratnayake,S3: Sudurpaschim Royals,"Sudurpaschim Royals signing reported by enewspolar (NPL officials); played Match 8, 1-0-31-0 (published full scorecards); cricsheet registry form KTH Ratnayake (full name Konganige Tharindu Hasanka Rathnayake, Guinness World Records)"
+player_tom_taylor,Tom Taylor,confirmed,"Tom Taylor, TAI Taylor",player_tom_taylor,S3: Chitwan Rhinos,"Played Matches 2 and 11 for Chitwan (published full scorecards); cricsheet registry form TAI Taylor (full name Thomas Alex Ian Taylor, Wikipedia)"
+player_jahandad_khan,Jahandad Khan,confirmed,Jahandad Khan,player_jahandad_khan,S3: Kathmandu Gorkhas,Played Matches 5 and 10 for Kathmandu (ESPNcricinfo full scorecards; 22 not out off 10 finishing Match 10); cricsheet registry form on file
+player_ripon_mondol,Ripon Mondol,confirmed,"Ripon Mondol, R Mondol",player_ripon_mondol,S3: Kathmandu Gorkhas,Played Matches 5 and 10 for Kathmandu (published full scorecards); cricsheet registry form R Mondol on file
+player_harishankar_shah,Harishankar Shah,confirmed,"Harishankar Shah, H Shah",player_harishankar_shah,S3: Kathmandu Gorkhas,"Kathmandu Gorkhas squad listing (StatsNPL: Nepal all-rounder); played Match 5, 9 off 8 and 4-0-25-0 (ESPNcricinfo full scorecard); cricsheet registry form H Shah on file"

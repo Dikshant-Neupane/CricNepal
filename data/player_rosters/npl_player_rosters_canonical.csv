@@ -271,10 +271,8 @@ Season 3,Janakpur Bolts,Bishal Susling,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-round
 Season 3,Janakpur Bolts,Rit Gautam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_rit_gautam,Rit Gautam,single-form
 Season 3,Janakpur Bolts,S Karki,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_s_karki,Santosh Karki,confirmed
 Season 3,Janakpur Bolts,TR Das,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_tr_das,Trit Raj Das,confirmed
-Season 3,Janakpur Bolts,Iftikhar Ahmed,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_iftikhar_ahmed,Iftikhar Ahmed,single-form
 Season 3,Janakpur Bolts,Moeen Ali,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_moeen_ali,Moeen Ali,single-form
 Season 3,Janakpur Bolts,JDS Neesham,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_jds_neesham,Jimmy Neesham,confirmed
-Season 3,Janakpur Bolts,Hunain Shah,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_hunain_shah,Hunain Shah,single-form
 Season 3,Biratnagar Kings,S Lamichhane,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_s_lamichhane,Sandeep Lamichhane,confirmed
 Season 3,Biratnagar Kings,Basir Ahamad,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_basir_ahamad,Basir Ahamad,single-form
 Season 3,Biratnagar Kings,Dilsad Ali,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_dilsad_ali,Dilsad Ali,single-form
@@ -290,7 +288,7 @@ Season 3,Biratnagar Kings,P Shrestha,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder
 Season 3,Biratnagar Kings,Sujan Thapaliya,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_sujan_thapaliya,Sujan Thapaliya,single-form
 Season 3,Biratnagar Kings,Prajwal Thapa,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_prajwal_thapa,Prajwal Thapa,single-form
 Season 3,Biratnagar Kings,Charith Asalanka,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_charith_asalanka,Charith Asalanka,single-form
-Season 3,Biratnagar Kings,Jishan Alam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_jishan_alam,Jishan Alam,single-form
+Season 3,Karnali Yaks,Jishan Alam,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Batter,player_jishan_alam,Jishan Alam,single-form
 Season 3,Biratnagar Kings,Shubham Ranjane,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_shubham_ranjane,Shubham Ranjane,single-form
 Season 3,Biratnagar Kings,Andre Russell,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_andre_russell,Andre Russell,single-form
 Season 3,Chitwan Rhinos,Kushal Malla,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_kushal_malla,Kushal Malla,single-form
@@ -407,3 +405,14 @@ Season 3,Sudurpaschim Royals,Fabian Allen,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-ro
 Season 3,Janakpur Bolts,Kusal Perera,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_kusal_perera,Kusal Perera,single-form
 Season 3,Pokhara Avengers,S Samarawickrama,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_s_samarawickrama,Sadeera Samarawickrama,confirmed
 Season 3,Janakpur Bolts,Parvez Hossain Emon,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_parvez_hossain_emon,Parvez Hossain Emon,confirmed
+Season 3,Janakpur Bolts,Saif Hassan,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_saif_hassan,Saif Hassan,confirmed
+Season 3,Janakpur Bolts,Rahul Yadav,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_rahul_yadav,Rahul Yadav,single-form
+Season 3,Kathmandu Gorkhas,Smit Patel,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Wicketkeeper,player_smit_patel,Smit Patel,confirmed
+Season 3,Janakpur Bolts,Ryan Burl,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_ryan_burl,Ryan Burl,confirmed
+Season 3,Biratnagar Kings,Shehan Jayasuriya,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_shehan_jayasuriya,Shehan Jayasuriya,confirmed
+Season 3,Sudurpaschim Royals,Tharindu Ratnayake,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_tharindu_ratnayake,Tharindu Ratnayake,confirmed
+Season 3,Chitwan Rhinos,Tom Taylor,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_tom_taylor,Tom Taylor,confirmed
+Season 3,Kathmandu Gorkhas,Jahandad Khan,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_jahandad_khan,Jahandad Khan,confirmed
+Season 3,Kathmandu Gorkhas,Ripon Mondol,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,Bowler,player_ripon_mondol,Ripon Mondol,confirmed
+Season 3,Kathmandu Gorkhas,Sumit Maharjan,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_s_maharjan,Sumit Maharjan,confirmed
+Season 3,Kathmandu Gorkhas,Harishankar Shah,0,0,0,0,0,0,0,0.0,0,0,0.0,0,0.0,All-rounder,player_harishankar_shah,Harishankar Shah,confirmed

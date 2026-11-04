@@ -405,3 +405,45 @@ player_parvez_hossain_emon,Parvez Hossain Emon,country,Bangladesh,NDTV Sports pr
 player_parvez_hossain_emon,Parvez Hossain Emon,batting_hand,Left,NDTV Sports profile; IPL profile,new profile row
 player_parvez_hossain_emon,Parvez Hossain Emon,bowling_type,Non-bowler,NDTV Sports profile (wicketkeeper-batter role); IPL profile,new profile row
 player_parvez_hossain_emon,Parvez Hossain Emon,date_of_birth,2002-06-12,NDTV Sports profile; IPL profile,new profile row
+player_saif_hassan,Saif Hassan,country,Bangladesh,Wikipedia; IPL profile,new profile row
+player_saif_hassan,Saif Hassan,batting_hand,Right,Wikipedia; IPL profile,new profile row
+player_saif_hassan,Saif Hassan,bowling_type,Spin,Wikipedia (right arm off break); IPL profile (occasional off-spin),new profile row
+player_saif_hassan,Saif Hassan,bowling_arm,Right,Wikipedia (right arm off break),new profile row
+player_saif_hassan,Saif Hassan,date_of_birth,1998-10-30,Wikipedia; IPL profile,new profile row
+player_rahul_yadav,Rahul Yadav,country,Nepal,Kathmandu Post 29 Oct 2026 (Janakpur talent-hunt debutant from Chandranigahpur Madhesh),new profile row
+player_rahul_yadav,Rahul Yadav,bowling_type,Pace,Kathmandu Post 29 Oct 2026 (fast bowler); ICT Frame (slingy fast bowler),new profile row
+player_smit_patel,SK Patel,country,USA,Wikipedia; IPL profile; NDTV profile (National side United States),new profile row
+player_smit_patel,SK Patel,batting_hand,Right,Wikipedia; IPL profile; NDTV profile (Right-handed),new profile row
+player_smit_patel,SK Patel,bowling_type,Spin,IPL profile (Right-arm off-break); NDTV profile (Off break),new profile row
+player_smit_patel,SK Patel,bowling_arm,Right,IPL profile (Right-arm off-break),new profile row
+player_smit_patel,SK Patel,date_of_birth,1993-05-16,"Wikipedia; IPL profile; NDTV profile (Born May 16, 1993)",new profile row
+player_ryan_burl,RP Burl,country,Zimbabwe,Wikipedia; NDTV Sports profile; CricTracker profile,added
+player_ryan_burl,RP Burl,batting_hand,Left,Wikipedia; NDTV Sports profile; CricTracker profile,added
+player_ryan_burl,RP Burl,bowling_type,Spin,Wikipedia; NDTV Sports profile; CricTracker profile,added
+player_ryan_burl,RP Burl,bowling_arm,Right,Wikipedia; NDTV Sports profile; CricTracker profile,added
+player_ryan_burl,RP Burl,date_of_birth,1994-04-15,Wikipedia; NDTV Sports profile; CricTracker profile,added
+player_shehan_jayasuriya,GSNFG Jayasuriya,country,United States,NDTV Sports profile (National Side USA); Wikipedia; nplt20league.com signing report,added
+player_shehan_jayasuriya,GSNFG Jayasuriya,batting_hand,Left,NDTV Sports profile (National Side USA); Wikipedia; nplt20league.com signing report,added
+player_shehan_jayasuriya,GSNFG Jayasuriya,bowling_type,Spin,NDTV Sports profile (National Side USA); Wikipedia; nplt20league.com signing report,added
+player_shehan_jayasuriya,GSNFG Jayasuriya,bowling_arm,Right,NDTV Sports profile (National Side USA); Wikipedia; nplt20league.com signing report,added
+player_shehan_jayasuriya,GSNFG Jayasuriya,date_of_birth,1991-09-12,NDTV Sports profile (National Side USA); Wikipedia; nplt20league.com signing report,added
+player_tharindu_ratnayake,KTH Ratnayake,country,Sri Lanka,"Guinness World Records (full name and birth date); enewspolar NPL signing report (left-handed batter, bowls with both arms; bowling arm left blank as ambidextrous)",added
+player_tharindu_ratnayake,KTH Ratnayake,batting_hand,Left,"Guinness World Records (full name and birth date); enewspolar NPL signing report (left-handed batter, bowls with both arms; bowling arm left blank as ambidextrous)",added
+player_tharindu_ratnayake,KTH Ratnayake,bowling_type,Spin,"Guinness World Records (full name and birth date); enewspolar NPL signing report (left-handed batter, bowls with both arms; bowling arm left blank as ambidextrous)",added
+player_tharindu_ratnayake,KTH Ratnayake,date_of_birth,1996-04-18,"Guinness World Records (full name and birth date); enewspolar NPL signing report (left-handed batter, bowls with both arms; bowling arm left blank as ambidextrous)",added
+player_tom_taylor,TAI Taylor,country,England,"Wikipedia (Thomas Alex Ian Taylor, right-arm medium-fast); CREX profile",added
+player_tom_taylor,TAI Taylor,batting_hand,Right,"Wikipedia (Thomas Alex Ian Taylor, right-arm medium-fast); CREX profile",added
+player_tom_taylor,TAI Taylor,bowling_type,Pace,"Wikipedia (Thomas Alex Ian Taylor, right-arm medium-fast); CREX profile",added
+player_tom_taylor,TAI Taylor,bowling_arm,Right,"Wikipedia (Thomas Alex Ian Taylor, right-arm medium-fast); CREX profile",added
+player_tom_taylor,TAI Taylor,date_of_birth,1994-12-21,"Wikipedia (Thomas Alex Ian Taylor, right-arm medium-fast); CREX profile",added
+player_jahandad_khan,Jahandad Khan,country,Pakistan,Wikipedia (Cricinfo-sourced); cricket.com.au profile,added
+player_jahandad_khan,Jahandad Khan,batting_hand,Left,Wikipedia (Cricinfo-sourced); cricket.com.au profile,added
+player_jahandad_khan,Jahandad Khan,bowling_type,Pace,Wikipedia (Cricinfo-sourced); cricket.com.au profile,added
+player_jahandad_khan,Jahandad Khan,bowling_arm,Left,Wikipedia (Cricinfo-sourced); cricket.com.au profile,added
+player_jahandad_khan,Jahandad Khan,date_of_birth,2003-06-16,Wikipedia (Cricinfo-sourced); cricket.com.au profile,added
+player_ripon_mondol,R Mondol,country,Bangladesh,Wikipedia; NDTV Sports profile,added
+player_ripon_mondol,R Mondol,batting_hand,Right,Wikipedia; NDTV Sports profile,added
+player_ripon_mondol,R Mondol,bowling_type,Medium Pace,Wikipedia; NDTV Sports profile,added
+player_ripon_mondol,R Mondol,bowling_arm,Right,Wikipedia; NDTV Sports profile,added
+player_ripon_mondol,R Mondol,date_of_birth,2003-03-21,Wikipedia; NDTV Sports profile,added
+player_harishankar_shah,H Shah,country,Nepal,StatsNPL Kathmandu Gorkhas squad listing (Nepal all-rounder),added
