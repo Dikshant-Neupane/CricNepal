@@ -1,3 +1,4 @@
 season,bowler_wickets,pace_wkts,spin_wkts,type_coverage_pct,spin_share_of_known_pct
 S1,413,184,225,99.0,55.0
-S2,406,171,227,98.0,57.0
+S2,406,170,228,98.0,57.3
+S3,136,56,49,77.2,46.7

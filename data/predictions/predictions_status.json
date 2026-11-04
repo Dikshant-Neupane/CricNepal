@@ -1,16 +1,30 @@
 {
- "data_as_of": "2025-12-13",
- "n_matches_ingested": 64,
+ "data_as_of": "2026-11-03",
+ "n_matches_ingested": 76,
  "matches_by_season": {
   "S1": 32,
-  "S2": 32
+  "S2": 32,
+  "S3": 12
  },
- "generated_at": "2026-10-24T07:26:42+00:00",
+ "generated_at": "2026-11-04T01:57:48+00:00",
  "ratings_basis": "canonical",
  "n_provisional": 0,
  "latest_provisional_match_date": null,
  "provisional_applied_match_ids": [],
- "provisional_superseded_match_ids": [],
+ "provisional_superseded_match_ids": [
+  "s3_2026_01",
+  "s3_2026_02",
+  "s3_2026_03",
+  "s3_2026_04",
+  "s3_2026_05",
+  "s3_2026_06",
+  "s3_2026_08",
+  "s3_2026_09",
+  "s3_2026_10",
+  "s3_2026_11",
+  "s3_2026_12",
+  "s3_2026_13"
+ ],
  "provisional_disagreements": [],
  "note": "Ratings, priors and regenerated forecasts reflect matches published by cricsheet and ingested as of data_as_of. Cricsheet publication lags real time (Season 2 measured median: 8 days), so this date can trail the latest played match. Winner-only provisional results (Amendment #6) advance ratings across the lag with a neutral margin multiplier; canonical cricsheet data supersedes them on arrival."
 }
