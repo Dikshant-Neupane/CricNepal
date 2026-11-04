@@ -23,9 +23,19 @@ BOWLING_ARM = {}  # profiles carry type only (Spin/Medium Pace/Pace), no arm
 
 
 def build_registry_map(zip_paths) -> dict:
-    """name -> cricsheet registry ID, from info.registry.people of matches."""
+    """name -> cricsheet registry ID, from info.registry.people of matches.
+
+    Bundle precedence: npl_json.zip is read FIRST. Cricsheet ids are
+    per-person and identical across bundles, so read order only matters
+    for genuine name collisions (two different people sharing one name);
+    for this project's NPL squad master the NPL registry's person is the
+    right one (Kathmandu's Rashid Khan, not Afghanistan's, whose BBL
+    entry previously won the alphabetical order).
+    """
+    ordered = sorted(zip_paths,
+                     key=lambda p: not str(p).endswith("npl_json.zip"))
     out = {}
-    for zp in zip_paths:
+    for zp in ordered:
         with zipfile.ZipFile(zp) as z:
             for name in z.namelist():
                 if not name.endswith(".json"):
