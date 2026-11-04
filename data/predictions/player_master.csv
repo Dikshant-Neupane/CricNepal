@@ -91,6 +91,7 @@ player_s_patel,Sahil Patel,c4ee6c06,S Patel,exact,Kathmandu Gorkhas,Wicketkeeper
 player_sd_heazlett,Sam Heazlett,e00a9155,SD Heazlett,exact,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Left,Spin,Left,1995-09-12,31.1,Australia,True,confirmed,
 player_santosh_yadav,Santosh Yadav,ef342bdb,Santosh Yadav,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,Left,2002-11-06,24.0,Nepal,False,single-form,
 player_shahab_alam,Shahab Alam,cdd9fa95,Shahab Alam,exact,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Spin,Left,1997-12-28,28.8,Nepal,False,single-form,
+player_smit_patel,Smit Patel,f93b43dd,SK Patel,exact,Kathmandu Gorkhas,Wicketkeeper,s3_roster.playing_role,Right,Spin,Right,1993-05-16,33.4,USA,True,confirmed,
 player_sonu_devkota,Sonu Devkota,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Spin,,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
 player_suryanshu_koirala,Suryanshu Koirala,,,,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Non-bowler,,2008-09-02,18.1,Nepal,False,single-form,cricsheet_registry_id
 player_wg_bosisto,Will Bosisto,04ef663a,WG Bosisto,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,,1992-02-14,34.7,Australia,True,confirmed,

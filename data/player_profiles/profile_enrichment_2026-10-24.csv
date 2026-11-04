@@ -412,3 +412,8 @@ player_saif_hassan,Saif Hassan,bowling_arm,Right,Wikipedia (right arm off break)
 player_saif_hassan,Saif Hassan,date_of_birth,1998-10-30,Wikipedia; IPL profile,new profile row
 player_rahul_yadav,Rahul Yadav,country,Nepal,Kathmandu Post 29 Oct 2026 (Janakpur talent-hunt debutant from Chandranigahpur Madhesh),new profile row
 player_rahul_yadav,Rahul Yadav,bowling_type,Pace,Kathmandu Post 29 Oct 2026 (fast bowler); ICT Frame (slingy fast bowler),new profile row
+player_smit_patel,SK Patel,country,USA,Wikipedia; IPL profile; NDTV profile (National side United States),new profile row
+player_smit_patel,SK Patel,batting_hand,Right,Wikipedia; IPL profile; NDTV profile (Right-handed),new profile row
+player_smit_patel,SK Patel,bowling_type,Spin,IPL profile (Right-arm off-break); NDTV profile (Off break),new profile row
+player_smit_patel,SK Patel,bowling_arm,Right,IPL profile (Right-arm off-break),new profile row
+player_smit_patel,SK Patel,date_of_birth,1993-05-16,"Wikipedia; IPL profile; NDTV profile (Born May 16, 1993)",new profile row
