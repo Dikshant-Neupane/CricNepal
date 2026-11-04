@@ -8,8 +8,8 @@
    "player_subash_bhandari",
    "player_basir_ahamad",
    "player_n_saud",
-   "player_dilsad_ali",
    "player_prajwal_thapa",
+   "player_dilsad_ali",
    "player_sujan_thapaliya",
    "player_aprajit_poudel"
   ],
@@ -24,26 +24,26 @@
    "player_salahuddin_khan",
    "player_kushal_malla",
    "player_usama_mir",
+   "player_tom_taylor",
    "player_ashok_dhami",
-   "player_mousom_dhakal",
    "player_dj_malan",
    "player_a_saud"
   ],
-  "overseas": 5
+  "overseas": 6
  },
  "Janakpur Bolts": {
   "xi": [
    "player_kusal_perera",
    "player_parvez_hossain_emon",
    "player_harmeet_singh",
+   "player_ryan_burl",
    "player_as_routela",
    "player_a_mahata",
    "player_ln_rajbanshi",
-   "player_iftikhar_ahmed",
    "player_jds_neesham",
    "player_b_aagri",
-   "player_ak_sah",
-   "player_moeen_ali"
+   "player_saif_hassan",
+   "player_ak_sah"
   ],
   "overseas": 6
  },
@@ -56,18 +56,17 @@
    "player_p_sarraf",
    "player_sachin_sharma",
    "player_diwan_pun",
+   "player_jishan_alam",
    "player_mrj_watt",
    "player_sompal_kami",
-   "player_deepak_dumre",
-   "player_ubs_thakuri"
+   "player_deepak_dumre"
   ],
-  "overseas": 3
+  "overseas": 4
  },
  "Kathmandu Gorkhas": {
   "xi": [
    "player_sd_heazlett",
    "player_david_warner",
-   "player_rashid_khan",
    "player_shahab_alam",
    "player_wg_bosisto",
    "player_b_sharki",
@@ -75,7 +74,8 @@
    "player_mohammad_aadil_alam",
    "player_santosh_yadav",
    "player_dev_shah",
-   "player_s_patel"
+   "player_suryanshu_koirala",
+   "player_k_s_bharat"
   ],
   "overseas": 4
  },
@@ -118,13 +118,13 @@
    "player_sa_zaib",
    "player_sc_kuggeleijn",
    "player_fa_allen",
+   "player_tharindu_ratnayake",
    "player_milan_bohara",
    "player_bj_mcmullen",
    "player_aarif_sheikh",
-   "player_tek_rawat",
    "player_ayub_chand",
-   "player_h_mahara"
+   "player_tek_rawat"
   ],
-  "overseas": 5
+  "overseas": 6
  }
 }
