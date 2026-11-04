@@ -72,13 +72,17 @@ since Match 1; it does not exist yet at filing time and is not anticipated here.
 - **UPDATE 4 NOV:** Moeen's departure is now confirmed — Match 12 (3 Nov) was his
   final NPL appearance this season; he leaves with Biratnagar's Andre Russell for
   the Abu Dhabi T10 (Arabian Aces, Moeen as captain; Kathmandu Post, 3 Nov).
-  Thursday is played without Moeen, as this card's plan already assumes. Ryan Burl
-  is named by the Kathmandu Post as Moeen's replacement, but no second reliable
-  source confirms it yet, so Burl is NOT in the project squad data — flagged for
-  Dikshant's call. Ruben Trumpelmann's open question above is answered: he played
-  Match 13 (3/16, Player of the Match) as Lumbini beat Pokhara by 8 wickets. The
-  Rahul Yadav note above is superseded: he was integrated into project squad data
-  3 Nov (local registry row, debutant prior), so he is available for Thursday's XI.
+  Thursday is played without Moeen, as this card's plan already assumes. Ryan Burl,
+  named by the Kathmandu Post as Moeen's replacement, was integrated into project
+  squad data on 4 Nov on Dikshant's instruction (the signing remains single-source;
+  his registry form RP Burl was already on file, so the pipeline computes him a real
+  prior: bat index 1.1063, bowl index 0.9277, external_pro). If Burl is named in
+  Thursday's XI, the lock validates normally. Ruben Trumpelmann's open question
+  above is answered: he played Match 13 (3/16, Player of the Match) as Lumbini beat
+  Pokhara by 8 wickets. The Rahul Yadav note above is superseded twice over: he was
+  integrated into project squad data 3 Nov, and on 4 Nov the refreshed registry map
+  resolved his real cricsheet id (bd958de6; prior values unchanged, debutant), so he
+  is available for Thursday's XI.
 
 ## Their likely XI (analyst judgement, from the Match 1 XI — not announced)
 D'Arcy Short, Aasif Sheikh, Niroshan Dickwella, Rohit Paudel (c), Shamim Hossain,
