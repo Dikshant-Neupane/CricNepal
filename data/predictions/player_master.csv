@@ -1,7 +1,7 @@
 player_key,canonical_name,cricsheet_registry_id,registry_id_matched_name,registry_id_match_type,team,role,role_source,batting_hand,bowling_type,bowling_arm,date_of_birth,age_at_season_start,nationality,is_overseas,identity_status,missing_fields
 player_andre_russell,Andre Russell,bbd41817,AD Russell,initials_surname_unique,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,Right,1988-04-29,38.5,West Indies,True,single-form,
 player_ad_mathews,Angelo Mathews,896d78ad,AD Mathews,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,1987-06-02,39.4,Sri Lanka,True,single-form,
-player_aprajit_poudel,Aprajit Poudel,,,,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,Left,2007-07-08,19.3,Nepal,False,single-form,cricsheet_registry_id
+player_aprajit_poudel,Aprajit Poudel,6245b391,A Poudel,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,Left,2007-07-08,19.3,Nepal,False,single-form,
 player_basir_ahamad,Basir Ahamad,218c7eab,Basir Ahamad,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Medium Pace,Left,2001-05-15,25.4,Afghanistan,True,single-form,
 player_charith_asalanka,Charith Asalanka,732c038e,KIC Asalanka,exact,Biratnagar Kings,Batter,s3_roster.playing_role,Left,Spin,Right,1997-06-29,29.3,Sri Lanka,True,single-form,
 player_dilsad_ali,Dilsad Ali,,,,Biratnagar Kings,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2007-05-03,19.5,Nepal,False,single-form,cricsheet_registry_id
@@ -16,7 +16,7 @@ player_rupesh_singh,Rupesh Kumar Singh,30b93df1,Rupesh Singh,exact,Biratnagar Ki
 player_s_lamichhane,Sandeep Lamichhane,b410bd3d,S Lamichhane,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,Right,2000-08-02,26.2,Nepal,False,confirmed,
 player_shubham_ranjane,Shubham Ranjane,6c7a68d0,Shubham Ranjane,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Right,Pace,Right,2005-01-14,21.8,Nepal,False,single-form,
 player_subash_bhandari,Subash Bhandari,1519bdeb,Subash Bhandari,exact,Biratnagar Kings,Bowler,s3_roster.playing_role,Right,Spin,Right,2004-12-05,21.9,Nepal,False,single-form,
-player_sujan_thapaliya,Sujan Thapaliya,,,,Biratnagar Kings,All-rounder,s3_roster.playing_role,Left,Non-bowler,,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
+player_sujan_thapaliya,Sujan Thapaliya,c0550f76,S Thapaliya,exact,Biratnagar Kings,All-rounder,s3_roster.playing_role,Left,Non-bowler,,,,Nepal,False,single-form,date_of_birth
 player_a_saud,Arjun Saud,94b8d7dd,A Saud,exact,Chitwan Rhinos,Wicketkeeper,s3_roster.playing_role,Right,Medium Pace,Right,2004-09-03,22.1,Nepal,False,confirmed,
 player_ashok_dhami,Ashok Dhami,,,,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Left,2007-02-17,19.7,Nepal,False,single-form,cricsheet_registry_id
 player_b_yadav,Bibek Kumar Yadav,ef07f354,B Yadav,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Right,Pace,Right,2003-09-11,23.1,Nepal,False,confirmed,
@@ -29,7 +29,7 @@ player_gautam_kc,Gautam KC,a2ff9c85,Gautam KC,exact,Chitwan Rhinos,Bowler,s3_ros
 player_kaleem_sana,Kaleem Sana,14810ee7,Kaleem Sana,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Medium Pace,Left,1994-01-01,32.8,Canada,True,single-form,
 player_ks_airee,Kamal Singh Airee,548d4188,KS Airee,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Pace,Right,2004-07-18,22.3,Nepal,False,confirmed,
 player_kushal_malla,Kushal Malla,7e9f1cde,Kushal Malla,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Left,Medium Pace,Left,2002-11-04,24.0,Nepal,False,single-form,
-player_mousom_dhakal,Mousom Dhakal,,,,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Right,2001-01-27,25.7,Nepal,False,single-form,cricsheet_registry_id
+player_mousom_dhakal,Mousom Dhakal,9db1b072,SM Dhakal,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Right,2001-01-27,25.7,Nepal,False,single-form,
 player_r_kumar,Ranjeet Kumar,aba0f4a9,R Kumar,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Left,2003-03-19,23.6,Nepal,False,confirmed,
 player_rs_bopara,Ravi Bopara,7ca5e05d,RS Bopara,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,1985-05-04,41.5,England,True,confirmed,
 player_r_dhakal,Rijan Dhakal,8399a7af,R Dhakal,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Medium Pace,Left,1999-04-17,27.5,Nepal,False,confirmed,
@@ -43,7 +43,7 @@ player_as_routela,Amar Singh Rautela,3d74eacf,AS Routela,exact,Janakpur Bolts,Al
 player_ak_sah,Anil Kumar Sah,5b1d6583,AK Sah,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Right,Medium Pace,Right,2002-03-25,24.6,Nepal,False,confirmed,
 player_b_aagri,Bikash Aagri,179f9589,B Aagri,exact,Janakpur Bolts,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,1998-04-30,28.5,Nepal,False,confirmed,
 player_bishal_kumar_patel,Bishal Kumar Patel,,,,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Medium Pace,Left,2003-10-30,23.0,Nepal,False,single-form,cricsheet_registry_id
-player_bishal_susling,Bishal Susling,,,,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,Right,1999-12-12,26.9,Nepal,False,single-form,cricsheet_registry_id
+player_bishal_susling,Bishal Susling,3398ee3a,B Shusling,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,Right,1999-12-12,26.9,Nepal,False,single-form,
 player_harmeet_singh,Harmeet Singh,0bf15e52,Harmeet Singh,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,Left,1989-02-24,37.7,India,True,single-form,
 player_jds_neesham,Jimmy Neesham,9219eff0,JDS Neesham,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Pace,Right,1990-09-17,36.1,New Zealand,True,confirmed,
 player_kusal_perera,Kusal Perera,f21043a5,MDKJ Perera,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Left,Non-bowler,,1990-08-17,36.2,Sri Lanka,True,single-form,
@@ -51,7 +51,7 @@ player_ln_rajbanshi,Lalit Narayan Rajbanshi,6ad2d5f7,LN Rajbanshi,exact,Janakpur
 player_mayan_yadav,Mayan Yadav,c6355538,Mayan Yadav,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Spin,Right,2006-05-07,20.5,Nepal,False,single-form,
 player_moeen_ali,Moeen Ali,bb351c23,MM Ali,initials_surname_unique,Janakpur Bolts,All-rounder,s3_roster.playing_role,Left,Spin,Right,1987-06-18,39.4,England,True,single-form,
 player_parvez_hossain_emon,Parvez Hossain Emon,489aaf0a,Parvez Hossain Emon,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Left,Non-bowler,,2002-06-12,24.4,Bangladesh,True,confirmed,
-player_rahul_yadav,Rahul Yadav,,,,Janakpur Bolts,Bowler,s3_roster.playing_role,,Pace,,,,Nepal,False,single-form,cricsheet_registry_id;batting_hand;date_of_birth
+player_rahul_yadav,Rahul Yadav,bd958de6,Rahul Yadav,exact,Janakpur Bolts,Bowler,s3_roster.playing_role,,Pace,,,,Nepal,False,single-form,batting_hand;date_of_birth
 player_rit_gautam,Rit Gautam,f1471db3,Rit Gautam,exact,Janakpur Bolts,Batter,s3_roster.playing_role,Right,Non-bowler,,2001-09-17,25.1,Nepal,False,single-form,
 player_saif_hassan,Saif Hassan,bb95564b,Saif Hassan,exact,Janakpur Bolts,All-rounder,s3_roster.playing_role,Right,Spin,Right,1998-10-30,28.0,Bangladesh,True,confirmed,
 player_s_karki,Santosh Karki,4898e6fb,S Karki,exact,Janakpur Bolts,Wicketkeeper,s3_roster.playing_role,Right,Spin,Right,2003-07-20,23.3,Nepal,False,confirmed,
@@ -79,7 +79,7 @@ player_y_khatri,Yuvraj Khatri,0d705d2d,Y Khatri,exact,Karnali Yaks,Bowler,s3_ros
 player_b_sharki,Bhim Sharki,fbdc8309,B Sharki,exact,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Spin,Right,2001-09-26,25.1,Nepal,False,confirmed,
 player_david_warner,David Warner,dcce6f09,DA Warner,initials_surname_unique,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Left,Spin,Right,1986-10-27,40.0,Australia,True,single-form,
 player_dayanand_mandal,Dayanand Mandal,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Left,Medium Pace,Left,2006-11-28,19.9,Nepal,False,single-form,cricsheet_registry_id
-player_dev_shah,Dev Shah,,,,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Spin,Left,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
+player_dev_shah,Dev Shah,27cab9ef,D Shah,exact,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Spin,Left,,,Nepal,False,single-form,date_of_birth
 player_k_s_bharat,K. S. Bharat,44a89551,KS Bharat,initials_surname_unique,Kathmandu Gorkhas,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,Right,1993-10-03,33.1,India,True,single-form,
 player_karan_kc,Karan KC,f53b3e1d,Karan KC,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,Right,1993-03-01,33.7,Nepal,False,single-form,
 player_krishna_paudel,Krishna Paudel,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
@@ -126,7 +126,7 @@ player_k_thagunna,Kiran Thagunna,97d86e77,K Thagunna,exact,Pokhara Avengers,Batt
 player_k_bhurtel,Kushal Bhurtel,e3386c8a,K Bhurtel,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Medium Pace,Right,1997-11-01,29.0,Nepal,False,confirmed,
 player_mahedi_hasan,Mahedi Hasan,9dad0f2e,Mahedi Hasan,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,Right,Spin,Right,1994-12-12,31.9,Bangladesh,True,single-form,
 player_mohammad_saifuddin,Mohammad Saifuddin,b3a28446,Mohammad Saifuddin,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,Left,Medium Pace,Right,1996-11-01,30.0,Bangladesh,True,single-form,
-player_pratik_pokharel,Pratik Pokharel,,,,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Medium Pace,Right,2006-04-19,20.5,Nepal,False,single-form,cricsheet_registry_id
+player_pratik_pokharel,Pratik Pokharel,6dbb28c9,P Pokhrel,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Right,Medium Pace,Right,2006-04-19,20.5,Nepal,False,single-form,
 player_s_samarawickrama,Sadeera Samarawickrama,9ab2914d,S Samarawickrama,exact,Pokhara Avengers,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,1995-08-30,31.2,Sri Lanka,True,confirmed,
 player_s_dhakal,Sagar Dhakal,8955b928,S Dhakal,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,Right,Medium Pace,Left,2001-11-11,25.0,Nepal,False,confirmed,
 player_shakib_al_hasan,Shakib Al Hasan,7dc35884,Shakib Al Hasan,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,Left,Spin,Left,1987-03-24,39.6,Bangladesh,True,single-form,
