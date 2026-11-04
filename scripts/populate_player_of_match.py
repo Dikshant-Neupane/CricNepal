@@ -47,9 +47,11 @@ def main() -> int:
     bundle = Path(sys.argv[1])
     with zipfile.ZipFile(bundle) as z:
         pom_by_match: dict[str, str] = {}
+        bundle_ids: set[str] = set()
         for name in z.namelist():
             if not name.endswith(".json"):
                 continue
+            bundle_ids.add(f"espn_{Path(name).stem}")
             info = json.loads(z.read(name)).get("info", {})
             pom = info.get("player_of_match") or []
             if pom:
@@ -58,21 +60,31 @@ def main() -> int:
 
     df = pd.read_parquet(MATCHES)
     before = df.copy()
-    missing = [m for m in df["match_id"] if m not in pom_by_match]
+    missing = [m for m in df["match_id"] if m not in bundle_ids]
     if missing:
         print(f"ERROR: {len(missing)} table matches have no bundle "
-              f"value (e.g. {missing[:3]}); refusing to write",
+              f"JSON at all (e.g. {missing[:3]}); refusing to write",
               file=sys.stderr)
         return 1
+    # A bundle JSON that carries no player_of_match is a source gap,
+    # not a mapping break: leave those rows null and report them.
+    # (2026-11-04: espn_1558589, the 5-over rain game of 31 Oct 2026,
+    # is the one such match in the current bundle.)
+    no_pom = [m for m in df["match_id"] if m not in pom_by_match]
+    if no_pom:
+        print(f"note: {len(no_pom)} matches have a bundle JSON but no "
+              f"player_of_match; left null: {no_pom}")
     df["player_of_match"] = df["match_id"].map(pom_by_match)
-    df["player_of_match_id"] = df["player_of_match"].map(_slug)
+    df["player_of_match_id"] = df["player_of_match"].map(
+        lambda v: _slug(v) if isinstance(v, str) else v)
 
     untouched = [c for c in df.columns
                  if c not in ("player_of_match", "player_of_match_id")]
     pd.testing.assert_frame_equal(
         before[untouched].reset_index(drop=True),
         df[untouched].reset_index(drop=True))
-    assert df["player_of_match"].notna().all()
+    assert df.loc[~df["match_id"].isin(no_pom),
+                  "player_of_match"].notna().all()
     df.to_parquet(MATCHES, index=False)
     print(f"populated player_of_match (+_id) on {len(df)} matches in "
           f"{MATCHES.relative_to(ROOT)}; all other columns verified "
