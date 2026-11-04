@@ -47,9 +47,18 @@ def test_hub_squads_and_coaches_verified_counts():
 
 
 def test_hub_lock_stage_is_preseason_until_matchday_locks_exist():
+    # Renamed in substance 2026-11-04: matchday locks now exist. The hub
+    # must show the post-toss lock exactly for the fixtures that have one
+    # in the frozen log (Matches 2, 4, 6, 9, 10, 11, 12, 13) and the
+    # pre-season lock everywhere else; pre-season rows carry the frozen
+    # pre-season champion value unchanged.
     league = DATA["fixtures"][DATA["fixtures"].stage == "League"]
-    assert (league.lock_stage == "Pre-season lock").all()
-    assert (league.champion == league.champion_preseason).all()
+    locked = {2, 4, 6, 9, 10, 11, 12, 13}
+    post = league[league.lock_stage == "Post-toss lock"]
+    assert set(post.match_number) == locked
+    pre = league[league.lock_stage == "Pre-season lock"]
+    assert set(pre.match_number) == set(league.match_number) - locked
+    assert (pre.champion == pre.champion_preseason).all()
 
 
 def test_hub_survives_missing_results_parquet(tmp_path, monkeypatch):

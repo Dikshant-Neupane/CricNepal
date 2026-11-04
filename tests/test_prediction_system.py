@@ -77,7 +77,7 @@ def test_elo_properties(matches):
     assert E.expected(1900, 1500) == pytest.approx(10 / 11)
     assert E.expected(1600, 1500) + E.expected(1500, 1600) == pytest.approx(1.0)
     hist = E.compute_history(matches)
-    assert len(hist) == 64 and hist.match_id.notna().all() and hist.season.notna().all()
+    assert len(hist) == 76 and hist.match_id.notna().all() and hist.season.notna().all()
     # zero-sum updates (same MOV multiplier for both teams)
     delta = (hist.team_1_post - hist.team_1_pre) + (hist.team_2_post - hist.team_2_pre)
     assert np.allclose(delta, 0.0, atol=1e-9)
@@ -96,7 +96,7 @@ def test_compute_team_elo_rolling_has_ids(matches, tmp_path):
     matches.to_parquet(mp)
     mod.compute_elo(str(mp), str(tmp_path / "team_elo.csv"))
     rolling = pd.read_csv(tmp_path / "rolling_team_elo.csv")
-    assert len(rolling) == 64
+    assert len(rolling) == 76
     assert rolling.match_id.notna().all() and rolling.season.notna().all()
 
 
@@ -173,6 +173,6 @@ def test_simulator_output_ranges(matches):
 
 def test_match_lineups_backfilled():
     ln = pd.read_parquet(ROOT / "data/final/parquet/match_lineups.parquet")
-    assert ln.match_id.nunique() == 64
-    assert len(ln) == 64 * 22
+    assert ln.match_id.nunique() == 76
+    assert len(ln) == 76 * 22
     assert ln.cricsheet_registry_id.notna().all()

@@ -25,12 +25,17 @@ def _profiles():
 def test_approach_profiles_match_hand_verified_values():
     _, prof, _ = _profiles()
     by_team = prof.set_index("team")
-    # Hand-computed from the same dataset on 2026-10-26 (Match 1 brief).
-    assert by_team.loc["Lumbini Lions", "pp_bowl_wkts_per_match"] == 2.00
-    assert by_team.loc["Sudurpaschim Royals", "wins"] == 14
-    assert by_team.loc["Sudurpaschim Royals", "matches"] == 18
-    assert by_team.loc["Janakpur Bolts", "pp_bat_wkts_per_match"] == 2.06
-    assert by_team.loc["Janakpur Bolts", "pp_bowl_wkts_per_match"] == 1.00
+    # Hand-computed from the S1-S2 dataset on 2026-10-26 (Match 1
+    # brief); refreshed 2026-11-04 after the cricsheet Season 3
+    # ingest and independently re-verified from raw ball-by-ball
+    # (Lumbini 41 PP wickets in 19 matches; Janakpur 42 PP wickets
+    # lost and 26 taken in 21; Sudurpaschim 14/18 in S1-S2 plus 2/4
+    # in S3 = 16/22).
+    assert by_team.loc["Lumbini Lions", "pp_bowl_wkts_per_match"] == 2.16
+    assert by_team.loc["Sudurpaschim Royals", "wins"] == 16
+    assert by_team.loc["Sudurpaschim Royals", "matches"] == 22
+    assert by_team.loc["Janakpur Bolts", "pp_bat_wkts_per_match"] == 2.00
+    assert by_team.loc["Janakpur Bolts", "pp_bowl_wkts_per_match"] == 1.24
     # Canonical Season 3 spellings only — no historical variants leak.
     assert "Sudur Paschim Royals" not in by_team.index
     assert "Kathmandu Gurkhas" not in by_team.index
@@ -49,7 +54,7 @@ def test_loader_exposes_approach_h2h_and_briefs():
     import src.dashboard.page_modules.game_plan as gp
 
     data = gp.load_game_plan(Path(gp.ROOT))
-    assert data["approach"]["Lumbini Lions"]["pp_bowl_wkts_per_match"] == 2.00
+    assert data["approach"]["Lumbini Lions"]["pp_bowl_wkts_per_match"] == 2.16
     assert data["h2h"][("Janakpur Bolts", "Sudurpaschim Royals")]["a_wins"] == 1
     assert 1 in data["briefs"]  # Match 1 brief filed the same evening
     assert "Sudurpaschim" in data["briefs"][1]

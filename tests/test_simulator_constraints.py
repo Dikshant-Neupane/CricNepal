@@ -88,7 +88,13 @@ def test_seeded_match_regression_after_extraction():
     # on these pinned inputs. (A scratch capture taken during recon
     # with unrecorded inputs -- p 0.532 -- could not be reproduced
     # and is superseded by this A/B pair; see docs/WORKLOG.md.)
-    assert res["p_team_1_win"] == pytest.approx(0.46)
-    assert res["tie_rate"] == pytest.approx(0.016)
-    assert res["mean_score_1"] == pytest.approx(135.298)
-    assert res["mean_score_2"] == pytest.approx(139.928)
+    # Inputs refreshed 2026-11-04 at the corrections landing: the
+    # pinned XIs were regenerated on the corrected squads/priors
+    # (Iftikhar Ahmed removed, Ryan Burl integrated, Rashid Khan and
+    # Sahil Patel registry ids corrected) and the distributions now
+    # include Season 3 deliveries; expected values re-captured from
+    # the deterministic seeded run (seed 3, verified reproducible).
+    assert res["p_team_1_win"] == pytest.approx(0.457)
+    assert res["tie_rate"] == pytest.approx(0.014)
+    assert res["mean_score_1"] == pytest.approx(141.088)
+    assert res["mean_score_2"] == pytest.approx(144.472)

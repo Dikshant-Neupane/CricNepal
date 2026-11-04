@@ -20,10 +20,20 @@ def _matches() -> pd.DataFrame:
         ROOT / "data/normalized/matches_normalized.parquet")
 
 
+# espn_1558589 (Biratnagar v Sudurpaschim, 31 Oct 2026, the 5-over
+# rain game) is the one match whose cricsheet bundle JSON carries no
+# player_of_match at all; its null is a source gap, not a pipeline gap.
+BUNDLE_NO_POM = {"espn_1558589"}
+
+
 def test_player_of_match_populated_for_all_matches() -> None:
     df = _matches()
-    assert df["player_of_match"].notna().all()
-    assert df["player_of_match_id"].notna().all()
+    played = df[~df["match_id"].isin(BUNDLE_NO_POM)]
+    assert played["player_of_match"].notna().all()
+    assert played["player_of_match_id"].notna().all()
+    gap = df[df["match_id"].isin(BUNDLE_NO_POM)]
+    assert gap["player_of_match"].isna().all()
+    assert gap["player_of_match_id"].isna().all()
 
 
 def test_player_of_match_spot_values_match_the_bundle() -> None:
@@ -37,6 +47,7 @@ def test_player_of_match_spot_values_match_the_bundle() -> None:
 
 def test_player_of_match_id_is_the_ingest_slug() -> None:
     df = _matches()
-    expected = ("player_" + df["player_of_match"].str.strip().str.lower()
-                .str.replace(" ", "_"))
-    assert (df["player_of_match_id"] == expected).all()
+    populated = df[df["player_of_match"].notna()]
+    expected = ("player_" + populated["player_of_match"].str.strip()
+                .str.lower().str.replace(" ", "_"))
+    assert (populated["player_of_match_id"] == expected).all()

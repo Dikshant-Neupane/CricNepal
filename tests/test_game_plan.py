@@ -35,7 +35,7 @@ def test_gameplan_loader_visual_data():
 
     data = gp.load_game_plan(Path(gp.ROOT))
     venue = data["venue"]
-    assert venue["par_mean"] == 147.5
+    assert venue["par_mean"] == 146.0
     dn = venue["by_slot"]["Day-Night"]
     assert dn["mean"] == 160.3 and dn["matches"] == 9
     assert 55.0 < venue["spin_share"] < 58.0

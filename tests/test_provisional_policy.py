@@ -152,8 +152,14 @@ def test_lock_matchday_records_provisional_basis(tmp_path):
     for sub in ("data/normalized", "data/predictions", "data/fixtures",
                 "data/results"):
         (tmp_path / sub).mkdir(parents=True, exist_ok=True)
-    shutil.copy(ROOT / "data/normalized/matches_normalized.parquet",
-                tmp_path / "data/normalized/matches_normalized.parquet")
+    # Canonical layer WITHOUT Season 3: this test exercises the
+    # provisional bridge as it stood before the cricsheet S3 ingest
+    # (2026-11-04) superseded the Match 1 provisional row.
+    _canon = pd.read_parquet(
+        ROOT / "data/normalized/matches_normalized.parquet")
+    _canon[_canon["season"] != "S3"].to_parquet(
+        tmp_path / "data/normalized/matches_normalized.parquet",
+        index=False)
     for f in ("player_priors.csv", "model_v1.json", "frozen_log.csv"):
         shutil.copy(PRED / f, tmp_path / "data/predictions" / f)
     shutil.copy(ROOT / "data/fixtures/s3_fixtures.csv",
@@ -191,8 +197,14 @@ def test_status_sidecar_provisional_fields(tmp_path):
     for sub in ("data/normalized", "data/fixtures", "data/results",
                 "data/predictions"):
         (tmp_path / sub).mkdir(parents=True, exist_ok=True)
-    shutil.copy(ROOT / "data/normalized/matches_normalized.parquet",
-                tmp_path / "data/normalized/matches_normalized.parquet")
+    # Canonical layer WITHOUT Season 3 (see the lock test above):
+    # data_as_of is then Season 2's last match date, and the two
+    # provisional rows apply rather than being superseded.
+    _canon = pd.read_parquet(
+        ROOT / "data/normalized/matches_normalized.parquet")
+    _canon[_canon["season"] != "S3"].to_parquet(
+        tmp_path / "data/normalized/matches_normalized.parquet",
+        index=False)
     shutil.copy(ROOT / "data/fixtures/s3_fixtures.csv",
                 tmp_path / "data/fixtures/s3_fixtures.csv")
     rows = []
@@ -216,8 +228,17 @@ def test_status_sidecar_provisional_fields(tmp_path):
 
 # ------------------------------------------- production state stays clean
 def test_production_provisional_file_is_empty_and_canonical():
+    # Pre-season this asserted the production file was header-only.
+    # Since the cricsheet Season 3 ingest (2026-11-04) the durable
+    # invariant is the stronger one: the file keeps the season's
+    # provisional capture records as an audit trail, but EVERY one of
+    # them is superseded by canonical data, none is applied, and no
+    # provisional winner disagrees with the ingested winner.
     prov = PV.load_provisional(ROOT)
-    assert len(PV.effective_rows(prov)) == 0  # header only: no results yet
+    eff = PV.effective_rows(prov)
     ctx = engine.load_context(ROOT)
-    assert ctx["provisional_info"]["ratings_basis"] == "canonical"
-    assert ctx["provisional_info"]["n_provisional_applied"] == 0
+    info = ctx["provisional_info"]
+    assert info["ratings_basis"] == "canonical"
+    assert info["n_provisional_applied"] == 0
+    assert info["n_provisional_superseded"] == len(eff)
+    assert info["provisional_disagreements"] == []

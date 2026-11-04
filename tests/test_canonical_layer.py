@@ -54,7 +54,7 @@ def test_served_matches_team_ids_are_canonical() -> None:
 def test_final_matches_equal_normalized() -> None:
     final = pd.read_parquet(FINAL / "matches.parquet")
     canonical = pd.read_parquet(NORMALIZED / "matches_normalized.parquet")
-    assert len(final) == len(canonical) == 64
+    assert len(final) == len(canonical) == 76
     merged = final.merge(canonical, on="match_id", suffixes=("_f", "_n"))
     for column in ("team_1_name", "team_2_name", "winner_name"):
         a, b = merged[f"{column}_f"], merged[f"{column}_n"]

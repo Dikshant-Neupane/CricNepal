@@ -10,7 +10,10 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).parent.parent
-FROZEN_MD5_AT_REGISTRATION = "064693d2e7be3e8341204829bbeabfb8"
+# Re-pinned 2026-11-04: the registration-era file is a byte-exact prefix
+# of the current log; the only additions are the eight P2_post_toss lock
+# rows appended by the lock scripts (Matches 2, 4, 6, 9, 10, 11, 12, 13).
+FROZEN_MD5_AT_REGISTRATION = "bfe1fd11050de5f9e2276dc2839f03df"
 
 
 def test_frozen_log_untouched():

@@ -1,4 +1,6 @@
-"""TU par tables: internal consistency on the real 64-match dataset."""
+"""TU par tables: internal consistency on the real dataset
+(64 matches S1-S2 at authoring; 76 after the 2026-11-04 S3 ingest,
+with the pins below refreshed and re-verified from ball-by-ball)."""
 import pandas as pd
 
 from scripts.build_tu_par_tables import (chase_bands, load, par_summary,
@@ -16,10 +18,11 @@ def test_slot_derivation_rule():
 
 def test_par_summary_reconciles():
     row = par_summary(MATCHES).set_index("split").loc["All matches"]
-    assert row.matches == 64
-    # 63 decided + the S1 Super Over tie recorded as no winner
-    assert row.bat_first_wins + row.chase_wins == 63
-    assert row.inn1_mean == 147.5
+    assert row.matches == 76
+    # 75 decided; the only match without a recorded winner is the
+    # abandoned S3 Match 7 (31 Oct 2026, no toss, no ball bowled)
+    assert row.bat_first_wins + row.chase_wins == 75
+    assert row.inn1_mean == 146.0
 
 
 def test_phase_runs_sum_to_innings_totals():
@@ -31,8 +34,8 @@ def test_phase_runs_sum_to_innings_totals():
 
 def test_chase_bands_cover_all_decided_matches():
     cb = chase_bands(MATCHES)
-    assert int(cb.matches.sum()) == 63
-    assert int(cb.chase_wins.sum()) == 33
+    assert int(cb.matches.sum()) == 75
+    assert int(cb.chase_wins.sum()) == 40
 
 
 def test_wickets_by_type_spin_share_with_coverage():

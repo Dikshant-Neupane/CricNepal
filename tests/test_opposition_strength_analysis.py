@@ -189,7 +189,7 @@ def test_real_dataset_jab_summary_has_both_seasons(real_matches):
     history = compute_elo_history(real_matches)
     opp = opposition_strength_for_team(history, TEAM)
     summary = season_summary(opp)
-    assert set(summary["season"].tolist()) == {"S1", "S2"}
+    assert set(summary["season"].tolist()) == {"S1", "S2", "S3"}
 
 
 def test_real_dataset_wae_signs_match_intuition(real_matches):

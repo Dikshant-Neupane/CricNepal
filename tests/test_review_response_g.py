@@ -59,9 +59,10 @@ def order(matches):
 def test_registry_mapping_is_total_over_frozen_log():
     log = pd.read_csv(PRED / "frozen_log.csv")
     present = set(log["stage"].unique())
-    assert present == {"P1_preseason_expected_xi", "SIM_shadow_preseason"}
+    assert present == {"P1_preseason_expected_xi", "SIM_shadow_preseason",
+                       "P2_post_toss"}
     canonicals = {STAGES.canonical_stage(s) for s in present}
-    assert canonicals == {"P0_PRESEASON", "SIM_SHADOW"}
+    assert canonicals == {"P0_PRESEASON", "SIM_SHADOW", "P2_POST_TOSS"}
     # every stored string maps to exactly one canonical name (a dict
     # lookup — totality is the assertion that none of these raised)
 
@@ -206,7 +207,11 @@ def test_g2b_priors_asof_cutoff_npl_data_verified():
             if mdate < cutoff:
                 continue
             if mdate >= S2_ASOF:
-                n_after += 1
+                # S2 only: the bundle also carries Season 3 now
+                # (refreshed 2026-11-04); those matches are not part of
+                # this S2 as-of verification and are skipped, not counted.
+                if mdate < date(2026, 1, 1):
+                    n_after += 1
                 continue
             n_before += 1
             w = 0.5 ** ((S2_ASOF - mdate).days / P.HALF_LIFE_DAYS)

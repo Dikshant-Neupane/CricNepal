@@ -60,7 +60,11 @@ def test_manifest_builds_and_verifies(tmp_path):
     stages = manifest["frozen_log"]["stages"]
     assert stages["P1_preseason_expected_xi"]["rows"] == 28
     assert stages["SIM_shadow_preseason"]["rows"] == 28
-    assert manifest["frozen_log"]["rows"] == 56
+    # 8 P2_post_toss rows appended by the lock scripts during S3
+    # (Matches 2, 4, 6, 9, 10, 11, 12, 13) on top of the 56
+    # registration-era rows; the log's earlier content is byte-stable.
+    assert stages["P2_post_toss"]["rows"] == 8
+    assert manifest["frozen_log"]["rows"] == 64
 
 
 def test_manifest_verify_detects_tampering(tmp_path):
@@ -178,4 +182,7 @@ def test_resolution_log_integrity():
         assert row["cricsheet_registry_id"] == r["resolved_id"]
         assert row["registry_id_matched_name"] == r["registry_matched_name"]
         assert "cricsheet_registry_id" not in str(row["missing_fields"])
-    assert master["cricsheet_registry_id"].isna().sum() == 23
+    # 23 at the hardening pass; the 2026-11-04 registry refresh
+    # resolved seven more ids and the squad integrations added one
+    # net unresolved row: 17 players still carry no cricsheet id.
+    assert master["cricsheet_registry_id"].isna().sum() == 17
