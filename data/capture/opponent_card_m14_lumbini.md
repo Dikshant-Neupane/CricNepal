@@ -83,6 +83,15 @@ since Match 1; it does not exist yet at filing time and is not anticipated here.
   integrated into project squad data 3 Nov, and on 4 Nov the refreshed registry map
   resolved his real cricsheet id (bd958de6; prior values unchanged, debutant), so he
   is available for Thursday's XI.
+- **UPDATE 5 NOV (correction to the 4 Nov note above):** only half of that
+  departure stands. Moeen's exit is confirmed, but Andre Russell is STAYING
+  for one more match — his own words after Match 12 ("I will play one more
+  match. I love Nepal so much, I am staying."; Kathmandu Post / cricnepal.com,
+  4 Nov) — and he plays for Biratnagar against Kathmandu today (Match 15,
+  17:00). This correction does not touch Thursday's plan: the plan is
+  Moeen-less either way, and Russell does not affect this fixture — he
+  plays in today's second match (Match 15), not in Match 14. Separately, David Miller's arrival (Karnali, 4 Nov) and
+  K. S. Bharat's withdrawal (Kathmandu, 4 Nov) do not affect this fixture.
 
 ## Their likely XI (analyst judgement, from the Match 1 XI — not announced)
 D'Arcy Short, Aasif Sheikh, Niroshan Dickwella, Rohit Paudel (c), Shamim Hossain,
