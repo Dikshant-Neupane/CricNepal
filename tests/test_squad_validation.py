@@ -46,4 +46,6 @@ def test_real_master_report_values():
     # review, exactly what the report exists for.
     assert rep.loc["Janakpur Bolts", "n_overseas"] == 7
     assert rep.loc["Biratnagar Kings", "n_overseas"] == 5
-    assert int(rep["overseas_within_reported_range"].sum()) == 4
+    # 5 since 2026-11-05: K. S. Bharat's removal brought Kathmandu's
+    # overseas squad count back inside the reported 6-8 range.
+    assert int(rep["overseas_within_reported_range"].sum()) == 5

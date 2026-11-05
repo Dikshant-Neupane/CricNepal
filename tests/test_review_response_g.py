@@ -302,7 +302,7 @@ def test_g3_no_prediction_input_reads_legacy_primary_role():
 def test_g3_master_roles_sourced_varied_and_consumed():
     master = pd.read_csv(PRED / "player_master.csv")
     assert master["role"].value_counts().to_dict() == {
-        "All-rounder": 59, "Bowler": 44, "Batter": 34, "Wicketkeeper": 22}
+        "All-rounder": 59, "Bowler": 44, "Batter": 34, "Wicketkeeper": 21}
     assert set(master["role_source"]) == {"s3_roster.playing_role"}
     # the role column actually consumed downstream (priors -> XI
     # selector / simulator priors) is the master's, per player_key

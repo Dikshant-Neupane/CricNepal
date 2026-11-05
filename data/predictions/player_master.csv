@@ -85,7 +85,6 @@ player_dayanand_mandal,Dayanand Mandal,,,,Kathmandu Gorkhas,Bowler,s3_roster.pla
 player_dev_shah,Dev Shah,27cab9ef,D Shah,exact,Kathmandu Gorkhas,Batter,s3_roster.playing_role,Right,Spin,Left,,,Nepal,False,single-form,date_of_birth
 player_harishankar_shah,Harishankar Shah,afb3b840,H Shah,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,,,,,,Nepal,False,confirmed,batting_hand;bowling_type;date_of_birth
 player_jahandad_khan,Jahandad Khan,22d73540,Jahandad Khan,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Left,Pace,Left,2003-06-16,23.4,Pakistan,True,confirmed,
-player_k_s_bharat,K. S. Bharat,44a89551,KS Bharat,initials_surname_unique,Kathmandu Gorkhas,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,Right,1993-10-03,33.1,India,True,single-form,
 player_karan_kc,Karan KC,f53b3e1d,Karan KC,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Spin,Right,1993-03-01,33.7,Nepal,False,single-form,
 player_krishna_paudel,Krishna Paudel,,,,Kathmandu Gorkhas,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,,,Nepal,False,single-form,cricsheet_registry_id;date_of_birth
 player_mohammad_aadil_alam,Mohammad Aadil Alam,70ced7f2,Mohammad Aadil Alam,exact,Kathmandu Gorkhas,All-rounder,s3_roster.playing_role,Right,Medium Pace,Right,2003-10-18,23.0,Nepal,False,single-form,
