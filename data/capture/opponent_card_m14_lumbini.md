@@ -3,15 +3,17 @@
 Sources: project priors (S1+S2 cricsheet + external T20 history), TU par tables (our 64 matches),
 verified Season 3 scorecard for Match 1, squad file as verified 3 Nov, press as cited.
 Unknowns are stated, never filled in.
-Lumbini are the defending champions and sit third on 3 points: won Match 1 v Sudurpaschim
-by 7 wickets (87 all out chased in 9.5 overs), then Match 7 v Chitwan was abandoned without
-a toss on a waterlogged ground (points shared, no ball bowled). Their Season 3 form is
-therefore exactly one completed match — and that match is already eight days old at filing.
-READ THIS CARD AFTER TODAY: Lumbini play Match 13 v Pokhara this evening (Tue 3 Nov, 17:00)
-and Janakpur play Match 12 v Biratnagar today at 12:30. Both of those results land after
-this card is filed and before Thursday, so the S3 form lines below, the Bolts side below,
-and the rest note are all pre-Tuesday-evening. Match 13 is the first new Lumbini evidence
-since Match 1; it does not exist yet at filing time and is not anticipated here.
+Lumbini are the defending champions and sit top on 5 points: won Match 1 v Sudurpaschim
+by 7 wickets (87 all out chased in 9.5 overs), Match 7 v Chitwan was abandoned without
+a toss on a waterlogged ground (points shared, no ball bowled), and they beat Pokhara
+in Match 13 by 8 wickets (97/9 chased in 11.4 overs). Janakpur are 2–2 after losing
+Match 12 to Biratnagar by 2 runs.
+CORRECTED 6 NOV (post-match cleanup, on Dikshant's instruction): this card was filed
+Tue 3 Nov, before Matches 12 and 13 were played, and its first draft still carried
+that pre-Tuesday framing in places. The header, the Trumpelmann section, the likely
+XI and the Janakpur section have been rewritten to the facts as settled on the
+morning of the match (5 Nov); the priors, the conditions line, the plan and the
+honesty note are unchanged from filing.
 
 ## Availability sweep (3 Nov)
 - **PLAYED MATCH 1, OVERSEAS CORE:** D'Arcy Short — 40 off 18 opening in Match 1.
@@ -24,14 +26,12 @@ since Match 1; it does not exist yet at filing time and is not anticipated here.
   alongside seven Nepalis (tournament rule, reported by the Kathmandu Post), so one of
   the five sits out if all are available — Match 1 used four (Short, Dickwella, Shamim,
   van Schalkwyk) on the evidence of the batting and bowling rows.
-- **TRUMPELMANN — THE OPEN QUESTION:** Ruben Trumpelmann has NO batting or bowling row
-  in the Match 1 scorecard. That does not prove he did not play — the chase ended at
-  88/3 in 9.5 overs, so two XI spots never batted and the bowling was shared by five
-  bowlers — but it does mean no Match 1 evidence exists for him in this tournament.
-  He was the 2025 player of the series and is the one overseas name whose Match 1 role
-  cannot be established from the scorecard. Whether he plays Thursday, and whether he
-  opens the bowling if he does, is the live selection question, and Match 13 tonight
-  is the first chance to answer it.
+- **TRUMPELMANN — ANSWERED IN MATCH 13:** Ruben Trumpelmann had no batting or bowling
+  row in the Match 1 scorecard, so at filing his role was the open question. Match 13
+  settled it: he played, opened the bowling, struck in the first over and finished
+  with 3/16 in 4 overs as Lumbini beat Pokhara by 8 wickets. On that evidence he is
+  one of Lumbini's four overseas players for Thursday, and surviving his new-ball
+  spell is the first batting task — Pokhara were 15/3 inside four overs against it.
 - **DOMESTIC CORE — PLAYED MATCH 1:** captain Rohit Paudel (5 not out off 3, 1/4 in
   1.2 overs), Kishore Mahato (4/28 in 4 overs), Sher Malla (3/11 in 4 overs, Player of
   the Match), Tilak Raj Bhandari (1/18 in 4 overs). No absence or injury report for any
@@ -47,9 +47,12 @@ since Match 1; it does not exist yet at filing time and is not anticipated here.
 - **CAPTAIN / COACH:** Rohit Paudel (c), Tinu Yohannan (head coach, coached Lumbini to
   the Season 2 title) — s3_coaches.csv. Lumbini finished bottom in Season 1, then won
   Season 2; no team has yet defended the NPL title.
-- **JANAKPUR SIDE — BEFORE MATCH 12 TODAY:** the Bolts are 2–1 (lost Match 3 v Karnali
-  by 19 runs, beat Kathmandu in Match 5 by 8 wickets, beat Pokhara in Match 9 by 9 runs
-  — verified scorecards; brief_m03, brief_m05, brief_m09). The Match 9 XI was Moeen Ali,
+- **JANAKPUR SIDE — AFTER MATCH 12:** the Bolts are 2–2 (lost Match 3 v Karnali
+  by 19 runs, beat Kathmandu in Match 5 by 8 wickets, beat Pokhara in Match 9 by 9 runs,
+  lost Match 12 v Biratnagar by 2 runs — verified scorecards; brief_m03, brief_m05,
+  brief_m09, brief_m12). In Match 12 the chase of 175 died in the powerplay (40/3):
+  Moeen Ali and Trit Raj Das opened, and Anil Sah batted at four for a duck — the
+  opener question (blueprint: Anil opens) is live going into Thursday. The Match 9 XI was Moeen Ali,
   Trit Raj Das, Saif Hassan, Harmeet Singh (captain), Anil Sah (wicketkeeper), James
   Neesham, Abhisekh Tiwari, Amar Routela, Lalit Rajbanshi, Mayan Yadav and Rahul Yadav.
   Jimmy Neesham RETURNED in Match 9 (11 off 11 + 1/16) after being benched for Match 5
@@ -58,9 +61,9 @@ since Match 1; it does not exist yet at filing time and is not anticipated here.
   Janakpur" — Kathmandu Post, 29 Oct) and were removed from the verified project squad
   data 31 Oct. Parvez Hossain Emon (signed 29 Oct) has NOT appeared in a Season 3
   scorecard through Match 9. Rahul Yadav was Player of the Match in Match 5 (4/31) and
-  bowled again in Match 9, but is NOT in player_master.csv (no cricsheet registry form
-  found) — flagged to Dikshant, not hand-added; if he is in Thursday's XI, lock
-  validation will fail the same way it did for Matches 9, 10 and 11.
+  bowled again in Match 9; he was integrated into player_master.csv on 3 Nov and the
+  refreshed registry map resolved his real cricsheet id (bd958de6) on 4 Nov, so a
+  Thursday XI containing him validates normally.
 - **MOEEN ALI — READ THIS FIRST:** Moeen is on a FOUR-MATCH stint only (his own words,
   Kathmandu Post, 29 Oct): Matches 3, 5 and 9 played, so Match 12 today is his LAST
   match unless an extension is reported. No extension report was found in this sweep.
@@ -78,7 +81,7 @@ since Match 1; it does not exist yet at filing time and is not anticipated here.
   his registry form RP Burl was already on file, so the pipeline computes him a real
   prior: bat index 1.1063, bowl index 0.9277, external_pro). If Burl is named in
   Thursday's XI, the lock validates normally. Ruben Trumpelmann's open question
-  above is answered: he played Match 13 (3/16, Player of the Match) as Lumbini beat
+  above is answered: he played Match 13 (3/16) as Lumbini beat
   Pokhara by 8 wickets. The Rahul Yadav note above is superseded twice over: he was
   integrated into project squad data 3 Nov, and on 4 Nov the refreshed registry map
   resolved his real cricsheet id (bd958de6; prior values unchanged, debutant), so he
@@ -93,20 +96,18 @@ since Match 1; it does not exist yet at filing time and is not anticipated here.
   plays in today's second match (Match 15), not in Match 14. Separately, David Miller's arrival (Karnali, 4 Nov) and
   K. S. Bharat's withdrawal (Kathmandu, 4 Nov) do not affect this fixture.
 
-## Their likely XI (analyst judgement, from the Match 1 XI — not announced)
+## Their likely XI (analyst judgement, from the Match 13 XI — not announced)
 D'Arcy Short, Aasif Sheikh, Niroshan Dickwella, Rohit Paudel (c), Shamim Hossain,
-Sundeep Jora, Shadley van Schalkwyk, Sher Malla, Kishore Mahato, Tilak Raj Bhandari,
+Sundeep Jora, Abhishesh Gautam, Sher Malla, Kishore Mahato, Tilak Raj Bhandari,
 Ruben Trumpelmann.
-This is the Match 1 core (the nine identified players) plus Jora for a middle-order
-spot and Trumpelmann for the fifth-bowler spot — both are judgement calls, not
-scorecard facts. Changes from Match 1 to watch: Trumpelmann in or out (see above);
-Dilip Nath or Aakash Tripathi in for a batter if Dickwella keeps or Jora drops;
-Abhishesh Gautam recalled for a seamer (his prior powerplay economy, 5.893, is the
-best powerplay number on their card — see below). Note on overseas count: this XI
-carries four overseas players (Short, Dickwella, Shamim, van Schalkwyk) plus
-Trumpelmann would make five — so Trumpelmann in means one of the other four out,
-unless the Match 1 XI already carried him in an unidentified spot. Do not name a
-five-overseas XI.
+This is the XI Lumbini actually fielded in Match 13, carried forward as the
+likeliest Thursday side. It carries exactly four overseas players (Short,
+Dickwella, Shamim Hossain, Trumpelmann): Shadley van Schalkwyk, who played
+Match 1, was benched in Match 13 to make the four — the five-overseas list in
+this card's first draft was an error against the tournament's four-overseas
+cap. Changes from Match 13 to watch: van Schalkwyk recalled only if one of
+the four overseas drops; Dilip Nath or Aakash Tripathi in for a batter if
+Dickwella keeps or Jora drops.
 Note: the frozen pre-season engine XI for this match differs (it names Abhishesh
 Gautam, Ajay Chauhan and Dinesh Adhikari, none of whom has a Match 1 row) — a frozen
 engine XI is not a prediction of the announced XI.
@@ -170,9 +171,9 @@ engine XI is not a prediction of the announced XI.
   prior, one game.
 - **Ruben Trumpelmann, econ 8.333 — PP 7.359 (309.1 balls) / middle 7.289 /
   death 9.773 (184.3 balls).** The most attackable bowler on their card on our
-  numbers, in every phase — and the least evidenced in this tournament, with no
-  Match 1 bowling row. If he plays, his overs are the ones to take; if he does
-  not, this line is moot. Do not plan around a bowler who may not play.
+  numbers, in every phase — but now evidenced in this tournament: Match 13,
+  3/16 in 4 overs with a first-over wicket. The prior says his overs are the
+  ones to take; Match 13 says survive the new-ball spell first.
 - **Shamim Hossain, econ 7.255 — middle 6.807 (70.9 balls) / death 8.907.**
   Part-time spin, middle-overs only on this evidence. He did not bowl in Match 1.
 
@@ -212,10 +213,9 @@ rain-affected, which this card cannot know.
   that form leaves with him after Match 12; Trit Raj Das 61 off 55 in Match 9
   (exactly at his 1.1159 prior); Saif Hassan 40 not out off 39 + 2/11 in Match 5,
   then 1 off 9 in Match 9; Harmeet Singh 3/22 + 19 off 13 in Match 3; Rahul Yadav
-  4/31 in Match 5 (Player of the Match) — but he has no project prior row,
-  so no prior comparison is drawn for him. Match 12 today adds a fourth data
-  point for the Bolts before Thursday; this section is stale the moment it
-  finishes.
+  4/31 in Match 5 (Player of the Match) — integrated 3 Nov on a debutant prior,
+  so no prior comparison is drawn for him. Match 12 added a fourth data
+  point for the Bolts before Thursday (2-run loss; powerplay collapse 40/3).
 - **Read-across:** priors, not form, drive this card. Nothing in the sweep
   contradicts the priors — except that Short's Match 1 innings (2.22 runs per
   ball) sits far above his 1.1684 prior, which is one innings, not a trend,
