@@ -45,6 +45,22 @@ from src.prediction import stages as STAGES  # noqa: E402
 MODEL_VERSION_V11 = "v1.1"
 
 
+# Scorecard spelling variants that resolve_players must accept.
+# The published XI may spell a player the way a scorecard does rather
+# than the way the roster does; resolve_players otherwise accepts only
+# player_key or the exact canonical name, so a variant spelling fails
+# the P1 lock with "player not found in player master".
+# "Ranjit Kumar" -> player_r_kumar (Ranjeet Kumar, Chitwan Rhinos):
+# Match 2 scorecard spells him "Ranjeet Kumar", Match 11 spells him
+# "Ranjit Kumar" (3/28); Chitwan have only one R Kumar on the roster;
+# cricsheet registry "R Kumar" -> aba0f4a9, the id on the master row.
+# No model input changes: this only maps the name to the existing key,
+# so the priors, XI strength and lock values are unchanged.
+XI_NAME_ALIASES = {
+    "Ranjit Kumar": "player_r_kumar",
+}
+
+
 # ---------------------------------------------------------------- XI input
 def resolve_players(df: pd.DataFrame, master: pd.DataFrame) -> pd.DataFrame:
     """Map the 'player' column (player_key or canonical name) to
@@ -58,6 +74,8 @@ def resolve_players(df: pd.DataFrame, master: pd.DataFrame) -> pd.DataFrame:
             return v
         if v in by_name:
             return by_name[v]
+        if v in XI_NAME_ALIASES:
+            return XI_NAME_ALIASES[v]
         raise ValueError(f"player not found in player master: {v!r} "
                          f"(use player_key or exact canonical name)")
     out["player_key"] = out["player"].map(res)
