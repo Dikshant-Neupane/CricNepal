@@ -2,3 +2,4 @@ match_id,date,slot,strip_id,strip_read,grass_cover,dew_expected,dew_onset_over,d
 s3_2026_01,2026-10-26,17:00,,,,,,,,,,Lumbini Lions,field,,Sher Malla,Lumbini won by 7 wickets (61 balls remaining); source: ESPNcricinfo full scorecard
 s3_2026_14,2026-11-05,12:30,,,,,,,,,,Janakpur Bolts,field,,Rohit Paudel,"Lumbini won by 16 runs; source: Cricbuzz full scorecard, cross-checked CricTracker"
 s3_2026_15,2026-11-05,17:00,,,,,,,,,,Kathmandu Gorkhas,field,,Santosh Yadav,"Kathmandu won by 9 wickets; source: Cricbuzz full scorecard, cross-checked CricTracker"
+s3_2026_16,2026-11-06,12:30,,,,,,,,,,Karnali Yaks,field,,David Miller,"Sudurpaschim won by 39 runs; source: ESPNcricinfo full scorecard, cross-checked Cricbuzz"
