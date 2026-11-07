@@ -5,12 +5,18 @@ scorecard, cross-checked against the Cricbuzz full scorecard, the
 CricTracker live scorecard and the Possible11 full scorecard. The
 sources agree on both totals, the result, every batting line and every
 bowling line except one run in Lumbini's innings, which is attributed
-three ways: ESPNcricinfo shows Sundeep Jora 44 off 45, no byes and 6
-penalty runs; Cricbuzz shows Jora 45 off 46, no byes and 5 penalty runs
-(though its own ball-by-ball dismissal line says 44 off 45); Possible11
-shows Jora 44 off 45, 1 bye and 5 penalty runs. All three versions close
-at 124; the capture follows ESPNcricinfo, the primary source. Two
-spelling notes: the press spells the Lumbini anchor "Sandeep Jora" and
+three ways: ESPNcricinfo's final scorecard shows Sundeep Jora 44 off
+45, no byes and 6 penalty runs; Cricbuzz's table shows Jora 45 off 46,
+no byes and 5 penalty runs (though its own ball-by-ball dismissal line
+says 44 off 45, and a second Cricbuzz read shows 1 bye and 15 extras);
+Possible11 shows Jora 44 off 45, 1 bye and 5 penalty runs. All three
+versions close at 124; the capture uses Jora 44, 1 bye and 5 penalty
+runs — the version the earlier evening run verified from Cricbuzz,
+KhelNow and Possible11, and the only one consistent with penalty runs
+coming in fives under the Laws. Correction note: the first commit of
+this capture followed ESPNcricinfo's 6 penalty runs / no byes; it was
+corrected the same evening to 1 bye / 5 penalty runs. Two spelling
+notes: the press spells the Lumbini anchor "Sandeep Jora" and
 Possible11's squad list spells the Kathmandu batter "Mohammad Aadil
 Shaan"; the capture uses "Sundeep Jora" and "Mohammad Aadil Alam" per
 ESPNcricinfo and the player master. ESPNcricinfo spells the Lumbini
@@ -198,8 +204,8 @@ Lumbini Lions 124 all out (19.3 overs): D'Arcy Short 4 (7), Aasif
 Sheikh 1 (2), Niroshan Dickwella 14 (7), Rohit Paudel 0 (2), Sundeep
 Jora 44 (45), Dilip Nath 0 (2), Grant Stewart 6 (3), Ruben
 Trumpelmann 11 (16), Abhishesh Gautam 16 (17), Sher Malla 12 (15),
-Tilak Raj Bhandari 1 not out (3). Extras 15 (lb 1, nb 2, w 6, pen
-6). Bowling: Karan KC 4-1-24-2, Jahandad Khan 4-0-23-4, Shahab Alam
+Tilak Raj Bhandari 1 not out (3). Extras 15 (b 1, lb 1, nb 2, w 6, pen
+5). Bowling: Karan KC 4-1-24-2, Jahandad Khan 4-0-23-4, Shahab Alam
 4-0-18-1, Santosh Yadav 4-0-32-1, Rashid Khan 3-0-20-1, Sahan
 Arachchige 0.3-0-0-1.
 
