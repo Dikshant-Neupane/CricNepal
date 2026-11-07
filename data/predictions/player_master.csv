@@ -110,6 +110,7 @@ player_djm_short,D'Arcy Short,1a156c88,DJM Short,exact,Lumbini Lions,Batter,s3_r
 player_d_nath,Dilip Nath,d019608b,D Nath,exact,Lumbini Lions,Wicketkeeper,s3_roster.playing_role,Right,Non-bowler,,2004-02-28,22.7,Nepal,False,confirmed,
 player_d_adhikari,Dinesh Adhikari,bd4fb3ba,D Adhikari,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Pace,Right,2004-10-16,22.0,Nepal,False,confirmed,
 player_d_gupta,Durgesh Gupta,762ea5b1,D Gupta,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Pace,Left,2004-12-25,21.8,Nepal,False,confirmed,
+player_g_stewart,Grant Stewart,a77472dc,G Stewart,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,Right,Pace,Right,1994-02-19,32.7,Italy,True,confirmed,
 player_k_mahato,Kishore Mahato,d913103d,K Mahato,exact,Lumbini Lions,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,2000-04-02,26.6,Nepal,False,confirmed,
 player_n_dickwella,Niroshan Dickwella,45963d9e,N Dickwella,exact,Lumbini Lions,Wicketkeeper,s3_roster.playing_role,Left,Non-bowler,,1993-06-25,33.3,Sri Lanka,True,confirmed,
 player_rk_paudel,Rohit Paudel,1a3cc554,RK Paudel,exact,Lumbini Lions,All-rounder,s3_roster.playing_role,Right,Spin,Right,2002-07-06,24.3,Nepal,False,confirmed,

@@ -48,4 +48,6 @@ def test_real_master_report_values():
     assert rep.loc["Biratnagar Kings", "n_overseas"] == 5
     # 5 since 2026-11-05: K. S. Bharat's removal brought Kathmandu's
     # overseas squad count back inside the reported 6-8 range.
-    assert int(rep["overseas_within_reported_range"].sum()) == 5
+    # 6 since 2026-11-07: Grant Stewart's integration brought Lumbini's
+    # overseas squad count (6) inside the reported 6-8 range.
+    assert int(rep["overseas_within_reported_range"].sum()) == 6
