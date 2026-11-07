@@ -60,12 +60,13 @@ def test_manifest_builds_and_verifies(tmp_path):
     stages = manifest["frozen_log"]["stages"]
     assert stages["P1_preseason_expected_xi"]["rows"] == 28
     assert stages["SIM_shadow_preseason"]["rows"] == 28
-    # 10 P2_post_toss rows appended by the lock scripts during S3
-    # (Matches 2, 4, 6, 9, 10, 11, 12, 13, 14, 15) on top of the 56
+    # 13 P2_post_toss rows appended by the lock scripts during S3
+    # (Matches 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18) plus the
+    # season's first P1_post_XI row (Match 16), on top of the 56
     # registration-era rows; the log's earlier content is byte-stable
-    # (prefix-verified 2026-11-06 against the b664b06 snapshot).
-    assert stages["P2_post_toss"]["rows"] == 10
-    assert manifest["frozen_log"]["rows"] == 66
+    # (prefix-verified 2026-11-07 against the c01ff82 snapshot).
+    assert stages["P2_post_toss"]["rows"] == 13
+    assert manifest["frozen_log"]["rows"] == 70
 
 
 def test_manifest_verify_detects_tampering(tmp_path):

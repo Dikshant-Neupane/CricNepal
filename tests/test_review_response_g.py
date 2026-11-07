@@ -59,10 +59,14 @@ def order(matches):
 def test_registry_mapping_is_total_over_frozen_log():
     log = pd.read_csv(PRED / "frozen_log.csv")
     present = set(log["stage"].unique())
+    # P1_post_XI joined the log with Match 16 (2026-11-06), the season's
+    # first confirmed-XI lock; before that only the three stages below
+    # had ever appeared.
     assert present == {"P1_preseason_expected_xi", "SIM_shadow_preseason",
-                       "P2_post_toss"}
+                       "P2_post_toss", "P1_post_XI"}
     canonicals = {STAGES.canonical_stage(s) for s in present}
-    assert canonicals == {"P0_PRESEASON", "SIM_SHADOW", "P2_POST_TOSS"}
+    assert canonicals == {"P0_PRESEASON", "SIM_SHADOW", "P2_POST_TOSS",
+                          "P1_CONFIRMED_XI"}
     # every stored string maps to exactly one canonical name (a dict
     # lookup — totality is the assertion that none of these raised)
 
