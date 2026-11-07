@@ -35,3 +35,13 @@ def test_broken_entry_fails_with_reasons():
     facts, bat, bowl = _innings(bat_runs=140)
     problems = check_innings(facts, bat, bowl)
     assert any("batting closure" in p for p in problems)
+
+
+def test_penalty_runs_close_bowling():
+    # Match 18: Lumbini's innings carried 6 penalty runs (ESPNcricinfo).
+    # Penalty runs belong to the batting total but to no bowler, so the
+    # bowling closure must count them alongside byes and leg-byes.
+    facts, bat, bowl = _innings()
+    facts["extras_penalty"] = 5
+    facts["total_runs"] = 165
+    assert check_innings(facts, bat, bowl) == []

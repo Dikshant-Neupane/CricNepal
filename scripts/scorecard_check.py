@@ -8,8 +8,9 @@ CLOSES arithmetically:
   1. sum(batter runs) + all extras == innings total
   2. counted dismissals == innings wickets (<= 10); a dismissal counts
      unless it is 'not out' or 'retired hurt'
-  3. sum(bowler runs conceded) + byes + leg-byes == innings total
-     (bowlers are charged wides/no-ball penalties, never byes)
+  3. sum(bowler runs conceded) + byes + leg-byes + penalty runs
+     == innings total (bowlers are charged wides/no-ball penalties,
+     never byes, leg-byes or penalty runs)
   4. sum(bowler balls) == legal balls implied by total_overs
   5. batting positions are 1..N with no duplicates, <= 11 rows
 
@@ -53,10 +54,12 @@ def check_innings(facts: pd.Series, bat: pd.DataFrame, bowl: pd.DataFrame) -> li
     if int(facts.total_wickets) > 10:
         problems.append("wickets exceed 10")
     bowl_runs = int(bowl.runs_conceded.sum())
-    if bowl_runs + int(facts.extras_byes) + int(facts.extras_legbyes) != int(facts.total_runs):
+    if (bowl_runs + int(facts.extras_byes) + int(facts.extras_legbyes)
+            + int(facts.extras_penalty) != int(facts.total_runs)):
         problems.append(
             f"bowling closure: bowlers {bowl_runs} + byes {int(facts.extras_byes)} "
-            f"+ leg-byes {int(facts.extras_legbyes)} != total {int(facts.total_runs)}")
+            f"+ leg-byes {int(facts.extras_legbyes)} "
+            f"+ penalty {int(facts.extras_penalty)} != total {int(facts.total_runs)}")
     legal = overs_to_balls(float(facts.total_overs))
     bowled = int(bowl.balls_bowled.sum())
     if bowled != legal:

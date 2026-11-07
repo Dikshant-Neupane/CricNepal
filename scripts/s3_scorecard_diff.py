@@ -47,10 +47,11 @@ def diff_capture(match_id: str) -> list[str]:
                 f"{match_id} inn{inn}: batting lines + extras = "
                 f"{bat_total} != facts total {f.total_runs} "
                 f"(cause: capture transcription or extras mismatch)")
-        bowl_total = int(w.runs_conceded.sum() + f.extras_byes + f.extras_legbyes)
+        bowl_total = int(w.runs_conceded.sum() + f.extras_byes + f.extras_legbyes
+                         + f.extras_penalty)
         if bowl_total != int(f.total_runs):
             problems.append(
-                f"{match_id} inn{inn}: bowling lines + byes/leg-byes "
+                f"{match_id} inn{inn}: bowling lines + byes/leg-byes/penalty "
                 f"= {bowl_total} != facts total {f.total_runs} "
                 f"(cause: capture transcription)")
         legal = int(w.balls_bowled.sum())
