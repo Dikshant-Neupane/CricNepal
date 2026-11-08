@@ -139,6 +139,7 @@ player_s_dhakal,Sagar Dhakal,8955b928,S Dhakal,exact,Pokhara Avengers,Bowler,s3_
 player_shakib_al_hasan,Shakib Al Hasan,7dc35884,Shakib Al Hasan,exact,Pokhara Avengers,All-rounder,s3_roster.playing_role,Left,Spin,Left,1987-03-24,39.6,Bangladesh,True,single-form,
 player_s_aryal,Sudip Aryal,c1974b74,S Aryal,exact,Pokhara Avengers,Bowler,s3_roster.playing_role,Right,Pace,Right,2006-11-06,20.0,Nepal,False,confirmed,
 player_sunny_bk,Sunny BK,,,,Pokhara Avengers,All-rounder,s3_roster.playing_role,,,,,,Nepal,False,single-form,cricsheet_registry_id;batting_hand;bowling_type;date_of_birth
+player_ys_samra,Yuvraj Samra,d02c40ab,YS Samra,exact,Pokhara Avengers,Batter,s3_roster.playing_role,Left,Spin,Right,2006-09-29,20.1,Canada,True,confirmed,
 player_aarif_sheikh,Aarif Sheikh,cd4d7695,Aarif Sheikh,exact,Sudurpaschim Royals,Batter,s3_roster.playing_role,Right,Medium Pace,Right,1997-10-04,29.1,Nepal,False,single-form,
 player_a_bohara,Abinash Bohara,64fb6b15,A Bohara,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,Right,Medium Pace,Right,1996-02-11,30.7,Nepal,False,confirmed,
 player_a_kharel,Anil Kharel,08b15b9e,A Kharel,exact,Sudurpaschim Royals,Bowler,s3_roster.playing_role,Right,Pace,Left,2005-11-16,20.9,Nepal,False,confirmed,

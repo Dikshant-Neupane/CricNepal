@@ -50,4 +50,6 @@ def test_real_master_report_values():
     # overseas squad count back inside the reported 6-8 range.
     # 6 since 2026-11-07: Grant Stewart's integration brought Lumbini's
     # overseas squad count (6) inside the reported 6-8 range.
-    assert int(rep["overseas_within_reported_range"].sum()) == 6
+    # 7 since 2026-11-08: Yuvraj Samra's integration brought Pokhara's
+    # overseas squad count (6) inside the reported 6-8 range.
+    assert int(rep["overseas_within_reported_range"].sum()) == 7

@@ -306,7 +306,7 @@ def test_g3_no_prediction_input_reads_legacy_primary_role():
 def test_g3_master_roles_sourced_varied_and_consumed():
     master = pd.read_csv(PRED / "player_master.csv")
     assert master["role"].value_counts().to_dict() == {
-        "All-rounder": 60, "Bowler": 44, "Batter": 34, "Wicketkeeper": 21}
+        "All-rounder": 60, "Bowler": 44, "Batter": 35, "Wicketkeeper": 21}
     assert set(master["role_source"]) == {"s3_roster.playing_role"}
     # the role column actually consumed downstream (priors -> XI
     # selector / simulator priors) is the master's, per player_key
@@ -321,7 +321,7 @@ def test_g3_legacy_role_field_is_constant_by_construction():
     # WHY the legacy field must never be used: it carries no signal.
     legacy = pd.read_csv(
         ROOT / "data/player_profiles/enriched_players_20260521.csv")
-    assert len(legacy) == 254  # 188 legacy + 66 sourced S3 profile rows (49 from the 2026-10-24 enrichment + Hunain Shah and Fabian Allen, 2026-10-26 + Kusal Perera, 2026-10-26 + Dan Mousley, 2026-10-28 + Sadeera Samarawickrama, 2026-10-29 + Parvez Hossain Emon, 2026-10-29 + Saif Hassan, 2026-10-30 + Rahul Yadav, 2026-11-03 + Smit Patel, 2026-11-04 + Ryan Burl, Shehan Jayasuriya, Tharindu Ratnayake, Tom Taylor, Jahandad Khan, Ripon Mondol and Harishankar Shah, 2026-11-04 + Grant Stewart, 2026-11-07)
+    assert len(legacy) == 255  # 188 legacy + 67 sourced S3 profile rows (49 from the 2026-10-24 enrichment + Hunain Shah and Fabian Allen, 2026-10-26 + Kusal Perera, 2026-10-26 + Dan Mousley, 2026-10-28 + Sadeera Samarawickrama, 2026-10-29 + Parvez Hossain Emon, 2026-10-29 + Saif Hassan, 2026-10-30 + Rahul Yadav, 2026-11-03 + Smit Patel, 2026-11-04 + Ryan Burl, Shehan Jayasuriya, Tharindu Ratnayake, Tom Taylor, Jahandad Khan, Ripon Mondol and Harishankar Shah, 2026-11-04 + Grant Stewart, 2026-11-07 + Yuvraj Samra, 2026-11-08)
     assert legacy["primary_role"].nunique() == 1
     assert legacy["primary_role"].iloc[0] == "Batter"
 

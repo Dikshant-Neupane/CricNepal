@@ -452,3 +452,8 @@ player_g_stewart,G Stewart,batting_hand,Right,Wikipedia (Cricinfo-sourced); IPL 
 player_g_stewart,G Stewart,bowling_type,Pace,Wikipedia (Cricinfo-sourced); IPL profile,added
 player_g_stewart,G Stewart,bowling_arm,Right,Wikipedia (Cricinfo-sourced); IPL profile,added
 player_g_stewart,G Stewart,date_of_birth,1994-02-19,Wikipedia (Cricinfo-sourced); IPL profile,added
+player_ys_samra,YS Samra,country,Canada,Wikipedia (ESPNcricinfo-sourced); Cricbuzz profile,added
+player_ys_samra,YS Samra,batting_hand,Left,Wikipedia (ESPNcricinfo-sourced); Cricbuzz profile,added
+player_ys_samra,YS Samra,bowling_type,Spin,Wikipedia (ESPNcricinfo-sourced): right-arm off break,added
+player_ys_samra,YS Samra,bowling_arm,Right,Wikipedia (ESPNcricinfo-sourced): right-arm off break,added
+player_ys_samra,YS Samra,date_of_birth,2006-09-29,Wikipedia (ESPNcricinfo-sourced); Cricbuzz profile,added
