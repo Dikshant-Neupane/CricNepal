@@ -29,6 +29,7 @@ player_d_khanal,Dev Khanal,c4bc3b59,D Khanal,exact,Chitwan Rhinos,Batter,s3_rost
 player_gautam_kc,Gautam KC,a2ff9c85,Gautam KC,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Pace,Right,,,Nepal,False,single-form,date_of_birth
 player_kaleem_sana,Kaleem Sana,14810ee7,Kaleem Sana,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Medium Pace,Left,1994-01-01,32.8,Canada,True,single-form,
 player_ks_airee,Kamal Singh Airee,548d4188,KS Airee,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Pace,Right,2004-07-18,22.3,Nepal,False,confirmed,
+player_k_mishara,Kamil Mishara,65cebd5d,K Mishara,exact,Chitwan Rhinos,Batter,s3_roster.playing_role,Left,Spin,Right,2001-04-24,25.5,Sri Lanka,True,confirmed,
 player_kushal_malla,Kushal Malla,7e9f1cde,Kushal Malla,exact,Chitwan Rhinos,All-rounder,s3_roster.playing_role,Left,Medium Pace,Left,2002-11-04,24.0,Nepal,False,single-form,
 player_mousom_dhakal,Mousom Dhakal,9db1b072,SM Dhakal,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Right,2001-01-27,25.7,Nepal,False,single-form,
 player_r_kumar,Ranjeet Kumar,aba0f4a9,R Kumar,exact,Chitwan Rhinos,Bowler,s3_roster.playing_role,Right,Spin,Left,2003-03-19,23.6,Nepal,False,confirmed,
