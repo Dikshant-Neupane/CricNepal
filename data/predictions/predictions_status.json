@@ -6,11 +6,19 @@
   "S2": 32,
   "S3": 12
  },
- "generated_at": "2026-11-04T01:57:48+00:00",
- "ratings_basis": "canonical",
- "n_provisional": 0,
- "latest_provisional_match_date": null,
- "provisional_applied_match_ids": [],
+ "generated_at": "2026-11-10T01:58:25+00:00",
+ "ratings_basis": "canonical+provisional",
+ "n_provisional": 7,
+ "latest_provisional_match_date": "2026-11-09",
+ "provisional_applied_match_ids": [
+  "s3_2026_14",
+  "s3_2026_15",
+  "s3_2026_16",
+  "s3_2026_17",
+  "s3_2026_18",
+  "s3_2026_19",
+  "s3_2026_20"
+ ],
  "provisional_superseded_match_ids": [
   "s3_2026_01",
   "s3_2026_02",
