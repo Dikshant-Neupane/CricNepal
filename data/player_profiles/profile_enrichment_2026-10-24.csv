@@ -462,3 +462,8 @@ player_k_mishara,K Mishara,batting_hand,Left,Wikipedia (ESPNcricinfo-sourced); N
 player_k_mishara,K Mishara,bowling_type,Spin,Wikipedia (ESPNcricinfo-sourced); NDTV profile,added
 player_k_mishara,K Mishara,bowling_arm,Right,Wikipedia (ESPNcricinfo-sourced); NDTV profile,added
 player_k_mishara,K Mishara,date_of_birth,2001-04-24,Wikipedia (ESPNcricinfo-sourced); NDTV profile,added
+player_ht_tector,HT Tector,country,Ireland,Wikipedia (ESPNcricinfo-sourced); CricTracker profile,added
+player_ht_tector,HT Tector,batting_hand,Right,Wikipedia (ESPNcricinfo-sourced); CricTracker profile,added
+player_ht_tector,HT Tector,bowling_type,Spin,Wikipedia (ESPNcricinfo-sourced): right-arm off break,added
+player_ht_tector,HT Tector,bowling_arm,Right,Wikipedia (ESPNcricinfo-sourced): right-arm off break,added
+player_ht_tector,HT Tector,date_of_birth,1999-12-06,Wikipedia (ESPNcricinfo-sourced); CricTracker profile,added

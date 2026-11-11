@@ -94,7 +94,12 @@ def test_seeded_match_regression_after_extraction():
     # Sahil Patel registry ids corrected) and the distributions now
     # include Season 3 deliveries; expected values re-captured from
     # the deterministic seeded run (seed 3, verified reproducible).
-    assert res["p_team_1_win"] == pytest.approx(0.457)
-    assert res["tie_rate"] == pytest.approx(0.014)
-    assert res["mean_score_1"] == pytest.approx(141.088)
-    assert res["mean_score_2"] == pytest.approx(144.472)
+    # Inputs refreshed 2026-11-11 at the Harry Tector integration:
+    # Janakpur's pinned XI was regenerated (Tector in at index 2,
+    # Anil Kumar Sah out of the prefix) and the expected values
+    # re-captured from the deterministic seeded run (seed 3,
+    # verified reproducible across two runs).
+    assert res["p_team_1_win"] == pytest.approx(0.523)
+    assert res["tie_rate"] == pytest.approx(0.018)
+    assert res["mean_score_1"] == pytest.approx(140.798)
+    assert res["mean_score_2"] == pytest.approx(135.22)
