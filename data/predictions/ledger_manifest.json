@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-11-12T06:36:54.064134+00:00",
+ "generated_at": "2026-11-12T11:06:31.079233+00:00",
  "git": {
-  "head_sha": "01cffae36d2cd9059ceb4a0574bb50a4ade41465",
+  "head_sha": "e58abb7cf34d20d5ebbdb7efa47c9f6de8ac030d",
   "dirty_code_tree": false,
   "modified_tracked_files": [],
   "untracked_files": []
  },
  "frozen_log": {
   "path": "data/predictions/frozen_log.csv",
-  "sha256": "d1872ef6a5b099504a464f6035e59505255996e06b208fafea3ef14845ca1221",
-  "rows": 74,
+  "sha256": "72b929b7815856d388c6c88473b0b0824b3449b02365c1d1370c135dd21fad1c",
+  "rows": 75,
   "stages": {
    "P1_post_XI": {
     "rows": 1,
@@ -28,9 +28,9 @@
     ]
    },
    "P2_post_toss": {
-    "rows": 17,
+    "rows": 18,
     "first_locked": "2026-10-27T06:43:07.769817+00:00",
-    "last_locked": "2026-11-12T06:36:53.209303+00:00",
+    "last_locked": "2026-11-12T11:06:29.826638+00:00",
     "model_versions": [
      "v1.1"
     ]
