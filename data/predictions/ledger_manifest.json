@@ -1,15 +1,15 @@
 {
- "generated_at": "2026-11-10T11:05:45.692027+00:00",
+ "generated_at": "2026-11-12T06:36:54.064134+00:00",
  "git": {
-  "head_sha": "d0426b8cf567e3429266f40bce5da2f0f2b604cf",
+  "head_sha": "01cffae36d2cd9059ceb4a0574bb50a4ade41465",
   "dirty_code_tree": false,
   "modified_tracked_files": [],
   "untracked_files": []
  },
  "frozen_log": {
   "path": "data/predictions/frozen_log.csv",
-  "sha256": "5591eda6cfe6b54883b30b1ae22159442c9901a6b0cd6e09b8129cf15e722d57",
-  "rows": 73,
+  "sha256": "d1872ef6a5b099504a464f6035e59505255996e06b208fafea3ef14845ca1221",
+  "rows": 74,
   "stages": {
    "P1_post_XI": {
     "rows": 1,
@@ -28,9 +28,9 @@
     ]
    },
    "P2_post_toss": {
-    "rows": 16,
+    "rows": 17,
     "first_locked": "2026-10-27T06:43:07.769817+00:00",
-    "last_locked": "2026-11-10T11:05:44.508742+00:00",
+    "last_locked": "2026-11-12T06:36:53.209303+00:00",
     "model_versions": [
      "v1.1"
     ]
@@ -51,12 +51,12 @@
    "bytes": 15940
   },
   "data/predictions/player_master.csv": {
-   "sha256": "d6fc30d63001d8fa5f3ed261f06282a217bb791a512b87067b15c80fafabceb4",
-   "bytes": 27292
+   "sha256": "482d8b3ee137d3512b3713eb6f5e21bc5f1841179d7b324d1a6d95b3a6584982",
+   "bytes": 27449
   },
   "data/predictions/player_priors.csv": {
-   "sha256": "3166da0f7b56d48f7807bf4afe073a705eb24a3beddadb7d5ba286ce7cdffc48",
-   "bytes": 37406
+   "sha256": "f4a35e1c40ca0e626e26bdeacad5a2320e13964135162c11ae24f5b890ec7451",
+   "bytes": 37633
   },
   "data/predictions/player_history.csv": {
    "sha256": "4f339162c93ffd92936300415bb9ed2523252b687e3f568b85c1ecdb8debc787",
