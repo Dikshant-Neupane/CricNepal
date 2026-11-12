@@ -24,15 +24,27 @@ warnings.filterwarnings('ignore')
 
 
 # ── Phase-aware economy shrinkage ─────────────────────────────────────────
-# League phase economies (runs per over) computed from the S1+S2
-# ball-by-ball data (data/normalized/ball_by_ball_normalized.parquet,
-# legal deliveries only): Powerplay 6.87, Middle 7.02, Death 9.12.
+# League phase economies (runs per over) recomputed 2026-11-12 from the
+# shipped S1+S2 ball-by-ball data (data/final/parquet/ball_by_ball.parquet,
+# 14,464 rows after dropping wides/no-balls, of 14,937 S1+S2 deliveries)
+# under the definition this module implements:
+# wides and no-ball rows dropped entirely, runs_total / rows * 6.
+# Powerplay 6.56, Middle 6.81, Death 8.79. The previous constants
+# (6.87 / 7.02 / 9.12) did not reproduce from the shipped data under
+# any stated definition (audit A8); they are pinned by
+# tests/test_audit_2026_11_12.py so they cannot drift silently again.
+# Known caveat: this definition also drops wide/no-ball RUNS from the
+# numerator, so it understates true bowler economy by ~0.1-0.2; the
+# proper legal-ball definition (bowler runs / legal balls * 6) gives
+# 6.73 / 6.92 / 8.89. The constants stay on the implemented definition
+# so priors and raw economies share one scale; a definition change
+# belongs in a separate, tested commit.
 # Used as James-Stein style priors: small-sample phase economies are
 # shrunk toward the phase prior before projecting to S3.
 PHASE_PRIORS: Dict[str, float] = {
-    "Powerplay": 6.87,
-    "Middle": 7.02,
-    "Death": 9.12,
+    "Powerplay": 6.56,
+    "Middle": 6.81,
+    "Death": 8.79,
 }
 GLOBAL_ECONOMY_FALLBACK = 8.30
 

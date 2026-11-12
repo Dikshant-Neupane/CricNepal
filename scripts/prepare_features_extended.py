@@ -11,7 +11,11 @@ def safe_read(path):
 
 def main():
     per_season_path = os.path.join(DATA_DIR, "per_bowler_season_features.csv")
-    enriched_path = r"D:/cric_data/data/player_profiles/enriched_players_20260521.csv"
+    # Repo-relative profile file (was a Windows-only D: path, which can
+    # never exist on Linux/CI; audit 2026-11-12). Missing file is a
+    # warning, not a crash: safe_read returns None.
+    enriched_path = os.path.join(
+        DATA_DIR, "player_profiles", "enriched_players_20260521.csv")
 
     df_season = safe_read(per_season_path)
     df_enriched = safe_read(enriched_path)
@@ -46,20 +50,27 @@ def main():
             df_enriched = df_enriched.rename(columns={'player_name':'player_name'})
         df = df.merge(df_enriched[['player_name','primary_role','bowling_type','age']], on='player_name', how='left')
 
-    # If overall economy not present, try to compute a weighted economy from phase econ + balls
-    if 'economy' not in df.columns and 'powerplay_econ' in df.columns and 'powerplay_balls' in df.columns and 'death_econ' in df.columns and 'death_balls' in df.columns:
+    # If overall economy not present, compute a weighted economy from
+    # phase econ + balls over ALL THREE phases (middle was previously
+    # dropped; audit A5, 2026-11-12). Phases with no balls or a NaN
+    # economy are skipped, never counted as 0.0.
+    if 'economy' not in df.columns and 'powerplay_econ' in df.columns and 'powerplay_balls' in df.columns:
         def weighted_econ(row):
             try:
-                pb = float(row.get('powerplay_balls', 0) or 0)
-                db = float(row.get('death_balls', 0) or 0)
-                total_b = pb + db
+                total_runs = 0.0
+                total_b = 0.0
+                for prefix in ('powerplay', 'middle', 'death'):
+                    b = float(row.get(f'{prefix}_balls', 0) or 0)
+                    e = row.get(f'{prefix}_econ', None)
+                    if b > 0 and e is not None and not pd.isna(e):
+                        total_runs += float(e) * b
+                        total_b += b
                 if total_b <= 0:
                     return None
-                pr = float(row.get('powerplay_econ', 0) or 0) * pb
-                dr = float(row.get('death_econ', 0) or 0) * db
-                # econ units are runs per over; convert using balls->overs factor
-                # but since both are per-over rates, using balls weights is an approximation
-                return (pr + dr) / total_b
+                # econ units are runs per over; weighting per-over rates
+                # by balls is exact here (runs = econ * balls / 6, and
+                # the /6 cancels in the weighted mean).
+                return total_runs / total_b
             except Exception:
                 return None
         df['economy'] = df.apply(weighted_econ, axis=1)

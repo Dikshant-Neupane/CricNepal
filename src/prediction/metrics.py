@@ -48,10 +48,9 @@ def coin_baseline_metrics(n: int) -> dict:
     Its accuracy is NOT a measured quantity: under any deterministic
     tie rule an all-0.5 predictor degenerates to a constant pick (with
     the uniform rule, 'always team_1'), so a computed 'coin accuracy'
-    merely restates the team_1 win share of the sample (on S2 that
-    produced the misleading 0.34375 = 11/32). Accuracy is therefore
-    null here; the expected accuracy of a fair coin is 0.5 by symmetry.
-    Never emit a pseudo-measured coin accuracy again.
+    merely restates the team_1 win share of the sample. Accuracy is
+    therefore null here; the expected accuracy of a fair coin is 0.5
+    by symmetry. Never emit a pseudo-measured coin accuracy again.
     """
     return {"n": int(n), "accuracy": None,
             "log_loss": float(np.log(2.0)), "brier": 0.25,
@@ -59,8 +58,8 @@ def coin_baseline_metrics(n: int) -> dict:
                              "p=0.5 for every match, so its accuracy is "
                              "0.5 in expectation by symmetry. A computed "
                              "value under a deterministic tie rule would "
-                             "just restate the sample's team_1 win share "
-                             "(S2: 0.34375), which is why it is null."}
+                             "just restate the sample's team_1 win share, "
+                             "which is why it is null."}
 
 
 def per_match_log_loss(p, y):

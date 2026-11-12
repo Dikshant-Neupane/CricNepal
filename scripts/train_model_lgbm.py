@@ -4,12 +4,26 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold, RandomizedSearchCV
 from sklearn.metrics import mean_squared_error
-from lightgbm import LGBMRegressor
+
+# NOTE: lightgbm is imported lazily inside main(), after the sample-size
+# guard. It is not in requirements.txt, and at the current n (~37-42
+# paired bowlers) a 7-hyperparameter GBM search is not a verifiable
+# predictor anyway: the audit (docs/AUDIT_2026_11_12.md, 2026-11-12)
+# shows even Ridge fails to beat shrinkage at this n (LOO MSE 2.562
+# vs shrinkage 1.808, n=42). Below n=100 the script refuses and
+# points at the Ridge script; see MIN_SAMPLES_FOR_GBM.
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DATA_DIR = os.path.join(ROOT, "data")
 MODELS_DIR = os.path.join(ROOT, "models")
 DELIVERABLES = os.path.join(ROOT, "deliverables")
+
+# Minimum paired bowlers before a GBM hyperparameter search is even
+# attempted. The Ridge script's own rule keeps LightGBM for n>=200;
+# 100 is the hard floor: below it, tuning 7 hyperparameters on a
+# handful of rows fits noise, and the post-search manual CV below
+# would report an optimistically biased MSE.
+MIN_SAMPLES_FOR_GBM = 100
 
 os.makedirs(MODELS_DIR, exist_ok=True)
 os.makedirs(DELIVERABLES, exist_ok=True)
@@ -22,8 +36,15 @@ def main():
 
     df = pd.read_csv(features_path)
     df = df.dropna(subset=['s2_economy'])
-    if df.shape[0] < 10:
-        print(f"Warning: small sample size ({df.shape[0]}). Results will be noisy.")
+    if df.shape[0] < MIN_SAMPLES_FOR_GBM:
+        print(f"Refusing LightGBM search: n={df.shape[0]} paired bowlers, "
+              f"below the {MIN_SAMPLES_FOR_GBM} minimum for a "
+              "7-hyperparameter search. Use scripts/ridge_primary_model.py "
+              f"(shrinkage estimator) instead; LightGBM is retained for "
+              f"n>=200 per that script's rule.")
+        return
+
+    from lightgbm import LGBMRegressor
 
     X_cols = [c for c in df.columns if c.startswith('s1_')]
     X = df[X_cols].fillna(0.0)
@@ -51,7 +72,12 @@ def main():
     best = rs.best_estimator_
     print("Best params:", rs.best_params_)
 
-    # cross-validated MSE on folds (manual)
+    # cross-validated MSE on folds (manual) -- WARNING: this refits the
+    # TUNED best estimator per fold, so the search's tuning leaks into
+    # the estimate and cv_mse_mean is optimistically biased. Before
+    # this model is ever trusted at n>=100, replace this with nested
+    # CV (an inner search per outer fold) and report that instead.
+    # Audit 2026-11-12.
     mses = []
     for train_idx, test_idx in kf.split(X):
         best.fit(X.iloc[train_idx], y[train_idx])
@@ -73,7 +99,13 @@ def main():
     print(f"Saved model to {model_path}")
     print(f"Report written to {report_path}")
 
-    # Apply model to S2 features to predict S3 (approx):
+    # Apply model to S2 features to predict S3 (approx).
+    # NOTE (audit 2026-11-12): the feature mapping below
+    # (col.replace('s1_', '')) is UNVERIFIED -- per-season files have
+    # no plain 'economy' column, so several S3 features silently map
+    # to 0.0, the same bug class fixed in ridge_primary_model.py (A3).
+    # Validate this mapping against real S2 rows before using any S3
+    # output from this script.
     # We will read original per-season features and build S2 feature rows
     per_season = os.path.join(DATA_DIR, 'per_bowler_season_features.csv')
     if os.path.exists(per_season):

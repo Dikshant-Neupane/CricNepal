@@ -9,7 +9,8 @@ Priorities addressed:
 
 Target definition (unified):
   SOS-adjusted overall economy = (total_runs / (legal_balls / 6))
-  normalised by opponent batting strength (pre-match Elo)
+  over ALL THREE phases (powerplay, middle, death), normalised by
+  opponent batting strength (pre-match Elo, season-level proxy)
   Minimum threshold: 12 legal balls (2 full overs) per season
 
 Usage:
@@ -50,7 +51,8 @@ def build_unified_target(phase_df: pd.DataFrame) -> pd.DataFrame:
 
     Returns DataFrame with columns:
       player_name, season_norm, total_balls, raw_economy, sos_adj_economy,
-      pp_econ, pp_balls, pp_dot_pct, death_econ, death_balls, death_dot_pct
+      pp_econ, pp_balls, pp_dot_pct, middle_econ, middle_balls,
+      middle_dot_pct, death_econ, death_balls, death_dot_pct
     """
     df = phase_df.copy()
     df["season_norm"] = df["season"].apply(_norm_season)
@@ -64,6 +66,9 @@ def build_unified_target(phase_df: pd.DataFrame) -> pd.DataFrame:
     )
 
     # ── Load opponent Elo (pre-match) ──
+    # SOS is a SEASON-LEVEL proxy (average opponent Elo across the
+    # season), not the opposition each bowler actually faced. The
+    # report states this; do not describe it as per-bowler SOS.
     rolling_path = os.path.join(DATA_DIR, "rolling_team_elo.csv")
     flat_path    = os.path.join(DATA_DIR, "team_elo.csv")
     if os.path.exists(rolling_path):
@@ -85,9 +90,17 @@ def build_unified_target(phase_df: pd.DataFrame) -> pd.DataFrame:
             .groupby("_sn")["opp_elo"].mean()
             .to_dict()
         )
-    else:
+    elif os.path.exists(flat_path):
         elo_df = pd.read_csv(flat_path)
         league_avg_elo = elo_df["elo"].mean()
+        opp_avg = {}
+    else:
+        # No Elo file on a fresh clone: fall back to flat 1500, i.e.
+        # sos_factor = 1.0 for every season. The docstring promises
+        # this fallback; the old code crashed here instead.
+        print("Warning: no rolling_team_elo.csv or team_elo.csv found; "
+              "using flat Elo 1500 (SOS factor 1.0).")
+        league_avg_elo = 1500.0
         opp_avg = {}
 
     def _sos_factor(season):
@@ -112,22 +125,38 @@ def _norm_season(x) -> int:
 
 
 def _season_agg(g: pd.DataFrame) -> pd.Series:
-    pp_balls   = g["powerplay_balls"].sum()
-    dth_balls  = g["death_balls"].sum()
-    total_balls = pp_balls + dth_balls
+    """Aggregate one bowler-season across ALL THREE phases.
 
-    # Weighted economy across both phases
+    The "overall economy" is the true overall: middle overs are 46%
+    of NPL balls and must not be dropped from the target. Phase
+    columns may be absent (older per-season feature files); a missing
+    phase contributes 0 balls, never a fabricated economy.
+    """
+    pp_balls = g["powerplay_balls"].sum()
+    mid_balls = (g["middle_balls"].sum()
+                 if "middle_balls" in g.columns else 0)
+    dth_balls = g["death_balls"].sum()
+    total_balls = pp_balls + mid_balls + dth_balls
+
+    # Weighted economy across all phases
     if total_balls > 0:
-        pp_runs  = g["powerplay_econ"].mul(g["powerplay_balls"]).sum() / 6
+        pp_runs = g["powerplay_econ"].mul(g["powerplay_balls"]).sum() / 6
+        mid_runs = (g["middle_econ"].mul(g["middle_balls"]).sum() / 6
+                    if "middle_econ" in g.columns and "middle_balls" in g.columns
+                    else 0.0)
         dth_runs = g["death_econ"].mul(g["death_balls"]).sum() / 6
-        raw_econ = (pp_runs + dth_runs) / (total_balls / 6)
+        raw_econ = (pp_runs + mid_runs + dth_runs) / (total_balls / 6)
     else:
         raw_econ = np.nan
 
-    pp_econ     = g["powerplay_econ"].mean() if pp_balls > 0 else np.nan
-    pp_dot      = g["powerplay_dot_pct"].mean() if pp_balls > 0 else np.nan
-    dth_econ    = g["death_econ"].mean() if dth_balls > 0 else np.nan
-    dth_dot     = g["death_dot_pct"].mean() if dth_balls > 0 else np.nan
+    pp_econ = g["powerplay_econ"].mean() if pp_balls > 0 else np.nan
+    pp_dot = g["powerplay_dot_pct"].mean() if pp_balls > 0 else np.nan
+    mid_econ = (g["middle_econ"].mean()
+                if mid_balls > 0 and "middle_econ" in g.columns else np.nan)
+    mid_dot = (g["middle_dot_pct"].mean()
+               if mid_balls > 0 and "middle_dot_pct" in g.columns else np.nan)
+    dth_econ = g["death_econ"].mean() if dth_balls > 0 else np.nan
+    dth_dot = g["death_dot_pct"].mean() if dth_balls > 0 else np.nan
 
     return pd.Series({
         "total_balls":   total_balls,
@@ -135,6 +164,9 @@ def _season_agg(g: pd.DataFrame) -> pd.Series:
         "pp_econ":       pp_econ,
         "pp_balls":      pp_balls,
         "pp_dot_pct":    pp_dot,
+        "middle_econ":   mid_econ,
+        "middle_balls":  mid_balls,
+        "middle_dot_pct": mid_dot,
         "death_econ":    dth_econ,
         "death_balls":   dth_balls,
         "death_dot_pct": dth_dot,
@@ -192,10 +224,21 @@ def build_paired_dataset(agg: pd.DataFrame) -> pd.DataFrame:
             "s1_pp_econ":         r1["pp_econ"] if not np.isnan(r1["pp_econ"]) else r1["raw_economy"],
             "s1_pp_balls":        r1["pp_balls"],
             "s1_pp_dot_pct":      r1["pp_dot_pct"] if not np.isnan(r1["pp_dot_pct"]) else 0.0,
+            "s1_middle_econ":     (r1["middle_econ"]
+                                   if "middle_econ" in r1.index and not np.isnan(r1["middle_econ"])
+                                   else r1["raw_economy"]),
+            "s1_middle_balls":    r1["middle_balls"] if "middle_balls" in r1.index else 0,
+            "s1_middle_dot_pct":  (r1["middle_dot_pct"]
+                                   if "middle_dot_pct" in r1.index and not np.isnan(r1["middle_dot_pct"])
+                                   else 0.0),
             "s1_death_econ":      r1["death_econ"] if not np.isnan(r1["death_econ"]) else r1["raw_economy"],
             "s1_death_balls":     r1["death_balls"],
             "s1_death_dot_pct":   r1["death_dot_pct"] if not np.isnan(r1["death_dot_pct"]) else 0.0,
-            "s1_econ_trend":      r2["raw_economy"] - r1["raw_economy"],  # used as S1→S2 delta signal
+            # NOTE: no s1_econ_trend column. It used to be
+            # r2["raw_economy"] - r1["raw_economy"], i.e. the S2 TARGET
+            # as a feature. It was never in feat_cols, but a leaky
+            # column sitting in the training frame is a trap; removed
+            # 2026-11-12 (audit A2).
             # S2 target
             "s2_economy":         r2["raw_economy"],
             "s2_sos_econ":        r2.get("sos_adj_economy", r2["raw_economy"]),
@@ -205,6 +248,47 @@ def build_paired_dataset(agg: pd.DataFrame) -> pd.DataFrame:
 
 
 # ─── Baseline comparisons ────────────────────────────────────────────────────
+def prior_season_league_mean(agg: pd.DataFrame, season_norm: int) -> float:
+    """League mean economy of one season.
+
+    Baselines predicting season N from season N-1 must be centred on
+    the PRIOR season's mean. Using the target season's mean leaks
+    target-season information into the baseline (audit A4).
+    """
+    return float(agg[agg["season_norm"] == season_norm]["raw_economy"].mean())
+
+
+# S1 feature name -> S2 aggregate column. The aggregate frame's
+# columns are raw_economy / sos_adj_economy / total_balls, NOT
+# s2_economy / s2_sos_econ / s2_balls; the old replace("s1_", "s2_")
+# mapping silently sent s1_economy, s1_sos_econ and s1_balls to 0.0
+# in every S3 prediction (audit A3).
+S2_FEATURE_MAP = {
+    "s1_economy": "raw_economy",
+    "s1_sos_econ": "sos_adj_economy",
+    "s1_balls": "total_balls",
+    "s1_pp_econ": "pp_econ",
+    "s1_pp_balls": "pp_balls",
+    "s1_pp_dot_pct": "pp_dot_pct",
+    "s1_middle_econ": "middle_econ",
+    "s1_middle_balls": "middle_balls",
+    "s1_middle_dot_pct": "middle_dot_pct",
+    "s1_death_econ": "death_econ",
+    "s1_death_balls": "death_balls",
+    "s1_death_dot_pct": "death_dot_pct",
+}
+
+
+def s2_feature_vector(row: pd.Series, feat_cols: list) -> dict:
+    """Feature values for one bowler's S2 row, keyed by S1 feature name."""
+    out = {}
+    for fc in feat_cols:
+        col = S2_FEATURE_MAP.get(fc, fc.replace("s1_", ""))
+        val = row[col] if col in row.index else 0.0
+        out[fc] = 0.0 if pd.isna(val) else float(val)
+    return out
+
+
 def compute_baselines(paired: pd.DataFrame, league_avg: float) -> dict:
     y_true = paired["s2_economy"].values
 
@@ -265,6 +349,10 @@ def main():
     phase_path = os.path.join(DATA_DIR, "per_bowler_season_features.csv")
     enrich_path = os.path.join(DATA_DIR, "player_profiles", "enriched_players_20260521.csv")
 
+    if not os.path.exists(phase_path):
+        print(f"Missing {phase_path}. Run `python scripts/prepare_season_features.py` first.")
+        return
+
     phase_df  = pd.read_csv(phase_path)
     agg       = build_unified_target(phase_df)
 
@@ -281,13 +369,21 @@ def main():
         print("ABORT: fewer than 5 paired samples — cannot fit model.")
         return
 
-    league_avg = agg[agg["season_norm"] == 2]["raw_economy"].mean()
-    print(f"League average economy (S2): {league_avg:.3f}")
+    # Two different league means, kept separate on purpose (audit A4):
+    #  - league_avg_s1 centres the S1->S2 baselines (prior season);
+    #  - league_avg_s2 centres the S3 shrinkage predictions (prior
+    #    season for S3). Never use the target season's mean for a
+    #    baseline that predicts that season.
+    league_avg_s1 = prior_season_league_mean(agg, 1)
+    league_avg_s2 = prior_season_league_mean(agg, 2)
+    print(f"League average economy (S1, baseline prior): {league_avg_s1:.3f}")
+    print(f"League average economy (S2, S3 prediction prior): {league_avg_s2:.3f}")
 
     # ── Feature matrix ──
     feat_cols = [
         "s1_economy", "s1_sos_econ", "s1_balls",
         "s1_pp_econ", "s1_pp_balls", "s1_pp_dot_pct",
+        "s1_middle_econ", "s1_middle_balls", "s1_middle_dot_pct",
         "s1_death_econ", "s1_death_balls", "s1_death_dot_pct",
     ]
     # drop features that are entirely NaN
@@ -295,8 +391,8 @@ def main():
     X = paired[feat_cols].fillna(0.0).values
     y = paired["s2_economy"].values
 
-    # ── Baselines ──
-    bl = compute_baselines(paired, league_avg)
+    # ── Baselines (centred on the S1 league mean: the prior season) ──
+    bl = compute_baselines(paired, league_avg_s1)
     print(f"\n── Baseline MSEs (lower = better) ──")
     print(f"  Naive (carry S1 econ forward): {bl['naive_mse']:.4f}  RMSE={bl['naive_mse']**0.5:.3f}")
     print(f"  Regression-to-mean (50/50):    {bl['rtm_mse']:.4f}  RMSE={bl['rtm_mse']**0.5:.3f}")
@@ -334,18 +430,11 @@ def main():
             shrink_pred = np.nan
             ridge_pred  = np.nan
         else:
-            shrink_pred = shrinkage_estimate(row["raw_economy"], league_avg, balls)
-            # build feature vector from S2 data
-            fv = {}
-            for fc in feat_cols:
-                orig = fc.replace("s1_", "s2_") if fc.startswith("s1_") else fc
-                orig_alt = fc.replace("s1_", "")
-                if orig in row.index:
-                    fv[fc] = row[orig]
-                elif orig_alt in row.index:
-                    fv[fc] = row[orig_alt]
-                else:
-                    fv[fc] = 0.0
+            shrink_pred = shrinkage_estimate(row["raw_economy"], league_avg_s2, balls)
+            # build feature vector from S2 data (explicit column map;
+            # the old replace("s1_", "s2_") mapping sent s1_economy,
+            # s1_sos_econ and s1_balls to 0.0 -- audit A3)
+            fv = s2_feature_vector(row, feat_cols)
             fv_arr = np.nan_to_num(
                 np.array([fv.get(c, 0.0) for c in feat_cols], dtype=float).reshape(1, -1),
                 nan=0.0,
@@ -388,12 +477,10 @@ def main():
     league_avg_pred = float(pred_df["pred_s3_final"].mean())
     explanations = []
     for _, row in pred_df.iterrows():
-        fv = {fc: 0.0 for fc in feat_cols}
-        for fc in feat_cols:
-            orig = fc.replace("s1_", "")
-            if orig in s2_data.columns and row["player_name"] in s2_data.index:
-                val = s2_data.loc[row["player_name"], orig] if orig in s2_data.columns else 0.0
-                fv[fc] = 0.0 if pd.isna(val) else val
+        if row["player_name"] in s2_data.index:
+            fv = s2_feature_vector(s2_data.loc[row["player_name"]], feat_cols)
+        else:
+            fv = {fc: 0.0 for fc in feat_cols}
         fs = pd.Series(fv)
         explanations.append(explain_prediction(
             row["player_name"], fs, coef, feat_cols, league_avg_pred
@@ -418,23 +505,25 @@ def main():
 
     # Model comparison table (consumed by the dashboard tests): the three
     # baselines are out-of-sample MSEs predicting S2 from S1; the Ridge row
-    # is its Leave-One-Out CV MSE. league_prior is the S2 league average.
+    # is its Leave-One-Out CV MSE. league_prior is the S1 league average
+    # (the prior season for every row here, audit A4).
     comp_df = pd.DataFrame([
         {"model": "Naive (carry S1 forward)", "loo_mse": bl["naive_mse"],
-         "league_prior": league_avg},
+         "league_prior": league_avg_s1},
         {"model": "Regression-to-mean",       "loo_mse": bl["rtm_mse"],
-         "league_prior": league_avg},
+         "league_prior": league_avg_s1},
         {"model": "Shrinkage estimator",      "loo_mse": bl["shrinkage_mse"],
-         "league_prior": league_avg},
+         "league_prior": league_avg_s1},
         {"model": "Ridge (LOO-CV)",           "loo_mse": ridge_mse,
-         "league_prior": league_avg},
+         "league_prior": league_avg_s1},
     ])
     comp_out = os.path.join(DELIV, "s3_model_comparison.csv")
     comp_df.to_csv(comp_out, index=False)
     print(f"Model comparison CSV → {comp_out}")
 
     # ── Markdown report ──
-    _write_report(pred_df, bl, ridge_mse, best_alpha, n, league_avg)
+    _write_report(pred_df, bl, ridge_mse, best_alpha, n,
+                  league_avg_s1, league_avg_s2)
 
     # ── Validation summary ──
     beats_naive    = ridge_mse < bl["naive_mse"]
@@ -450,7 +539,8 @@ def main():
         print("     Action: expand feature set or augment with cross-league data.")
 
 
-def _write_report(pred_df, bl, ridge_mse, best_alpha, n, league_avg):
+def _write_report(pred_df, bl, ridge_mse, best_alpha, n,
+                  league_avg_s1, league_avg_s2):
     lines = [
         "# Ridge Primary Model — S3 Forecast Report",
         f"\n**Team:** Janakpur Bolts  |  **Date:** May 2026\n",
@@ -468,10 +558,14 @@ def _write_report(pred_df, bl, ridge_mse, best_alpha, n, league_avg):
         f"| Shrinkage estimator      | {bl['shrinkage_mse']:.4f} | {bl['shrinkage_mse']**0.5:.3f} |",
         f"| **Ridge (LOO-CV)**       | **{ridge_mse:.4f}** | **{ridge_mse**0.5:.3f}** |",
         "",
-        f"League average S2 economy: {league_avg:.3f} runs/over",
+        f"League average S1 economy (baseline prior): {league_avg_s1:.3f} runs/over",
+        f"League average S2 economy (S3 prediction prior): {league_avg_s2:.3f} runs/over",
         "",
         "## Target Definition",
-        "SOS-adjusted overall economy = (total_runs / overs) × (league_avg_elo / opponent_avg_elo)",
+        "SOS-adjusted overall economy = (total_runs / overs) × (league_avg_elo / opponent_avg_elo),",
+        "over ALL THREE phases (powerplay, middle, death); legal balls only.",
+        "SOS is a season-level proxy (average opponent Elo for the season),",
+        "not the opposition each bowler actually faced.",
         "Minimum threshold: 12 legal balls per season (removes 1-over cameos)",
         "",
         "## Confidence Tiers",

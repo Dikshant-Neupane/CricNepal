@@ -69,7 +69,16 @@ def derive_slot(matches: pd.DataFrame, fixtures: pd.DataFrame | None) -> pd.Seri
 
 def load() -> tuple[pd.DataFrame, pd.DataFrame]:
     matches = pd.read_parquet(ROOT / "data/normalized/matches_normalized.parquet")
-    bbb = pd.read_parquet(ROOT / "data/normalized/ball_by_ball_normalized.parquet")
+    # The normalized ball-by-ball file is not in the repo on a fresh
+    # clone (audit A7, 2026-11-12). Fall back to the shipped final
+    # parquet, the same fallback the dashboard loaders already use.
+    bbb_path = ROOT / "data/normalized/ball_by_ball_normalized.parquet"
+    if not bbb_path.exists():
+        fallback = ROOT / "data/final/parquet/ball_by_ball.parquet"
+        print(f"Warning: {bbb_path} not found (fresh clone) — "
+              f"falling back to {fallback}.")
+        bbb_path = fallback
+    bbb = pd.read_parquet(bbb_path)
     fx_path = ROOT / "data/fixtures/s3_fixtures.csv"
     fixtures = pd.read_csv(fx_path) if fx_path.exists() else None
     matches["slot"] = derive_slot(matches, fixtures)

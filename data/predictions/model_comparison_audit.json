@@ -1,0 +1,370 @@
+{
+ "part_a_frozen_log_S3_to_date": {
+  "P1_preseason_expected_xi": {
+   "n": 12,
+   "coin": {
+    "n": 12,
+    "accuracy": null,
+    "log_loss": 0.6931471805599453,
+    "brier": 0.25,
+    "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share (S2: 0.34375), which is why it is null."
+   },
+   "elo": {
+    "n": 12,
+    "accuracy": 0.5,
+    "log_loss": 0.682957070743162,
+    "brier": 0.2450099333333333
+   },
+   "champion": {
+    "n": 12,
+    "accuracy": 0.4166666666666667,
+    "log_loss": 0.6864574247499835,
+    "brier": 0.2466738491666666
+   },
+   "logistic_challenger": {
+    "n": 12,
+    "accuracy": 0.6666666666666666,
+    "log_loss": 0.6702834511184296,
+    "brier": 0.23873575
+   },
+   "champion_minus_elo_logloss": {
+    "n_matches": 12,
+    "n_resamples": 10000,
+    "seed": 42,
+    "mean_diff": 0.0035003540068215544,
+    "ci_low": -0.024126344545746678,
+    "ci_high": 0.03154909169695286,
+    "prob_a_better": 0.4007,
+    "ci_includes_zero": true
+   },
+   "challenger_minus_champion_logloss": {
+    "n_matches": 12,
+    "n_resamples": 10000,
+    "seed": 42,
+    "mean_diff": -0.01617397363155418,
+    "ci_low": -0.09366947255137269,
+    "ci_high": 0.06050204493575813,
+    "prob_a_better": 0.6572,
+    "ci_includes_zero": true
+   }
+  },
+  "P2_post_toss": {
+   "n": 8,
+   "coin": {
+    "n": 8,
+    "accuracy": null,
+    "log_loss": 0.6931471805599453,
+    "brier": 0.25,
+    "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share (S2: 0.34375), which is why it is null."
+   },
+   "elo": {
+    "n": 8,
+    "accuracy": 0.625,
+    "log_loss": 0.6334099305550271,
+    "brier": 0.22040779875
+   },
+   "champion": {
+    "n": 8,
+    "accuracy": 0.625,
+    "log_loss": 0.652217306157256,
+    "brier": 0.22967569750000003
+   },
+   "logistic_challenger": {
+    "n": 8,
+    "accuracy": 0.625,
+    "log_loss": 0.6675743771807929,
+    "brier": 0.23741671375
+   },
+   "champion_minus_elo_logloss": {
+    "n_matches": 8,
+    "n_resamples": 10000,
+    "seed": 42,
+    "mean_diff": 0.018807375602228768,
+    "ci_low": -0.008065634378883288,
+    "ci_high": 0.042426375652259596,
+    "prob_a_better": 0.0786,
+    "ci_includes_zero": true
+   },
+   "challenger_minus_champion_logloss": {
+    "n_matches": 8,
+    "n_resamples": 10000,
+    "seed": 42,
+    "mean_diff": 0.01535707102353693,
+    "ci_low": -0.06250417982091187,
+    "ci_high": 0.08770327921405989,
+    "prob_a_better": 0.3517,
+    "ci_includes_zero": true
+   }
+  },
+  "SIM_shadow_preseason": {
+   "n": 12,
+   "coin": {
+    "n": 12,
+    "accuracy": null,
+    "log_loss": 0.6931471805599453,
+    "brier": 0.25,
+    "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share (S2: 0.34375), which is why it is null."
+   },
+   "elo": {
+    "n": 12,
+    "accuracy": 0.5,
+    "log_loss": 0.682957070743162,
+    "brier": 0.2450099333333333
+   },
+   "simulator": {
+    "n": 12,
+    "accuracy": 0.25,
+    "log_loss": 0.7663287486122381,
+    "brier": 0.28541261333333334
+   },
+   "simulator_minus_elo_logloss": {
+    "n_matches": 12,
+    "n_resamples": 10000,
+    "seed": 42,
+    "mean_diff": 0.083371677869076,
+    "ci_low": -0.00809358032947117,
+    "ci_high": 0.17550815826212726,
+    "prob_a_better": 0.035,
+    "ci_includes_zero": true
+   }
+  }
+ },
+ "part_b_bowler_economy": {
+  "target": "bowler overall economy (all phases, legal balls >= 12 per season)",
+  "validation_S1_to_S2": {
+   "n_pairs": 42,
+   "target_mean": 7.670392409455561,
+   "target_sd": 1.390692057906568,
+   "loo_cv": {
+    "league_mean": {
+     "n": 42,
+     "mse": 2.1978113808600988,
+     "rmse": 1.4825017304745713,
+     "mae": 1.1809313479413885,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 42,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": 0.38937875557093127,
+      "ci_low": -0.23701283656253272,
+      "ci_high": 1.1279829831479664,
+      "prob_a_better": 0.1322,
+      "ci_includes_zero": true
+     }
+    },
+    "naive": {
+     "n": 42,
+     "mse": 2.6770585527326767,
+     "rmse": 1.6361719202860916,
+     "mae": 1.3042013395089533,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 42,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": 0.8686259274435089,
+      "ci_low": -0.0995768655440964,
+      "ci_high": 2.26870107070046,
+      "prob_a_better": 0.0458,
+      "ci_includes_zero": true
+     }
+    },
+    "rtm": {
+     "n": 42,
+     "mse": 1.6194842036497379,
+     "rmse": 1.2725895660619484,
+     "mae": 1.0524977292779105,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 42,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": -0.18894842163942982,
+      "ci_low": -0.36891025064698624,
+      "ci_high": -0.01492963246406916,
+      "prob_a_better": 0.9837,
+      "ci_includes_zero": false
+     }
+    },
+    "shrink_k30": {
+     "n": 42,
+     "mse": 1.79277260934761,
+     "rmse": 1.3389445878555282,
+     "mae": 1.1321909489175985,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 42,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": -0.015660015941557536,
+      "ci_low": -0.24309572998020626,
+      "ci_high": 0.16943912124894928,
+      "prob_a_better": 0.5294,
+      "ci_includes_zero": true
+     }
+    },
+    "shrink_k60": {
+     "n": 42,
+     "mse": 1.8084326252891676,
+     "rmse": 1.3447797683223701,
+     "mae": 1.1186391411209669
+    },
+    "shrink_k150": {
+     "n": 42,
+     "mse": 1.8736730154976353,
+     "rmse": 1.3688217617709164,
+     "mae": 1.102929360882,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 42,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": 0.06524039020846775,
+      "ci_low": -0.19022009404256351,
+      "ci_high": 0.3788416196222645,
+      "prob_a_better": 0.3521,
+      "ci_includes_zero": true
+     }
+    },
+    "ridge": {
+     "n": 42,
+     "mse": 2.5617218963598165,
+     "rmse": 1.6005380021604663,
+     "mae": 1.1819132394256608,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 42,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": 0.7532892710706486,
+      "ci_low": -0.170118472761717,
+      "ci_high": 1.8955300706790685,
+      "prob_a_better": 0.0657,
+      "ci_includes_zero": true
+     }
+    }
+   }
+  },
+  "ridge_alpha_selected_on_S1_S2_loo": 0.1,
+  "holdout_S2_to_S3": {
+   "n_pairs": 35,
+   "note": "S3 is partial: 12 ingested matches only; holdout evaluated exactly once, after selection was frozen on S1->S2.",
+   "target_mean": 7.820748552442345,
+   "target_sd": 2.6084893616086675,
+   "s_to_balls_median": 36.0,
+   "results": {
+    "league_mean": {
+     "n": 35,
+     "mse": 6.879267002286067,
+     "rmse": 2.6228356796196874,
+     "mae": 2.138566516136707,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 35,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": 1.3828693730902526,
+      "ci_low": -0.1629465938677772,
+      "ci_high": 3.1412595183229217,
+      "prob_a_better": 0.04,
+      "ci_includes_zero": true
+     }
+    },
+    "naive": {
+     "n": 35,
+     "mse": 5.356241156307956,
+     "rmse": 2.3143554515907785,
+     "mae": 1.8752205968628783,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 35,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": -0.14015647288785874,
+      "ci_low": -1.1074463357186872,
+      "ci_high": 0.7838134090565252,
+      "prob_a_better": 0.6051,
+      "ci_includes_zero": true
+     }
+    },
+    "rtm": {
+     "n": 35,
+     "mse": 5.59405378570019,
+     "rmse": 2.3651752124737375,
+     "mae": 1.951807484512312,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 35,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": 0.09765615650437512,
+      "ci_low": -0.25124208130004383,
+      "ci_high": 0.43960824039433954,
+      "prob_a_better": 0.2825,
+      "ci_includes_zero": true
+     }
+    },
+    "shrink_k30": {
+     "n": 35,
+     "mse": 5.377829834429628,
+     "rmse": 2.3190148413560503,
+     "mae": 1.911326901705061,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 35,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": -0.11856779476618756,
+      "ci_low": -0.493815526360232,
+      "ci_high": 0.22826841148615906,
+      "prob_a_better": 0.7309,
+      "ci_includes_zero": true
+     }
+    },
+    "shrink_k60": {
+     "n": 35,
+     "mse": 5.4963976291958145,
+     "rmse": 2.3444397260744014,
+     "mae": 1.9370538712604466
+    },
+    "shrink_k150": {
+     "n": 35,
+     "mse": 5.811108483625655,
+     "rmse": 2.4106240859216634,
+     "mae": 1.9745332155791675,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 35,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": 0.3147108544298404,
+      "ci_low": -0.22618023025162687,
+      "ci_high": 0.9164012682607068,
+      "prob_a_better": 0.1374,
+      "ci_includes_zero": true
+     }
+    },
+    "ridge": {
+     "n": 35,
+     "mse": 5.487822916505653,
+     "rmse": 2.3426102784086074,
+     "mae": 1.9015979860619536,
+     "vs_shrink_k60_sqerr_bootstrap": {
+      "n_matches": 35,
+      "n_resamples": 10000,
+      "seed": 42,
+      "mean_diff": -0.00857471269016244,
+      "ci_low": -0.9198261537490487,
+      "ci_high": 0.9541780904185677,
+      "prob_a_better": 0.5065,
+      "ci_includes_zero": true
+     }
+    }
+   }
+  }
+ },
+ "part_c_phase_priors_recomputed_S1_S2": {
+  "Death": {
+   "n_rows": 3040,
+   "economy_filtered_definition": 8.793
+  },
+  "Middle": {
+   "n_rows": 6804,
+   "economy_filtered_definition": 6.812
+  },
+  "Powerplay": {
+   "n_rows": 4620,
+   "economy_filtered_definition": 6.558
+  }
+ }
+}
