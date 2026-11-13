@@ -14,11 +14,15 @@ direct table clash with a side Janakpur can overtake. Head-to-head in S1–S2: 1
 (2 matches).
 
 ## Availability sweep (11 Nov)
-**Availability refresh, Fri 13 Nov:** Emon has left (Bangladesh A) and is no longer
-a recall option; Kusal Perera has left for the Abu Dhabi T10; Saif Hassan's
-departure is still unconfirmed; Harry Tector is now IN the verified squad data
-(integrated 11 Nov on Dikshant's re-pin approval). Sources: OnlineKhabar 12 Nov;
-nplcricketleague.com 12 Nov; ops log 11 Nov (commit 5e83d9e).
+**Availability refresh, Fri 13 Nov (corrected same morning):** Emon has left
+(Bangladesh A) and is no longer a recall option; Kusal Perera has left for the
+Abu Dhabi T10; **Saif Hassan has also left, for Bangladesh A / Rising Stars Asia
+Cup duty** — the NPL site's own departures piece lists him under "Who left" and
+the Rising Stars squad list names him, superseding the Gorkha hedge that his
+departure was unconfirmed; he is NOT a recall option for Friday. Harry Tector is
+now IN the verified squad data (integrated 11 Nov on Dikshant's re-pin approval).
+Sources: OnlineKhabar 12 Nov; nplcricketleague.com 12 Nov; ACC Asia Cup Rising
+Stars squad list; ops log 11 Nov (commit 5e83d9e).
 - **OVERSEAS FIVE, FOUR SLOTS:** Ravi Bopara, Dan Mousley, Sikandar Raza, Kamil Mishara
   and Dawid Malan are the overseas group in the verified Season 3 squad data (21 players).
   The XI may contain at most four overseas players alongside seven Nepalis (tournament
@@ -86,9 +90,12 @@ nplcricketleague.com 12 Nov; ops log 11 Nov (commit 5e83d9e).
   question is whether he holds his place if Tector is re-pinned in.
 - **PARVEZ HOSSAIN EMON — GONE (CORRECTED 13 Nov):** Emon left to join Bangladesh A
   (OnlineKhabar, 12 Nov) and is no longer a recall option for Friday.
-- **SAIF HASSAN — ABSENT, DEPARTURE UNCONFIRMED:** Saif Hassan (28 in Match 14) was
-  out for Match 21; no departure report has been found, so he remains a recall
-  option for Friday, unconfirmed.
+- **SAIF HASSAN — GONE (CORRECTED 13 Nov):** Saif Hassan has left for Bangladesh A /
+  Rising Stars Asia Cup duty in Qatar (19–29 Nov): the NPL site's departures piece
+  lists him under "Who left" and groups him with Emon and Ripon Mondol as the three
+  Bangladesh players who left for A-team duty, and the Rising Stars squad list names
+  him. He was absent from the Match 21 XI and is NOT a recall option for Friday. He
+  was the Bolts' top overseas scorer (40* v Kathmandu, 71 v Biratnagar, 28 v Lumbini).
 - **KUSAL PERERA — GONE:** Perera departed to play in the Abu Dhabi T10 League
   (OnlineKhabar, 12 Nov).
 
