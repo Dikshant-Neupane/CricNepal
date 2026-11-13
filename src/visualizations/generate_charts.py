@@ -22,10 +22,14 @@ plt.rcParams['font.size'] = 11
 plt.rcParams['axes.titlesize'] = 14
 plt.rcParams['axes.labelsize'] = 12
 
-# Paths
-DATA_DIR = Path("D:/CricNepal/data/exports")
-OUTPUT_DIR = Path("D:/CricNepal/docs/visualizations")
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# Paths — repo-relative. The previous Windows-only paths
+# (D:/CricNepal/...) made this module create a literal "D:" directory
+# in the cwd on Linux and then fail reading the data (bug found
+# 2026-11-13). The output directory is created by main(), not at
+# import time, so importing the module has no side effects.
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = _REPO_ROOT / "data" / "exports"
+OUTPUT_DIR = _REPO_ROOT / "docs" / "visualizations"
 
 
 def create_death_bowlers_chart():
@@ -255,6 +259,7 @@ def create_summary_report():
 
 def main():
     """Generate all 3 key charts."""
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     print("="*70)
     print("GENERATING KEY VISUALIZATIONS FOR SEASON 2 ANALYSIS")
     print("="*70)

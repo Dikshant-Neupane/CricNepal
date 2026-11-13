@@ -15,10 +15,24 @@ from src.utils.logging_config import get_logger
 logger = get_logger(__name__)
 
 try:
-    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR
+    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR, resolve_ball_by_ball_parquet
 except ImportError:
     NORMALIZED_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "normalized"
     EXPORT_DIR     = Path(__file__).resolve().parent.parent.parent / "data" / "exports"
+
+    def resolve_ball_by_ball_parquet():
+        # Local copy of src.config.paths.resolve_ball_by_ball_parquet
+        # for direct script execution (the import above failed).
+        _root = Path(__file__).resolve().parent.parent.parent
+        _canonical = _root / "data" / "normalized" / "ball_by_ball_normalized.parquet"
+        if _canonical.exists():
+            return _canonical
+        _fallback = _root / "data" / "final" / "parquet" / "ball_by_ball.parquet"
+        if _fallback.exists():
+            return _fallback
+        raise FileNotFoundError(
+            f"ball-by-ball parquet not found: checked {_canonical} and {_fallback}"
+        )
 
 
 # Archetype labels mapped by centroid characteristics
@@ -178,10 +192,14 @@ def compute_and_export_clusters():
     """Main pipeline: build features, cluster, and export."""
     logger.info("Starting Player Clustering pipeline...")
 
-    bbb_path = NORMALIZED_DIR / "ball_by_ball_normalized.parquet"
+    try:
+        bbb_path = resolve_ball_by_ball_parquet()
+    except FileNotFoundError:
+        logger.error("Ball-by-ball data not found (checked normalized and final parquet)")
+        return
     mat_path = NORMALIZED_DIR / "matches_normalized.parquet"
 
-    if not (bbb_path.exists() and mat_path.exists()):
+    if not mat_path.exists():
         logger.error(f"Normalized data not found in {NORMALIZED_DIR}")
         return
 

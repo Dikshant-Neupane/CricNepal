@@ -43,11 +43,25 @@ import warnings
 warnings.filterwarnings('ignore')
 
 try:
-    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR
+    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR, resolve_ball_by_ball_parquet
 except ImportError:
     # Fallback for direct script execution
     NORMALIZED_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "normalized"
     EXPORT_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "exports"
+
+    def resolve_ball_by_ball_parquet():
+        # Local copy of src.config.paths.resolve_ball_by_ball_parquet
+        # for direct script execution (the import above failed).
+        _root = Path(__file__).resolve().parent.parent.parent
+        _canonical = _root / "data" / "normalized" / "ball_by_ball_normalized.parquet"
+        if _canonical.exists():
+            return _canonical
+        _fallback = _root / "data" / "final" / "parquet" / "ball_by_ball.parquet"
+        if _fallback.exists():
+            return _fallback
+        raise FileNotFoundError(
+            f"ball-by-ball parquet not found: checked {_canonical} and {_fallback}"
+        )
 
 EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -76,7 +90,7 @@ def classify_phase(over_num: int) -> str:
 def load_janakpur_matches() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Load normalized data filtered for Janakpur Bolts matches."""
     matches = pd.read_parquet(DATA_DIR / "matches_normalized.parquet")
-    ball_by_ball = pd.read_parquet(DATA_DIR / "ball_by_ball_normalized.parquet")
+    ball_by_ball = pd.read_parquet(resolve_ball_by_ball_parquet())
     
     # Filter for Janakpur matches
     janakpur_matches = matches[

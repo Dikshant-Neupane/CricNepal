@@ -7,15 +7,8 @@ A Kharel,Middle,48,9.38,7.95,0,,,7.95,LIABILITY
 A Kharel,Powerplay,30,8.6,7.24,0,,,7.24,AVERAGE
 A Mahata,Death,0,,,18,8.0,8.61,8.61,AVERAGE
 A Mahata,Middle,0,,,30,8.8,7.47,7.47,AVERAGE
-A Poudel,Middle,0,,,0,,,6.81,AVERAGE
-A Poudel,Powerplay,0,,,0,,,6.56,AVERAGE
 A Yadav,Death,6,14.0,9.26,0,,,9.26,AVERAGE
 A Yadav,Middle,42,5.86,6.42,0,,,6.42,AVERAGE
-AD Mathews,Middle,0,,,0,,,6.81,AVERAGE
-AD Mathews,Powerplay,0,,,0,,,6.56,AVERAGE
-AD Russell,Death,0,,,0,,,8.79,AVERAGE
-AD Russell,Middle,0,,,0,,,6.81,AVERAGE
-AD Russell,Powerplay,0,,,0,,,6.56,AVERAGE
 AK Sah,Death,0,,,12,13.5,9.57,9.57,AVERAGE
 AK Sah,Middle,0,,,48,5.62,6.28,6.28,AVERAGE
 AK Sah,Powerplay,0,,,54,6.56,6.56,6.56,AVERAGE
@@ -27,8 +20,6 @@ Aakarshit Gomel,Middle,6,13.0,7.37,0,,,7.37,AVERAGE
 Aakash Chand,Death,12,11.0,9.16,30,11.4,9.66,9.46,AVERAGE
 Aakash Chand,Middle,12,10.0,7.34,18,7.67,7.01,7.14,AVERAGE
 Aakash Chand,Powerplay,18,7.67,6.82,36,12.0,8.6,7.89,LIABILITY
-Abhisekh Tiwari,Death,0,,,0,,,8.79,AVERAGE
-Abhisekh Tiwari,Middle,0,,,0,,,6.81,AVERAGE
 Abhishesh Gautam,Death,12,6.0,8.32,30,10.8,9.46,9.0,AVERAGE
 Abhishesh Gautam,Middle,48,5.0,6.01,66,7.27,7.05,6.63,AVERAGE
 Abhishesh Gautam,Powerplay,36,5.67,6.22,90,5.0,5.62,5.86,AVERAGE
@@ -64,9 +55,6 @@ Basir Ahamad,Powerplay,30,5.6,6.24,48,5.25,5.98,6.08,AVERAGE
 Bipin Khatri,Death,0,,,8,16.5,9.7,9.7,AVERAGE
 Bipin Khatri,Middle,12,7.5,6.92,30,3.8,5.81,6.25,AVERAGE
 Bipin Khatri,Powerplay,96,7.12,6.91,66,5.91,6.22,6.5,AVERAGE
-C Karunaratne,Death,0,,,0,,,8.79,AVERAGE
-C Karunaratne,Middle,0,,,0,,,6.81,AVERAGE
-C Karunaratne,Powerplay,0,,,0,,,6.56,AVERAGE
 CB Sole,Death,30,9.0,8.86,0,,,8.86,AVERAGE
 CB Sole,Middle,42,6.0,6.48,0,,,6.48,AVERAGE
 CB Sole,Powerplay,90,6.0,6.22,0,,,6.22,AVERAGE
@@ -76,29 +64,24 @@ D Gupta,Middle,12,7.5,6.92,0,,,6.92,AVERAGE
 D Gupta,Powerplay,36,10.33,7.97,0,,,7.97,LIABILITY
 D Kandel,Middle,72,5.92,6.32,6,7.0,6.83,6.63,AVERAGE
 D Kandel,Powerplay,24,4.0,5.83,0,,,5.83,AVERAGE
-D Khanal,Death,0,,,0,,,8.79,AVERAGE
 D Khanal,Middle,12,10.5,7.42,6,6.0,6.74,7.01,AVERAGE
 D Kharel,Middle,7,12.86,7.44,0,,,7.44,AVERAGE
 D Lakshan,Death,0,,,22,5.73,7.97,7.97,AVERAGE
 D Lakshan,Powerplay,0,,,48,5.62,6.14,6.14,AVERAGE
 D Parashar,Powerplay,0,,,12,8.5,6.88,6.88,AVERAGE
 D Rawat,Middle,0,,,30,8.8,7.47,7.47,AVERAGE
-D Shah,Middle,0,,,0,,,6.81,AVERAGE
 DA Douthwaite,Death,5,20.4,9.68,21,5.43,7.92,8.62,AVERAGE
 DA Douthwaite,Middle,12,3.5,6.26,30,7.8,7.14,6.79,AVERAGE
 DA Douthwaite,Powerplay,24,5.75,6.33,12,7.5,6.72,6.56,AVERAGE
 DJ Malan,Death,0,,,3,10.0,8.85,8.85,AVERAGE
 DJM Short,Death,0,,,12,14.5,9.74,9.74,AVERAGE
 DJM Short,Middle,0,,,68,8.03,7.46,7.46,AVERAGE
-DR Mousley,Middle,0,,,0,,,6.81,AVERAGE
-DR Mousley,Powerplay,0,,,0,,,6.56,AVERAGE
 DS Airee,Death,42,6.0,7.64,0,,,7.64,SPECIALIST
 DS Airee,Middle,72,6.17,6.46,66,9.45,8.2,7.5,AVERAGE
 DS Airee,Powerplay,36,9.0,7.47,78,8.92,7.9,7.73,LIABILITY
 Deepak Bohara,Middle,8,6.75,6.8,0,,,6.8,AVERAGE
 GLS Scrimshaw,Death,0,,,12,12.5,9.41,9.41,AVERAGE
 GLS Scrimshaw,Middle,0,,,12,6.5,6.76,6.76,AVERAGE
-GSNFG Jayasuriya,Powerplay,0,,,0,,,6.56,AVERAGE
 Gautam KC,Middle,0,,,12,14.0,8.01,8.01,LIABILITY
 Gulbadin Naib,Death,0,,,36,9.83,9.18,9.18,AVERAGE
 Gulbadin Naib,Middle,0,,,42,6.57,6.71,6.71,AVERAGE
@@ -111,7 +94,6 @@ H Dhami,Middle,0,,,30,6.8,6.81,6.81,AVERAGE
 H Dhami,Powerplay,0,,,54,8.67,7.56,7.56,LIABILITY
 H Mahara,Middle,0,,,6,2.0,6.37,6.37,AVERAGE
 H Mahara,Powerplay,0,,,12,15.0,7.97,7.97,LIABILITY
-H Shah,Middle,0,,,0,,,6.81,AVERAGE
 H Thaker,Death,36,7.5,8.31,0,,,8.31,AVERAGE
 H Thaker,Middle,78,5.92,6.31,0,,,6.31,AVERAGE
 H Thaker,Powerplay,72,6.17,6.35,0,,,6.35,AVERAGE
@@ -119,10 +101,6 @@ HG Munsey,Middle,0,,,6,9.0,7.01,7.01,AVERAGE
 Harmeet Singh,Death,18,3.67,7.61,10,4.2,8.13,7.92,AVERAGE
 Harmeet Singh,Middle,48,3.88,5.51,120,6.35,6.5,6.1,AVERAGE
 Harmeet Singh,Powerplay,54,5.0,5.82,66,5.55,6.03,5.95,AVERAGE
-Hussain Talat,Death,0,,,0,,,8.79,AVERAGE
-Hussain Talat,Middle,0,,,0,,,6.81,AVERAGE
-Hussain Talat,Powerplay,0,,,0,,,6.56,AVERAGE
-I Pandey,Death,0,,,0,,,8.79,AVERAGE
 I Pandey,Middle,30,8.0,7.21,42,8.29,7.42,7.34,AVERAGE
 I Pandey,Powerplay,12,4.0,6.13,0,,,6.13,AVERAGE
 Ismat Alam,Death,12,11.5,9.24,0,,,9.24,AVERAGE
@@ -138,9 +116,6 @@ JK Mukhiya,Middle,6,11.0,7.19,0,,,7.19,AVERAGE
 JK Mukhiya,Powerplay,6,4.0,6.33,0,,,6.33,AVERAGE
 JN Loftie-Eaton,Death,6,4.0,8.35,12,13.5,9.57,9.08,AVERAGE
 JN Loftie-Eaton,Middle,42,7.43,7.06,24,5.75,6.51,6.73,AVERAGE
-Jahandad Khan,Death,0,,,0,,,8.79,AVERAGE
-Jahandad Khan,Middle,0,,,0,,,6.81,AVERAGE
-Jahandad Khan,Powerplay,0,,,0,,,6.56,AVERAGE
 K Bhurtel,Death,13,9.23,8.87,30,10.0,9.19,9.06,AVERAGE
 K Bhurtel,Middle,72,7.75,7.32,108,6.83,6.82,7.02,AVERAGE
 K Mahato,Death,72,8.33,8.54,18,10.67,9.22,8.95,AVERAGE
@@ -148,13 +123,9 @@ K Mahato,Middle,36,7.0,6.88,6,13.0,7.37,7.17,AVERAGE
 K Mahato,Powerplay,90,7.07,6.86,24,6.25,6.47,6.63,AVERAGE
 K Thagunna,Death,0,,,12,9.5,8.91,8.91,AVERAGE
 K Thagunna,Middle,0,,,36,6.33,6.63,6.63,AVERAGE
-KIC Asalanka,Death,0,,,0,,,8.79,AVERAGE
-KIC Asalanka,Middle,0,,,0,,,6.81,AVERAGE
-KIC Asalanka,Powerplay,0,,,0,,,6.56,AVERAGE
 KS Airee,Death,0,,,28,9.0,8.86,8.86,AVERAGE
 KS Airee,Middle,0,,,18,11.67,7.93,7.93,LIABILITY
 KS Airee,Powerplay,0,,,54,10.22,8.29,8.29,LIABILITY
-KTH Ratnayake,Powerplay,0,,,0,,,6.56,AVERAGE
 Karan KC,Death,53,8.04,8.44,71,9.13,8.97,8.76,AVERAGE
 Karan KC,Middle,24,3.5,5.86,12,6.0,6.67,6.35,AVERAGE
 Karan KC,Powerplay,66,6.36,6.46,90,6.27,6.38,6.41,AVERAGE
@@ -184,9 +155,6 @@ MG Erasmus,Middle,90,4.47,5.4,54,5.44,6.16,5.86,AVERAGE
 MG Erasmus,Powerplay,48,5.38,6.03,18,11.0,7.58,6.96,AVERAGE
 MJJ Critchley,Death,6,20.0,9.81,0,,,9.81,LIABILITY
 MJJ Critchley,Middle,48,9.0,7.78,0,,,7.78,AVERAGE
-MM Ali,Death,0,,,0,,,8.79,AVERAGE
-MM Ali,Middle,0,,,0,,,6.81,AVERAGE
-MM Ali,Powerplay,0,,,0,,,6.56,AVERAGE
 MMMS Cooray,Death,0,,,12,4.5,8.07,8.07,AVERAGE
 MMMS Cooray,Middle,0,,,24,5.75,6.51,6.51,AVERAGE
 MMMS Cooray,Powerplay,0,,,36,5.17,6.04,6.04,AVERAGE
@@ -196,9 +164,6 @@ MRJ Watt,Powerplay,0,,,42,3.14,5.15,5.15,SPECIALIST
 Maaz Sadaqat,Death,0,,,30,7.2,8.26,8.26,AVERAGE
 Maaz Sadaqat,Middle,0,,,42,6.0,6.48,6.48,AVERAGE
 Maaz Sadaqat,Powerplay,0,,,48,6.75,6.64,6.64,AVERAGE
-Mahedi Hasan,Death,0,,,0,,,8.79,AVERAGE
-Mahedi Hasan,Middle,0,,,0,,,6.81,AVERAGE
-Mahedi Hasan,Powerplay,0,,,0,,,6.56,AVERAGE
 Mayan Yadav,Middle,0,,,18,6.33,6.7,6.7,AVERAGE
 Milan Bohara,Middle,0,,,6,6.0,6.74,6.74,AVERAGE
 Milind Kumar,Death,0,,,6,21.0,9.9,9.9,LIABILITY
@@ -208,7 +173,6 @@ Mohammad Aadil Alam,Middle,0,,,6,11.0,7.19,7.19,AVERAGE
 Mohammad Mohsin,Death,27,4.67,7.51,0,,,7.51,SPECIALIST
 Mohammad Mohsin,Middle,168,6.29,6.42,0,,,6.42,AVERAGE
 Mohammad Mohsin,Powerplay,12,5.0,6.3,0,,,6.3,AVERAGE
-Mohammad Saifuddin,Middle,0,,,0,,,6.81,AVERAGE
 N Bhatta,Middle,0,,,72,7.08,6.96,6.96,AVERAGE
 N Bhatta,Powerplay,0,,,24,8.0,6.97,6.97,AVERAGE
 N Joshi,Death,0,,,6,13.0,9.17,9.17,AVERAGE
@@ -228,9 +192,6 @@ NR Kirton,Middle,12,5.0,6.51,0,,,6.51,AVERAGE
 Nar Sarki,Middle,12,9.5,7.26,0,,,7.26,AVERAGE
 P Mehra,Death,0,,,7,5.14,8.41,8.41,AVERAGE
 P Mehra,Middle,0,,,12,8.0,7.01,7.01,AVERAGE
-P Pokhrel,Middle,0,,,0,,,6.81,AVERAGE
-P Pokhrel,Powerplay,0,,,0,,,6.56,AVERAGE
-P Sarraf,Death,0,,,0,,,8.79,AVERAGE
 P Sarraf,Middle,0,,,36,7.67,7.13,7.13,AVERAGE
 P Sarraf,Powerplay,0,,,24,6.75,6.61,6.61,AVERAGE
 Pratis GC,Death,24,9.0,8.85,60,8.8,8.79,8.81,AVERAGE
@@ -245,9 +206,6 @@ R Dhawan,Powerplay,0,,,24,6.5,6.54,6.54,AVERAGE
 R Kumar,Death,18,13.0,9.76,18,5.67,8.07,8.75,AVERAGE
 R Kumar,Middle,54,7.78,7.27,72,5.5,6.1,6.57,AVERAGE
 R Kumar,Powerplay,12,5.0,6.3,30,7.0,6.71,6.55,AVERAGE
-R Mondol,Death,0,,,0,,,8.79,AVERAGE
-R Mondol,Middle,0,,,0,,,6.81,AVERAGE
-R Mondol,Powerplay,0,,,0,,,6.56,AVERAGE
 R Trumpelmann,Death,0,,,68,9.88,9.37,9.37,AVERAGE
 R Trumpelmann,Middle,0,,,18,6.0,6.62,6.62,AVERAGE
 R Trumpelmann,Powerplay,0,,,114,4.63,5.3,5.3,SPECIALIST
@@ -263,9 +221,6 @@ RR Simmonds,Middle,12,5.5,6.59,0,,,6.59,AVERAGE
 RR Simmonds,Powerplay,72,5.92,6.21,0,,,6.21,AVERAGE
 RS Bopara,Death,12,6.5,8.41,12,10.5,9.07,8.81,AVERAGE
 RS Bopara,Middle,42,6.0,6.48,36,8.0,7.26,6.95,AVERAGE
-Rahul Yadav,Death,0,,,0,,,8.79,AVERAGE
-Rahul Yadav,Middle,0,,,0,,,6.81,AVERAGE
-Rahul Yadav,Powerplay,0,,,0,,,6.56,AVERAGE
 Rashid Khan,Death,50,9.36,9.05,45,8.93,8.85,8.93,AVERAGE
 Rashid Khan,Middle,24,6.25,6.65,60,5.8,6.3,6.44,AVERAGE
 Rashid Khan,Powerplay,30,7.4,6.84,24,12.75,8.33,7.73,LIABILITY
@@ -283,7 +238,6 @@ S Jora,Middle,18,7.33,6.93,0,,,6.93,AVERAGE
 S Lamichhane,Death,30,7.0,8.19,48,5.25,7.22,7.61,SPECIALIST
 S Lamichhane,Middle,120,7.05,6.97,168,4.75,5.29,5.96,AVERAGE
 S Lamichhane,Powerplay,24,9.25,7.33,0,,,7.33,AVERAGE
-S Maharjan,Powerplay,0,,,0,,,6.56,AVERAGE
 S Malla,Death,33,3.82,7.03,12,4.0,7.99,7.61,SPECIALIST
 S Malla,Middle,78,7.69,7.31,108,6.44,6.57,6.87,AVERAGE
 S Malla,Powerplay,6,9.0,6.78,96,6.94,6.79,6.79,AVERAGE
@@ -295,8 +249,6 @@ SA Zaib,Powerplay,30,4.8,5.97,18,4.33,6.05,6.02,AVERAGE
 SC Kuggeleijn,Death,58,7.24,8.03,48,6.25,7.66,7.81,AVERAGE
 SC Kuggeleijn,Middle,19,6.63,6.77,12,2.0,6.01,6.31,AVERAGE
 SC Kuggeleijn,Powerplay,96,5.06,5.64,96,6.31,6.41,6.1,AVERAGE
-SC van Schalkwyk,Middle,0,,,0,,,6.81,AVERAGE
-SC van Schalkwyk,Powerplay,0,,,0,,,6.56,AVERAGE
 SD Heazlett,Death,0,,,6,14.0,9.26,9.26,AVERAGE
 SD Heazlett,Middle,0,,,36,8.17,7.32,7.32,AVERAGE
 SD Heazlett,Powerplay,0,,,6,5.0,6.42,6.42,AVERAGE
@@ -313,9 +265,6 @@ Saad Bin Zafar,Death,30,4.6,7.39,0,,,7.39,SPECIALIST
 Saad Bin Zafar,Middle,60,7.0,6.9,0,,,6.9,AVERAGE
 Saad Bin Zafar,Powerplay,60,7.3,6.93,0,,,6.93,AVERAGE
 Sachin Bhatt,Middle,0,,,24,10.25,7.79,7.79,AVERAGE
-Saif Hassan,Death,0,,,0,,,8.79,AVERAGE
-Saif Hassan,Middle,0,,,0,,,6.81,AVERAGE
-Saif Hassan,Powerplay,0,,,0,,,6.56,AVERAGE
 Santosh Yadav,Death,0,,,18,11.0,9.3,9.3,AVERAGE
 Santosh Yadav,Middle,0,,,78,5.46,6.05,6.05,AVERAGE
 Santosh Yadav,Powerplay,0,,,6,6.0,6.51,6.51,AVERAGE
@@ -323,15 +272,10 @@ Saugat Dhakal,Middle,0,,,6,14.0,7.46,7.46,AVERAGE
 Shahab Alam,Death,18,2.0,7.22,24,10.25,9.21,8.41,AVERAGE
 Shahab Alam,Middle,66,6.27,6.53,120,5.7,6.07,6.25,AVERAGE
 Shahab Alam,Powerplay,54,5.56,6.08,24,4.75,6.04,6.06,AVERAGE
-Shakib Al Hasan,Death,0,,,0,,,8.79,AVERAGE
-Shakib Al Hasan,Middle,0,,,0,,,6.81,AVERAGE
-Shakib Al Hasan,Powerplay,0,,,0,,,6.56,AVERAGE
 Shankar Rana,Middle,0,,,6,5.0,6.65,6.65,AVERAGE
 Shubham Ranjane,Death,0,,,30,10.4,9.33,9.33,AVERAGE
 Shubham Ranjane,Middle,0,,,18,8.67,7.24,7.24,AVERAGE
 Shubham Ranjane,Powerplay,0,,,12,12.5,7.55,7.55,AVERAGE
-Sikandar Raza,Middle,0,,,0,,,6.81,AVERAGE
-Sikandar Raza,Powerplay,0,,,0,,,6.56,AVERAGE
 Sohail Tanvir,Death,44,6.14,7.67,39,8.0,8.48,8.16,AVERAGE
 Sohail Tanvir,Middle,24,7.75,7.08,12,11.0,7.51,7.34,AVERAGE
 Sohail Tanvir,Powerplay,114,4.84,5.43,60,5.8,6.18,5.88,AVERAGE
@@ -347,8 +291,6 @@ Sunny Patel,Powerplay,0,,,30,4.4,5.84,5.84,AVERAGE
 Surya Tamang,Death,17,9.88,9.03,0,,,9.03,AVERAGE
 Surya Tamang,Middle,66,7.36,7.1,48,8.38,7.51,7.35,AVERAGE
 Surya Tamang,Powerplay,6,3.0,6.24,30,6.8,6.64,6.48,AVERAGE
-TAI Taylor,Death,0,,,0,,,8.79,AVERAGE
-TAI Taylor,Powerplay,0,,,0,,,6.56,AVERAGE
 TB Thapa,Middle,12,9.5,7.26,12,7.5,6.92,7.06,AVERAGE
 TJ Draca,Death,0,,,8,12.0,9.17,9.17,AVERAGE
 TJ Draca,Middle,0,,,12,5.5,6.59,6.59,AVERAGE
@@ -356,7 +298,6 @@ TR Bhandari,Death,0,,,42,7.0,8.05,8.05,AVERAGE
 TR Bhandari,Middle,24,6.0,6.58,120,4.8,5.47,5.91,AVERAGE
 UB Singh,Middle,0,,,12,13.5,7.92,7.92,LIABILITY
 UB Singh,Powerplay,0,,,12,6.5,6.55,6.55,AVERAGE
-UBS Thakuri,Death,0,,,0,,,8.79,AVERAGE
 UBS Thakuri,Middle,48,7.38,7.06,0,,,7.06,AVERAGE
 UBS Thakuri,Powerplay,6,5.0,6.42,0,,,6.42,AVERAGE
 WD Parnell,Death,0,,,12,6.5,8.41,8.41,AVERAGE

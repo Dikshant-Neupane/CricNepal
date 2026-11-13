@@ -18,6 +18,21 @@ from src.config.paths import DATA_DIR, PARQUET_DIR
 PREDICTIONS_DIR = DATA_DIR / "predictions"
 
 
+def provisional_summary(status: dict) -> tuple:
+    """Provisional counts from predictions_status.json.
+
+    The file carries flat keys: ``n_provisional`` (results recorded)
+    and ``provisional_superseded_match_ids`` (official results that
+    superseded a provisional one). There is no ``provisional`` object
+    — reading ``status.get("provisional", {})`` always returned 0
+    (bug found 2026-11-13: the page reported 0 recorded / 0
+    superseded while the file says 8 / 12).
+    """
+    recorded = int(status.get("n_provisional", 0) or 0)
+    superseded = len(status.get("provisional_superseded_match_ids") or [])
+    return recorded, superseded
+
+
 def render_settings():
     st.markdown(
         """
@@ -47,9 +62,9 @@ def render_settings():
         st.write(f"- **Ratings as of:** "
                  f"{status.get('data_as_of') or status.get('ratings_as_of', '—')} "
                  f"({status.get('n_matches_ingested', '—')} matches ingested)")
-        prov = status.get("provisional", {})
-        st.write(f"- **Provisional results recorded:** {prov.get('n_provisional_results', 0)} "
-                 f"(superseded: {prov.get('n_superseded_by_official', 0)})")
+        n_recorded, n_superseded = provisional_summary(status)
+        st.write(f"- **Provisional results recorded:** {n_recorded} "
+                 f"(superseded: {n_superseded})")
         st.write("- **Data note:** Cricsheet publication lags real time "
                  "(Season 2 median lag was 8 days), so in-season ratings can "
                  "trail the latest played match.")

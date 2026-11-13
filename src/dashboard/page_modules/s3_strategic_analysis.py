@@ -11,6 +11,18 @@ import plotly.graph_objects as go
 from src.dashboard.services.data_loaders import load_export_csv
 
 
+def format_economy(value) -> str:
+    """Display text for an economy value that may be missing.
+
+    A bowler with no balls in a season has NaN economy (never 0.0);
+    formatting NaN with ``:.2f`` prints "nan". The top Death bowler
+    on current data (Saad Bin Zafar) has s2_balls == 0, so the banner
+    printed "S2 Economy: nan" (bug found 2026-11-13). Show an
+    explicit marker instead.
+    """
+    return f"{value:.2f}" if pd.notna(value) else "— (no balls that season)"
+
+
 def _load_s1_s2_comparison():
     """Load S1 vs S2 phase-wise comparison data."""
     batting = load_export_csv("s1_vs_s2_batting_by_phase.csv")
@@ -487,7 +499,7 @@ def render_s3_strategic_analysis():
                 top_death = death_specialists.iloc[0]
                 st.success(f"""
                 **Top Death Bowler:** {top_death['bowler_name']}  
-                S2 Economy: {top_death['s2_economy_raw']:.2f} → S3 Forecast: {top_death['s3_economy_proj']:.2f}
+                S2 Economy: {format_economy(top_death['s2_economy_raw'])} → S3 Forecast: {top_death['s3_economy_proj']:.2f}
                 """)
             else:
                 st.warning("No death specialists projected <7.5 economy. Need external recruitment.")

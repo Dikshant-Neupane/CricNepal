@@ -29,14 +29,27 @@ logger = get_logger(__name__)
 TEAM = "Janakpur Bolts"
 
 try:
-    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR
+    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR, resolve_ball_by_ball_parquet
     DATA_DIR = NORMALIZED_DIR
 except ImportError:
     DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "normalized"
     EXPORT_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "exports"
 
+    def resolve_ball_by_ball_parquet():
+        # Local copy of src.config.paths.resolve_ball_by_ball_parquet
+        # for direct script execution (the import above failed).
+        _root = Path(__file__).resolve().parent.parent.parent
+        _canonical = _root / "data" / "normalized" / "ball_by_ball_normalized.parquet"
+        if _canonical.exists():
+            return _canonical
+        _fallback = _root / "data" / "final" / "parquet" / "ball_by_ball.parquet"
+        if _fallback.exists():
+            return _fallback
+        raise FileNotFoundError(
+            f"ball-by-ball parquet not found: checked {_canonical} and {_fallback}"
+        )
+
 MATCHES_FILE = DATA_DIR / "matches_normalized.parquet"
-DELIVERIES_FILE = DATA_DIR / "ball_by_ball_normalized.parquet"
 
 # Phase definitions
 DEATH_OVERS = (16, 20)
@@ -52,7 +65,7 @@ def load_janakpur_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     logger.info(f"\n[1/6] Loading normalized data...")
     
     matches = pd.read_parquet(MATCHES_FILE)
-    deliveries = pd.read_parquet(DELIVERIES_FILE)
+    deliveries = pd.read_parquet(resolve_ball_by_ball_parquet())
     
     # Filter Janakpur matches
     janakpur_matches = matches[

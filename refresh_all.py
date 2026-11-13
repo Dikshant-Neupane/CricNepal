@@ -41,6 +41,12 @@ PIPELINE_STEPS = [
     ("Player Attribution Analysis", "src/analytics/player_attribution_analysis.py"),
     ("Opposition Strength Analysis", "src/analytics/opposition_strength_analysis.py"),
     ("S3 Performance Forecaster", "src/analytics/s3_performance_forecaster.py"),
+    # 4b. Pinned S3 forecast regenerators. The forecaster step above
+    # does not write these files (its main() is a placeholder), and
+    # the phase export was an orphan until 2026-11-13; a full refresh
+    # must regenerate them or it leaves them stale.
+    ("S3 Bowler & Batter Forecasts", "scripts/regenerate_s3_forecasts.py"),
+    ("S3 Phase Bowler Forecast", "scripts/regenerate_s3_bowler_forecast.py"),
     ("Win Probability Model", "src/analytics/win_probability_model.py"),
     ("Player Clustering", "src/analytics/player_clustering.py"),
     ("Attribution Sensitivity Analysis", "src/analytics/attribution_sensitivity_analysis.py"),

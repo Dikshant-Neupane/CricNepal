@@ -144,3 +144,82 @@ class TestForecastBowlersPhaseAware:
                 assert lo - 0.01 <= shrunk <= hi + 0.01, (
                     f"Shrunk {shrunk} not between raw {raw} and prior {prior}"
                 )
+
+    def test_function_still_returns_s3_only_rows(self, mini_bbb, mini_matches):
+        """The core function returns ALL rows, including S3-only bowlers.
+
+        The export restriction lives in the generation script, not
+        here: a bowler who only appears in S3 gets a prior-only
+        projection (s1_balls == s2_balls == 0) from the function,
+        and the script drops that row from the shipped export.
+        """
+        rows = mini_bbb.to_dict("records")
+        for i in range(12):
+            rows.append({
+                "match_id": "M5",
+                "innings": 1,
+                "over": i // 6,
+                "ball": (i % 6) + 1,
+                "bowler_name": "Bowler S3-only",
+                "batter_name": "Bat Z",
+                "batting_team": "Opp",
+                "bowling_team": "JAB",
+                "runs_total": 1,
+                "is_wicket": 0,
+                "phase": "Death",
+            })
+        bbb = pd.DataFrame(rows)
+        matches = pd.DataFrame({
+            "match_id": ["M1", "M3", "M5"],
+            "season": ["S1", "S2", "S3"],
+        })
+        result = forecast_bowlers_phase_aware(bbb, matches)
+        s3_only = result[(result["bowler_name"] == "Bowler S3-only")]
+        assert len(s3_only) == 1
+        row = s3_only.iloc[0]
+        assert int(row["s1_balls"]) == 0
+        assert int(row["s2_balls"]) == 0
+        assert row["s3_economy_proj"] == PHASE_PRIORS["Death"]
+
+
+class TestExportRestriction:
+    """The shipped export excludes S3-only bowlers (script-level filter)."""
+
+    @staticmethod
+    def _load_script():
+        import importlib.util
+        from pathlib import Path
+
+        path = Path(__file__).resolve().parent.parent / "scripts" / "regenerate_s3_bowler_forecast.py"
+        spec = importlib.util.spec_from_file_location("regen_s3_bowler_forecast", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def test_restrict_export_drops_s3_only_rows(self):
+        """A row with s1_balls == s2_balls == 0 is dropped; history rows kept."""
+        frame = pd.DataFrame([
+            {"bowler_name": "Has S1", "phase": "Death", "s1_balls": 30, "s2_balls": 0},
+            {"bowler_name": "Has S2", "phase": "Middle", "s1_balls": 0, "s2_balls": 55},
+            {"bowler_name": "S3 only", "phase": "Middle", "s1_balls": 0, "s2_balls": 0},
+            {"bowler_name": "S3 only", "phase": "Death", "s1_balls": 0, "s2_balls": 0},
+        ])
+        module = self._load_script()
+        export = module.restrict_export(frame)
+        assert len(export) == 2
+        assert set(export["bowler_name"]) == {"Has S1", "Has S2"}
+        assert ((export["s1_balls"] == 0) & (export["s2_balls"] == 0)).sum() == 0
+
+    def test_export_count_is_function_rows_minus_s3_only(self):
+        """Export rows == function rows minus S3-only rows, on a small frame."""
+        frame = pd.DataFrame([
+            {"bowler_name": f"B{i}", "phase": "Death", "s1_balls": 10, "s2_balls": 10}
+            for i in range(5)
+        ] + [
+            {"bowler_name": f"S{i}", "phase": "Middle", "s1_balls": 0, "s2_balls": 0}
+            for i in range(3)
+        ])
+        module = self._load_script()
+        export = module.restrict_export(frame)
+        n_s3_only = int(((frame["s1_balls"] == 0) & (frame["s2_balls"] == 0)).sum())
+        assert len(export) == len(frame) - n_s3_only == 5

@@ -27,16 +27,30 @@ from src.utils.logging_config import get_logger
 logger = get_logger(__name__)
 
 try:
-    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR
+    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR, resolve_ball_by_ball_parquet
 except ImportError:
-    NORMALIZED_DIR = Path(__file__).resolve().parent.parent / "data" / "normalized"
-    EXPORT_DIR = Path(__file__).resolve().parent.parent / "data" / "exports"
+    NORMALIZED_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "normalized"
+    EXPORT_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "exports"
+
+    def resolve_ball_by_ball_parquet():
+        # Local copy of src.config.paths.resolve_ball_by_ball_parquet
+        # for direct script execution (the import above failed).
+        _root = Path(__file__).resolve().parent.parent.parent
+        _canonical = _root / "data" / "normalized" / "ball_by_ball_normalized.parquet"
+        if _canonical.exists():
+            return _canonical
+        _fallback = _root / "data" / "final" / "parquet" / "ball_by_ball.parquet"
+        if _fallback.exists():
+            return _fallback
+        raise FileNotFoundError(
+            f"ball-by-ball parquet not found: checked {_canonical} and {_fallback}"
+        )
 
 EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def load_data():
-    bbb = pd.read_parquet(NORMALIZED_DIR / "ball_by_ball_normalized.parquet")
+    bbb = pd.read_parquet(resolve_ball_by_ball_parquet())
     matches = pd.read_parquet(NORMALIZED_DIR / "matches_normalized.parquet")
     return bbb, matches
 
@@ -169,10 +183,24 @@ from src.utils.logging_config import get_logger
 logger = get_logger(__name__)
 
 try:
-    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR
+    from src.config.paths import NORMALIZED_DIR, EXPORT_DIR, resolve_ball_by_ball_parquet
 except ImportError:
-    NORMALIZED_DIR = Path(__file__).resolve().parent.parent / "data" / "normalized"
-    EXPORT_DIR = Path(__file__).resolve().parent.parent / "data" / "exports"
+    NORMALIZED_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "normalized"
+    EXPORT_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "exports"
+
+    def resolve_ball_by_ball_parquet():
+        # Local copy of src.config.paths.resolve_ball_by_ball_parquet
+        # for direct script execution (the import above failed).
+        _root = Path(__file__).resolve().parent.parent.parent
+        _canonical = _root / "data" / "normalized" / "ball_by_ball_normalized.parquet"
+        if _canonical.exists():
+            return _canonical
+        _fallback = _root / "data" / "final" / "parquet" / "ball_by_ball.parquet"
+        if _fallback.exists():
+            return _fallback
+        raise FileNotFoundError(
+            f"ball-by-ball parquet not found: checked {_canonical} and {_fallback}"
+        )
 
 EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 

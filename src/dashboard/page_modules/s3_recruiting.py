@@ -333,8 +333,8 @@ def _render_form_ranking_tab() -> None:
     form_table = load_player_form_table(competition_weights=custom_weights)
     if form_table.empty:
         st.warning(
-            "Player form table is empty. Parquet files are not present in `data/normalized/`.  \n"
-            "Expected: `data/normalized/ball_by_ball_normalized.parquet`"
+            "Player form table is empty. Parquet files are not present in `data/final/parquet/`.  \n"
+            "Expected: `data/final/parquet/player_innings.parquet` and `data/final/parquet/matches.parquet`"
         )
         return
 
