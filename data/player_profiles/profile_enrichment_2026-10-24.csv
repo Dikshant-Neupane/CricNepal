@@ -467,3 +467,8 @@ player_ht_tector,HT Tector,batting_hand,Right,Wikipedia (ESPNcricinfo-sourced); 
 player_ht_tector,HT Tector,bowling_type,Spin,Wikipedia (ESPNcricinfo-sourced): right-arm off break,added
 player_ht_tector,HT Tector,bowling_arm,Right,Wikipedia (ESPNcricinfo-sourced): right-arm off break,added
 player_ht_tector,HT Tector,date_of_birth,1999-12-06,Wikipedia (ESPNcricinfo-sourced); CricTracker profile,added
+player_i_udana,I Udana,country,Sri Lanka,Wikipedia (ESPNcricinfo-sourced),added
+player_i_udana,I Udana,batting_hand,Right,Wikipedia (ESPNcricinfo-sourced),added
+player_i_udana,I Udana,bowling_type,Pace,Wikipedia (ESPNcricinfo-sourced): left-arm medium-fast,added
+player_i_udana,I Udana,bowling_arm,Left,Wikipedia (ESPNcricinfo-sourced): left-arm medium-fast,added
+player_i_udana,I Udana,date_of_birth,1988-02-17,Wikipedia (ESPNcricinfo-sourced),added
