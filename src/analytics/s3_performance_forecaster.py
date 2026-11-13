@@ -93,9 +93,16 @@ def forecast_bowlers_phase_aware(bbb: pd.DataFrame, matches: pd.DataFrame, k: in
         for season, prefix in (("S1", "s1"), ("S2", "s2")):
             r = per_season.get(season)
             if r is None:
+                # No legal balls that season: balls 0, economy NaN (never
+                # 0.0, which would read as a perfect economy). The shipped
+                # export uses the same convention.
+                out[f"{prefix}_balls"] = 0
                 out[f"{prefix}_economy_raw"] = np.nan
                 out[f"{prefix}_economy_shrunk"] = np.nan
             else:
+                # balls are legal balls: wides/no-ball rows were dropped
+                # from the frame above, so int(r.balls) counts legal balls.
+                out[f"{prefix}_balls"] = int(r.balls)
                 out[f"{prefix}_economy_raw"] = round(r.economy, 2)
                 out[f"{prefix}_economy_shrunk"] = shrink_to_phase_prior(r.economy, int(r.balls), phase, k=k)
                 shrunk[prefix] = out[f"{prefix}_economy_shrunk"]
@@ -115,10 +122,16 @@ def forecast_bowlers_phase_aware(bbb: pd.DataFrame, matches: pd.DataFrame, k: in
             out["specialist_flag"] = "AVERAGE"
         rows.append(out)
 
+    # Column order matches the shipped export
+    # data/exports/s3_phase_bowler_forecast.csv. s1_balls / s2_balls are
+    # required by the dashboard (s3_strategic_analysis.py checks for
+    # s2_balls and skips the S3 bowling section with a warning without
+    # it); without them a regeneration from this function could not
+    # render. Added 2026-11-13, regeneration of the orphan export.
     columns = [
-        "bowler_name", "phase", "s1_economy_raw", "s2_economy_raw",
-        "s1_economy_shrunk", "s2_economy_shrunk", "s3_economy_proj",
-        "specialist_flag",
+        "bowler_name", "phase", "s1_balls", "s1_economy_raw",
+        "s1_economy_shrunk", "s2_balls", "s2_economy_raw",
+        "s2_economy_shrunk", "s3_economy_proj", "specialist_flag",
     ]
     return pd.DataFrame(rows, columns=columns)
 

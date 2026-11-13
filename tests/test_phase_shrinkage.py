@@ -105,12 +105,26 @@ class TestForecastBowlersPhaseAware:
     def test_has_required_columns(self, mini_bbb, mini_matches):
         result = forecast_bowlers_phase_aware(mini_bbb, mini_matches)
         required = [
-            "bowler_name", "phase", "s1_economy_raw", "s2_economy_raw",
-            "s1_economy_shrunk", "s2_economy_shrunk", "s3_economy_proj",
-            "specialist_flag",
+            "bowler_name", "phase", "s1_balls", "s1_economy_raw",
+            "s1_economy_shrunk", "s2_balls", "s2_economy_raw",
+            "s2_economy_shrunk", "s3_economy_proj", "specialist_flag",
         ]
         for col in required:
             assert col in result.columns, f"Missing column: {col}"
+
+    def test_balls_columns_are_legal_ball_counts(self, mini_bbb, mini_matches):
+        """s1_balls / s2_balls must be present and count legal balls.
+
+        The dashboard (s3_strategic_analysis.py) requires s2_balls and
+        skips the S3 bowling section with a warning without it, so a
+        regeneration from this function must carry both columns.
+        Bowler A bowled 30 balls in each season in the fixture.
+        """
+        result = forecast_bowlers_phase_aware(mini_bbb, mini_matches)
+        assert len(result) == 1
+        row = result.iloc[0]
+        assert int(row["s1_balls"]) == 30
+        assert int(row["s2_balls"]) == 30
 
     def test_specialist_flag_values(self, mini_bbb, mini_matches):
         result = forecast_bowlers_phase_aware(mini_bbb, mini_matches)
