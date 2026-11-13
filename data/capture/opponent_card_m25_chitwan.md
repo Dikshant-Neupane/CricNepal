@@ -14,6 +14,11 @@ direct table clash with a side Janakpur can overtake. Head-to-head in S1–S2: 1
 (2 matches).
 
 ## Availability sweep (11 Nov)
+**Availability refresh, Fri 13 Nov:** Emon has left (Bangladesh A) and is no longer
+a recall option; Kusal Perera has left for the Abu Dhabi T10; Saif Hassan's
+departure is still unconfirmed; Harry Tector is now IN the verified squad data
+(integrated 11 Nov on Dikshant's re-pin approval). Sources: OnlineKhabar 12 Nov;
+nplcricketleague.com 12 Nov; ops log 11 Nov (commit 5e83d9e).
 - **OVERSEAS FIVE, FOUR SLOTS:** Ravi Bopara, Dan Mousley, Sikandar Raza, Kamil Mishara
   and Dawid Malan are the overseas group in the verified Season 3 squad data (21 players).
   The XI may contain at most four overseas players alongside seven Nepalis (tournament
@@ -71,17 +76,21 @@ direct table clash with a side Janakpur can overtake. Head-to-head in S1–S2: 1
   Ahmed and Hunain Shah were removed from squad data 31 Oct (departure verified by
   four sources quoting Bolts CEO Khatiwada). Friday is played without all three, as
   the Match 21 card already assumed.
-- **HARRY TECTOR — DEBUTED BUT NOT IN THE VERIFIED SQUAD DATA:** debuted for
+- **HARRY TECTOR — IN THE VERIFIED SQUAD DATA (CORRECTED 13 Nov):** debuted for
   Janakpur in Match 21 (1 off 4, 4-0-9-1; published full scorecard; Kathmandu Post +
-  OnlineKhabar + CricketDaily). Integration was reverted in full 11 Nov: the computed
-  prior puts him in Janakpur's legal XI, displacing Ryan Burl, failing
-  test_overseas_cap. The XI re-pin needs Dikshant's call. Whether Tector plays Friday
-  is the open selection question on our side, not a fact.
+  OnlineKhabar + CricketDaily). The 11 Nov revert note is superseded: the
+  integration LANDED later on 11 Nov on Dikshant's re-pin approval (commit 5e83d9e;
+  Tector in, Ryan Burl and Bishal Susling out of the legal XI). Whether Tector plays
+  Friday is the open selection question on our side, not a fact.
 - **RYAN BURL — IN:** played Match 21 (8 off 14, 1-0-15-0). His debut is done; the
   question is whether he holds his place if Tector is re-pinned in.
-- **PARVEZ HOSSAIN EMON / SAIF HASSAN — RECALL OPTIONS:** Emon (1 in Match 14) and
-  Saif Hassan (28 in Match 14) were out for Match 21; both are recall options for
-  Friday.
+- **PARVEZ HOSSAIN EMON — GONE (CORRECTED 13 Nov):** Emon left to join Bangladesh A
+  (OnlineKhabar, 12 Nov) and is no longer a recall option for Friday.
+- **SAIF HASSAN — ABSENT, DEPARTURE UNCONFIRMED:** Saif Hassan (28 in Match 14) was
+  out for Match 21; no departure report has been found, so he remains a recall
+  option for Friday, unconfirmed.
+- **KUSAL PERERA — GONE:** Perera departed to play in the Abu Dhabi T10 League
+  (OnlineKhabar, 12 Nov).
 
 ## Their likely XI (analyst judgement, from the Match 20 XI — not announced)
 Kamil Mishara, Arjun Saud (wk), Ravi Bopara, Dan Mousley, Sikandar Raza (c),
