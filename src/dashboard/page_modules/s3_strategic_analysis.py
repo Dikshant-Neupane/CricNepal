@@ -480,11 +480,11 @@ def render_s3_strategic_analysis():
             """)
             
             # Death bowling specialists
-            st.markdown("###  Death Overs Specialists (Target: <7.5 Economy)")
+            st.markdown("###  Death Overs Specialists (Target: <7.6 Economy)")
             
             death_specialists = bowler_forecast[
                 (bowler_forecast["phase"].str.lower() == "death") & 
-                (bowler_forecast["s3_economy_proj"] < 7.5)
+                (bowler_forecast["s3_economy_proj"] < 7.6)
             ].sort_values("s3_economy_proj").head(10)
             
             if not death_specialists.empty:
@@ -500,7 +500,7 @@ def render_s3_strategic_analysis():
                 S2 Economy: {format_economy(top_death['s2_economy_raw'])} → S3 Forecast: {top_death['s3_economy_proj']:.2f}
                 """)
             else:
-                st.warning("No death specialists projected <7.5 economy. Need external recruitment.")
+                st.warning("No death specialists projected <7.6 economy. Need external recruitment.")
             
             # Middle overs workhorses
             st.markdown("###  Middle Overs Workhorses (Target: <7.0 Economy)")
