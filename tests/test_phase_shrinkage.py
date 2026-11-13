@@ -28,13 +28,13 @@ class TestShrinkToPhasePrior:
     def test_large_sample_favours_observed(self):
         """With very many balls the shrunk value should approach the observed."""
         result = shrink_to_phase_prior(5.0, 600, "Powerplay", k=60)
-        # w = 600 / (600 + 60) = 0.909 → shrunk ≈ 5.0 * 0.909 + 6.56 * 0.091 ≈ 5.15
+        # w = 600 / (600 + 60) = 0.909 → shrunk ≈ 5.0 * 0.909 + 6.73 * 0.091 ≈ 5.16
         assert abs(result - 5.0) < 0.5
 
     def test_small_sample_favours_prior(self):
         """With very few balls the shrunk value should be close to the prior."""
         result = shrink_to_phase_prior(5.0, 6, "Powerplay", k=60)
-        # w = 6 / (6 + 60) = 0.09 → shrunk ≈ 5.0 * 0.09 + 6.56 * 0.91 ≈ 6.42
+        # w = 6 / (6 + 60) = 0.09 → shrunk ≈ 5.0 * 0.09 + 6.73 * 0.91 ≈ 6.57
         assert abs(result - PHASE_PRIORS["Powerplay"]) < 1.0
 
     def test_unknown_phase_uses_global_fallback(self):

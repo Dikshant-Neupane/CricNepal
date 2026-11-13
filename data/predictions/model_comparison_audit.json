@@ -7,7 +7,7 @@
     "accuracy": null,
     "log_loss": 0.6931471805599453,
     "brier": 0.25,
-    "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share (S2: 0.34375), which is why it is null."
+    "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share, which is why it is null."
    },
    "elo": {
     "n": 12,
@@ -55,7 +55,7 @@
     "accuracy": null,
     "log_loss": 0.6931471805599453,
     "brier": 0.25,
-    "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share (S2: 0.34375), which is why it is null."
+    "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share, which is why it is null."
    },
    "elo": {
     "n": 8,
@@ -103,7 +103,7 @@
     "accuracy": null,
     "log_loss": 0.6931471805599453,
     "brier": 0.25,
-    "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share (S2: 0.34375), which is why it is null."
+    "accuracy_note": "Not a measured quantity: the coin predicts p=0.5 for every match, so its accuracy is 0.5 in expectation by symmetry. A computed value under a deterministic tie rule would just restate the sample's team_1 win share, which is why it is null."
    },
    "elo": {
     "n": 12,
@@ -355,16 +355,19 @@
  },
  "part_c_phase_priors_recomputed_S1_S2": {
   "Death": {
-   "n_rows": 3040,
-   "economy_filtered_definition": 8.793
+   "n_legal_balls": 3040,
+   "n_deliveries": 3175,
+   "economy_legal_ball_definition": 8.893
   },
   "Middle": {
-   "n_rows": 6804,
-   "economy_filtered_definition": 6.812
+   "n_legal_balls": 6804,
+   "n_deliveries": 6972,
+   "economy_legal_ball_definition": 6.917
   },
   "Powerplay": {
-   "n_rows": 4620,
-   "economy_filtered_definition": 6.558
+   "n_legal_balls": 4620,
+   "n_deliveries": 4790,
+   "economy_legal_ball_definition": 6.73
   }
  }
 }

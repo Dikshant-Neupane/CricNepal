@@ -212,16 +212,21 @@ def test_tu_par_tables_load_falls_back_to_final_parquet(tmp_path, monkeypatch):
 # ---------------------------------------------------------------- A8
 def test_phase_priors_match_shipped_s1_s2_data():
     """PHASE_PRIORS must reproduce from the shipped S1+S2
-    ball-by-ball data under the implemented definition (wides and
-    no-ball rows dropped entirely, runs_total / rows * 6)."""
+    ball-by-ball data under the legal-ball definition (switched
+    2026-11-13 from the old dropped-rows definition): bowler runs =
+    runs_off_bat + runs_extras, except byes/legbyes deliveries where
+    bowler runs = runs_off_bat only, over legal balls only."""
     bbb = pd.read_parquet(ROOT / "data/final/parquet/ball_by_ball.parquet")
     matches = pd.read_parquet(ROOT / "data/final/parquet/matches.parquet")[
         ["match_id", "season"]]
     b = bbb.merge(matches, on="match_id", how="left")
-    s12 = b[b["season"].isin(["S1", "S2"])]
-    f = s12[~s12["extras_type"].isin(["wides", "noballs"])]
-    for phase, g in f.groupby("phase"):
-        recomputed = float(g["runs_total"].sum() / len(g) * 6)
+    s12 = b[b["season"].isin(["S1", "S2"])].copy()
+    s12["is_legal"] = ~s12["extras_type"].isin(["wides", "noballs"])
+    s12["bowl_runs"] = s12["runs_off_bat"] + s12["runs_extras"]
+    byes = s12["extras_type"].isin(["byes", "legbyes"])
+    s12.loc[byes, "bowl_runs"] = s12.loc[byes, "runs_off_bat"]
+    for phase, g in s12.groupby("phase"):
+        recomputed = float(g["bowl_runs"].sum() / g["is_legal"].sum() * 6)
         assert PHASE_PRIORS[phase] == pytest.approx(recomputed, abs=0.05)
 
 

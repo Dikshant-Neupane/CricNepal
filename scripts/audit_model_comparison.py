@@ -27,9 +27,9 @@ Part B — Bowler economy, S1 -> S2 (validation) then S2 -> S3 (holdout).
 
 Part C — Phase-prior recomputation.
   Recomputes the forecaster's phase priors from the shipped S1+S2
-  ball-by-ball data under the implementation's own definition
-  (wides/no-ball rows dropped entirely, runs_total / rows * 6) and
-  reports them next to the constants in
+  ball-by-ball data under the legal-ball definition (bowler runs /
+  legal balls * 6; wide/no-ball runs count against the bowler,
+  bye/legbye runs do not) and reports them next to the constants in
   src/analytics/s3_performance_forecaster.py. No constant is changed
   by this script.
 
@@ -282,13 +282,17 @@ def part_c() -> dict:
     matches = pd.read_parquet(ROOT / "data/final/parquet/matches.parquet")[
         ["match_id", "season"]]
     b = bbb.merge(matches, on="match_id", how="left")
-    s12 = b[b["season"].isin(["S1", "S2"])]
-    f = s12[~s12["extras_type"].isin(["wides", "noballs"])]
+    s12 = b[b["season"].isin(["S1", "S2"])].copy()
+    s12["is_legal"] = ~s12["extras_type"].isin(["wides", "noballs"])
+    s12["bowl_runs"] = s12["runs_off_bat"] + s12["runs_extras"]
+    byes = s12["extras_type"].isin(["byes", "legbyes"])
+    s12.loc[byes, "bowl_runs"] = s12.loc[byes, "runs_off_bat"]
     out = {}
-    for ph, g in f.groupby("phase"):
-        out[ph] = {"n_rows": int(len(g)),
-                   "economy_filtered_definition": round(
-                       float(g["runs_total"].sum() / len(g) * 6), 3)}
+    for ph, g in s12.groupby("phase"):
+        out[ph] = {"n_legal_balls": int(g["is_legal"].sum()),
+                   "n_deliveries": int(len(g)),
+                   "economy_legal_ball_definition": round(
+                       float(g["bowl_runs"].sum() / g["is_legal"].sum() * 6), 3)}
     return out
 
 

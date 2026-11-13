@@ -24,27 +24,33 @@ warnings.filterwarnings('ignore')
 
 
 # ── Phase-aware economy shrinkage ─────────────────────────────────────────
-# League phase economies (runs per over) recomputed 2026-11-12 from the
+# League phase economies (runs per over) recomputed 2026-11-13 from the
 # shipped S1+S2 ball-by-ball data (data/final/parquet/ball_by_ball.parquet,
-# 14,464 rows after dropping wides/no-balls, of 14,937 S1+S2 deliveries)
-# under the definition this module implements:
-# wides and no-ball rows dropped entirely, runs_total / rows * 6.
-# Powerplay 6.56, Middle 6.81, Death 8.79. The previous constants
-# (6.87 / 7.02 / 9.12) did not reproduce from the shipped data under
-# any stated definition (audit A8); they are pinned by
-# tests/test_audit_2026_11_12.py so they cannot drift silently again.
-# Known caveat: this definition also drops wide/no-ball RUNS from the
-# numerator, so it understates true bowler economy by ~0.1-0.2; the
-# proper legal-ball definition (bowler runs / legal balls * 6) gives
-# 6.73 / 6.92 / 8.89. The constants stay on the implemented definition
-# so priors and raw economies share one scale; a definition change
-# belongs in a separate, tested commit.
+# 14,937 S1+S2 deliveries, 14,464 legal balls) under the proper
+# legal-ball definition:
+#   bowler runs = runs_off_bat + runs_extras, except byes/legbyes
+#                 deliveries where bowler runs = runs_off_bat only
+#   economy     = bowler runs / legal balls * 6
+# (legal ball = extras_type not in wides/noballs; wide and no-ball runs
+# count against the bowler, bye/legbye runs do not, and neither kind
+# of extra counts as a ball bowled).
+# Powerplay 6.73, Middle 6.92, Death 8.89. The previous constants
+# (6.56 / 6.81 / 8.79, audit A8) dropped wide/no-ball rows entirely,
+# so they dropped wide/no-ball RUNS from the numerator too and
+# understated true bowler economy by ~0.1-0.2. Switched 2026-11-13
+# (user-authorized): the forecaster, the roster scorecard economies,
+# and the shipped forecasts now share this one definition, which is
+# also the definition the audit's model comparison (Part B) already
+# used — so the comparison's basis is unchanged by this switch.
+# Pinned by tests/test_audit_2026_11_12.py (A8, recomputes them from
+# the shipped data, tolerance 0.05) and
+# tests/test_legal_ball_2026_11_13.py.
 # Used as James-Stein style priors: small-sample phase economies are
 # shrunk toward the phase prior before projecting to S3.
 PHASE_PRIORS: Dict[str, float] = {
-    "Powerplay": 6.56,
-    "Middle": 6.81,
-    "Death": 8.79,
+    "Powerplay": 6.73,
+    "Middle": 6.92,
+    "Death": 8.89,
 }
 GLOBAL_ECONOMY_FALLBACK = 8.30
 
@@ -76,14 +82,32 @@ def forecast_bowlers_phase_aware(bbb: pd.DataFrame, matches: pd.DataFrame, k: in
     it is worse by >= 1.0, else AVERAGE.
     """
     df = bbb.merge(matches[["match_id", "season"]], on="match_id", how="left")
+    # Legal-ball economy (switched 2026-11-13; see PHASE_PRIORS comment):
+    # bowler runs = runs_off_bat + runs_extras, except byes/legbyes
+    # deliveries where bowler runs = runs_off_bat only; denominator =
+    # legal balls only. Wide/no-ball runs count against the bowler but
+    # the delivery is not a ball bowled. Frames without the extras
+    # columns (unit-test fixtures) fall back to runs_total as bowler
+    # runs with every row legal, which is the same thing when there
+    # are no extras.
     if "extras_type" in df.columns:
-        df = df[~df["extras_type"].isin(["wides", "noballs"])]
+        df["is_legal"] = ~df["extras_type"].isin(["wides", "noballs"])
+    else:
+        df["is_legal"] = True
+    if {"runs_off_bat", "runs_extras"} <= set(df.columns):
+        df["bowl_runs"] = df["runs_off_bat"] + df["runs_extras"]
+        byes = df["extras_type"].isin(["byes", "legbyes"])
+        df.loc[byes, "bowl_runs"] = df.loc[byes, "runs_off_bat"]
+    else:
+        df["bowl_runs"] = df["runs_total"]
     grouped = (
         df.groupby(["bowler_name", "phase", "season"])
-        .agg(runs=("runs_total", "sum"), balls=("runs_total", "size"))
+        .agg(runs=("bowl_runs", "sum"), balls=("is_legal", "sum"))
         .reset_index()
     )
-    grouped["economy"] = grouped["runs"] / grouped["balls"] * 6
+    grouped["economy"] = np.where(
+        grouped["balls"] > 0, grouped["runs"] / grouped["balls"] * 6, np.nan
+    )
 
     rows = []
     for (bowler, phase), g in grouped.groupby(["bowler_name", "phase"]):
@@ -100,12 +124,23 @@ def forecast_bowlers_phase_aware(bbb: pd.DataFrame, matches: pd.DataFrame, k: in
                 out[f"{prefix}_economy_raw"] = np.nan
                 out[f"{prefix}_economy_shrunk"] = np.nan
             else:
-                # balls are legal balls: wides/no-ball rows were dropped
-                # from the frame above, so int(r.balls) counts legal balls.
+                # balls are legal balls: wides/no-ball deliveries are
+                # not counted (see the groupby above). A group with
+                # balls == 0 bowled only wides/no-balls that season,
+                # so it carries no evidence: economy stays NaN and it
+                # does not enter the shrunk blend, like a missing
+                # season.
                 out[f"{prefix}_balls"] = int(r.balls)
-                out[f"{prefix}_economy_raw"] = round(r.economy, 2)
-                out[f"{prefix}_economy_shrunk"] = shrink_to_phase_prior(r.economy, int(r.balls), phase, k=k)
-                shrunk[prefix] = out[f"{prefix}_economy_shrunk"]
+                out[f"{prefix}_economy_raw"] = (
+                    round(r.economy, 2) if int(r.balls) > 0 else np.nan
+                )
+                out[f"{prefix}_economy_shrunk"] = (
+                    shrink_to_phase_prior(r.economy, int(r.balls), phase, k=k)
+                    if int(r.balls) > 0
+                    else np.nan
+                )
+                if int(r.balls) > 0:
+                    shrunk[prefix] = out[f"{prefix}_economy_shrunk"]
         if "s1" in shrunk and "s2" in shrunk:
             proj = round(0.4 * shrunk["s1"] + 0.6 * shrunk["s2"], 2)
         elif shrunk:

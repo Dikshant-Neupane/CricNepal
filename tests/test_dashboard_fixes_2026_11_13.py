@@ -50,11 +50,12 @@ class TestFormatEconomy:
 
     def test_top_death_bowler_banner_value(self):
         """The current top Death bowler has no S2 balls, so the banner
-        value must not be NaN text."""
+        value must not be NaN text. (Legal-ball switch 2026-11-13:
+        his projection moved 7.39 -> 7.53, so the old < 7.5 cutoff
+        no longer catches him; select by sort, not a threshold.)"""
         df = pd.read_csv(ROOT / "data" / "exports" / "s3_phase_bowler_forecast.csv")
-        death = df[(df["phase"].str.lower() == "death") & (df["s3_economy_proj"] < 7.5)]
-        assert len(death) == 1
-        top = death.sort_values("s3_economy_proj").iloc[0]
+        death = df[df["phase"].str.lower() == "death"].sort_values("s3_economy_proj")
+        top = death.iloc[0]
         assert top["bowler_name"] == "Saad Bin Zafar"
         assert math.isnan(top["s2_economy_raw"])
         assert "nan" not in format_economy(top["s2_economy_raw"]).lower()
