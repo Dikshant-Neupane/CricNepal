@@ -1,0 +1,42 @@
+{
+ "export": "player_bowling_stats.csv",
+ "status": "STALE \u2014 June-2026 snapshot (commit d351703); no live writer or pinned generator exists in the repo. Do not use for decisions; the ball-by-ball data and the roster are the live sources.",
+ "scope": "Janakpur Bolts S1 squad members (21 rows): S1/S2 bowling economy and wickets, S2_matches, retained/departed status.",
+ "fills": {
+  "economy 8.30": "No-data fill (the forecaster's GLOBAL_ECONOMY_FALLBACK), not a measured economy. S1: 12 of 21 rows; S2: 6 of 21 rows, all with S2_matches == 0.",
+  "S2_matches": "Janakpur team matches (7), not the player's own matches \u2014 every row with S2 data shows 7, and rows with S2_matches == 0 may still have played S2 for another team (see wrong_rows)."
+ },
+ "wrong_rows_verified_2026_11_13_against_ball_by_ball_legal_ball": [
+  {
+   "player": "S Malla",
+   "season": "S2",
+   "file": "economy 8.30, 0 wickets, 0 matches",
+   "correct": "Lumbini Lions: 216 legal balls, economy 6.50, 17 wickets, 10 matches"
+  },
+  {
+   "player": "JDS Neesham",
+   "season": "S2",
+   "file": "economy 8.30, 0 wickets, 0 matches",
+   "correct": "Pokhara Avengers: 60 legal balls, economy 10.30, 5 wickets, 4 matches"
+  },
+  {
+   "player": "B Aagri",
+   "season": "S1",
+   "file": "economy 8.30, 0 wickets",
+   "correct": "Lumbini Lions: 12 legal balls, economy 7.00, 3 wickets, 1 match"
+  },
+  {
+   "player": "JN Loftie-Eaton",
+   "season": "S1",
+   "file": "economy 8.30, 0 wickets",
+   "correct": "Chitwan Rhinos: 48 legal balls, economy 7.00, 3 wickets, 3 matches"
+  }
+ ],
+ "fills_consistent_with_no_play": "S2 fills for A Yadav, H Thaker, Mohammad Mohsin, BWM Mike (0 balls league-wide in S2); S1 fills for the other 10 rows (0 balls in S1).",
+ "non_fill_values_do_not_reproduce": "Spot-checked non-fill S2 economies differ from the ball-by-ball legal-ball economies (e.g. Sachin Bhatt file 9.92 vs 10.75; LN Rajbanshi 7.03 vs 7.23) \u2014 the file predates the current data cut and definition.",
+ "readers": [
+  "src/dashboard/page_modules/batting_intelligence.py (batting only)",
+  "src/analytics/attribution_sensitivity_analysis.py (both; deltas/ratios inherit the fills)"
+ ],
+ "action": "Flagged, not regenerated: no pinned generation step exists and the original builder is unknown, so rebuilding it would invent a new dataset. Regenerate only from a pinned step once one exists."
+}

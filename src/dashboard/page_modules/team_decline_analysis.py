@@ -19,7 +19,9 @@ def load_all_data():
         from src.config.paths import CRIC_DATA_DIR
         data_dir = CRIC_DATA_DIR
     except ImportError:
-        data_dir = Path("D:/Cric_Data/data")
+        # Repo-relative fallback (same layout as src.config.paths): never a
+        # machine-specific absolute path.
+        data_dir = Path(__file__).resolve().parent.parent.parent.parent / "data"
 
     try:
         # Load parquet files

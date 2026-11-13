@@ -1,0 +1,48 @@
+{
+ "export": "player_batting_stats.csv",
+ "status": "STALE \u2014 June-2026 snapshot (commit d351703); no live writer or pinned generator exists in the repo. Do not use for decisions; the ball-by-ball data and the roster are the live sources.",
+ "scope": "Janakpur Bolts S1 squad members (23 rows): S1/S2 batting strike rate and average, S2_matches, retained/departed status.",
+ "fills": {
+  "strike_rate 120.0 / average 20.0": "No-data fills, not measured values. S1: 8 of 23 rows each; S2: 8 of 23 rows each, all with S2_matches == 0.",
+  "S2_matches": "Janakpur team matches (7), not the player's own matches \u2014 every row with S2 data shows 7, and rows with S2_matches == 0 may still have played S2 for another team (see wrong_rows)."
+ },
+ "wrong_rows_verified_2026_11_13_against_ball_by_ball": [
+  {
+   "player": "S Malla",
+   "season": "S2",
+   "file": "SR 120.0, average 20.0, 0 matches",
+   "correct": "Lumbini Lions: 30 balls, 46 runs, SR 153.33, average 15.33, 5 matches"
+  },
+  {
+   "player": "A Tripathi",
+   "season": "S2",
+   "file": "SR 120.0, average 20.0, 0 matches",
+   "correct": "Kathmandu Gorkhas: 141 balls, 118 runs, SR 83.69, average 14.75, 8 matches"
+  },
+  {
+   "player": "JDS Neesham",
+   "season": "S2",
+   "file": "SR 120.0, average 20.0, 0 matches",
+   "correct": "Pokhara Avengers: 62 balls, 99 runs, SR 159.68, average 33.00, 4 matches"
+  },
+  {
+   "player": "H Dhami",
+   "season": "S2",
+   "file": "SR 120.0, average 20.0, 0 matches",
+   "correct": "Sudurpaschim Royals: 17 balls, 11 runs, SR 64.71, 0 dismissals (average undefined), 3 matches"
+  },
+  {
+   "player": "JN Loftie-Eaton",
+   "season": "S1",
+   "file": "SR 120.0, average 20.0",
+   "correct": "Chitwan Rhinos: 23 balls, 17 runs, SR 73.91, average 8.50, 3 matches"
+  }
+ ],
+ "fills_consistent_with_no_play": "S2 fills for A Yadav, J Tromp, H Thaker, Mohammad Mohsin (0 balls league-wide in S2); S1 fills for the other 7 rows (0 balls in S1).",
+ "live_impact_checked": "No retained batter carries an S2 fill, so the batting-intelligence top-5 retained ranking is not currently corrupted by fills; the attribution deltas for departed players inherit the fills.",
+ "readers": [
+  "src/dashboard/page_modules/batting_intelligence.py",
+  "src/analytics/attribution_sensitivity_analysis.py (deltas/ratios inherit the fills)"
+ ],
+ "action": "Flagged, not regenerated: no pinned generation step exists and the original builder is unknown, so rebuilding it would invent a new dataset. Regenerate only from a pinned step once one exists."
+}

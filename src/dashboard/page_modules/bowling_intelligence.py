@@ -223,24 +223,6 @@ def _phase_card(p: dict) -> str:
     </div>"""
 
 
-def _hand_card(h: dict) -> str:
-    """Build the HTML for a batter-hand split card."""
-    return f"""
-    <div style="background:{_SURFACE_LO};padding:16px;border-radius:8px;border:1px solid {_BORDER};margin-bottom:14px;">
-        <div style="font-size:12px;font-weight:600;color:{_TEXT_MUTED};margin-bottom:10px;">vs {h['hand']}</div>
-        <div style="display:flex;justify-content:space-between;">
-            <div>
-                <div style="font-size:12px;color:{_TEXT_MUTED};">Economy</div>
-                <div style="font-size:16px;font-weight:600;color:{_TEXT};margin-top:4px;">{h['economy']}</div>
-            </div>
-            <div style="text-align:right;">
-                <div style="font-size:12px;color:{_TEXT_MUTED};">Strike Rate</div>
-                <div style="font-size:16px;font-weight:600;color:{_TEXT};margin-top:4px;">{h['strike_rate']}</div>
-            </div>
-        </div>
-    </div>"""
-
-
 def render_bowling_intelligence():
     st.markdown("""
     <div style="margin-bottom:32px;">

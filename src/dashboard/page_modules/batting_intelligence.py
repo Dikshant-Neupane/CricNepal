@@ -115,11 +115,19 @@ def _generate_insights(phase_df):
     
     insights = {}
     
-    # Identify strongest phase
-    if not s2_death.empty and s2_death['strike_rate'].values[0] > s2_pp['strike_rate'].values[0]:
+    # Identify strongest phase. Guard both frames: either can be empty if a
+    # season/phase row is missing from the phase export, and indexing
+    # .values[0] on an empty frame raises IndexError.
+    if (
+        not s2_death.empty
+        and not s2_pp.empty
+        and s2_death['strike_rate'].values[0] > s2_pp['strike_rate'].values[0]
+    ):
         insights['insight'] = f"Death overs remain strongest phase (SR: {s2_death['strike_rate'].values[0]:.1f}) with {s2_death['boundary_pct'].values[0]:.1f}% boundary rate."
-    else:
+    elif not s2_death.empty:
         insights['insight'] = f"Batting depth concerns. Death overs strike rate: {s2_death['strike_rate'].values[0]:.1f}."
+    else:
+        insights['insight'] = "Batting depth concerns. No S2 death-overs data."
     
     # Identify risk
     if not s2_pp.empty and not s1_pp.empty:

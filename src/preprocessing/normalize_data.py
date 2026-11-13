@@ -23,7 +23,9 @@ try:
     from src.config.paths import PARQUET_DIR, NORMALIZED_DIR
     EXPORT_DIR = NORMALIZED_DIR
 except ImportError:
-    PARQUET_DIR = Path("D:/Cric_Data/data/final/parquet")
+    # Repo-relative fallback (same layout as src.config.paths): never a
+    # machine-specific absolute path.
+    PARQUET_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "final" / "parquet"
     EXPORT_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "normalized"
 
 EXPORT_DIR.mkdir(parents=True, exist_ok=True)

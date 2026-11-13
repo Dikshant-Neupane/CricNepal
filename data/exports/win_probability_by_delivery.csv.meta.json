@@ -1,0 +1,8 @@
+{
+ "export": "win_probability_by_delivery.csv",
+ "generated_at": "2026-11-13T07:41:11.266063+00:00",
+ "method": "walk_forward_by_match",
+ "note": "Out-of-sample by construction: each match was scored by a model trained only on matches played on strictly earlier dates. p_win is P(batting team wins) in both innings; p_first_team_win is the fixed-referent chain.",
+ "min_train_matches": 4,
+ "matches_scored": 71
+}

@@ -6,7 +6,9 @@ This ensures the project runs on any machine without hardcoded paths.
 
 Environment Variables:
     CRIC_DATA_DIR   — Root of external cricket data (parquet files, rosters)
-                      Default: D:/Cric_Data/data
+                      Default: <repo-parent>/Cric_Data/data (env CRIC_DATA_DIR
+                      overrides; falls back to the bundled data/ dir when the
+                      external directory is absent)
     CRICNEPAL_ROOT  — Project root (auto-detected if unset)
 """
 

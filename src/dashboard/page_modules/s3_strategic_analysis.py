@@ -31,11 +31,9 @@ def _load_s1_s2_comparison():
     return batting, bowling, match_context
 
 
-def _load_s3_forecasts():
-    """Load S3 performance forecasts."""
-    bowler_forecast = load_export_csv("s3_phase_bowler_forecast.csv")
-    batter_forecast = load_export_csv("s3_batter_forecast.csv")
-    return bowler_forecast, batter_forecast
+def _load_s3_bowler_forecast():
+    """Load the S3 bowler performance forecast (the only forecast this page uses)."""
+    return load_export_csv("s3_phase_bowler_forecast.csv")
 
 
 def _phase_delta_card(phase_name: str, s1_val: float, s2_val: float, metric_name: str, 
@@ -91,7 +89,7 @@ def render_s3_strategic_analysis():
     
     # Load data
     batting_df, bowling_df, match_context = _load_s1_s2_comparison()
-    bowler_forecast, batter_forecast = _load_s3_forecasts()
+    bowler_forecast = _load_s3_bowler_forecast()
     
     if batting_df is None or bowling_df is None or match_context is None:
         st.error("S1 vs S2 comparison data not found. Run analysis scripts first.")
