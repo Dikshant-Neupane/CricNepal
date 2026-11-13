@@ -1,14 +1,21 @@
 """Pin: analytics modules load ball-by-ball data on a fresh clone.
 
-data/normalized/ball_by_ball_normalized.parquet is not in the repo
-(untracked; *.parquet is gitignored), so every direct read of it
-crashed with FileNotFoundError — failing-before on this box, where
-the file is absent. The modules now share
+data/normalized/ball_by_ball_normalized.parquet used to be absent
+from the repo (untracked; *.parquet is gitignored), so every direct
+read of it crashed with FileNotFoundError. The modules now share
 src.config.paths.resolve_ball_by_ball_parquet(), which falls back
 to data/final/parquet/ball_by_ball.parquet (the same projection the
 dashboard loaders and scripts/prepare_season_features.py already
 use, audit A7). These tests fail if any module goes back to reading
 the normalized path directly.
+
+The file itself was restored 2026-11-13 as a verbatim copy of the
+shipped final parquet (scripts/sync_final_from_normalized.py
+copies it without transformation, and a sync round-trip
+reproduces the shipped final layer exactly), so the fallback
+tests below run against isolated tmp trees, not against the
+repo's own state — asserting on the real paths would break the
+moment the canonical file legitimately exists.
 """
 
 from pathlib import Path
@@ -36,12 +43,22 @@ ANALYTICS_MODULES = [
 
 
 class TestResolver:
-    def test_falls_back_to_final_parquet_when_normalized_missing(self):
-        """On this box the normalized file is absent; the resolver
-        must return the shipped final parquet."""
-        assert not (paths.NORMALIZED_DIR / "ball_by_ball_normalized.parquet").exists()
+    def test_falls_back_to_final_parquet_when_normalized_missing(
+            self, tmp_path, monkeypatch):
+        """With no normalized file the resolver must return the
+        shipped final parquet. Runs against an isolated tmp tree,
+        not the repo's own paths: the canonical file legitimately
+        exists in the repo since 2026-11-13, so asserting on the
+        real paths would couple this test to repo state."""
+        normalized_dir = tmp_path / "normalized"
+        fallback_dir = tmp_path / "final" / "parquet"
+        fallback_dir.mkdir(parents=True)
+        (fallback_dir / "ball_by_ball.parquet").touch()
+        monkeypatch.setattr(paths, "NORMALIZED_DIR", normalized_dir)
+        monkeypatch.setattr(paths, "PARQUET_DIR", fallback_dir)
+        assert not (normalized_dir / "ball_by_ball_normalized.parquet").exists()
         resolved = paths.resolve_ball_by_ball_parquet()
-        assert resolved == paths.PARQUET_DIR / "ball_by_ball.parquet"
+        assert resolved == fallback_dir / "ball_by_ball.parquet"
         assert resolved.exists()
 
     def test_prefers_canonical_when_present(self, tmp_path, monkeypatch):

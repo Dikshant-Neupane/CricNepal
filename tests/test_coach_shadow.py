@@ -10,13 +10,15 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).parent.parent
-# Re-pinned 2026-11-07: the previously pinned file (md5 6ba4c4cf...,
-# at commit c01ff82) is a byte-exact prefix of the current log; the only
-# additions since are four lock rows appended by the lock scripts: the
-# season's first P1_post_XI row (Match 16) and P2_post_toss rows for
-# Matches 16, 17 and 18, taking the P2 count to thirteen. No earlier
-# row changed.
-FROZEN_MD5_AT_REGISTRATION = "e02cea1d6bc6c6a23537ad01463ae74f"
+# Re-pinned 2026-11-13: the previously pinned file (md5 e02cea1d...,
+# 70 rows, pinned 2026-11-07) is a byte-exact prefix of the current
+# log; the only additions since are six P2_post_toss lock rows
+# appended by the lock scripts — Matches 19, 20, 21, 22, 23, 24
+# (commits 024da0c, e5c0c8b, c3ffad4, 19d81a1, 363c437, fa64889;
+# toss winner/decision and p values agree with each commit
+# message), taking the P2 count to nineteen and the log to 76 rows.
+# No earlier row changed.
+FROZEN_MD5_AT_REGISTRATION = "1f2c723bebe484a11c42a9f8b2d41013"
 
 
 def test_frozen_log_untouched():

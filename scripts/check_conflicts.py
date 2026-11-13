@@ -52,6 +52,59 @@ RESOLVED_ROWS = [
                  "A residual ID-level split inside normalized itself is "
                  "tracked separately as CONF-002.",
     },
+    {
+        # Resolved at the source by the 2026-11-10 derived-tables
+        # refresh (commit d0426b8), which rebuilt the canonical
+        # matches layer with a single Kathmandu team ID. Verified
+        # 2026-11-13: the layer carries exactly 8 team IDs and no
+        # team_kathmandu_gurkhas cell; at d4c8f65 (2026-11-04) the
+        # split was still present.
+        "conflict_id": "CONF-002",
+        "detected": DETECTED,
+        "type": "team_id_split_in_canonical",
+        "scope": "Kathmandu matches in data/normalized "
+                 "(team_1_id/team_2_id)",
+        "source_a": "data/normalized/matches_normalized.parquet",
+        "value_a": "team_kathmandu_gorkhas",
+        "source_b": "data/normalized/matches_normalized.parquet",
+        "value_b": "team_kathmandu_gurkhas",
+        "status": "RESOLVED 2026-11-10",
+        "resolution": "derived-tables refresh (commit d0426b8, "
+                      "2026-11-10) rebuilt the canonical matches layer "
+                      "with one Kathmandu team ID; the ingest-side fix "
+                      "the register had deferred to post-season landed "
+                      "with that refresh instead",
+        "notes": "Name columns in normalized were already unified "
+                 "(Kathmandu Gorkhas only); only the ID columns split, "
+                 "and no displayed name or result was affected.",
+    },
+    {
+        # Resolved at the source by the same 2026-11-10 refresh
+        # (commit d0426b8): stored innings overs now agree with the
+        # NRR-convention derivation on all 152 innings. Verified
+        # 2026-11-13 (n_bad = 0 of 152); at d4c8f65 (2026-11-04) 73
+        # of 152 innings disagreed.
+        "conflict_id": "CONF-003",
+        "detected": DETECTED,
+        "type": "stored_overs_convention",
+        "scope": "152 innings in data/normalized",
+        "source_a": "data/normalized/matches_normalized.parquet "
+                    "(stored innings_*_overs)",
+        "value_a": "overs as stored (all-out innings at overs faced; "
+                   "notation variant elsewhere)",
+        "source_b": "data/normalized/ball_by_ball_normalized."
+                    "parquet (derived, NRR convention)",
+        "value_b": "legal-ball overs; all-out innings count the full "
+                   "20 overs",
+        "status": "RESOLVED 2026-11-10",
+        "resolution": "derived-tables refresh (commit d0426b8, "
+                      "2026-11-10) rebuilt the canonical matches layer "
+                      "with stored overs following the NRR convention; "
+                      "the served copies already carried the derived "
+                      "summaries (scripts/sync_final_from_normalized.py)",
+        "notes": "Stored runs agree with the deliveries on all "
+                 "innings; only overs differed, and they no longer do.",
+    },
 ]
 
 

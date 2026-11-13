@@ -230,15 +230,29 @@ def test_status_sidecar_provisional_fields(tmp_path):
 def test_production_provisional_file_is_empty_and_canonical():
     # Pre-season this asserted the production file was header-only.
     # Since the cricsheet Season 3 ingest (2026-11-04) the durable
-    # invariant is the stronger one: the file keeps the season's
-    # provisional capture records as an audit trail, but EVERY one of
-    # them is superseded by canonical data, none is applied, and no
-    # provisional winner disagrees with the ingested winner.
+    # invariant was: the file keeps the season's provisional capture
+    # records as an audit trail, but EVERY one of them is superseded
+    # by canonical data. That stopped being true on 2026-11-10
+    # (commit d0426b8: provisional ratings now applied for S3
+    # matches 14-20, then match 21 in 01cffae, 22-23 in e58abb7 /
+    # 6bf0333): cricsheet publication lags real time (data_as_of
+    # 2026-11-03, 12 S3 matches ingested) while matches 14-23 have
+    # been played, so by design (Amendment #6) their winner-only
+    # provisional results advance the ratings until canonical data
+    # supersedes them on arrival. The invariant now is the precise
+    # live state: basis canonical+provisional, 10 applied (14-23),
+    # 12 superseded (01-06, 08-13), and no provisional winner
+    # disagrees with an ingested winner.
     prov = PV.load_provisional(ROOT)
     eff = PV.effective_rows(prov)
     ctx = engine.load_context(ROOT)
     info = ctx["provisional_info"]
-    assert info["ratings_basis"] == "canonical"
-    assert info["n_provisional_applied"] == 0
-    assert info["n_provisional_superseded"] == len(eff)
+    assert info["ratings_basis"] == "canonical+provisional"
+    assert info["n_provisional_applied"] == 10
+    assert info["applied_match_ids"] == [
+        f"s3_2026_{n}" for n in range(14, 24)]
+    assert info["n_provisional_superseded"] == 12
+    assert info["superseded_match_ids"] == [
+        f"s3_2026_{n:02d}" for n in (1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13)]
+    assert info["n_provisional_superseded"] + info["n_provisional_applied"] == len(eff)
     assert info["provisional_disagreements"] == []

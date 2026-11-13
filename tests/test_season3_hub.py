@@ -50,10 +50,14 @@ def test_hub_lock_stage_is_preseason_until_matchday_locks_exist():
     # Renamed in substance 2026-11-04: matchday locks now exist. The hub
     # must show the post-toss lock exactly for the fixtures that have one
     # in the frozen log (Matches 2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16,
-    # 17, 18) and the pre-season lock everywhere else; pre-season rows
-    # carry the frozen pre-season champion value unchanged.
+    # 17, 18, plus 19, 20, 21, 22, 23, 24 — the six P2 rows appended
+    # 2026-11-09 to 2026-11-13 in lock commits 024da0c, e5c0c8b,
+    # c3ffad4, 19d81a1, 363c437, fa64889, taking the P2 count to 19)
+    # and the pre-season lock everywhere else; pre-season rows carry
+    # the frozen pre-season champion value unchanged.
     league = DATA["fixtures"][DATA["fixtures"].stage == "League"]
-    locked = {2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18}
+    locked = {2, 4, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+              19, 20, 21, 22, 23, 24}
     post = league[league.lock_stage == "Post-toss lock"]
     assert set(post.match_number) == locked
     pre = league[league.lock_stage == "Pre-season lock"]

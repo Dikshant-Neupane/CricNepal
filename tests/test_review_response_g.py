@@ -196,6 +196,12 @@ def test_g2b_priors_asof_cutoff_npl_data_verified():
     player_history.csv retains no dates, so this verifies the as-of
     behaviour at the aggregation level the backtest actually uses."""
     zp = ZIP_DIR / "npl_json.zip"
+    if not zp.exists():
+        # Blocked, not failed: the cricsheet bundles live outside the
+        # repo (~/workspace/.scratch/predbuild; docs/PREDICTION_SYSTEM.md)
+        # and are absent on this box. Fetch per docs/S3_INGESTION_RUNBOOK.md
+        # to run this test; never substitute synthetic data.
+        pytest.skip(f"cricsheet bundle absent: {zp}")
     cutoff = S2_ASOF - timedelta(days=3 * 365)
     tot_bat = tot_bowl = 0.0
     n_before = n_after = 0
@@ -237,6 +243,13 @@ def test_g2b_priors_asof_cutoff_npl_data_verified():
 @pytest.fixture(scope="module")
 def priors_s2():
     bt = _load_script("backtest_prediction")
+    if not bt._zips():
+        # Blocked, not failed: as-of priors are aggregated from the
+        # cricsheet bundles in ~/workspace/.scratch/predbuild, which
+        # are absent on this box (no zip at all -> the aggregation is
+        # empty and compute_priors raises KeyError 'competition').
+        # Fetch per docs/S3_INGESTION_RUNBOOK.md to run this test.
+        pytest.skip("cricsheet bundles absent: ~/workspace/.scratch/predbuild is empty")
     lineups = pd.read_parquet(ROOT / "data/final/parquet/match_lineups.parquet")
     return bt._priors_asof(S2_ASOF, lineups)
 

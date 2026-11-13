@@ -57,8 +57,18 @@ def test_conflicts_register_surfaces_known_conflict():
     assert "Kathmandu Gurkhas" in conf.value_b
     # Plan 1.2 (2026-10-29) resolved the served-layer split; the
     # register keeps the row WITH its resolution rather than going
-    # silent, and the residual canonical-ID split stays open.
+    # silent. CONF-002 (canonical ID split) and CONF-003 (stored
+    # overs) were still open then; both were resolved at the source
+    # by the 2026-11-10 derived-tables refresh (commit d0426b8 —
+    # the canonical layer now carries exactly 8 team IDs and stored
+    # overs agree with the NRR derivation on all 152 innings), so
+    # the register now records all three as RESOLVED and no row
+    # stays open.
     assert "RESOLVED" in conf.status
     assert "sync_final_from_normalized" in conf.resolution
+    for cid in ("CONF-002", "CONF-003"):
+        row = reg[reg.conflict_id == cid]
+        assert len(row) == 1, cid
+        assert "RESOLVED 2026-11-10" in row.iloc[0]["status"], cid
     open_rows = reg[reg.status.str.contains("not resolved")]
-    assert (open_rows.conflict_id == "CONF-002").any()
+    assert len(open_rows) == 0

@@ -1,0 +1,23 @@
+{
+ "system": "inplay_wp_vs_simple_baseline",
+ "comparison": "WP model minus 3-feature logistic baseline, innings-2 log loss, paired on identical states",
+ "train_season": "S1",
+ "test_season": "S2",
+ "unit_of_scoring": "delivery, bootstrapped by match",
+ "n_deliveries_paired": 3255,
+ "n_matches": 32,
+ "wp_log_loss_paired": 0.4111333512069631,
+ "baseline_log_loss_paired": 0.4114777885222368,
+ "difference_bootstrap": {
+  "n_matches": 32,
+  "n_resamples": 10000,
+  "seed": 42,
+  "mean_diff": -0.00012172810816161832,
+  "ci_low": -0.017796185143620982,
+  "ci_high": 0.017753614502561372,
+  "prob_a_better": 0.5017,
+  "ci_includes_zero": true
+ },
+ "verdict": "difference not established (CI includes zero)",
+ "notes": "Aggregate figures quoted earlier (0.4108 vs 0.4137) were computed on slightly different state sets; the paired figures here are the like-for-like comparison."
+}
