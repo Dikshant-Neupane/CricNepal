@@ -21,6 +21,17 @@ import pandas as pd
 
 BOWLING_ARM = {}  # profiles carry type only (Spin/Medium Pace/Pace), no arm
 
+# Explicit no-registry-match exclusions, by canonical name. A player listed
+# here is a squad member WITHOUT a cricsheet identity in this project, by a
+# deliberate recorded decision, and must never be given one by either match
+# path (exact candidates or the initials/surname fallback). Narrow by
+# design: only the named player is affected.
+# - "Ramesh Mendis" (Pokhara, added 2026-11-14 on Dikshant's instruction
+#   as a true no-prior member): the fallback would otherwise auto-match
+#   him to cricsheet "RTM Mendis" (id 1be67d37), silently giving him an
+#   identity and a real prior the decision explicitly excluded.
+NO_REGISTRY_MATCH_NAMES = frozenset({"Ramesh Mendis"})
+
 
 def build_registry_map(zip_paths) -> dict:
     """name -> cricsheet registry ID, from info.registry.people of matches.
@@ -83,12 +94,14 @@ def build_player_master(root: Path, registry_map: dict | None = None) -> pd.Data
         forms = [x.strip() for x in str(reg.get("surface_forms", "")).replace(";", ",").split(",") if x.strip()]
         candidates = [r["canonical_name"], r["player_name"]] + forms
         reg_id, reg_id_name = None, None
-        for c in candidates:
-            if c in registry_map:
-                reg_id, reg_id_name = registry_map[c], c
-                break
+        if r["canonical_name"] not in NO_REGISTRY_MATCH_NAMES:
+            for c in candidates:
+                if c in registry_map:
+                    reg_id, reg_id_name = registry_map[c], c
+                    break
         match_type = "exact" if reg_id else None
-        if reg_id is None and registry_map:
+        if (reg_id is None and registry_map
+                and r["canonical_name"] not in NO_REGISTRY_MATCH_NAMES):
             # Constrained fallback for cricsheet initials forms (MM Ali,
             # AD Russell): surname equal, given part initials-only, first
             # initial equals canonical first initial, and GLOBALLY UNIQUE.

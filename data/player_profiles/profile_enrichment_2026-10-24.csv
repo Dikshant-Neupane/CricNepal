@@ -475,3 +475,8 @@ player_i_udana,I Udana,date_of_birth,1988-02-17,Wikipedia (ESPNcricinfo-sourced)
 player_ptm_dabare,PTM Dabare,country,Sri Lanka,Wikipedia (ESPNcricinfo-sourced),added
 player_ptm_dabare,PTM Dabare,batting_hand,Left,Wikipedia (ESPNcricinfo-sourced),added
 player_ptm_dabare,PTM Dabare,date_of_birth,1998-08-20,Wikipedia (ESPNcricinfo-sourced),added
+player_ramesh_mendis,Ramesh Mendis,country,Sri Lanka,Wikipedia (ESPNcricinfo-sourced),added
+player_ramesh_mendis,Ramesh Mendis,batting_hand,Right,Wikipedia (ESPNcricinfo-sourced),added
+player_ramesh_mendis,Ramesh Mendis,bowling_type,Spin,Wikipedia (ESPNcricinfo-sourced): right-arm off break,added
+player_ramesh_mendis,Ramesh Mendis,bowling_arm,Right,Wikipedia (ESPNcricinfo-sourced): right-arm off break,added
+player_ramesh_mendis,Ramesh Mendis,date_of_birth,1995-07-07,Wikipedia (ESPNcricinfo-sourced),added

@@ -190,4 +190,6 @@ def test_resolution_log_integrity():
     # 23 at the hardening pass; the 2026-11-04 registry refresh
     # resolved seven more ids and the squad integrations added one
     # net unresolved row: 17 players still carry no cricsheet id.
-    assert master["cricsheet_registry_id"].isna().sum() == 17
+    # Ramesh Mendis (2026-11-14) is a deliberate 18th: a true no-prior
+    # member under the builder exclusion, never id-matched by decision.
+    assert master["cricsheet_registry_id"].isna().sum() == 18

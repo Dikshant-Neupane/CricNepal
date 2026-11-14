@@ -43,20 +43,40 @@ def test_fixtures_integrity(fixtures):
 # ---------- player master + priors ----------
 def test_player_master():
     m = pd.read_csv(PRED / "player_master.csv")
-    assert len(m) == 164 and m.player_key.is_unique
+    assert len(m) == 165 and m.player_key.is_unique
     assert m.groupby("team").size().to_dict() == {
         "Biratnagar Kings": 20, "Chitwan Rhinos": 21, "Janakpur Bolts": 22,
         "Karnali Yaks": 20, "Kathmandu Gorkhas": 22, "Lumbini Lions": 19,
-        "Pokhara Avengers": 20, "Sudurpaschim Royals": 20}
+        "Pokhara Avengers": 21, "Sudurpaschim Royals": 20}
     assert set(m.role) <= {"Batter", "Bowler", "All-rounder", "Wicketkeeper"}
     # unsourced fields are null, never invented
     assert m[m.cricsheet_registry_id.isna()]["missing_fields"].str.contains(
         "cricsheet_registry_id").all()
 
 
+def test_mendis_no_registry_match_exclusion():
+    """Ramesh Mendis is a true no-prior Pokhara member (Dikshant's
+    instruction, 2026-11-14): even with "RTM Mendis" in the registry map,
+    the builder must not give him a cricsheet identity via either match
+    path, while the initials/surname fallback still works for others."""
+    from src.prediction.players import build_player_master
+    fake_map = {"RTM Mendis": "1be67d37", "MM Ali": "bb351c23"}
+    m = build_player_master(ROOT, fake_map)
+    mendis = m[m.player_key == "player_ramesh_mendis"].iloc[0]
+    assert pd.isna(mendis.cricsheet_registry_id)
+    assert pd.isna(mendis.registry_id_match_type)
+    assert "cricsheet_registry_id" in mendis.missing_fields
+    moeen = m[m.canonical_name == "Moeen Ali"].iloc[0]
+    assert moeen.cricsheet_registry_id == "bb351c23"
+    assert moeen.registry_id_match_type == "initials_surname_unique"
+    real = pd.read_csv(PRED / "player_master.csv")
+    row = real[real.player_key == "player_ramesh_mendis"].iloc[0]
+    assert pd.isna(row.cricsheet_registry_id)
+
+
 def test_player_priors():
     p = pd.read_csv(PRED / "player_priors.csv")
-    assert len(p) == 164
+    assert len(p) == 165
     assert (p.bat_index > 0).all() and (p.prior_bowl_econ > 0).all()
     deb = p[p.prior_group == "debutant"]
     assert len(deb) > 0 and np.allclose(deb.bat_index, 1.0)  # league-mean prior
