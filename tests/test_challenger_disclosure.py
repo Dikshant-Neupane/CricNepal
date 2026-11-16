@@ -45,7 +45,9 @@ def test_real_analysis_carries_oriented_challenger():
             assert item["challenger"] == pytest.approx(
                 1.0 - float(r.p_logistic_challenger))
         checked += 1
-    assert checked == 28
+    # 28 league fixtures + Q1 and Eliminator (base lines locked
+    # 2026-11-16 on recomputed Elo).
+    assert checked == 30
 
 
 def test_real_disclosure_matches_artefact():

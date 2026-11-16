@@ -26,8 +26,13 @@ def test_hub_next_match_is_the_opener():
 
 
 def test_hub_scorecard_locked_not_scored_preseason():
+    # Champion and Elo carry the 28 league locks plus the Q1 and
+    # Eliminator base lines locked 2026-11-16; the two shadow series
+    # were locked pre-season for the league fixtures only.
+    expected_locked = {"Champion (locked)": 30, "Elo baseline": 30,
+                       "Simulator shadow": 28, "Coach shadow": 28}
     for label, v in DATA["scorecard"].items():
-        assert v["locked"] == 28, label
+        assert v["locked"] == expected_locked[label], label
         assert v["scored"] == 0, label  # no S3 results ingested yet
 
 
