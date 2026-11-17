@@ -113,6 +113,7 @@
  },
  "Sudurpaschim Royals": {
   "xi": [
+   "player_hg_munsey",
    "player_se_rutherford",
    "player_ds_airee",
    "player_sa_zaib",
@@ -122,9 +123,8 @@
    "player_milan_bohara",
    "player_bj_mcmullen",
    "player_aarif_sheikh",
-   "player_ayub_chand",
    "player_tek_rawat"
   ],
-  "overseas": 6
+  "overseas": 7
  }
 }
