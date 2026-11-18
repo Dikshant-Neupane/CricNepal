@@ -15,10 +15,7 @@ apiece" but Cricbuzz and the Kathmandu Post agree Gautam took one
 (4-1-11-1) and Malla two, so Gautam 1 for 11 is followed.
 ESPNcricinfo's full scorecard could not be read at all — Akamai
 blocked both the text fetch and the live browser — so Cricbuzz is the
-primary source for this match. Player of the Match: no source checked
-names one (the Cricbuzz scorecard lists none; the only "Player of the
-Match" lines found in search belong to Match 1 or to a pre-match
-prediction). Toss: Lumbini Lions won it and elected to field — in
+primary source for this match. Player of the Match: Niroshan Dickwella — 59 not out off 37, plus two catches and two run outs (CricTracker scorecard; Kathmandu Post, 18 Nov). The Cricbuzz scorecard lists none. Toss: Lumbini Lions won it and elected to field — in
 line with their profile habit of fielding first in 90.0% of the
 tosses they win. The P1 playoff base line had Lumbini at 0.4931
 (favouring Sudurpaschim by a whisker) and the P2 post-toss lock at
