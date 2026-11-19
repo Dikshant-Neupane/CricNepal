@@ -17,10 +17,14 @@ def test_match_analysis_covers_all_fixtures():
     league = [m for m in items if m["champion"] is not None]
     playoffs = [m for m in items if m["champion"] is None]
     # "league" here = fixtures carrying a champion line: the 28 league
-    # matches plus Q1 and the Eliminator, whose base lines were locked
-    # 2026-11-16. Q2 and the Final still have no teams and no line.
-    assert len(league) == 30 and len(playoffs) == 2
-    assert all(m["team_1_name"] is None for m in playoffs)
+    # matches plus Q1, the Eliminator and the Final, whose base lines
+    # were locked 2026-11-16 / 2026-11-19. Q2 has no line (locks missed,
+    # not back-filled).
+    assert len(league) == 31 and len(playoffs) == 1
+    # The one line-less fixture is Q2: teams were filled as record
+    # data, but it has no champion line (locks missed, not back-filled).
+    assert playoffs[0]["match_id"] == "s3_2026_31"
+    assert playoffs[0]["team_1_name"] == "Sudurpaschim Royals"
 
 
 def test_match_analysis_match3_values():

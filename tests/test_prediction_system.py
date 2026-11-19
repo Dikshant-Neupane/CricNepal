@@ -40,14 +40,21 @@ def test_fixtures_integrity(fixtures):
     assert len(playoffs) == 4
     # Q1 and Eliminator teams were confirmed by the final league
     # standings on 2026-11-15 and filled on 2026-11-16 (Dikshant's
-    # playoff-lock decision); Q2 and the Final stay TBA until played in.
+    # playoff-lock decision); Q2 teams filled 2026-11-19 as record
+    # data after the Eliminator, and the Final teams the same evening
+    # after Qualifier 2.
     named = playoffs[playoffs.team_1_name.notna()].set_index("match_number")
-    assert set(named.index) == {29, 30}
+    assert set(named.index) == {29, 30, 31, 32}
     assert (named.loc[29, "team_1_name"], named.loc[29, "team_2_name"]) == (
         "Lumbini Lions", "Sudurpaschim Royals")
     assert (named.loc[30, "team_1_name"], named.loc[30, "team_2_name"]) == (
         "Kathmandu Gorkhas", "Chitwan Rhinos")
-    assert playoffs[playoffs.match_number.isin([31, 32])].team_1_name.isna().all()
+    # Q2 teams were filled 2026-11-19 as record data after the
+    # Eliminator; the Final teams the same evening after Qualifier 2.
+    assert (named.loc[31, "team_1_name"], named.loc[31, "team_2_name"]) == (
+        "Sudurpaschim Royals", "Chitwan Rhinos")
+    assert (named.loc[32, "team_1_name"], named.loc[32, "team_2_name"]) == (
+        "Lumbini Lions", "Sudurpaschim Royals")
 
 
 # ---------- player master + priors ----------
@@ -176,8 +183,9 @@ def test_frozen_log_is_append_only(tmp_path):
 def test_frozen_log_production_rows():
     log = pd.read_csv(PRED / "frozen_log.csv")
     # 28 league base rows (2026-10-24) + Q1 and Eliminator base rows
-    # locked 2026-11-16 on recomputed Elo (playoff-lock decision).
-    assert (log.stage == "P1_preseason_expected_xi").sum() == 30
+    # locked 2026-11-16 and the Final base row locked 2026-11-19,
+    # all on recomputed Elo (playoff-lock decision).
+    assert (log.stage == "P1_preseason_expected_xi").sum() == 31
     # uniqueness is per (match, stage): the log holds multiple stages
     # per match by design (P1, SIM shadow, P1_post_XI, P2...)
     assert not log.duplicated(subset=["match_id", "stage"]).any()

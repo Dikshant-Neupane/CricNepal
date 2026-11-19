@@ -46,8 +46,9 @@ def test_real_analysis_carries_oriented_challenger():
                 1.0 - float(r.p_logistic_challenger))
         checked += 1
     # 28 league fixtures + Q1 and Eliminator (base lines locked
-    # 2026-11-16 on recomputed Elo).
-    assert checked == 30
+    # 2026-11-16 on recomputed Elo) + Final (base line locked
+    # 2026-11-19 on Elo recomputed through Match 31).
+    assert checked == 31
 
 
 def test_real_disclosure_matches_artefact():

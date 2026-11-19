@@ -60,11 +60,13 @@ def test_original_p1_rows_unchanged():
     log = _log()
     p1 = log[log["stage"] == "P1_preseason_expected_xi"]
     # The 28 original league rows, plus the Q1 and Eliminator base
-    # rows locked 2026-11-16 on recomputed Elo (playoff-lock decision).
-    assert len(p1) == 30
+    # rows locked 2026-11-16 and the Final base row locked 2026-11-19,
+    # all on recomputed Elo (playoff-lock decision).
+    assert len(p1) == 31
     got = dict(zip(p1["match_id"], p1["p_team_1_win"]))
     assert {k: got[k] for k in ORIGINAL_P1} == ORIGINAL_P1
-    assert set(got) == set(ORIGINAL_P1) | {"s3_2026_29", "s3_2026_30"}
+    assert set(got) == set(ORIGINAL_P1) | {"s3_2026_29", "s3_2026_30",
+                                           "s3_2026_32"}
     assert (p1["model_version"] == "v1").all()
 
 
