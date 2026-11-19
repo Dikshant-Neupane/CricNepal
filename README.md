@@ -1,8 +1,40 @@
 # Janakpur Bolts Analytics Dashboard
 
+## Prediction accuracy — NPL Season 3 (through Match 31, 19 Nov 2026)
 
+Every number below is computed from `data/predictions/frozen_log.csv`
+scored against recorded results (the project scorecard for canonical
+matches, `data/results/provisional_results.csv` for matches cricsheet
+has not published yet). A lock is counted correct when the side it
+favoured (probability >= 0.5) won the match.
 
-The Janakpur Bolts Analytics Dashboard is a comprehensive cricket tactical intelligence platform designed to empower coaching staff with deep, actionable insights. By leveraging advanced statistical modeling and phase-level analysis, this tool transforms raw match data into decision-ready strategies.
+| Stage | Locks made | Scored | Correct | Accuracy | Missed locks |
+|---|---|---|---|---|---|
+| Base (champion, pre-season expected XI) | 31 | 29 | 16 | 55.2% | 1 |
+| P1 post-XI (announced XI) | 2 | 1 | 1 | 100.0% | 28 |
+| P2 post-toss | 25 | 25 | 15 | 60.0% | 5 |
+
+**Headline: the champion base line called 16 of 29 decided matches
+(55.2%); the post-toss line called 15 of 25 (60.0%).**
+
+Scoring rules: Match 7 (Chitwan v Lumbini, abandoned) is excluded —
+it has a base line but no result. The late Match 27 P1 row, locked
+at 12:36 after the 12:30 first ball, is excluded from scoring and
+counted as a miss, not a lock. The two playoff base lines (Qualifier
+1, Eliminator) count in the base stage — both missed, so the playoff
+base record stands at 0 of 2. The Final base line (Lumbini 0.4987,
+locked 19 Nov) is not yet scored. "Missed locks" counts decided
+matches (30 through Match 31, excluding the abandoned Match 7)
+with no lock at that stage.
+
+What the numbers say, plainly: the base line is barely above a coin
+flip, and the post-toss line is the strongest of the three at 60%.
+The P1 post-XI figure (1 of 1) is a single clean lock all season —
+published XIs kept conflicting or arriving too late, which is why
+the P1 miss count is 28. The champion line's errors are
+concentrated early (7 of the first 8 decided matches missed) and in
+the playoffs; the plain-Elo line beat it on the same matches, which
+is the open question for Season 4, not a claim settled here.
 
 ---
 
@@ -36,7 +68,7 @@ Our analytical engine relies on a robust set of structured cricket data to ensur
 
 1. **Ball-by-Ball Match Data (Parquet):** Highly granular, delivery-level data to power run-equivalency calculations, win probability models, and matchup engines.
 2. **Match Summary & Context (Parquet):** Aggregate match results, venue details, season context (S1, S2, S3), and opposition tiering.
-3. **Player Innings & Phase Summaries (Parquet):** Segmented performance metrics breaking down games into Powerplay, Middle, and Death overs.
+3. **Player Innings & Phase Summaries (Parquet):** Segmented performance metrics breaking down games into Powerplay, Middle, Death overs.
 4. **Player Rosters & Profiles (CSV):** Enriched player datasets that track retained squads, player archetypes, and specialized roles.
 
 ## How the Data is Used
@@ -54,7 +86,7 @@ The output of the analytical processing yields several enterprise-grade dashboar
 
 - **Executive KPI Tracking:** Clear visibility into team form index, Win%, and Net Run Rate (NRR) with season-over-season deltas (S1 vs S2).
 - **Tactical Match Reviews:** Automated post-match analysis identifying root causes for wins/losses and highlighting crucial game phases.
-- **S3 Recruiting & Drafting Intelligence:** "Moneyball" style scouting that visualizes player form, values expected performance, and categorizes talent into specific tactical archetypes.
+- **S3 Recruiting & Drafting Intelligence:** "Moneyball" style scouting that visualizes player form, values expected performance, and categorizes talent into specific traits.
 - **Opposition Threat Reports:** Team-level radar charts and opposition profiling to anticipate tactics from rival franchises in upcoming fixtures.
 
 ---
