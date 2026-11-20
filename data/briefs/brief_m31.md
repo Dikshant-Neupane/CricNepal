@@ -6,10 +6,10 @@ Kathmandu Post match report and the CricTracker live page; the
 transcription passes scripts/scorecard_check.py on both innings. One
 split between sources: Cricbuzz lists Kamal Singh Airee 10 off 8 and
 the Kathmandu Post says 10 off 7; nothing in this brief turns on it.
-Player of the Match: not named in any source checked — the Cricbuzz
-scorecard lists none and the Kathmandu Post report names none, so no
-award is recorded here (Tharindu Ratnayake's 53 not out and 2 for 23
-is the obvious candidate, but that is not an award). Toss: Chitwan
+Player of the Match: Tharindu Ratnayake (53 not out off 42, 2 for 23),
+per ESPNcricinfo, CricTracker, the Kathmandu Post and the NPL site.
+The award was not on the Cricbuzz scorecard at capture time, so this
+brief originally recorded none — corrected 20 Nov. Toss: Chitwan
 won it and elected to bat. No P1/P2 lock rows exist for this match:
 frozen_log.csv carries no Match 31 rows and the locks were missed, not
 back-filled — so there is no lock outcome to report, and the P1 miss
