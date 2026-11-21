@@ -38,6 +38,50 @@ is the open question for Season 4, not a claim settled here.
 
 ---
 
+## The Final — Lumbini Lions v Sudurpaschim Royals (Sat 21 Nov 2026, 17:00 NPT, TU Kirtipur)
+
+**Refined judgement: Lumbini Lions lean, 53%** (Sudurpaschim 47%).
+The locked base line said Sudurpaschim 50.1% (Lumbini 0.4987, Elo
+1560.0 v 1562.8, recomputed through Match 31). The season evidence
+moves it about three points to Lumbini: they have beaten
+Sudurpaschim twice this season by the same mechanism — bowl first,
+strangle the innings (87 all out in Match 1, 105 for 8 in Qualifier
+1, Sudurpaschim's two lowest totals of the season) and chase without
+fuss; the base line still prices departed overseas batters
+(Rutherford, McMullen) in Sudurpaschim's strength, while their
+playoff replacement Munsey has 8 runs off 16 balls against
+Dickwella's 150 runs and Qualifier 1 match-winning 59 not out; and
+Lumbini's spin unit (Gautam 4.05 an over, Malla 11 wickets at 5.65)
+suits a pitch playing its fourth match in five days. Under the
+standing rule a figure under ~55% is a lean, never a call — and the
+base line's own 55.2% season accuracy caps how far any adjustment
+should go.
+
+Projected scorelines (projections, from each side's bat-first
+average blended with the Season 3 first-innings mean of 144.2, with
+the head-to-head evidence applied to Sudurpaschim's case):
+
+- Lumbini bat first: **140–165**
+- Sudurpaschim bat first: **120–150**
+- Finish: close — roughly 1–25 runs or 2–5 wickets either way. The
+  venue pivot is 150: sides posting 150+ won ~77% of Season 3
+  matches, sides below it ~35%; in the 17:00 slot the chasing side
+  won 55%.
+
+Deciding factors: (1) Sudurpaschim's top order against
+Trumpelmann, Mahato and the spin squeeze — the mechanism of both
+previous meetings; (2) whether Airee (217 runs) and Ratnayake
+(Qualifier 2's Player of the Match) have to carry the batting
+alone again; (3) the 150 first-innings pivot; (4) Munsey versus
+Dickwella, the two playoff overseas signings at opposite ends of
+the form table. The post-XI (16:20) and post-toss (16:48) locks
+will refine the number this afternoon. Full analysis:
+`final-analysis-2026-11-21.md` in the project goal workspace.
+
+Last updated: Saturday 21 November 2026, 09:03 NPT
+
+---
+
 ## Run it (canonical commands)
 
 One app command and one test command; both are run from the repo
