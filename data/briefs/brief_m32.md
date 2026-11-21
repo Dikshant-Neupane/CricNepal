@@ -10,16 +10,19 @@ the cricnepal.com report says 55 balls. Nothing in this brief turns
 on it. Player of the Match: George Munsey (125 not out off 54, 8
 fours, 12 sixes), per ESPNcricinfo. Toss: Sudurpaschim won it and
 elected to field — the P2 post-toss lock was made on that basis at
-16:51 NPT. The locked base line had Lumbini at 0.4987 (Sudurpaschim
+16:50:55 NPT. The locked base line had Lumbini at 0.4987 (Sudurpaschim
 50.1%) and the P2 post-toss lock at 0.4749 (Sudurpaschim 52.5%),
 both favouring Sudurpaschim — so both were right, and the P2 line
 now stands at 16 of 26 for the season. The playoff base record
 moves to 1 of 3 (Qualifier 1 and the Eliminator both missed). The
 refined judgement in the morning preview — a Lumbini lean at 53% —
-missed. No P1 post-XI lock row exists for the Final: no confirmed
-XI was published before the gate, so there is no post-XI lock
-outcome to report, and the P1 miss streak stands at ten (M21–M30),
-unchanged by Matches 31 and 32.
+missed. No P1 post-XI lock row exists for the Final: the 16:20
+attempt was refused by the lock script ("player not found in player
+master: Ali Sheikh" — he played Matches 26 and 29 for Lumbini but
+was never integrated into player_master.csv), with no registry edit
+made in-window and no back-fill, per the matchday ops log. So there
+is no post-XI lock outcome to report, and the P1 miss streak stands
+at ten (M21–M30), unchanged by Matches 31 and 32.
 
 **Result:** Sudurpaschim Royals won by 10 wickets, with 39 balls to
 spare. Lumbini Lions 155 for 6 in 20 overs; Sudurpaschim Royals 158
